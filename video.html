@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PeaceTube - মানসিক প্রশান্তির ভিডিও ও উপার্জন প্ল্যাটফর্ম</title>
+    <style>
+        :root { 
+            --orange: #ff9933; 
+            --green: #138808; 
+            --bg-gradient: linear-gradient(135deg, #e3f2fd 0%, #f1f8e9 100%);
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --border-color: #eee;
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #1e272c 0%, #0f1416 100%);
+            --card-bg: #263238;
+            --text-color: #eceff1;
+            --border-color: #37474f;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--bg-gradient); 
+            background-attachment: fixed;
+            margin: 0; padding: 0; 
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        header { 
+            background: var(--card-bg); 
+            border-top: 6px solid var(--orange); 
+            border-bottom: 3px solid var(--green); 
+            padding: 20px; 
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            position: relative;
+        }
+        header h1 { color: var(--green); margin: 0; font-size: 28px; }
+        header h1 span { color: var(--orange); }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 25px;
+            background: var(--orange);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .theme-toggle-btn {
+            position: absolute;
+            right: 20px;
+            top: 25px;
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        
+        /* সার্চ ও ফিল্টার টুল */
+        .search-filter-box {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        .search-bar {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border: 2px solid var(--green);
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: none;
+            border: 1px solid var(--green);
+            color: var(--green);
+            padding: 6px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .filter-btn.active {
+            background: var(--green);
+            color: white;
+        }
+
+        .ad-space {
+            background: #f9f9f9;
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        /* ভিডিও গ্রিড */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 768px) {
+            .video-grid { grid-template-columns: 1fr; }
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 4px solid var(--green);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; border: none;
+        }
+
+        /* প্রিমিয়াম লক স্ক্রিন */
+        .locked-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        .locked-overlay h4 { margin: 10px 0 5px 0; color: var(--orange); }
+
+        .video-info { padding: 15px; flex-grow: 1; }
+        .video-info h3 { margin: 0 0 8px 0; font-size: 18px; color: var(--green); }
+        .video-info p { margin: 0 0 15px 0; font-size: 14px; color: #7f8c8d; line-height: 1.4; }
+
+        /* রিঅ্যাকশন সেকশন */
+        .reaction-container {
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            margin-bottom: 15px;
+        }
+        .reaction-btn {
+            background: #f0f2f5;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s;
+        }
+        .reaction-btn:hover { transform: scale(1.05); }
+
+        /* কমেন্ট সেকশন */
+        .comment-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+        }
+        .comment-input-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .comment-input {
+            flex-grow: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--green);
+            border-radius: 20px;
+            outline: none;
+            font-size: 13px;
+        }
+        .comment-submit {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .comments-list {
+            max-height: 100px;
+            overflow-y: auto;
+            font-size: 13px;
+            color: var(--text-color);
+            padding-left: 5px;
+        }
+        .single-comment {
+            background: #f7f9fa;
+            padding: 6px 10px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            border-left: 3px solid var(--orange);
+        }
+        [data-theme="dark"] .single-comment {
+            background: #37474f;
+        }
+
+        .donation-box {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+            border-top: 5px solid var(--orange);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .btn-orange {
+            background: var(--orange); color: white; border: none;
+            padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="back-btn">⬅️ হোমপেজে ফিরুন</a>
+        <h1>📺 Peace<span>Tube</span></h1>
+        <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 ডার্ক মোড</button>
+    </header>
+
+    <div class="container">
+        
+        <div class="ad-space">
+            📢 বিজ্ঞাপন ও স্পন্সরশিপ এরিয়া (এখানে গুগল অ্যাডসেন্স কোড বসালে অটোমেটিক ইনকাম শুরু হবে)
+        </div>
+
+        <div class="search-filter-box">
+            <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 আপনার পছন্দের শান্তিময় ভিডিও খুঁজুন (যেমন: বৃষ্টি, ঘুম)..." onkeyup="searchVideos()">
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterVideos('all', this)">সব ভিডিও</button>
+                <button class="filter-btn" onclick="filterVideos('nature', this)">প্রকৃতির সুর</button>
+                <button class="filter-btn" onclick="filterVideos('meditation', this)">মেডিটেশন</button>
+                <button class="filter-btn" onclick="filterVideos('premium', this)">👑 প্রিমিয়াম ভিডিও</button>
+            </div>
+        </div>
+
+        <div class="video-grid" id="videoGrid">
+            
+            <!-- ভিডিও ১ -->
+            <div class="video-card" data-category="nature" data-title="গভীর ঘুমের জন্য প্রকৃতির শান্ত সুর বৃষ্টি">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/QH2-TGUlwu4" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>১. গভীর ঘুমের জন্য প্রকৃতির শান্ত সুর</h3>
+                    <p>বৃষ্টি ও বনের হালকা সাউন্ড যা আপনার সারাদিনের মানসিক ক্লান্তি দূর করে গভীর ঘুমে সাহায্য করবে।</p>
+                    
+                    <!-- রিঅ্যাকশন -->
+                    <div class="reaction-container">
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১২</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">🍃 Calm (<span class="count">৮</span>)</button>
+                    </div>
+
+                    <!-- কমেন্ট বক্স -->
+                    <div class="comment-section">
+                        <div class="comment-input-box">
+                            <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                            <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                        </div>
+                        <div class="comments-list">
+                            <div class="single-comment">🔄 খুব সুন্দর মিউজিক, মনটা শান্ত হয়ে গেল!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ভিডিও ২ -->
+            <div class="video-card" data-category="meditation" data-title="৫ মিনিটের কুইক রিল্যাক্সেশন মেডিটেশন">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/lFcSrYw-ARY" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>২. ৫ মিনিটের কুইক রিল্যাক্সেশন</h3>
+                    <p>অফিসের কাজের ফাঁকে বা অতিরিক্ত দুশ্চিন্তার সময় মনকে দ্রুত শান্ত করার বিশেষ মিউজিক থেরাপি।</p>
+                    
+                    <div class="reaction-container">
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১৫</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৫</span>)</button>
+                    </div>
+
+                    <div class="comment-section">
+                        <div class="comment-input-box">
+                            <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                            <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                        </div>
+                        <div class="comments-list">
+                            <div class="single-comment">🔄 প্রতিদিন সকালে এটা শুনি, দারুণ কাজ করে।</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ভিডিও ৩ (ভবিষ্যতের প্রিমিয়াম লক ভিডিওর ডেমো) -->
+            <div class="video-card" data-category="premium" data-title="প্রিমিয়াম ডিপ মেডিটেশন থেরাপি">
+                <div class="video-container">
+                    <div class="locked-overlay" onclick="alert('👑 এটি একটি প্রিমিয়াম ভিডিও! সম্পূর্ণ অ্যাক্সেস পেতে মেম্বারশিপ সাবস্ক্রিপশন করুন।')">
+                        <span style="font-size: 40px;">🔒</span>
+                        <h4>Premium Exclusive Video</h4>
+                        <p style="font-size: 12px; margin:0;">দেখতে এখানে ক্লিক করুন</p>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3>👑 ৩. ডিপ মেডিটেশন থেরাপি (Premium)</h3>
+                    <p>বিশেষজ্ঞদের দ্বারা তৈরি করা গভীর ধ্যানের গাইডলাইন যা মানসিক অবসাদ দূর করতে অত্যন্ত কার্যকর।</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="donation-box">
+            <h3 style="color: var(--green); margin-top:0;">☕ আমাদের এই উদ্যোগটি ভালো লেগেছে?</h3>
+            <p>আপনার ছোট্ট একটি সাহায্য আমাদের এই ফ্রি প্ল্যাটফর্মটিকে বাঁচিয়ে রাখতে সাহায্য করবে।</p>
+            <button class="btn btn-orange" onclick="alert('বিকাশ/রকেট মার্চেন্ট পেমেন্ট গেটওয়ে এখানে যুক্ত হবে।')">🕊️ Support Peace for People</button>
+        </div>
+
+    </div>
+
+    <footer style="text-align: center; padding: 25px; background: var(--card-bg); margin-top: 50px; border-top: 1px solid #eee;">
+        <p style="margin: 0; font-size: 14px; font-weight: bold;">© ২০২৬ Peace for People. সর্বস্বত্ব সংরক্ষিত।</p>
+        <p style="margin: 5px 0 0 0; font-size: 12px; color: #7f8c8d;">PeaceTube-এ ব্যবহৃত ভিডিওগুলো ইউটিউবের স্ট্যান্ডার্ড এমবেড পলিসি অনুযায়ী সম্পূর্ণ লিগ্যাল উপায়ে প্রদর্শিত হচ্ছে।</p>
+    </footer>
+
+    <script>
+        // সার্চ ফাংশন
+        function searchVideos() {
+            let input = document.getElementById('videoSearch').value.toLowerCase();
+            let cards = document.querySelectorAll('.video-card');
+            cards.forEach(card => {
+                let title = card.getAttribute('data-title').toLowerCase();
+                card.style.display = title.includes(input) ? "flex" : "none";
+            });
+        }
+
+        // ক্যাটাগরি ফিল্টার ফাংশন
+        function filterVideos(category, btn) {
+            let cards = document.querySelectorAll('.video-card');
+            let tabs = document.querySelectorAll('.filter-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            btn.classList.add('active');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // লাইভ রিঅ্যাকশন সিস্টেম
+        function addReaction(button) {
+            let countSpan = button.querySelector('.count');
+            let currentCount = parseInt(countSpan.innerText);
+            countSpan.innerText = currentCount + 1;
+            button.style.background = "#d4edda";
+            button.disabled = true; // একবারের বেশি ক্লিক আটকাতে
+        }
+
+        // লাইভ কমেন্ট সিস্টেম
+        function postComment(button) {
+            let infoDiv = button.closest('.video-info');
+            let input = infoDiv.querySelector('.comment-input');
+            let list = infoDiv.querySelector('.comments-list');
+            
+            if(input.value.trim() !== "") {
+                let newComment = document.createElement('div');
+                newComment.className = 'single-comment';
+                newComment.innerText = "💬 " + input.value;
+                list.insertBefore(newComment, list.firstChild);
+                input.value = "";
+            } else {
+                alert("অনুগ্রহ করে কিছু লিখুন!");
+            }
+        }
+
+        // ডার্ক মোড
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.querySelector('.theme-toggle-btn');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                btn.innerText = "🌙 ডার্ক মোড";
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.innerText = "☀️ লাইট মোড";
+            }
+        }
+    </script>
+</body>
+</html>
