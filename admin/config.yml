@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: PeaceForPeopleOFfficial/peacetube-
+  repo: PeaceForPeopleOfficial/peacetube-
   branch: main
   site_url: https://peaceforpeopleofficial.netlify.app
 
