@@ -3,28 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peace for People Official</title>
+    <title>Peace Tube - শান্তির বাণী</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Galada&family=Hind+Siliguri:wght@400;600;700&display=swap');
+        body { font-family: 'Hind Siliguri', sans-serif; background-color: #f0f4f8; }
+        .brand-title { font-family: 'Galada', cursive; }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; text-align: center; background-color: #f4f9f4; padding: 50px;">
-    
-    <h1 style="color: #2c3e50;">Peace for People Official</h1>
-    <p style="color: #7f8c8d; font-size: 18px;">আমাদের লক্ষ্য: মানুষের মনে শান্তি ফিরিয়ে আনা</p>
-    
-    <hr style="width: 50%; margin: 30px auto; border: 1px solid #bdc3c7;">
-    
-    <article style="background-color: white; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <h2 style="color: #27ae60;">🕊️ আজকের শান্তির বাণী 🕊️</h2>
-        <p style="color: #7f8c8d; font-size: 14px;">পোস্টের তারিখ: ১৫ জুলাই, ২০২৬</p>
-        <p style="font-size: 20px; line-height: 1.6; color: #34495e; font-style: italic;">
-            "প্রকৃত শান্তি কখনো যুদ্ধ বা শক্তির মাধ্যমে আসে না; এটি আসে মানুষের পারস্পরিক বোঝাপড়া, ক্ষমা এবং ভালোবাসার হাত ধরে। আসুন, আমরা একে অপরের প্রতি সহানুভূতিশীল হই।"
-        </p>
-    </article>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <i class="fas fa-dove text-2xl animate-bounce"></i>
+                <span class="brand-title text-3xl font-bold tracking-wide">পিস টিউব</span>
+            </a>
+            <div class="flex items-center space-x-4">
+                <a href="admin/#/" class="bg-white text-emerald-700 px-4 py-2 rounded-full font-semibold shadow hover:bg-emerald-50 transition duration-300 flex items-center space-x-1">
+                    <i class="fas fa-user-shield"></i>
+                    <span>অ্যাডমিন</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
-    <p style="margin-top: 40px;">
-        <a href="video.html" style="background-color: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">আমাদের ভিডিওগুলো দেখুন 🎥</a>
-    </p>
+    <!-- Main Content Grid -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-slate-800 mb-2">ইসলামিক ভিডিও ও শান্তির বাণী</h1>
+            <p class="text-slate-600">আমাদের এই সুন্দর প্ল্যাটফর্মে আপনাকে স্বাগতম।</p>
+        </div>
+        
+        <!-- Videos Container -->
+        <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Videos will be injected here automatically via Netlify CMS -->
+        </div>
+    </main>
 
-    <!-- নেটলিফাই আইডেন্টিটির সঠিক স্ক্রিপ্ট -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <footer class="bg-slate-800 text-slate-400 text-center py-6 mt-12 border-t border-slate-700">
+        <p class="brand-title text-xl text-white mb-2">পিস টিউব</p>
+        <p>&copy; 2026 PeaceForPeopleOfficial. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
