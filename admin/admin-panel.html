@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Video Control Panel</title>
+    
+    <!-- ফায়ারবেস স্ক্রিপ্ট -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+        // ⚠️ আপনার নিজস্ব Firebase Configuration (আপনার টিম বা ডেভলপার এখানে সঠিক কি-গুলো বসাবে)
+        const firebaseConfig = { 
+            apiKey: "YOUR_API_KEY", 
+            authDomain: "YOUR_AUTH_DOMAIN", 
+            projectId: "YOUR_PROJECT_ID", 
+            storageBucket: "YOUR_STORAGE_BUCKET", 
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID", 
+            appId: "YOUR_APP_ID" 
+        };
+
+        const app = initializeApp(firebaseConfig); 
+        const db = getFirestore(app);
+
+        // শুধুমাত্র 'pending' (অনুমোদনের অপেক্ষায় থাকা) ভিডিওগুলোর লিস্ট রিয়েল-টাইমে শো করবে
+        const q = query(collection(db, "peace-videos"), where("status", "==", "pending"));
+        onSnapshot(q, (snapshot) => {
+            const container = document.getElementById('pendingList'); 
+            container.innerHTML = '';
+            
+            if(snapshot.empty) { 
+                container.innerHTML = `
+                    <div style="text-align:center; padding:40px; background: white; border-radius:12px; border: 2px dashed #138808; color:#138808; font-weight:bold; font-size:18px;">
+                        🎉 সাবাশ সাইদুর! এই মুহূর্তে কোনো ভিডিও পেন্ডিং নেই। আপনার সব কাজ আপ-টু-ডেট!
+                    </div>`; 
+                return; 
+            }
+            
+            snapshot.forEach((videoDoc) => {
+                const video = videoDoc.data(); 
+                const id = videoDoc.id;
+                
+                container.innerHTML += `
+                    <div class="admin-card" id="card-${id}">
+                        <div class="video-preview">
+                            <video src="${video.videoUrl}" controls width="160"></video>
+                        </div>
+                        <div class="video-details">
+                            <h3>${video.title}</h3>
+                            <p>🌐 ভাষা: ${video.lang}</p>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn-approve" onclick="approveVideo('${id}')">✅ Approve (লাইভ করুন)</button>
+                            <button class="btn-delete" onclick="deleteVideo('${id}')">❌ Delete (মুছে ফেলুন)</button>
+                        </div>
+                    </div> `;
+            });
+        });
+
+        // ভিডিওটি এপ্রুভ করে লাইভ করার ফাংশন
+        window.approveVideo = async function(id) { 
+            if(confirm("আপনি কি নিশ্চিত যে এই ভিডিওটি আপনার মূল পেজে লাইভ করতে চান?")) { 
+                try {
+                    await updateDoc(doc(db, "peace-videos", id), { status: "approved" }); 
+                    alert("ভিডিওটি সফলভাবে লাইভ করা হয়েছে! 🕊️"); 
+                } catch(err) {
+                    alert("সমস্যা হয়েছে: " + err.message);
+                }
+            } 
+        }
+
+        // ভিডিওটি নীতিমালা ভঙ্গের কারণে ডিলিট করে দেওয়ার ফাংশন
+        window.deleteVideo = async function(id) { 
+            if(confirm("⚠️ সাবধান! আপনি কি নিশ্চিত যে এই ভিডিওটি চিরতরে মুছে ফেলতে চান?")) { 
+                try {
+                    await deleteDoc(doc(db, "peace-videos", id)); 
+                    alert("ভিডিওটি ডাটাবেজ থেকে সম্পূর্ণ মুছে ফেলা হয়েছে।"); 
+                } catch(err) {
+                    alert("মুছে ফেলা যায়নি: " + err.message);
+                }
+            } 
+        }
+    </script>
+    <style>
+        :root { 
+            --orange: #ff9933; 
+            --green: #138808; 
+            --bg: #f0f4f1; 
+        }
+        body { 
+            font-family: sans-serif; 
+            background: var(--bg); 
+            margin: 0; padding: 20px; 
+        }
+        header {
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-top: 6px solid var(--orange);
+            border-bottom: 4px solid var(--green);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        .admin-card { 
+            background: white; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            border-left: 6px solid var(--orange);
+        }
+        .video-preview { flex: 0 0 160px; }
+        .video-preview video { border-radius: 6px; background: #000; }
+        
+        .video-details { flex: 1; margin-left: 20px; }
+        .video-details h3 { margin: 0 0 8px 0; color: #2c3e50; font-size: 18px; }
+        .video-details p { margin: 0; color: #7f8c8d; font-size: 14px; }
+        
+        .control-actions { display: flex; gap: 10px; }
+        button { 
+            padding: 12px 18px; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s;
+            font-size: 14px;
+        }
+        .btn-approve { background: var(--green); color: white; }
+        .btn-approve:hover { background: #0e6306; }
+        .btn-delete { background: #e74c3c; color: white; }
+        .btn-delete:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 style="color: var(--green); margin: 0 0 5px 0;">🔐 পিস টিউব - গোপন অ্যাডমিন ড্যাশবোর্ড</h1>
+        <p style="color: var(--orange); margin: 0; font-weight: bold;">সম্মানিত এডমিন: মুহাম্মদ সাইদুর রহমান</p>
+    </header>
+
+    <div class="container">
+        <h3 style="color: #34495e; margin-bottom: 20px;">📥 রিভিউয়ের অপেক্ষায় থাকা নতুন ভিডিওসমূহ (Pending Queue):</h3>
+        <div id="pendingList">
+            <p style="text-align:center; font-weight: bold; color: var(--green);">ফায়ারবেস ডাটাবেজের সাথে সংযোগ স্থাপন করা হচ্ছে...</p>
+        </div>
+    </div>
+
+</body>
+</html>
