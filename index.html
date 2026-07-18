@@ -316,6 +316,14 @@
             
             <!-- বাম পাশে: ব্লগ পোস্ট সমূহ -->
             <div class="blog-section">
+                <!-- নতুন রিসোর্স সেকশন -->
+<div class="resource-section" style="margin-top: 20px; padding: 20px; background: #fff; border-radius: 12px;">
+    <h3>📚 জরুরি রিসোর্স</h3>
+    <ul>
+        <li><a href="তোমার_পিডিএফ_লিংকটি_এখানে_দাও" target="_blank">📖 মানসিক প্রশান্তি বিষয়ক ই-বুক (PDF)</a></li>
+        <li><a href="তোমার_ইউটিউব_ভিডিওর_লিংকটি_এখানে_দাও" target="_blank">🎥 শান্তির ভিডিও (YouTube)</a></li>
+    </ul>
+</div>
                 <h2>📖 আজকের শান্তির বাণী ও টিপস</h2>
                 
                 <!-- বাণী ১ -->
@@ -459,5 +467,16 @@
             alert(`🔄 "${title}" লেখাটির লিংক কপি করা হয়েছে। আপনার বন্ধুদের সাথে শেয়ার করুন!`);
         }
     </script>
+    <script>
+    const banis = [
+        "আজকের বাণী: ধৈর্য ধরুন, এই সময়টাও কেটে যাবে।",
+        "আজকের বাণী: নিজের মনের কথা লিখে ফেলুন, হালকা লাগবে।",
+        "আজকের বাণী: গভীর শ্বাস নিন, বর্তমানকে উপভোগ করুন।"
+    ];
+    
+    // প্রতিদিন পরিবর্তনের জন্য তারিখ অনুযায়ী ইনডেক্স ঠিক করা
+    const today = new Date().getDate();
+    document.getElementById("daily-bani").innerText = banis[today % banis.length];
+</script>
 </body>
 </html>
