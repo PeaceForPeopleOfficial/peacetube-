@@ -316,21 +316,25 @@
             
             <!-- বাম পাশে: ব্লগ পোস্ট সমূহ -->
             <div class="blog-section">
-                <!-- নতুন রিসোর্স সেকশন -->
-<div class="resource-section" style="margin-top: 20px; padding: 20px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 5px solid var(--orange);">
+               <!-- ফিল্টার ট্যাবসমূহ (নতুনগুলোসহ) -->
+<div class="filter-tabs" style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+    <button class="tab-btn active" onclick="filterPosts('all', this)">সব বাণী</button>
+    <button class="tab-btn" onclick="filterPosts('anxiety', this)">দুশ্চিন্তা মুক্তি</button>
+    <button class="tab-btn" onclick="filterPosts('patience', this)">ধৈর্য ও অনুপ্রেরণা</button>
+    <button class="tab-btn" onclick="filterPosts('growth', this)">আত্মউন্নয়ন</button>
+    <button class="tab-btn" onclick="filterPosts('positive', this)">ইতিবাচক চিন্তা</button>
+    <button class="tab-btn" onclick="filterPosts('success', this)">সফলতার গল্প</button>
+</div>
+
+<!-- জরুরি রিসোর্স সেকশন (ক্লিন ডিজাইন) -->
+<div class="resource-section" style="margin-top: 20px; padding: 20px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 5px solid var(--orange); margin-bottom: 30px;">
     <h3 style="color: var(--green); margin-top: 0;">📚 জরুরি রিসোর্স</h3>
     <ul style="list-style: none; padding: 0;">
-        <li style="margin-bottom: 8px;">
-            <a href="তোমার_পিডিএফ_লিংক" target="_blank" style="text-decoration: none; color: var(--text-color);">📖 মানসিক প্রশান্তি বিষয়ক ই-বুক (PDF)</a>
-        </li>
-        <li style="margin-bottom: 8px;">
-            <a href="তোমার_ভিডিও_লিংক" target="_blank" style="text-decoration: none; color: var(--text-color);">🎥 শান্তির ভিডিও (YouTube)</a>
-        </li>
-        <li style="margin-bottom: 8px;">
-            <a href="তোমার_অডিও_লিংক" target="_blank" style="text-decoration: none; color: var(--text-color);">🎵 প্রশান্তির অডিও (Audio/MP3)</a>
-        </li>
+        <li style="margin-bottom: 8px;"><a href="তোমার_পিডিএফ_লিংক" target="_blank" style="text-decoration: none; color: var(--text-color);">📖 মানসিক প্রশান্তি ই-বুক (PDF)</a></li>
+        <li style="margin-bottom: 8px;"><a href="তোমার_ভিডিও_লিংক" target="_blank" style="text-decoration: none; color: var(--text-color);">🎥 শান্তির ভিডিও (YouTube)</a></li>
+        <li style="margin-bottom: 8px;"><a href="তোমার_অডিও_লিংক" target="_blank" style="text-decoration: none; color: var(--text-color);">🎵 প্রশান্তির অডিও (MP3)</a></li>
     </ul>
-</div>
+</div> 
                 <h2>📖 আজকের শান্তির বাণী ও টিপস</h2>
                 
                 <!-- বাণী ১ -->
