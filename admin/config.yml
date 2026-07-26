@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: PeaceForPeopleOfficial/peacetube-
   branch: main
 
 media_folder: "images"
