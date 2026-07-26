@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কুরআন পড়ে দ্যাখো একবার - Pro</title>
+
+    <style>
+        :root {
+            --primary-orange: #FF6F00;
+            --primary-green: #2E7D32;
+            --light-green: #E8F5E9;
+            --light-orange: #FFF3E0;
+            --bg-white: #FFFFFF;
+            --bg-soft: #F4F6F8;
+            --text-dark: #1F2937;
+            --border-color: #FFE0B2;
+            --arabic-font-size: 26px;
+            --bangla-font-size: 16px;
+        }
+
+        body.dark-mode {
+            --bg-soft: #121212;
+            --bg-white: #1E1E1E;
+            --text-dark: #F3F4F6;
+            --border-color: #333333;
+            --light-green: #1B2E1C;
+            --light-orange: #2C1D11;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Noto Sans Bengali', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-soft);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            height: 95vh;
+            background-color: var(--bg-white);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid var(--primary-orange);
+            position: relative;
+        }
+
+        /* 🟠 🟢 হেডার */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-orange), var(--primary-green));
+            color: white;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-title { font-size: 19px; font-weight: bold; letter-spacing: 0.5px; }
+
+        .back-btn, .icon-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn { display: none; }
+        .header-tools { display: flex; align-items: center; gap: 8px; }
+
+        .app-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* 🟠 ডাউনলোডার ব্যানার */
+        .sync-banner {
+            background: var(--light-orange);
+            border: 1px solid var(--primary-orange);
+            color: var(--text-dark);
+            padding: 16px 20px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            text-align: center;
+        }
+
+        .sync-btn {
+            background: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(255, 111, 0, 0.3);
+        }
+
+        /* কুইক অ্যাকশন বার */
+        .quick-actions-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .action-chip {
+            background: var(--light-green);
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 22px;
+            border-radius: 50px;
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .surah-list { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 16px; 
+        }
+
+        .surah-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border-color);
+            padding: 18px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+        }
+
+        .surah-card:hover { border-color: var(--primary-green); transform: translateY(-2px); }
+
+        .surah-number {
+            width: 44px;
+            height: 44px;
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            border: 1px solid var(--primary-orange);
+        }
+
+        /* 🟢 বিসমিল্লাহ কার্ড */
+        .bismillah-card {
+            background: var(--light-green);
+            border: 1px solid var(--primary-green);
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .bismillah-arabic { font-size: 28px; font-weight: bold; color: var(--primary-green); margin-bottom: 6px; }
+        .bismillah-bangla { font-size: 14px; opacity: 0.9; font-weight: 500; }
+
+        /* ⚪ আয়াত কার্ড */
+        .ayah-card {
+            background: var(--bg-white);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+        }
+
+        .ayah-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .ayah-badge {
+            font-size: 13px;
+            background: var(--primary-orange);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .ayah-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .audio-btn, .small-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .small-btn.bookmark { background: #E91E63; }
+        .small-btn.share { background: #0288D1; }
+        .small-btn.copy { background: #7B1FA2; }
+
+        .ayah-body { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .arabic-container {
+            direction: rtl; text-align: right;
+            background-color: var(--light-green);
+            padding: 16px; border-radius: 10px;
+            border-right: 4px solid var(--primary-green);
+        }
+
+        .bangla-container {
+            direction: ltr; text-align: left;
+            background-color: var(--light-orange);
+            padding: 16px; border-radius: 10px;
+            border-left: 4px solid var(--primary-orange);
+        }
+
+        .arabic-text { font-size: var(--arabic-font-size); font-weight: bold; line-height: 2.1; color: var(--text-dark); }
+        .bangla-meaning { font-size: var(--bangla-font-size); line-height: 1.7; color: var(--text-dark); }
+
+        /* কন্ট্রোল টুলবার */
+        .controls-bar {
+            background: var(--light-green);
+            border: 1px solid var(--primary-green);
+            padding: 12px 18px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .font-controls { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: bold; }
+        .font-btn { background: var(--primary-green); color: white; border: none; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+
+        .speed-select {
+            padding: 4px 8px;
+            border-radius: 8px;
+            border: 1px solid var(--primary-green);
+            background: white;
+            font-size: 12px;
+            outline: none;
+        }
+
+        /* 🪟 পপআপ ডায়ালগ বক্স */
+        .modal {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--bg-white);
+            padding: 24px;
+            border-radius: 16px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 2px solid var(--primary-orange);
+        }
+
+        .modal-content h3 { color: var(--primary-orange); margin-bottom: 8px; font-size: 22px; }
+        .modal-content h4 { color: var(--primary-green); margin-bottom: 14px; font-weight: 600; font-size: 15px; }
+        .modal-content p { line-height: 1.7; color: var(--text-dark); font-size: 14.5px; margin-bottom: 12px; }
+
+        .highlight-box {
+            background: var(--light-orange);
+            border-left: 4px solid var(--primary-orange);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: var(--primary-orange);
+            margin: 15px 0 5px 0;
+            font-size: 15px;
+        }
+
+        .close-modal { margin-top: 15px; background: var(--primary-green); color: white; border: none; padding: 10px 28px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+
+        @media (max-width: 768px) {
+            .ayah-body { grid-template-columns: 1fr; }
+            .app-container { height: 100vh; border-radius: 0; border: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- হেডার -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="back-btn" id="backBtn" onclick="goBack()">←</button>
+                <span class="header-title" id="headerTitle">কুরআন পড়ে দ্যাখো একবার</span>
+            </div>
+            <div class="header-tools">
+                <button class="icon-btn" onclick="toggleDarkMode()" title="ডার্ক মোড">🌙</button>
+                <button class="icon-btn" onclick="showModal('aboutModal')" title="উদ্দেশ্য">🎯</button>
+                <button class="icon-btn" onclick="exitApp()" title="অ্যাপ বন্ধ করুন">🚪</button>
+            </div>
+        </div>
+
+        <div class="app-content" id="appContent">
+            
+            <!-- হোম পেজ -->
+            <div id="homePage">
+                <div class="sync-banner" id="syncBanner">
+                    <span id="syncStatus">📲 ১১৪টি সূরা অফলাইনে পড়তে এবং অডিও চালাতে ডাউনলোড বাটনে চাপ দিন।</span>
+                    <button class="sync-btn" id="downloadBtn" onclick="downloadAllSurahs()">ডাউনলোড করুন (১১৪ সূরা)</button>
+                </div>
+
+                <!-- কুইক অ্যাকশন বার -->
+                <div class="quick-actions-bar">
+                    <div class="action-chip" onclick="resumeLastRead()">📌 পঠিত স্থানে যান</div>
+                    <div class="action-chip" onclick="showBookmarks()">🔖 সেভ করা আয়াত</div>
+                    <div class="action-chip" onclick="shareApp()">🔗 অ্যাপ শেয়ার</div>
+                    <div class="action-chip" onclick="likeApp()">❤️ পছন্দ (${localStorage.getItem('app_likes') || 0})</div>
+                    <div class="action-chip" onclick="showModal('rateModal')">⭐ রেটিং দিন</div>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" id="searchInput" onkeyup="filterSurahs()" placeholder="🔍 সূরার নাম বা নম্বর লিখে খুঁজুন...">
+                </div>
+
+                <div class="surah-list" id="surahListContainer">
+                    <p style="text-align: center;">সূরা তালিকা লোড হচ্ছে...</p>
+                </div>
+            </div>
+
+            <!-- ডিটেইলস পেজ -->
+            <div id="detailPage" style="display:none; flex-direction:column;">
+                
+                <div class="controls-bar">
+                    <button class="audio-btn" id="playAllBtn" onclick="togglePlayAll()">▶️ পুরো সূরা শুনুন</button>
+                    
+                    <div class="font-controls">
+                        <span>অডিও স্পিড:</span>
+                        <select class="speed-select" id="speedSelect" onchange="changeSpeed(this.value)">
+                            <option value="0.75">0.75x</option>
+                            <option value="1.0" selected>1.0x</option>
+                            <option value="1.25">1.25x</option>
+                            <option value="1.5">1.5x</option>
+                        </select>
+                    </div>
+
+                    <div class="font-controls">
+                        <span>টেক্সট সাইজ:</span>
+                        <button class="font-btn" onclick="changeFontSize(-2)">-</button>
+                        <button class="font-btn" onclick="changeFontSize(2)">+</button>
+                    </div>
+                </div>
+
+                <div id="bismillahHeader"></div>
+                <div id="ayahContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- 🎯 উদ্দেশ্য ডায়ালগ (সুন্দরভাবে সাজানো বার্তা) -->
+        <div class="modal" id="aboutModal">
+            <div class="modal-content">
+                <h3>🕊️ PeaceForPeople</h3>
+                <h4>হৃদয়ের পবিত্রতা থেকে বিশ্বমানবকল্যাণ!</h4>
+                <p>রবের দয়া ও শান্তির এক বিনীত শান্তিদূত হিসেবে আপনাকে এই আলোর কাফেলায় স্বাগত জানাই। এটি আপনার মনের কথা বলার, প্রশান্তি খোঁজার এবং নিজেকে নতুন করে আবিষ্কার করার একটি নিরাপদ আশ্রয়।</p>
+                
+                <div class="highlight-box">
+                    📖 অতএব আপনি অন্তত একবার পুরো কুরআন পড়ে দ্যাখো! ✨
+                </div>
+                
+                <button class="close-modal" onclick="closeModal('aboutModal')">বন্ধ করুন</button>
+            </div>
+        </div>
+
+        <!-- ⭐ রেটিং ডায়ালগ -->
+        <div class="modal" id="rateModal">
+            <div class="modal-content">
+                <h3>⭐ অ্যাপটি আপনার কেমন লেগেছে?</h3>
+                <div style="font-size: 30px; cursor: pointer; margin: 15px 0;" onclick="submitRating()">⭐⭐⭐⭐⭐</div>
+                <p>আপনার শুভকামনা আমাদের অনুপ্রেরণা!</p>
+                <button class="close-modal" onclick="closeModal('rateModal')">বন্ধ করুন</button>
+            </div>
+        </div>
+
+        <!-- 🔖 বুকমার্ক ডায়ালগ -->
+        <div class="modal" id="bookmarkModal">
+            <div class="modal-content" style="max-height:80vh; overflow-y:auto;">
+                <h3>🔖 সেভ করা আয়াতসমূহ</h3>
+                <div id="bookmarkList" style="text-align:left; margin-top:10px;"></div>
+                <button class="close-modal" onclick="closeModal('bookmarkModal')">বন্ধ করুন</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let db;
+        let allSurahsList = [];
+        let currentAudio = null;
+        let currentPlayBtn = null;
+        let isPlayingAll = false;
+        let currentAyahIndex = 0;
+        let currentSurahAyahs = [];
+        let audioSpeed = 1.0;
+        let currentArabicFontSize = 26;
+        let currentBanglaFontSize = 16;
+
+        const BISMILLAH_TEXT = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ";
+
+        // ১. IndexedDB ইনিশিয়ালাইজেশন
+        const request = indexedDB.open("QuranAppDB_V6", 1);
+
+        request.onupgradeneeded = (e) => {
+            db = e.target.result;
+            if (!db.objectStoreNames.contains("surahs")) {
+                db.createObjectStore("surahs", { keyPath: "number" });
+            }
+        };
+
+        request.onsuccess = (e) => {
+            db = e.target.result;
+            checkOfflineData();
+        };
+
+        function checkOfflineData() {
+            const tx = db.transaction("surahs", "readonly");
+            const store = tx.objectStore("surahs");
+            const getAll = store.getAllKeys();
+
+            getAll.onsuccess = () => {
+                if (getAll.result.length >= 114) {
+                    document.getElementById("syncBanner").style.background = "var(--light-green)";
+                    document.getElementById("syncBanner").style.borderColor = "var(--primary-green)";
+                    document.getElementById("syncStatus").innerText = "✅ ১১৪টি সূরা অফলাইনে সেভ আছে!";
+                    document.getElementById("downloadBtn").style.display = "none";
+                }
+                loadSurahList();
+            };
+        }
+
+        // ২. ডাটা সেভ সার্ভিস
+        async function downloadAllSurahs() {
+            const statusText = document.getElementById("syncStatus");
+            const btn = document.getElementById("downloadBtn");
+            btn.disabled = true;
+            statusText.innerText = "⏳ ডাটা সেভ হচ্ছে... কিছুক্ষণ অপেক্ষা করুন।";
+
+            try {
+                const [arRes, bnRes] = await Promise.all([
+                    fetch("https://api.alquran.cloud/v1/quran/ar.alafasy"),
+                    fetch("https://api.alquran.cloud/v1/quran/bn.bengali")
+                ]);
+
+                const arData = await arRes.json();
+                const bnData = await bnRes.json();
+
+                const tx = db.transaction("surahs", "readwrite");
+                const store = tx.objectStore("surahs");
+
+                for (let i = 0; i < 114; i++) {
+                    const surahAr = arData.data.surahs[i];
+                    const surahBn = bnData.data.surahs[i];
+
+                    const fullSurahObj = {
+                        number: surahAr.number,
+                        name: surahAr.englishName,
+                        translatedName: surahBn.englishNameTranslation,
+                        ayahCount: surahAr.ayahs.length,
+                        ayahs: surahAr.ayahs.map((ayah, index) => {
+                            let text = ayah.text;
+                            if (surahAr.number !== 1 && surahAr.number !== 9 && index === 0) {
+                                if (text.startsWith(BISMILLAH_TEXT)) {
+                                    text = text.replace(BISMILLAH_TEXT, "").trim();
+                                }
+                            }
+                            return {
+                                numberInSurah: ayah.numberInSurah,
+                                arabic: text,
+                                bangla: surahBn.ayahs[index].text,
+                                audioUrl: ayah.audio,
+                                globalNumber: ayah.number
+                            };
+                        })
+                    };
+                    store.put(fullSurahObj);
+                }
+
+                tx.oncomplete = () => {
+                    alert("🎉 ১১৪টি সূরা সফলভাবে সেভ হয়েছে!");
+                    checkOfflineData();
+                };
+
+            } catch (err) {
+                alert("❌ ডাউনলোড ব্যর্থ হয়েছে। ইন্টারনেট সংযোগ চেক করুন।");
+                btn.disabled = false;
+                statusText.innerText = "📲 আবার চেষ্টা করুন।";
+            }
+        }
+
+        // ৩. সূরা লিস্ট প্রদর্শন
+        function loadSurahList() {
+            const container = document.getElementById("surahListContainer");
+            container.innerHTML = "";
+
+            const tx = db.transaction("surahs", "readonly");
+            const store = tx.objectStore("surahs");
+            const getAll = store.getAll();
+
+            getAll.onsuccess = () => {
+                allSurahsList = getAll.result;
+                if (allSurahsList.length === 0) {
+                    fetch("https://api.alquran.cloud/v1/surah")
+                        .then(res => res.json())
+                        .then(data => renderList(data.data.map(s => ({ number: s.number, name: s.englishName, ayahCount: s.numberOfAyahs }))));
+                } else {
+                    renderList(allSurahsList);
+                }
+            };
+        }
+
+        function renderList(list) {
+            const container = document.getElementById("surahListContainer");
+            container.innerHTML = "";
+            list.forEach(s => {
+                container.innerHTML += `
+                    <div class="surah-card" onclick="openSurah(${s.number})">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div class="surah-number">${s.number}</div>
+                            <div>
+                                <div style="font-weight:bold; font-size:16px;">সূরা ${s.name}</div>
+                                <div style="font-size:13px; opacity:0.7;">${s.ayahCount}টি আয়াত</div>
+                            </div>
+                        </div>
+                        <span style="color:var(--primary-orange); font-size:18px;">❯</span>
+                    </div>
+                `;
+            });
+        }
+
+        function filterSurahs() {
+            const q = document.getElementById("searchInput").value.toLowerCase();
+            const filtered = allSurahsList.filter(s => s.name.toLowerCase().includes(q) || s.number.toString() === q);
+            renderList(filtered);
+        }
+
+        // 🔊 ৪. অডিও প্লেয়ার
+        function playAudio(url, btn, globalNum, onEndCallback = null) {
+            if (!navigator.onLine) {
+                alert("🌐 অডিও প্লে করার জন্য ইন্টারনেট প্রয়োজন।");
+                return;
+            }
+
+            stopAudio();
+
+            btn.innerHTML = "⏳ লোড...";
+            currentPlayBtn = btn;
+
+            let backupUrl = `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalNum}.mp3`;
+            currentAudio = new Audio(url);
+            currentAudio.playbackRate = audioSpeed;
+
+            let tryPlay = (audioSrc) => {
+                currentAudio.src = audioSrc;
+                currentAudio.play().then(() => {
+                    btn.innerHTML = "⏸️ থামান";
+                }).catch(() => {
+                    if (audioSrc !== backupUrl) {
+                        tryPlay(backupUrl);
+                    } else {
+                        alert("অডিও প্লে করা সম্ভব হচ্ছে না!");
+                        btn.innerHTML = "🔊 তিলওয়াত";
+                    }
+                });
+            };
+
+            tryPlay(url);
+
+            currentAudio.onended = () => {
+                btn.innerHTML = "🔊 তিলওয়াত";
+                if (onEndCallback) onEndCallback();
+            };
+        }
+
+        function stopAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            if (currentPlayBtn) {
+                currentPlayBtn.innerHTML = "🔊 তিলওয়াত";
+                currentPlayBtn = null;
+            }
+        }
+
+        function changeSpeed(val) {
+            audioSpeed = parseFloat(val);
+            if (currentAudio) {
+                currentAudio.playbackRate = audioSpeed;
+            }
+        }
+
+        // 🎧 ৫. পর পর তিলওয়াত
+        function togglePlayAll() {
+            const playAllBtn = document.getElementById("playAllBtn");
+            if (isPlayingAll) {
+                isPlayingAll = false;
+                stopAudio();
+                playAllBtn.innerHTML = "▶️ পুরো সূরা শুনুন";
+            } else {
+                isPlayingAll = true;
+                currentAyahIndex = 0;
+                playAllBtn.innerHTML = "⏹️ বন্ধ করুন";
+                playNextInSequence();
+            }
+        }
+
+        function playNextInSequence() {
+            if (!isPlayingAll || currentAyahIndex >= currentSurahAyahs.length) {
+                isPlayingAll = false;
+                document.getElementById("playAllBtn").innerHTML = "▶️ পুরো সূরা শুনুন";
+                return;
+            }
+
+            let ayah = currentSurahAyahs[currentAyahIndex];
+            let btn = document.getElementById(`btn-ayah-${currentAyahIndex}`);
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            playAudio(ayah.audioUrl, btn, ayah.globalNumber, () => {
+                currentAyahIndex++;
+                playNextInSequence();
+            });
+        }
+
+        // 📌 ৬. লাস্ট রিড ও ফন্ট সাইজ
+        function changeFontSize(delta) {
+            currentArabicFontSize += delta;
+            currentBanglaFontSize += (delta * 0.6);
+            document.documentElement.style.setProperty('--arabic-font-size', `${currentArabicFontSize}px`);
+            document.documentElement.style.setProperty('--bangla-font-size', `${currentBanglaFontSize}px`);
+        }
+
+        function saveLastRead(surahNum, surahName, ayahNum) {
+            localStorage.setItem('last_read', JSON.stringify({ surahNum, surahName, ayahNum }));
+        }
+
+        function resumeLastRead() {
+            let last = JSON.parse(localStorage.getItem('last_read'));
+            if (last) {
+                openSurah(last.surahNum);
+                setTimeout(() => {
+                    let el = document.getElementById(`ayah-card-${last.ayahNum}`);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 500);
+            } else {
+                alert("📌 আগে কোনো সূরা পড়া হয়নি!");
+            }
+        }
+
+        // 📋 🔗 ৭. ফেইল-সেফ শেয়ারিং ও ক্লিপবোর্ড সার্ভিস
+        function copyAyah(ar, bn) {
+            navigator.clipboard.writeText(`${ar}\n\nঅর্থ: ${bn}`);
+            alert("📋 আয়াত ও অর্থ কপি করা হয়েছে!");
+        }
+
+        async function shareAyah(surahName, ayahNum, ar, bn) {
+            let text = `🕌 সূরা ${surahName} (আয়াত ${ayahNum})\n\n${ar}\n\nঅর্থ: ${bn}\n\n- "কুরআন পড়ে দ্যাখো একবার" অ্যাপ থেকে শেয়ারকৃত।`;
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: 'পবিত্র কুরআন', text: text });
+                } catch (err) {
+                    navigator.clipboard.writeText(text);
+                    alert("📋 আয়াত টেক্সট ক্লিপবোর্ডে কপি করা হয়েছে!");
+                }
+            } else {
+                navigator.clipboard.writeText(text);
+                alert("📋 কপি করা হয়েছে! বন্ধুদের শেয়ার করুন।");
+            }
+        }
+
+        async function shareApp() {
+            let shareData = {
+                title: 'কুরআন পড়ে দ্যাখো একবার',
+                text: '🕌 অফলাইন আল-কুরআন স্মার্ট অ্যাপ! ১১৪টি সূরা বাংলা অনুবাদ ও অফলাইন তিলওয়াত সহ শিখুন ও পড়ুন।'
+            };
+
+            if (location.protocol.startsWith('http')) {
+                shareData.url = window.location.href;
+            }
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    navigator.clipboard.writeText(shareData.text + (shareData.url ? "\n" + shareData.url : ""));
+                    alert("🔗 অ্যাপ তথ্য ক্লিপবোর্ডে কপি করা হয়েছে!");
+                }
+            } else {
+                navigator.clipboard.writeText(shareData.text + (shareData.url ? "\n" + shareData.url : ""));
+                alert("🔗 লিংক ও বিবরণ কপি করা হয়েছে!");
+            }
+        }
+
+        function saveBookmark(surahName, ayahNum, ar, bn) {
+            let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks') || '[]');
+            bookmarks.push({ surahName, ayahNum, ar, bn });
+            localStorage.setItem('quran_bookmarks', JSON.stringify(bookmarks));
+            alert("✅ সেভ করা হয়েছে!");
+        }
+
+        function showBookmarks() {
+            let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks') || '[]');
+            let list = document.getElementById('bookmarkList');
+            if (bookmarks.length === 0) {
+                list.innerHTML = "<p>কোনো আয়াত সেভ করা নেই!</p>";
+            } else {
+                list.innerHTML = bookmarks.map(b => `
+                    <div style="border-bottom:1px solid #ccc; padding:8px 0;">
+                        <strong>সূরা ${b.surahName} (আয়াত ${b.ayahNum})</strong>
+                        <p style="font-size:13px; color:green;">${b.ar}</p>
+                        <p style="font-size:12px;">${b.bn}</p>
+                    </div>
+                `).join('');
+            }
+            showModal('bookmarkModal');
+        }
+
+        function likeApp() {
+            let count = parseInt(localStorage.getItem('app_likes') || 0) + 1;
+            localStorage.setItem('app_likes', count);
+            alert("❤️ আপনার পছন্দের জন্য ধন্যবাদ!");
+            location.reload();
+        }
+
+        function submitRating() {
+            alert("🌟 রেটিং দেওয়ার জন্য ধন্যবাদ!");
+            closeModal('rateModal');
+        }
+
+        function exitApp() {
+            if (confirm("অ্যাপ থেকে বের হতে চান?")) {
+                window.close();
+            }
+        }
+
+        function showModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        // ৮. সূরা পড়া
+        function openSurah(num) {
+            const tx = db.transaction("surahs", "readonly");
+            const store = tx.objectStore("surahs");
+            const getSurah = store.get(num);
+
+            getSurah.onsuccess = () => {
+                const surah = getSurah.result;
+                if (!surah) {
+                    alert("⚠️ ডাটা ডাউনলোড করা নেই! 'ডাউনলোড করুন' বাটনে চাপ দিন।");
+                    return;
+                }
+
+                currentSurahAyahs = surah.ayahs;
+                isPlayingAll = false;
+                document.getElementById("playAllBtn").innerHTML = "▶️ পুরো সূরা শুনুন";
+
+                document.getElementById("homePage").style.display = "none";
+                document.getElementById("detailPage").style.display = "flex";
+                document.getElementById("backBtn").style.display = "flex";
+                document.getElementById("headerTitle").innerText = `সূরা ${surah.name}`;
+
+                const bismillahHeader = document.getElementById("bismillahHeader");
+                if (surah.number !== 9) {
+                    bismillahHeader.innerHTML = `
+                        <div class="bismillah-card">
+                            <div class="bismillah-arabic">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
+                            <div class="bismillah-bangla">পরম করুণাময় অসীম দয়ালু আল্লাহর নামে (শুরু করছি)</div>
+                        </div>
+                    `;
+                } else {
+                    bismillahHeader.innerHTML = "";
+                }
+
+                const container = document.getElementById("ayahContainer");
+                container.innerHTML = "";
+
+                surah.ayahs.forEach((a, idx) => {
+                    container.innerHTML += `
+                        <div class="ayah-card" id="ayah-card-${a.numberInSurah}" onclick="saveLastRead(${surah.number}, '${surah.name}', ${a.numberInSurah})">
+                            <div class="ayah-header">
+                                <span class="ayah-badge">আয়াত ${a.numberInSurah}</span>
+                                <div class="ayah-actions">
+                                    <button class="audio-btn" id="btn-ayah-${idx}" onclick="playAudio('${a.audioUrl}', this, ${a.globalNumber})">🔊 তিলওয়াত</button>
+                                    <button class="small-btn copy" onclick="copyAyah('${a.arabic}', '${a.bangla}')">📋</button>
+                                    <button class="small-btn bookmark" onclick="saveBookmark('${surah.name}', ${a.numberInSurah}, '${a.arabic}', '${a.bangla}')">❤️</button>
+                                    <button class="small-btn share" onclick="shareAyah('${surah.name}', ${a.numberInSurah}, '${a.arabic}', '${a.bangla}')">📤</button>
+                                </div>
+                            </div>
+                            <div class="ayah-body">
+                                <div class="arabic-container"><div class="arabic-text">${a.arabic}</div></div>
+                                <div class="bangla-container"><div class="bangla-meaning">${a.bangla}</div></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            };
+        }
+
+        function goBack() {
+            isPlayingAll = false;
+            stopAudio();
+            document.getElementById("detailPage").style.display = "none";
+            document.getElementById("homePage").style.display = "block";
+            document.getElementById("backBtn").style.display = "none";
+            document.getElementById("headerTitle").innerText = "কুরআন পড়ে দ্যাখো একবার";
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>
