@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PeaceTube - মানসিক প্রশান্তির ভিডিও ও উপার্জন প্ল্যাটফর্ম</title>
+    <title>PeaceTube - মানসিক প্রশান্তির ভিডিও ও মিডিয়া প্ল্যাটফর্ম</title>
     <style>
         :root { 
             --orange: #ff9933; 
@@ -12,6 +12,7 @@
             --card-bg: #ffffff;
             --text-color: #2c3e50;
             --border-color: #eee;
+            --red-alert: #d32f2f;
         }
 
         [data-theme="dark"] {
@@ -34,18 +35,20 @@
             background: var(--card-bg); 
             border-top: 6px solid var(--orange); 
             border-bottom: 3px solid var(--green); 
-            padding: 20px; 
-            text-align: center;
+            padding: 15px 20px; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        header h1 { color: var(--green); margin: 0; font-size: 28px; }
+        header h1 { color: var(--green); margin: 0; font-size: 24px; }
         header h1 span { color: var(--orange); }
 
+        .header-btns { display: flex; gap: 10px; align-items: center; }
+
         .back-btn {
-            position: absolute;
-            left: 20px;
-            top: 25px;
             background: var(--orange);
             color: white;
             border: none;
@@ -54,13 +57,10 @@
             cursor: pointer;
             font-weight: bold;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .theme-toggle-btn {
-            position: absolute;
-            right: 20px;
-            top: 25px;
             background: var(--green);
             color: white;
             border: none;
@@ -68,17 +68,43 @@
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 13px;
         }
         
-        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
-        
+        .container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
+
+        /* স্লিপ টাইমার ও স্পেশাল বার */
+        .timer-bar {
+            background: var(--card-bg);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-left: 5px solid var(--orange);
+        }
+        .timer-bar h4 { margin: 0; color: var(--green); font-size: 14px; }
+        .timer-btns button {
+            background: #f0f2f5;
+            border: 1px solid var(--green);
+            color: var(--text-color);
+            padding: 4px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
         /* সার্চ ও ফিল্টার টুল */
         .search-filter-box {
             background: var(--card-bg);
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -90,22 +116,26 @@
             padding: 12px 20px;
             border: 2px solid var(--green);
             border-radius: 25px;
-            font-size: 16px;
+            font-size: 15px;
             outline: none;
+            background: var(--card-bg);
+            color: var(--text-color);
         }
         .filter-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
+            justify-content: center;
         }
         .filter-btn {
             background: none;
             border: 1px solid var(--green);
             color: var(--green);
-            padding: 6px 15px;
+            padding: 6px 14px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 13px;
         }
         .filter-btn.active {
             background: var(--green);
@@ -113,21 +143,22 @@
         }
 
         .ad-space {
-            background: #f9f9f9;
-            border: 2px dashed #ccc;
-            padding: 20px;
+            background: var(--card-bg);
+            border: 2px dashed var(--green);
+            padding: 15px;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border-radius: 12px;
-            color: #666;
+            color: var(--text-color);
             font-weight: bold;
+            font-size: 14px;
         }
 
         /* ভিডিও গ্রিড */
         .video-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 25px;
         }
         @media (max-width: 768px) {
             .video-grid { grid-template-columns: 1fr; }
@@ -172,42 +203,52 @@
         }
         .locked-overlay h4 { margin: 10px 0 5px 0; color: var(--orange); }
 
-        .video-info { padding: 15px; flex-grow: 1; }
-        .video-info h3 { margin: 0 0 8px 0; font-size: 18px; color: var(--green); }
-        .video-info p { margin: 0 0 15px 0; font-size: 14px; color: #7f8c8d; line-height: 1.4; }
+        .video-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .video-info h3 { margin: 0 0 8px 0; font-size: 17px; color: var(--green); }
+        .video-info p { margin: 0 0 15px 0; font-size: 13px; color: #7f8c8d; line-height: 1.5; flex-grow: 1; }
 
-        /* রিঅ্যাকশন সেকশন */
-        .reaction-container {
+        /* রিঅ্যাকশন ও অ্যাকশন বার */
+        .action-bar {
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
             border-top: 1px solid var(--border-color);
             padding-top: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 5px;
         }
-        .reaction-btn {
+        .reaction-container { display: flex; gap: 8px; }
+        .reaction-btn, .share-btn, .save-btn, .yt-link-btn {
             background: #f0f2f5;
             border: none;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 15px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             transition: transform 0.2s;
+            text-decoration: none;
         }
-        .reaction-btn:hover { transform: scale(1.05); }
+        [data-theme="dark"] .reaction-btn, 
+        [data-theme="dark"] .share-btn, 
+        [data-theme="dark"] .save-btn,
+        [data-theme="dark"] .yt-link-btn {
+            background: #37474f;
+            color: #fff;
+        }
+        .reaction-btn:hover, .share-btn:hover, .save-btn:hover { transform: scale(1.05); }
 
         /* কমেন্ট সেকশন */
         .comment-section {
             border-top: 1px solid var(--border-color);
-            padding-top: 12px;
+            padding-top: 10px;
         }
-        .comment-input-box {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
+        .comment-input-box { display: flex; gap: 8px; margin-bottom: 10px; }
         .comment-input {
             flex-grow: 1;
             padding: 8px 12px;
@@ -215,23 +256,24 @@
             border-radius: 20px;
             outline: none;
             font-size: 13px;
+            background: var(--card-bg);
+            color: var(--text-color);
         }
         .comment-submit {
             background: var(--green);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 8px 14px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
         }
         .comments-list {
             max-height: 100px;
             overflow-y: auto;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-color);
-            padding-left: 5px;
         }
         .single-comment {
             background: #f7f9fa;
@@ -240,9 +282,7 @@
             margin-bottom: 5px;
             border-left: 3px solid var(--orange);
         }
-        [data-theme="dark"] .single-comment {
-            background: #37474f;
-        }
+        [data-theme="dark"] .single-comment { background: #37474f; }
 
         .donation-box {
             background: var(--card-bg);
@@ -264,21 +304,36 @@
     <header>
         <a href="index.html" class="back-btn">⬅️ হোমপেজে ফিরুন</a>
         <h1>📺 Peace<span>Tube</span></h1>
-        <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 ডার্ক মোড</button>
+        <div class="header-btns">
+            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 ডার্ক মোড</button>
+        </div>
     </header>
 
     <div class="container">
         
+        <!-- স্লিপ টাইমার (নতুন ফিচার) -->
+        <div class="timer-bar">
+            <h4>⏱️ স্লিপ টাইমার (ঘুমের আগে অটো বন্ধ):</h4>
+            <div class="timer-btns">
+                <button onclick="setSleepTimer(15)">১৫ মি.</button>
+                <button onclick="setSleepTimer(30)">৩০ মি.</button>
+                <button onclick="setSleepTimer(60)">১ ঘণ্টা</button>
+                <button onclick="clearSleepTimer()">বন্ধ</button>
+            </div>
+        </div>
+
         <div class="ad-space">
             📢 বিজ্ঞাপন ও স্পন্সরশিপ এরিয়া (এখানে গুগল অ্যাডসেন্স কোড বসালে অটোমেটিক ইনকাম শুরু হবে)
         </div>
 
+        <!-- সার্চ ও ফিল্টার বক্স -->
         <div class="search-filter-box">
-            <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 আপনার পছন্দের শান্তিময় ভিডিও খুঁজুন (যেমন: বৃষ্টি, ঘুম)..." onkeyup="searchVideos()">
+            <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 আপনার পছন্দের শান্তিময় ভিডিও খুঁজুন (যেমন: বৃষ্টি, ধান)..." onkeyup="searchVideos()">
             <div class="filter-buttons">
                 <button class="filter-btn active" onclick="filterVideos('all', this)">সব ভিডিও</button>
                 <button class="filter-btn" onclick="filterVideos('nature', this)">প্রকৃতির সুর</button>
                 <button class="filter-btn" onclick="filterVideos('meditation', this)">মেডিটেশন</button>
+                <button class="filter-btn" onclick="filterVideos('saved', this)">🔖 সেভ করা ভিডিও</button>
                 <button class="filter-btn" onclick="filterVideos('premium', this)">👑 প্রিমিয়াম ভিডিও</button>
             </div>
         </div>
@@ -294,13 +349,18 @@
                     <h3>১. গভীর ঘুমের জন্য প্রকৃতির শান্ত সুর</h3>
                     <p>বৃষ্টি ও বনের হালকা সাউন্ড যা আপনার সারাদিনের মানসিক ক্লান্তি দূর করে গভীর ঘুমে সাহায্য করবে।</p>
                     
-                    <!-- রিঅ্যাকশন -->
-                    <div class="reaction-container">
-                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১২</span>)</button>
-                        <button class="reaction-btn" onclick="addReaction(this)">🍃 Calm (<span class="count">৮</span>)</button>
+                    <div class="action-bar">
+                        <div class="reaction-container">
+                            <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১২</span>)</button>
+                            <button class="reaction-btn" onclick="addReaction(this)">🍃 Calm (<span class="count">৮</span>)</button>
+                        </div>
+                        <div style="display: flex; gap: 5px;">
+                            <a href="https://youtu.be/QH2-TGUlwu4" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                            <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                            <button class="share-btn" onclick="shareVideo('১. গভীর ঘুমের জন্য প্রকৃতির শান্ত সুর', 'https://youtu.be/QH2-TGUlwu4')">🔄</button>
+                        </div>
                     </div>
 
-                    <!-- কমেন্ট বক্স -->
                     <div class="comment-section">
                         <div class="comment-input-box">
                             <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
@@ -322,9 +382,16 @@
                     <h3>২. ৫ মিনিটের কুইক রিল্যাক্সেশন</h3>
                     <p>অফিসের কাজের ফাঁকে বা অতিরিক্ত দুশ্চিন্তার সময় মনকে দ্রুত শান্ত করার বিশেষ মিউজিক থেরাপি।</p>
                     
-                    <div class="reaction-container">
-                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১৫</span>)</button>
-                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৫</span>)</button>
+                    <div class="action-bar">
+                        <div class="reaction-container">
+                            <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১৫</span>)</button>
+                            <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৫</span>)</button>
+                        </div>
+                        <div style="display: flex; gap: 5px;">
+                            <a href="https://youtu.be/lFcSrYw-ARY" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                            <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                            <button class="share-btn" onclick="shareVideo('২. ৫ মিনিটের কুইক রিল্যাক্সেশন', 'https://youtu.be/lFcSrYw-ARY')">🔄</button>
+                        </div>
                     </div>
 
                     <div class="comment-section">
@@ -338,18 +405,8 @@
                     </div>
                 </div>
             </div>
-            <!-- নতুন ভিডিও যোগ করার জায়গা -->
-<div class="video-card" data-category="meditation" data-title="নতুন ভিডিওর নাম">
-    <div class="video-container">
-        <iframe width="100%" height="315" src="https://www.youtube.com/embed/ইউটিউব_ভিডিওর_আইডি" frameborder="0" allowfullscreen></iframe>
-    </div>
-    <div class="video-info">
-        <h3>ভিডিওর শিরোনাম</h3>
-        <p>ভিডিওটি কী নিয়ে, তার ছোট্ট বর্ণনা এখানে লিখুন।</p>
-    </div>
-</div>
 
-            <!-- ভিডিও ৩ (ভবিষ্যতের প্রিমিয়াম লক ভিডিওর ডেমো) -->
+            <!-- ভিডিও ৩ (প্রিমিয়াম) -->
             <div class="video-card" data-category="premium" data-title="প্রিমিয়াম ডিপ মেডিটেশন থেরাপি">
                 <div class="video-container">
                     <div class="locked-overlay" onclick="alert('👑 এটি একটি প্রিমিয়াম ভিডিও! সম্পূর্ণ অ্যাক্সেস পেতে মেম্বারশিপ সাবস্ক্রিপশন করুন।')">
@@ -361,26 +418,49 @@
                 <div class="video-info">
                     <h3>👑 ৩. ডিপ মেডিটেশন থেরাপি (Premium)</h3>
                     <p>বিশেষজ্ঞদের দ্বারা তৈরি করা গভীর ধ্যানের গাইডলাইন যা মানসিক অবসাদ দূর করতে অত্যন্ত কার্যকর।</p>
+                    
+                    <div class="action-bar">
+                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                    </div>
                 </div>
             </div>
 
         </div>
 
+        <!-- ডোনেশন কার্ড -->
         <div class="donation-box">
             <h3 style="color: var(--green); margin-top:0;">☕ আমাদের এই উদ্যোগটি ভালো লেগেছে?</h3>
             <p>আপনার ছোট্ট একটি সাহায্য আমাদের এই ফ্রি প্ল্যাটফর্মটিকে বাঁচিয়ে রাখতে সাহায্য করবে।</p>
-            <button class="btn btn-orange" onclick="alert('বিকাশ/রকেট মার্চেন্ট পেমেন্ট গেটওয়ে এখানে যুক্ত হবে।')">🕊️ Support Peace for People</button>
+            <button class="btn btn-orange" onclick="alert('বিকাশ/রকেট পেমেন্ট সিস্টেম শিগগিরই যুক্ত হচ্ছে।')">🕊️ Support Peace for People</button>
         </div>
 
     </div>
 
-    <footer style="text-align: center; padding: 25px; background: var(--card-bg); margin-top: 50px; border-top: 1px solid #eee;">
+    <footer style="text-align: center; padding: 25px; background: var(--card-bg); margin-top: 50px; border-top: 1px solid var(--border-color);">
         <p style="margin: 0; font-size: 14px; font-weight: bold;">© ২০২৬ Peace for People. সর্বস্বত্ব সংরক্ষিত।</p>
         <p style="margin: 5px 0 0 0; font-size: 12px; color: #7f8c8d;">PeaceTube-এ ব্যবহৃত ভিডিওগুলো ইউটিউবের স্ট্যান্ডার্ড এমবেড পলিসি অনুযায়ী সম্পূর্ণ লিগ্যাল উপায়ে প্রদর্শিত হচ্ছে।</p>
     </footer>
 
     <script>
-        // সার্চ ফাংশন
+        let timerTimeout;
+
+        // ১. স্লিপ টাইমার ফাংশন
+        function setSleepTimer(minutes) {
+            clearTimeout(timerTimeout);
+            alert(`⏱️ ${minutes} মিনিটের জন্য টাইমার সেট করা হলো!`);
+            timerTimeout = setTimeout(() => {
+                document.getElementById('videoGrid').style.display = 'none';
+                alert('😴 সময় শেষ! মন শান্ত রেখে এখন ঘুমিয়ে পড়ুন।');
+            }, minutes * 60 * 1000);
+        }
+
+        function clearSleepTimer() {
+            clearTimeout(timerTimeout);
+            document.getElementById('videoGrid').style.display = 'grid';
+            alert('⏱️ স্লিপ টাইমার বন্ধ করা হয়েছে।');
+        }
+
+        // ২. সার্চ ফাংশন
         function searchVideos() {
             let input = document.getElementById('videoSearch').value.toLowerCase();
             let cards = document.querySelectorAll('.video-card');
@@ -390,7 +470,7 @@
             });
         }
 
-        // ক্যাটাগরি ফিল্টার ফাংশন
+        // ৩. ক্যাটাগরি ফিল্টার
         function filterVideos(category, btn) {
             let cards = document.querySelectorAll('.video-card');
             let tabs = document.querySelectorAll('.filter-btn');
@@ -398,24 +478,54 @@
             btn.classList.add('active');
 
             cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
+                if (category === 'all') {
                     card.style.display = "flex";
+                } else if (category === 'saved') {
+                    card.style.display = card.classList.contains('is-saved') ? "flex" : "none";
                 } else {
-                    card.style.display = "none";
+                    card.style.display = (card.getAttribute('data-category') === category) ? "flex" : "none";
                 }
             });
         }
 
-        // লাইভ রিঅ্যাকশন সিস্টেম
+        // ৪. রিঅ্যাকশন
         function addReaction(button) {
             let countSpan = button.querySelector('.count');
             let currentCount = parseInt(countSpan.innerText);
             countSpan.innerText = currentCount + 1;
             button.style.background = "#d4edda";
-            button.disabled = true; // একবারের বেশি ক্লিক আটকাতে
+            button.disabled = true;
         }
 
-        // লাইভ কমেন্ট সিস্টেম
+        // ৫. সেভ / বুকমার্ক
+        function toggleSave(btn) {
+            let card = btn.closest('.video-card');
+            card.classList.toggle('is-saved');
+
+            if (card.classList.contains('is-saved')) {
+                btn.innerText = "✅ সেভড";
+                btn.style.color = "var(--green)";
+            } else {
+                btn.innerText = "🔖 সেভ";
+                btn.style.color = "";
+            }
+        }
+
+        // ৬. ভিডিও শেয়ার
+        function shareVideo(title, url) {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: title + " - PeaceTube-এ ভিডিওটি দেখুন",
+                    url: url
+                }).catch(console.error);
+            } else {
+                navigator.clipboard.writeText(url);
+                alert(`🔄 "${title}" ভিডিওটির লিংক কপি করা হয়েছে!`);
+            }
+        }
+
+        // ৭. লাইভ কমেন্ট
         function postComment(button) {
             let infoDiv = button.closest('.video-info');
             let input = infoDiv.querySelector('.comment-input');
@@ -432,7 +542,7 @@
             }
         }
 
-        // ডার্ক মোড
+        // ৮. ডার্ক মোড
         function toggleTheme() {
             const body = document.body;
             const btn = document.querySelector('.theme-toggle-btn');
