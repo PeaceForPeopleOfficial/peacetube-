@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head<link href="/admin/config.yml" type="text/yaml" rel="cms-config-url">>
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PeaceTube Admin Panel Dashboard</title>
   
-  <!-- গুগল ফন্ট ও ফ্যাবআইকন -->
+  <!-- Config File Link -->
+  <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url">
+
+  <!-- গুগল ফন্ট -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ড্যাশবোর্ডের মৌলিক স্টাইল */
     body { 
       font-family: 'Hind Siliguri', 'Segoe UI', sans-serif; 
       background-color: #f4f6f8; 
       margin: 0;
       padding: 0;
     }
-    
-    /* Decap CMS এর কাস্টম ব্র্যান্ডিং ও লোকাল হেডার কালার */
     #nc-root {
       font-family: 'Hind Siliguri', sans-serif !important;
     }
-
-    /* লোডিং টেক্সট */
     .cms-loader {
       display: flex;
       justify-content: center;
@@ -38,14 +36,13 @@
 </head>
 <body>
 
-  <!-- লোডিং নোটিশ (CMS লোড হওয়ার সময় দেখাবে) -->
   <div id="nc-root">
     <div class="cms-loader">
       ⚡ PeaceTube এডমিন প্যানেল লোড হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...
     </div>
   </div>
 
-  <!-- Decap CMS অফিশিয়াল JS ফাইল -->
+  <!-- Decap CMS JavaScript -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
 </body>
