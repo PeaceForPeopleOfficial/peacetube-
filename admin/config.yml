@@ -1,13 +1,32 @@
 backend:
   name: git-gateway
   branch: main
+
 media_folder: "images"
 public_folder: "/images"
+
 collections:
-  - name: "posts"
-    label: "Posts"
-    folder: "posts"
+  # ১. ভিডিও কালেকশন (video.html-এর জন্য)
+  - name: "videos"
+    label: "Video Content"
+    folder: "content/videos"
     create: true
+    slug: "{{slug}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Video Link", name: "link", widget: "string"}
+      - {label: "Video Title", name: "title", widget: "string"}
+      - {label: "YouTube Video Link / Embed URL", name: "link", widget: "string", hint: "ইউটিউব ভিডিও বা এমবেড লিংক বসান"}
+      - {label: "Category", name: "category", widget: "select", options: ["nature", "meditation", "premium"], default: "nature"}
+      - {label: "Description", name: "description", widget: "text", required: false}
+      - {label: "Is Premium Video?", name: "is_premium", widget: "boolean", default: false}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+
+  # ২. প্রতিদিনের বাণী ও মেসেজ (index.html-এর জন্য)
+  - name: "daily_bani"
+    label: "Daily Quotes & Bani"
+    folder: "content/bani"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}"
+    fields:
+      - {label: "Quote / Bani Text", name: "quote", widget: "text"}
+      - {label: "Author / Source", name: "author", widget: "string", default: "Peace for People"}
+      - {label: "Date", name: "date", widget: "date"}
