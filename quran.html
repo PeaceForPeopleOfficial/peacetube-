@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>কুরআন পড়ে দ্যাখো একবার - Pro</title>
+    <title>কুরআন পড়ে দ্যাখো একবার - Pro Ultra</title>
 
     <style>
         :root {
@@ -98,6 +98,18 @@
             overflow-y: auto;
         }
 
+        /* 🌟 আজকের বিশেষ আয়াত কার্ড */
+        .daily-ayah-card {
+            background: linear-gradient(135deg, var(--light-green), var(--light-orange));
+            border: 1.5px solid var(--primary-green);
+            padding: 16px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        .daily-ayah-title { font-weight: bold; color: var(--primary-green); margin-bottom: 6px; font-size: 14px; }
+        .daily-ayah-text { font-size: 15px; font-weight: 500; font-style: italic; }
+
         /* 🟠 ডাউনলোডার ব্যানার */
         .sync-banner {
             background: var(--light-orange);
@@ -191,6 +203,16 @@
             align-items: center;
             font-weight: bold;
             border: 1px solid var(--primary-orange);
+        }
+
+        .surah-tag {
+            font-size: 11px;
+            background: var(--light-green);
+            color: var(--primary-green);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-left: 6px;
         }
 
         /* 🟢 বিসমিল্লাহ কার্ড */
@@ -367,6 +389,13 @@
             
             <!-- হোম পেজ -->
             <div id="homePage">
+
+                <!-- ✨ দৈনিক বিশেষ আয়াত -->
+                <div class="daily-ayah-card">
+                    <div class="daily-ayah-title">💡 আজকের বিশেষ বাণী</div>
+                    <div class="daily-ayah-text" id="dailyAyahText">"নিশ্চয়ই কষ্টের সাথেই স্বস্তি রয়েছে।" (সূরা আল-ইনশিরাহ: ৫-৬)</div>
+                </div>
+
                 <div class="sync-banner" id="syncBanner">
                     <span id="syncStatus">📲 ১১৪টি সূরা অফলাইনে পড়তে এবং অডিও চালাতে ডাউনলোড বাটনে চাপ দিন।</span>
                     <button class="sync-btn" id="downloadBtn" onclick="downloadAllSurahs()">ডাউনলোড করুন (১১৪ সূরা)</button>
@@ -376,6 +405,7 @@
                 <div class="quick-actions-bar">
                     <div class="action-chip" onclick="resumeLastRead()">📌 পঠিত স্থানে যান</div>
                     <div class="action-chip" onclick="showBookmarks()">🔖 সেভ করা আয়াত</div>
+                    <div class="action-chip" onclick="showDuas()">🤲 কুরআনিক দোআ</div>
                     <div class="action-chip" onclick="shareApp()">🔗 অ্যাপ শেয়ার</div>
                     <div class="action-chip" onclick="likeApp()">❤️ পছন্দ (${localStorage.getItem('app_likes') || 0})</div>
                     <div class="action-chip" onclick="showModal('rateModal')">⭐ রেটিং দিন</div>
@@ -419,7 +449,7 @@
 
         </div>
 
-        <!-- 🎯 উদ্দেশ্য ডায়ালগ (সুন্দরভাবে সাজানো বার্তা) -->
+        <!-- 🎯 উদ্দেশ্য ডায়ালগ -->
         <div class="modal" id="aboutModal">
             <div class="modal-content">
                 <h3>🕊️ PeaceForPeople</h3>
@@ -431,6 +461,33 @@
                 </div>
                 
                 <button class="close-modal" onclick="closeModal('aboutModal')">বন্ধ করুন</button>
+            </div>
+        </div>
+
+        <!-- 🤲 দোআ ডায়ালগ -->
+        <div class="modal" id="duaModal">
+            <div class="modal-content" style="max-height:80vh; overflow-y:auto; text-align:left;">
+                <h3 style="text-align:center;">🤲 কুরআনিক গুরুত্বপূর্ণ দোআসমূহ</h3>
+                <div style="margin-top:15px; display:flex; flex-direction:column; gap:12px;">
+                    <div style="background:var(--light-orange); padding:12px; border-radius:10px;">
+                        <strong>১. হে আমার রব! আমাকে জ্ঞান বাড়িয়ে দিন:</strong>
+                        <p style="color:var(--primary-green); font-size:18px; margin:4px 0;">رَّبِّ زِدْنِي عِلْمًا</p>
+                        <p style="font-size:13px;">"রব্বি যিদ্নী 'ইলমা।" (সূরা ত্বা-হা: ১১৪)</p>
+                    </div>
+                    <div style="background:var(--light-green); padding:12px; border-radius:10px;">
+                        <strong>২. দুনিয়া ও আখেরাতের কল্যাণের দোআ:</strong>
+                        <p style="color:var(--primary-green); font-size:18px; margin:4px 0;">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</p>
+                        <p style="font-size:13px;">"হে আমাদের রব! আমাদের দুনিয়াতে কল্যাণ দিন এবং আখেরাতেও কল্যাণ দিন।" (সূরা বাকারা: ২০১)</p>
+                    </div>
+                    <div style="background:var(--light-orange); padding:12px; border-radius:10px;">
+                        <strong>৩. ধৈর্যের জন্য দোআ:</strong>
+                        <p style="color:var(--primary-green); font-size:18px; margin:4px 0;">رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا</p>
+                        <p style="font-size:13px;">"হে আমাদের রব! আমাদের ধৈর্য দান করুন এবং আমাদের অবিচল রাখুন।" (সূরা বাকারা: ২৫০)</p>
+                    </div>
+                </div>
+                <div style="text-align:center;">
+                    <button class="close-modal" onclick="closeModal('duaModal')">বন্ধ করুন</button>
+                </div>
             </div>
         </div>
 
@@ -526,6 +583,7 @@
                     const fullSurahObj = {
                         number: surahAr.number,
                         name: surahAr.englishName,
+                        revelationType: surahAr.revelationType === "Meccan" ? "মাক্কী" : "মাদানী",
                         translatedName: surahBn.englishNameTranslation,
                         ayahCount: surahAr.ayahs.length,
                         ayahs: surahAr.ayahs.map((ayah, index) => {
@@ -573,7 +631,12 @@
                 if (allSurahsList.length === 0) {
                     fetch("https://api.alquran.cloud/v1/surah")
                         .then(res => res.json())
-                        .then(data => renderList(data.data.map(s => ({ number: s.number, name: s.englishName, ayahCount: s.numberOfAyahs }))));
+                        .then(data => renderList(data.data.map(s => ({ 
+                            number: s.number, 
+                            name: s.englishName, 
+                            ayahCount: s.numberOfAyahs,
+                            revelationType: s.revelationType === "Meccan" ? "মাক্কী" : "মাদানী"
+                        }))));
                 } else {
                     renderList(allSurahsList);
                 }
@@ -589,7 +652,10 @@
                         <div style="display:flex; align-items:center; gap:14px;">
                             <div class="surah-number">${s.number}</div>
                             <div>
-                                <div style="font-weight:bold; font-size:16px;">সূরা ${s.name}</div>
+                                <div style="font-weight:bold; font-size:16px;">
+                                    সূরা ${s.name}
+                                    <span class="surah-tag">${s.revelationType || 'মাক্কী'}</span>
+                                </div>
                                 <div style="font-size:13px; opacity:0.7;">${s.ayahCount}টি আয়াত</div>
                             </div>
                         </div>
@@ -718,7 +784,7 @@
             }
         }
 
-        // 📋 🔗 ৭. ফেইল-সেফ শেয়ারিং ও ক্লিপবোর্ড সার্ভিস
+        // 📋 🔗 ৭. ফেইল-সেফ শেয়ারিং ও তথ্য
         function copyAyah(ar, bn) {
             navigator.clipboard.writeText(`${ar}\n\nঅর্থ: ${bn}`);
             alert("📋 আয়াত ও অর্থ কপি করা হয়েছে!");
@@ -784,6 +850,10 @@
                 `).join('');
             }
             showModal('bookmarkModal');
+        }
+
+        function showDuas() {
+            showModal('duaModal');
         }
 
         function likeApp() {
