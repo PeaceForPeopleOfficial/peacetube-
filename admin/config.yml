@@ -2,6 +2,7 @@ backend:
   name: github
   repo: PeaceForPeopleOfficial/peacetube-
   branch: main
+  base_url: https://decap-cms-oauth.vercel.app
 
 media_folder: "images"
 public_folder: "/images"
