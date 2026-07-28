@@ -496,7 +496,8 @@
             document.getElementById('videoGrid').style.display = 'grid';
             alert('⏱️ স্লিপ টাইমার বন্ধ করা হয়েছে।');
         }
-// ১. ভিডিও সংখ্যা আপডেট করার ফাংশন
+
+        // ১. ভিডিও সংখ্যা আপডেট করার ফাংশন
 function updateVideoCount() {
   let cards = document.querySelectorAll('.video-card');
   let visibleCount = 0;
@@ -539,10 +540,6 @@ function filterVideos(category, btn) {
   });
   updateVideoCount();
 }
-        
-            });
-        }
-
         // ৪. রিঅ্যাকশন
         function addReaction(button) {
             let countSpan = button.querySelector('.count');
