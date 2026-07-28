@@ -330,6 +330,13 @@
         <div class="search-filter-box">
             <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 আপনার পছন্দের শান্তিময় ভিডিও খুঁজুন (যেমন: বৃষ্টি, ধান)..." onkeyup="searchVideos()">
             <div class="filter-buttons">
+               <!-- 🏷️ সার্চ সাজেশন ট্যাগ -->
+<div style="display: flex; gap: 8px; font-size: 12px; margin-top: 8px; flex-wrap: wrap; align-items: center; justify-content: center;">
+  <span style="opacity: 0.7; font-weight: bold;">জনপ্রিয়:</span>
+  <span onclick="document.getElementById('videoSearch').value='প্রকৃতি'; searchVideos();" style="cursor: pointer; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 10px; border: 1px solid #ddd;">#প্রকৃতি</span>
+  <span onclick="document.getElementById('videoSearch').value='মেডিটেশন'; searchVideos();" style="cursor: pointer; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 10px; border: 1px solid #ddd;">#মেডিটেশন</span>
+  <span onclick="document.getElementById('videoSearch').value='ইউটিউব'; searchVideos();" style="cursor: pointer; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 10px; border: 1px solid #ddd;">#ইউটিউব</span>
+</div> 
                 <button class="filter-btn active" onclick="filterVideos('all', this)">সব ভিডিও</button>
                 <button class="filter-btn" onclick="filterVideos('nature', this)">প্রকৃতির সুর</button>
                 <button class="filter-btn" onclick="filterVideos('meditation', this)">মেডিটেশন</button>
@@ -546,6 +553,19 @@ function filterVideos(category, btn) {
 
             if (card.classList.contains('is-saved')) {
                 btn.innerText = "✅ সেভড";
+                // সেভ করা ডাটা ব্রাউজারে ধরে রাখার লজিক
+function loadSavedStatus() {
+  let savedIds = JSON.parse(localStorage.getItem('savedVideos') || '[]');
+  let cards = document.querySelectorAll('.video-card');
+  cards.forEach((card, index) => {
+    if (savedIds.includes(index)) {
+      card.classList.add('is-saved');
+      let btn = card.querySelector('.save-btn');
+      if (btn) btn.innerText = "✅ সেভড";
+    }
+  });
+}
+window.addEventListener('DOMContentLoaded', loadSavedStatus);
                 btn.style.color = "var(--green)";
             } else {
                 btn.innerText = "🔖 সেভ";
