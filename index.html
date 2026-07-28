@@ -638,14 +638,6 @@
             countSpan.innerText = parseInt(countSpan.innerText) + 1;
         }
 
-        // ১০. দৈনিক বাণী অটো-পরিবর্তন লজিক (আপডেট করা হয়েছে)
-        const banis = [
-            "আজকের বাণী: ধৈর্য ধরুন, এই সময়টাও কেটে যাবে।",
-            "আজকের বাণী: নিজের মনের কথা লিখে ফেলুন, হালকা লাগবে।",
-            "আজকের বাণী: গভীর শ্বাস নিন, বর্তমানকে উপভোগ করুন।"
-        ];
-        const today = new Date().getDate();
-        document.getElementById("daily-bani").innerText = banis[today % banis.length];
     </script>
   <!-- অফলাইন সার্ভিস ওয়ার্কার চালু করার কোড -->
 <script>
