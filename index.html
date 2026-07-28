@@ -647,25 +647,7 @@
         const today = new Date().getDate();
         document.getElementById("daily-bani").innerText = banis[today % banis.length];
     </script>
-   <!-- dynamic quotes script -->
-<script>
-  // Netlify CMS থেকে জেনারেট হওয়া পোস্ট ডেটা লোড করা
-  fetch('/_posts/bani.json')
-    .then(response => response.json())
-    .then(data => {
-      if(data && data.length > 0) {
-        // সবচেয়ে নতুন পোস্টটি খুঁজে বের করা
-        const latestPost = data[0]; 
-        
-        // হোমপেজের বক্সে পোস্ট সেট করা
-        const baniBox = document.querySelector('.welcome-box p');
-        if(baniBox && latestPost.body) {
-          baniBox.innerHTML = `<strong>🕊️ আজকের বাণী:</strong> ${latestPost.body}`;
-        }
-      }
-    })
-    .catch(error => console.log('Bani loading error:', error));
-</script><!-- অফলাইন সার্ভিস ওয়ার্কার চালু করার কোড -->
+  <!-- অফলাইন সার্ভিস ওয়ার্কার চালু করার কোড -->
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
