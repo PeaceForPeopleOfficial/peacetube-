@@ -411,51 +411,41 @@
                 </div>
             </div>
 <!-- ভিডিও ৩ (প্রিমিয়াম) -->
-<div class="video-card" data-category="premium" data-title="প্রিমিয়াম ডিপ মেডিটেশন থেরাপি">
-  <div class="video-container">
-    <div class="locked-overlay" onclick="alert('👑 এটি একটি প্রিমিয়াম ভিডিও! সম্পূর্ণ অ্যাক্সেস পেতে মেম্বারশিপ সাবস্ক্রিপশন করুন।')">
-      <span style="font-size: 40px;">🔒</span>
-      <h4>Premium Exclusive Video</h4>
-      <p style="font-size: 12px; margin:0;">দেখতে এখানে ক্লিক করুন</p>
-    </div>
-  </div>
-  <div class="video-info">
-    <h3>👑 ৩. ডিপ মেডিটেশন থেরাপি (Premium)</h3>
-    <p>বিশেষজ্ঞদের দ্বারা তৈরি করা গভীর ধ্যানের গাইডলাইন যা মানসিক অবসাদ দূর করতে অত্যন্ত কার্যকর।</p>
-    <div class="action-bar" style="display: flex; gap: 8px; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 10px; margin-top: 8px;">
-  <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
-  <button class="unlock-btn" onclick="alert('👑 এটি একটি প্রিমিয়াম ভিডিও! সম্পূর্ণ অ্যাক্সেস ও মেম্বারশিপ পেতে আমাদের অফিশিয়াল সাপোর্টে যোগাযোগ করুন।')" style="background-color: #FF9933; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer;">
-    👑 আনলক করুন
-</div>
-  </div>
-<!-- ভিডিও ৪ (অফিসিয়াল ইউটিউব ও ম্যাচিং সোশ্যাল ফিচার) -->
-<div class="video-card" data-category="nature" data-title="আমাদের অফিসিয়াল ইউটিউব চ্যানেল">
-  <div class="video-container">
-    <iframe src="https://www.youtube.com/embed/QH2-TGUlwu4" title="YouTube Video" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
-  </div>
-  
-  <div class="video-info">
-    <h3>📢 আমাদের অফিসিয়াল ইউটিউব চ্যানেল</h3>
-    <p>আমাদের ইউটিউব চ্যানেলের নিয়মিত আপডেট, ওয়াজ ও শান্তিময় ভিডিও দেখতে সাথে থাকুন।</p>
-    
-    <!-- সাবস্ক্রাইব ও ভিডিও দেখার বাটন (ব্র্যান্ড কালার ম্যাচিং) -->
-    <div style="display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap;">
-      <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" style="flex: 1; text-align: center; background-color: #E53E3E; color: white; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 13px; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        ▶️ সাবস্ক্রাইব করুন
-      </a>
-      <a href="https://www.youtube.com/@PeaceForPeopleOfficial/videos" target="_blank" style="flex: 1; text-align: center; background-color: var(--primary-green, #10B981); color: white; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 13px; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        📺 আরও ভিডিও দেখুন
-      </a>
-    </div>
+      <div class="video-card" data-category="premium" data-title="প্রিমিয়াম ডিপ মেডিটেশন থেরাপি">
+        <div class="video-container">
+          <span class="category-badge" style="position: absolute; top: 10px; left: 10px; background: var(--orange); color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; z-index: 5;">👑 Premium</span>
+          <div class="locked-overlay" onclick="alert('👑 এটি একটি প্রিমিয়াম ভিডিও! সম্পূর্ণ অ্যাক্সেস পেতে মেম্বারশিপ সাবস্ক্রিপশন করুন।')">
+            <span style="font-size: 40px;">🔒</span>
+            <h4>Premium Exclusive Video</h4>
+            <p style="font-size: 12px; margin:0;">দেখতে এখানে ক্লিক করুন</p>
+          </div>
+        </div>
+        <div class="video-info">
+          <h3>👑 ৩. ডিপ মেডিটেশন থেরাপি (Premium)</h3>
+          <p>বিশেষজ্ঞদের দ্বারা তৈরি করা গভীর ধ্যানের গাইডলাইন যা মানসিক অবসাদ দূর করতে অত্যন্ত কার্যকর।</p>
+          <div class="action-bar" style="border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: auto;">
+            <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+            <button class="unlock-btn" onclick="alert('👑 এটি একটি প্রিমিয়াম ভিডিও! অফিশিয়াল সাপোর্টে যোগাযোগ করুন।')" style="background-color: var(--orange); color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer;">👑 আনলক করুন</button>
+          </div>
+        </div>
+      </div>
 
-    <!-- আগের কার্ডগুলোর মতো সেইম অ্যাকশন বার (সেভ, শেয়ার ও কমেন্ট) -->
-    <div class="action-bar" style="border-top: 1px solid rgba(0,0,0,0.08); padding-top: 10px; margin-top: 8px;">
-      <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
-      <button class="share-btn" onclick="shareVideo('আমাদের অফিসিয়াল ইউটিউব চ্যানেল', 'https://www.youtube.com/@PeaceForPeopleOfficial')">🔗 শেয়ার</button>
-      <button class="comment-btn" onclick="openCommentModal(this)">💬 কমেন্ট</button>
-    </div>
-  </div>
-</div>
+      <!-- ভিডিও ৪ (অফিসিয়াল ইউটিউব) -->
+      <div class="video-card" data-category="nature" data-title="আমাদের অফিসিয়াল ইউটিউব চ্যানেল">
+        <div class="video-container">
+          <span class="category-badge" style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.65); color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px; z-index: 5; backdrop-filter: blur(4px);">🍃 প্রকৃতির সুর</span>
+          <iframe src="https://www.youtube.com/embed/QH2-TGUlwu4" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <h3>📢 ৪. আমাদের অফিসিয়াল ইউটিউব চ্যানেল</h3>
+          <p>আমাদের ইউটিউব চ্যানেলের নিয়মিত আপডেট, ওয়াজ ও শান্তিময় ভিডিও দেখতে সাথে থাকুন।</p>
+          <div class="action-bar" style="border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: auto;">
+            <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" class="yt-link-btn" style="background: var(--orange); color: white; border: none; padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; text-decoration: none;">▶️ সাবস্ক্রাইব</a>
+            <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+            <button class="share-btn" onclick="shareVideo('আমাদের অফিসিয়াল ইউটিউব চ্যানেল', 'https://www.youtube.com/@PeaceForPeopleOfficial')">🔄 শেয়ার</button>
+          </div>
+        </div>
+      </div>
     <!-- 🕊️ সাপোর্ট সেকশন -->
 <div style="background: rgba(16, 185, 129, 0.08); border: 1px dashed var(--primary-green, #10B981); border-radius: 12px; padding: 20px; text-align: center; margin: 30px auto 20px auto; max-width: 800px;">
   <p style="font-size: 16px; font-weight: bold; margin-bottom: 8px; color: var(--text-color, #333);">
