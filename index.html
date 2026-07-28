@@ -665,6 +665,15 @@
       }
     })
     .catch(error => console.log('Bani loading error:', error));
+</script><!-- অফলাইন সার্ভিস ওয়ার্কার চালু করার কোড -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('Offline Support Ready!'))
+        .catch(err => console.log('Service Worker Failed:', err));
+    });
+  }
 </script> 
 </body>
 </html>
