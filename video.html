@@ -496,32 +496,50 @@
             document.getElementById('videoGrid').style.display = 'grid';
             alert('⏱️ স্লিপ টাইমার বন্ধ করা হয়েছে।');
         }
+// ১. ভিডিও সংখ্যা আপডেট করার ফাংশন
+function updateVideoCount() {
+  let cards = document.querySelectorAll('.video-card');
+  let visibleCount = 0;
+  cards.forEach(card => {
+    if (card.style.display !== 'none') {
+      visibleCount++;
+    }
+  });
+  let countText = document.getElementById('active-video-count');
+  if (countText) {
+    countText.innerText = `📊 মোট ${visibleCount}টি শান্তিময় ভিডিও পাওয়া গেছে`;
+  }
+}
 
-        // ২. সার্চ ফাংশন
-        function searchVideos() {
-            let input = document.getElementById('videoSearch').value.toLowerCase();
-            let cards = document.querySelectorAll('.video-card');
-            cards.forEach(card => {
-                let title = card.getAttribute('data-title').toLowerCase();
-                card.style.display = title.includes(input) ? "flex" : "none";
-            });
-        }
+// ২. সার্চ ফাংশন
+function searchVideos() {
+  let input = document.getElementById('videoSearch').value.toLowerCase();
+  let cards = document.querySelectorAll('.video-card');
+  cards.forEach(card => {
+    let title = card.getAttribute('data-title').toLowerCase();
+    card.style.display = title.includes(input) ? "flex" : "none";
+  });
+  updateVideoCount();
+}
 
-        // ৩. ক্যাটাগরি ফিল্টার
-        function filterVideos(category, btn) {
-            let cards = document.querySelectorAll('.video-card');
-            let tabs = document.querySelectorAll('.filter-btn');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            btn.classList.add('active');
-
-            cards.forEach(card => {
-                if (category === 'all') {
-                    card.style.display = "flex";
-                } else if (category === 'saved') {
-                    card.style.display = card.classList.contains('is-saved') ? "flex" : "none";
-                } else {
-                    card.style.display = (card.getAttribute('data-category') === category) ? "flex" : "none";
-                }
+// ৩. ক্যাটাগরি ফিল্টার
+function filterVideos(category, btn) {
+  let cards = document.querySelectorAll('.video-card');
+  let tabs = document.querySelectorAll('.filter-btn');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  btn.classList.add('active');
+  cards.forEach(card => {
+    if (category === 'all') {
+      card.style.display = "flex";
+    } else if (category === 'saved') {
+      card.style.display = card.classList.contains('is-saved') ? "flex" : "none";
+    } else {
+      card.style.display = (card.getAttribute('data-category') === category) ? "flex" : "none";
+    }
+  });
+  updateVideoCount();
+}
+        
             });
         }
 
