@@ -47,6 +47,9 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}"
     fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
       - label: "Quote / Bani Text"
         name: "quote"
         widget: "text"
@@ -57,3 +60,4 @@ collections:
       - label: "Date"
         name: "date"
         widget: "date"
+  
