@@ -648,28 +648,24 @@
         .catch(err => console.log('Service Worker Failed:', err));
     });
   }
-</script> 
-  <!-- dynamic quotes script from markdown -->
 <script>
-  fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani')
-    .then(response => response.json())
-    .then(files => {
-      if (files && files.length > 0) {
-        // সবচেয়ে নতুন সেভ হওয়া পোস্টটি নেওয়া
-        const latestFile = files[files.length - 1];
-        fetch(latestFile.download_url)
-          .then(res => res.text())
-          .then(mdContent => {
-            // Markdown ফরম্যাট থেকে বাণীর লেখা আলাদা করা
-            const cleanText = mdContent.split('---').pop().trim();
-            const baniBox = document.getElementById('daily-bani');
-            if (baniBox && cleanText) {
-              baniBox.innerHTML = `🕊️ <strong>আজকের বাণী:</strong> ${cleanText}`;
-            }
-          });
-      }
-    })
-    .catch(error => console.log('Bani loading error:', error));
-</script>  
-</body>
-</html>
+      fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/daily_bani')
+        .then(response => response.json())
+        .then(files => {
+          if (files && files.length > 0) {
+            // সবচেয়ে নতুন সেভ হওয়া ফাইলটি নেওয়া
+            const latestFile = files[files.length - 1];
+            fetch(latestFile.download_url)
+              .then(res => res.text())
+              .then(mdContent => {
+                // Markdown ফরম্যাট থেকে বাণী আলাদা করা
+                const cleanText = mdContent.split('---').pop().trim();
+                const baniBox = document.getElementById('daily-bani');
+                if (baniBox && cleanText) {
+                  baniBox.innerHTML = `🕊️ <strong>আজকের বাণী:</strong> ${cleanText}`;
+                }
+              });
+          }
+        })
+        .catch(error => console.log('Bani loading error:', error));
+    </script>
