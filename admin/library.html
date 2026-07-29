@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peace Library - ই-বুক, গজল ও সাহিত্য সংকলন</title>
+  <style>
+    :root {
+      --orange: #ff9933;
+      --green: #138808;
+      --bg-gradient: linear-gradient(135deg, #e3f2fd 0%, #f1f8e9 100%);
+      --card-bg: #ffffff;
+      --dark: #2c3e50;
+      --text-color: #2c3e50;
+      --light-border: #e2ece2;
+    }
+    [data-theme="dark"] {
+      --bg-gradient: linear-gradient(135deg, #1e272c 0%, #0f1416 100%);
+      --card-bg: #263238;
+      --dark: #ffffff;
+      --text-color: #eceff1;
+      --light-border: #37474f;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+    /* প্রফেশনাল হেডার */
+    header {
+      background: var(--card-bg);
+      border-top: 5px solid var(--orange);
+      border-bottom: 3px solid var(--green);
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo-area h1 { color: var(--green); margin: 0; font-size: 24px; }
+    .logo-area h1 span { color: var(--orange); }
+    nav { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    
+    /* হোম পেজে ফেরার বিশেষ প্রফেশনাল বাটন */
+    .btn-home {
+      background: var(--orange);
+      color: white !important;
+      padding: 6px 14px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 13px;
+      box-shadow: 0 2px 6px rgba(255, 153, 51, 0.4);
+      transition: all 0.3s ease;
+    }
+    .btn-home:hover {
+      background: #e07b16;
+      transform: translateY(-1px);
+    }
+
+    nav a { text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 14px; transition: 0.2s; }
+    nav a:hover, nav a.active { color: var(--green); }
+    .theme-toggle-btn { background: var(--green); color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
+    
+    .container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
+    
+    /* ব্যানার সেকশন */
+    .hero-banner {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border-left: 6px solid var(--orange);
+      border-right: 6px solid var(--green);
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .hero-banner h2 { color: var(--green); margin-top: 0; font-size: 26px; }
+    
+    /* সার্চ ও ফিল্টার বার */
+    .search-box { margin-bottom: 20px; display: flex; justify-content: center; }
+    .search-box input {
+      width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px;
+      border: 2px solid var(--green); outline: none; font-size: 15px; background: var(--card-bg); color: var(--text-color);
+    }
+    .filter-tabs { display: flex; gap: 10px; justify-content: center; margin-bottom: 25px; flex-wrap: wrap; }
+    .tab-btn {
+      background: var(--card-bg); border: 1px solid var(--green); color: var(--green);
+      padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s;
+    }
+    .tab-btn.active, .tab-btn:hover { background: var(--green); color: white; }
+    .tab-btn.orange-tab { border-color: var(--orange); color: var(--orange); }
+    .tab-btn.orange-tab.active, .tab-btn.orange-tab:hover { background: var(--orange); color: white; }
+
+    /* গ্রিড লেআউট */
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .library-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      border-top: 4px solid var(--orange);
+      border-bottom: 1px solid var(--light-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .library-card.ebook-card { border-top-color: var(--green); }
+    .library-card h3 { margin: 10px 0 5px 0; color: var(--green); font-size: 18px; }
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; color: white; background: var(--orange); width: fit-content;
+    }
+    .badge.green { background: var(--green); }
+    .author-name { font-size: 13px; color: #7f8c8d; margin-bottom: 12px; }
+    audio { width: 100%; margin-top: 10px; }
+    .btn-read {
+      display: inline-block; width: 100%; text-align: center; padding: 8px 0; background: var(--green); color: white; text-decoration: none; font-weight: bold; border-radius: 6px; margin-top: 10px; font-size: 13px;
+    }
+    
+    /* ই-বুক রিডার সেকশন */
+    .pdf-viewer-box {
+      background: var(--card-bg); border-radius: 12px; padding: 20px; margin-top: 20px;
+      border-left: 5px solid var(--orange); box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: none;
+    }
+
+    footer { background: var(--card-bg); padding: 20px; margin-top: 50px; border-top: 3px solid var(--green); text-align: center; font-size: 13px; color: #7f8c8d; }
+  </style>
+</head>
+<body>
+
+  <!-- হেডার -->
+  <header>
+    <div class="logo-area">
+      <h1>🕊️ Peace <span>Library</span></h1>
+    </div>
+    <nav>
+      <!-- হোম পেজে ফিরে যাওয়ার বাটন -->
+      <a href="index.html" class="btn-home">🏠 হোম পেজে ফিরুন</a>
+      <a href="quran.html">📖 আল-কুরআন</a>
+      <a href="video.html">📺 পিস টিউব</a>
+      <a href="library.html" class="active">📚 লাইব্রেরি</a>
+      <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- ব্যানার -->
+    <div class="hero-banner">
+      <h2>📚 পিস ইসলামিক ও কালচারাল লাইব্রেরি</h2>
+      <p>মানসিক প্রশান্তি, সাহিত্য, আত্মউন্নয়নমূলক ই-বুক, গজল, কবিতা ও মন ছুঁয়ে যাওয়া শায়েরীর এক ডিজিটাল সংকলন।</p>
+    </div>
+
+    <!-- সার্চ ও ফিল্টার -->
+    <div class="search-box">
+      <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="🔍 বই, গজল বা কবিতার নাম দিয়ে খুঁজুন...">
+    </div>
+
+    <div class="filter-tabs">
+      <button class="tab-btn active" onclick="filterCategory('all', this)">সব সংকলন</button>
+      <button class="tab-btn ebook-tab" onclick="filterCategory('ebook', this)">📚 ই-বুক / PDF</button>
+      <button class="tab-btn orange-tab" onclick="filterCategory('nasheed', this)">🎵 গজল ও গান</button>
+      <button class="tab-btn orange-tab" onclick="filterCategory('poetry', this)">✍️ কবিতা ও শায়েরী</button>
+    </div>
+
+    <!-- লাইব্রেরি কন্টেন্ট গ্রিড -->
+    <div class="library-grid" id="libraryGrid">
+      
+      <!-- নমুনা ১: ই-বুক -->
+      <div class="library-card ebook-card" data-category="ebook">
+        <div>
+          <span class="badge green">📚 ই-বুক</span>
+          <h3>প্রশান্তির খোঁজে মন</h3>
+          <div class="author-name">লেখক: ড. মুহাম্মদ আরিফ</div>
+          <p style="font-size: 13px;">মানসিক চাপ ও হতাশা থেকে মুক্তির ইসলামিক ও বৈজ্ঞানিক গাইডলাইন।</p>
+        </div>
+        <button class="btn-read" onclick="openPdf('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', 'প্রশান্তির খোঁজে মন')">📖 অনলাইনে পড়ুন</button>
+      </div>
+
+      <!-- নমুনা ২: গজল -->
+      <div class="library-card" data-category="nasheed">
+        <div>
+          <span class="badge">🎵 ইসলামিক গজল</span>
+          <h3>তুমি পরম দয়াময়</h3>
+          <div class="author-name">শিল্পী: সাইফুল ইসলাম</div>
+          <p style="font-size: 13px;">হৃদয় জুড়িয়ে দেওয়ার মতো সুন্দর সুরের একটি ইসলামিক গান।</p>
+        </div>
+        <audio controls>
+          <source src="" type="audio/mp3">
+          আপনার ব্রাউজার অডিও সাপোর্ট করে না।
+        </audio>
+      </div>
+
+      <!-- নমুনা ৩: কবিতা / শায়েরী -->
+      <div class="library-card" data-category="poetry">
+        <div>
+          <span class="badge">✍️ কবিতা আবৃত্তি</span>
+          <h3>ধৈর্যের ফল মিষ্টি হয়</h3>
+          <div class="author-name">কণ্ঠ: আহমাদ রেজা</div>
+          <p style="font-size: 13px;">কঠিন দিনগুলোতে মনকে শক্ত রাখার অনুপ্রেরণামূলক আবৃত্তি।</p>
+        </div>
+        <audio controls>
+          <source src="" type="audio/mp3">
+        </audio>
+      </div>
+
+    </div>
+
+    <!-- ই-বুক ওপেন রিডার সেকশন -->
+    <div class="pdf-viewer-box" id="pdfViewer">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h3 id="pdfTitle" style="margin: 0; color: var(--green);">বই পড়া হচ্ছে...</h3>
+        <button onclick="closePdf()" style="background: var(--orange); color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer;">✕ বন্ধ করুন</button>
+      </div>
+      <iframe id="pdfFrame" src="" width="100%" height="500px" style="border: 1px solid var(--light-border); border-radius: 8px;"></iframe>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Peace for People - সর্বস্বত্ব সংরক্ষিত।</p>
+  </footer>
+
+  <script>
+    // ডার্ক মোড
+    function toggleTheme() {
+      const currentTheme = document.body.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        document.body.removeAttribute('data-theme');
+      } else {
+        document.body.setAttribute('data-theme', 'dark');
+      }
+    }
+
+    // ক্যাটাগরি ফিল্টার
+    function filterCategory(category, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.library-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // লাইভ সার্চ
+    function searchItems() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.library-card');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(input) ? 'flex' : 'none';
+      });
+    }
+
+    // PDF রিডার চালু করা
+    function openPdf(url, title) {
+      document.getElementById('pdfTitle').innerText = '📖 ' + title;
+      document.getElementById('pdfFrame').src = url;
+      document.getElementById('pdfViewer').style.display = 'block';
+      window.location.href = '#pdfViewer';
+    }
+
+    function closePdf() {
+      document.getElementById('pdfViewer').style.display = 'none';
+      document.getElementById('pdfFrame').src = '';
+    }
+  </script>
+</body>
+</html>
