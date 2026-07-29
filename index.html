@@ -647,32 +647,20 @@
             let countSpan = document.getElementById(id);
             countSpan.innerText = parseInt(countSpan.innerText) + 1;
         }
-
-    </script>
-  <!-- অফলাইন সার্ভিস ওয়ার্কার চালু করার কোড -->
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('Offline Support Ready!'))
-        .catch(err => console.log('Service Worker Failed:', err));
-    });
-  }
 <script>
   async function loadLatestBani() {
     try {
-      // 1. GitHub API থেকে বাণী ফোল্ডারের ফাইল তালিকা আনা
+      // GitHub API থেকে বাণী ফোল্ডারের ফাইলের তালিকা আনা
       const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + Date.now());
       if (!res.ok) return;
       
       const files = await res.json();
       if (Array.isArray(files) && files.length > 0) {
-        // সবচেয়ে নতুন ফাইলটি নেওয়া
+        // সবচেয়ে নতুন সেভ হওয়া ফাইলটি নির্বাচন
         const lastFile = files[files.length - 1];
         const textRes = await fetch(lastFile.download_url + '?t=' + Date.now());
         const rawText = await textRes.text();
 
-        // JSON অথবা YAML ফাইল থেকে quote এবং title আলাদা করা
         let quote = "", title = "আজকের বাণী", author = "Peace for People";
 
         if (rawText.trim().startsWith('{')) {
@@ -681,7 +669,6 @@
           title = parsed.title || title;
           author = parsed.author || author;
         } else {
-          // YAML / Frontmatter ফাইল হলে
           const quoteMatch = rawText.match(/quote:\s*["']?([^"'\n\r]+)["']?/);
           const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
           const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
@@ -691,7 +678,6 @@
           if (authorMatch) author = authorMatch[1];
         }
 
-        // ওয়েবসাইটে দেখানো
         const baniEl = document.getElementById('daily-bani');
         if (baniEl && quote) {
           baniEl.innerHTML = `🕊️ <strong>${title}:</strong> "${quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${author}</span>`;
@@ -704,3 +690,6 @@
 
   document.addEventListener('DOMContentLoaded', loadLatestBani);
 </script>
+</body>
+</html>
+  
