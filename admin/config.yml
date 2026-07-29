@@ -8,6 +8,17 @@ media_folder: "images"
 public_folder: "/images"
 
 collections:
+- name: "audio"
+    label: "Audio Recitations"
+    folder: "content/audio"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title / শিরোনাম", name: "title", widget: "string" }
+      - { label: "Reciter / ক্বারী বা শিল্পীর নাম", name: "artist", widget: "string", required: false }
+      - { label: "Audio File / MP3 ফাইল আপলোড", name: "audio_file", widget: "file", required: false }
+      - { label: "Audio URL / অনলাইন এমপিথ্রি লিংক (বিকল্প)", name: "audio_url", widget: "string", required: false }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
   - name: "videos"
     label: "Video Content"
     folder: "content/videos"
