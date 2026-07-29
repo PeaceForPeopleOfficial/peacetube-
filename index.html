@@ -650,16 +650,16 @@
 <script>
   async function loadLatestBani() {
     try {
-      // 1. GitHub API থেকে বাণী ফোল্ডারের ফাইল তালিকা আনা
+      // 1. GitHub API থেকে বাণী ফোল্ডারের ফাইল তালিকা নেওয়া
       const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + Date.now());
       if (!res.ok) return;
       
       const files = await res.json();
       if (Array.isArray(files) && files.length > 0) {
-        // সবচেয়ে নতুন সেভ হওয়া ফাইলটি নির্বাচন
+        // সবচেয়ে নতুন ফাইলটি সিলেক্ট করা
         const lastFile = files[files.length - 1];
         
-        // jsDelivr CDN দিয়ে ক্যাশ-ফ্রি ডেটা আনা
+        // jsDelivr CDN দিয়ে ক্যাশ-ফ্রি ডেটা ফেচ
         const rawRes = await fetch(`https://cdn.jsdelivr.net/gh/PeaceForPeopleOfficial/peacetube-@main/content/bani/${lastFile.name}?t=` + Date.now());
         const rawText = await rawRes.text();
 
@@ -692,3 +692,5 @@
 
   document.addEventListener('DOMContentLoaded', loadLatestBani);
 </script>
+</body>
+</html>
