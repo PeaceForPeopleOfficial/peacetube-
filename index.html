@@ -659,23 +659,42 @@
     });
   }
 <script>
-  // Decap CMS-এর বাণী স্বয়ংক্রিয়ভাবে দেখানোর সহজ লজিক
   async function loadLatestBani() {
     try {
-      // GitHub API থেকে bani ফোল্ডারের ফাইল তালিকা নেওয়া
+      // 1. GitHub API থেকে বাণী ফোল্ডারের ফাইল তালিকা আনা
       const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + Date.now());
       if (!res.ok) return;
       
       const files = await res.json();
       if (Array.isArray(files) && files.length > 0) {
-        // সবচেয়ে শেষের/নতুন ফাইলটি নেওয়া
+        // সবচেয়ে নতুন ফাইলটি নেওয়া
         const lastFile = files[files.length - 1];
-        const dataRes = await fetch(lastFile.download_url);
-        const data = await dataRes.json();
+        const textRes = await fetch(lastFile.download_url + '?t=' + Date.now());
+        const rawText = await textRes.text();
 
+        // JSON অথবা YAML ফাইল থেকে quote এবং title আলাদা করা
+        let quote = "", title = "আজকের বাণী", author = "Peace for People";
+
+        if (rawText.trim().startsWith('{')) {
+          const parsed = JSON.parse(rawText);
+          quote = parsed.quote || "";
+          title = parsed.title || title;
+          author = parsed.author || author;
+        } else {
+          // YAML / Frontmatter ফাইল হলে
+          const quoteMatch = rawText.match(/quote:\s*["']?([^"'\n\r]+)["']?/);
+          const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
+          const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
+
+          if (quoteMatch) quote = quoteMatch[1];
+          if (titleMatch) title = titleMatch[1];
+          if (authorMatch) author = authorMatch[1];
+        }
+
+        // ওয়েবসাইটে দেখানো
         const baniEl = document.getElementById('daily-bani');
-        if (baniEl && data.quote) {
-          baniEl.innerHTML = `🕊️ <strong>${data.title || 'আজকের বাণী'}:</strong> "${data.quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${data.author || 'Peace for People'}</span>`;
+        if (baniEl && quote) {
+          baniEl.innerHTML = `🕊️ <strong>${title}:</strong> "${quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${author}</span>`;
         }
       }
     } catch (err) {
