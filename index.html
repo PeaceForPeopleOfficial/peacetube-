@@ -659,25 +659,29 @@
     });
   }
 <script>
-  fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani')
-    .then(response => response.json())
-    .then(files => {
-      if (files && files.length > 0) {
-        // সবচেয়ে নতুন সেভ হওয়া বাণী ফাইলটি নেওয়া
-        const latestFile = files[files.length - 1];
-        fetch(latestFile.download_url)
-          .then(res => res.json())
-          .then(data => {
-            const titleEl = document.querySelector('.blog-section h2, .blog-section h3');
-            const quoteEl = document.querySelector('.blog-section p');
-            const authorEl = document.querySelector('.blog-section .author');
+  // Decap CMS-এর বাণী স্বয়ংক্রিয়ভাবে দেখানোর সহজ লজিক
+  async function loadLatestBani() {
+    try {
+      // GitHub API থেকে bani ফোল্ডারের ফাইল তালিকা নেওয়া
+      const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + Date.now());
+      if (!res.ok) return;
+      
+      const files = await res.json();
+      if (Array.isArray(files) && files.length > 0) {
+        // সবচেয়ে শেষের/নতুন ফাইলটি নেওয়া
+        const lastFile = files[files.length - 1];
+        const dataRes = await fetch(lastFile.download_url);
+        const data = await dataRes.json();
 
-            if (titleEl && data.title) titleEl.innerText = data.title;
-            if (quoteEl && data.quote) quoteEl.innerText = `"${data.quote}"`;
-            if (authorEl && data.author) authorEl.innerText = `- ${data.author || 'Peace for People'}`;
-          })
-          .catch(err => console.log('Bani JSON read error:', err));
+        const baniEl = document.getElementById('daily-bani');
+        if (baniEl && data.quote) {
+          baniEl.innerHTML = `🕊️ <strong>${data.title || 'আজকের বাণী'}:</strong> "${data.quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${data.author || 'Peace for People'}</span>`;
+        }
       }
-    })
-    .catch(error => console.log('Bani loading error:', error));
+    } catch (err) {
+      console.log('Bani fetch error:', err);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadLatestBani);
 </script>
