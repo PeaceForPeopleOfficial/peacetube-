@@ -659,23 +659,25 @@
     });
   }
 <script>
-      fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/daily_bani')
-        .then(response => response.json())
-        .then(files => {
-          if (files && files.length > 0) {
-            // সবচেয়ে নতুন সেভ হওয়া ফাইলটি নেওয়া
-            const latestFile = files[files.length - 1];
-            fetch(latestFile.download_url)
-              .then(res => res.text())
-              .then(mdContent => {
-                // Markdown ফরম্যাট থেকে বাণী আলাদা করা
-                const cleanText = mdContent.split('---').pop().trim();
-                const baniBox = document.getElementById('daily-bani');
-                if (baniBox && cleanText) {
-                  baniBox.innerHTML = `🕊️ <strong>আজকের বাণী:</strong> ${cleanText}`;
-                }
-              });
-          }
-        })
-        .catch(error => console.log('Bani loading error:', error));
-    </script>
+  fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani')
+    .then(response => response.json())
+    .then(files => {
+      if (files && files.length > 0) {
+        // সবচেয়ে নতুন সেভ হওয়া বাণী ফাইলটি নেওয়া
+        const latestFile = files[files.length - 1];
+        fetch(latestFile.download_url)
+          .then(res => res.json())
+          .then(data => {
+            const titleEl = document.querySelector('.blog-section h2, .blog-section h3');
+            const quoteEl = document.querySelector('.blog-section p');
+            const authorEl = document.querySelector('.blog-section .author');
+
+            if (titleEl && data.title) titleEl.innerText = data.title;
+            if (quoteEl && data.quote) quoteEl.innerText = `"${data.quote}"`;
+            if (authorEl && data.author) authorEl.innerText = `- ${data.author || 'Peace for People'}`;
+          })
+          .catch(err => console.log('Bani JSON read error:', err));
+      }
+    })
+    .catch(error => console.log('Bani loading error:', error));
+</script>
