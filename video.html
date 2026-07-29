@@ -545,27 +545,13 @@ function filterVideos(category, btn) {
             button.style.background = "#d4edda";
             button.disabled = true;
         }
-
-        // ৫. সেভ / বুকমার্ক
+// ৫. সেভ / বুকমার্ক ফাংশন
         function toggleSave(btn) {
             let card = btn.closest('.video-card');
             card.classList.toggle('is-saved');
-
+            
             if (card.classList.contains('is-saved')) {
                 btn.innerText = "✅ সেভড";
-                // সেভ করা ডাটা ব্রাউজারে ধরে রাখার লজিক
-function loadSavedStatus() {
-  let savedIds = JSON.parse(localStorage.getItem('savedVideos') || '[]');
-  let cards = document.querySelectorAll('.video-card');
-  cards.forEach((card, index) => {
-    if (savedIds.includes(index)) {
-      card.classList.add('is-saved');
-      let btn = card.querySelector('.save-btn');
-      if (btn) btn.innerText = "✅ সেভড";
-    }
-  });
-}
-window.addEventListener('DOMContentLoaded', loadSavedStatus);
                 btn.style.color = "var(--green)";
             } else {
                 btn.innerText = "🔖 সেভ";
@@ -573,7 +559,24 @@ window.addEventListener('DOMContentLoaded', loadSavedStatus);
             }
         }
 
-        // ৬. ভিডিও শেয়ার
+        // ৬. সেভ করা ডাটা ব্রাউজারে ধরে রাখার লজিক (localStorage)
+        function loadSavedStatus() {
+            let savedIds = JSON.parse(localStorage.getItem('savedVideos') || '[]');
+            let cards = document.querySelectorAll('.video-card');
+            cards.forEach((card, index) => {
+                if (savedIds.includes(index)) {
+                    card.classList.add('is-saved');
+                    let btn = card.querySelector('.save-btn');
+                    if (btn) {
+                        btn.innerText = "✅ সেভড";
+                        btn.style.color = "var(--green)";
+                    }
+                }
+            });
+        }
+        window.addEventListener('DOMContentLoaded', loadSavedStatus);
+
+        // ৭. ভিডিও শেয়ার
         function shareVideo(title, url) {
             if (navigator.share) {
                 navigator.share({
@@ -587,7 +590,7 @@ window.addEventListener('DOMContentLoaded', loadSavedStatus);
             }
         }
 
-        // ৭. লাইভ কমেন্ট
+        // ৮. লাইভ কমেন্ট
         function postComment(button) {
             let infoDiv = button.closest('.video-info');
             let input = infoDiv.querySelector('.comment-input');
@@ -604,7 +607,7 @@ window.addEventListener('DOMContentLoaded', loadSavedStatus);
             }
         }
 
-        // ৮. ডার্ক মোড
+        // ৯. ডার্ক মোড
         function toggleTheme() {
             const body = document.body;
             const btn = document.querySelector('.theme-toggle-btn');
@@ -619,3 +622,4 @@ window.addEventListener('DOMContentLoaded', loadSavedStatus);
     </script>
 </body>
 </html>
+     
