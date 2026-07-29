@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peace Podcast - অডিও বার্তা ও আলোচনা</title>
+  <style>
+    :root {
+      --orange: #ff9933;
+      --green: #138808;
+      --bg-gradient: linear-gradient(135deg, #e3f2fd 0%, #f1f8e9 100%);
+      --card-bg: #ffffff;
+      --dark: #2c3e50;
+      --text-color: #2c3e50;
+      --light-border: #e2ece2;
+    }
+    [data-theme="dark"] {
+      --bg-gradient: linear-gradient(135deg, #1e272c 0%, #0f1416 100%);
+      --card-bg: #263238;
+      --dark: #ffffff;
+      --text-color: #eceff1;
+      --light-border: #37474f;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+    /* হেডার সেকশন */
+    header {
+      background: var(--card-bg);
+      border-top: 5px solid var(--orange);
+      border-bottom: 3px solid var(--green);
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo-area h1 { color: var(--green); margin: 0; font-size: 24px; }
+    .logo-area h1 span { color: var(--orange); }
+    nav { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    
+    .btn-home {
+      background: var(--orange);
+      color: white !important;
+      padding: 6px 14px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 13px;
+      box-shadow: 0 2px 6px rgba(255, 153, 51, 0.4);
+      transition: all 0.3s ease;
+    }
+    .btn-home:hover { background: #e07b16; transform: translateY(-1px); }
+
+    nav a { text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 14px; transition: 0.2s; }
+    nav a:hover, nav a.active { color: var(--green); }
+    .theme-toggle-btn { background: var(--green); color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
+    
+    .container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
+    
+    /* ব্যানার */
+    .hero-banner {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border-left: 6px solid var(--green);
+      border-right: 6px solid var(--orange);
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .hero-banner h2 { color: var(--green); margin-top: 0; font-size: 26px; }
+
+    /* সার্চ বার */
+    .search-box { margin-bottom: 25px; display: flex; justify-content: center; }
+    .search-box input {
+      width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px;
+      border: 2px solid var(--orange); outline: none; font-size: 15px; background: var(--card-bg); color: var(--text-color);
+    }
+
+    /* পডকাস্ট কার্ড লিস্ট */
+    .podcast-list { display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px; }
+    .podcast-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      border-left: 5px solid var(--orange);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .podcast-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; }
+    .podcast-title { font-size: 18px; font-weight: bold; color: var(--green); margin: 0; }
+    .speaker-tag { background: #e8f5e9; color: var(--green); padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
+    .podcast-desc { font-size: 14px; color: var(--text-color); margin: 0; line-height: 1.5; }
+    
+    audio { width: 100%; margin-top: 5px; }
+
+    footer { background: var(--card-bg); padding: 20px; margin-top: 50px; border-top: 3px solid var(--green); text-align: center; font-size: 13px; color: #7f8c8d; }
+  </style>
+</head>
+<body>
+
+  <!-- হেডার -->
+  <header>
+    <div class="logo-area">
+      <h1>🎙️ Peace <span>Podcast</span></h1>
+    </div>
+    <nav>
+      <a href="index.html" class="btn-home">🏠 হোম পেজে ফিরুন</a>
+      <a href="quran.html">📖 আল-কুরআন</a>
+      <a href="video.html">📺 পিস টিউব</a>
+      <a href="podcast.html" class="active">🎙️ পডকাস্ট</a>
+      <a href="library.html">📚 লাইব্রেরি</a>
+      <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- ব্যানার -->
+    <div class="hero-banner">
+      <h2>🎙️ শান্তির বার্তা ও অডিও আলোচনা</h2>
+      <p>মানসিক প্রশান্তি, আত্মউন্নয়ন ও ইসলামিক জীবনবিধান সম্পর্কিত সংক্ষিপ্ত ও বিস্তারিত অডিও আলোচনার সংকলন।</p>
+    </div>
+
+    <!-- সার্চ বার -->
+    <div class="search-box">
+      <input type="text" id="searchInput" onkeyup="searchPodcasts()" placeholder="🔍 পডকাস্ট বা বক্তার নাম দিয়ে খুঁজুন...">
+    </div>
+
+    <!-- পডকাস্ট তালিকা -->
+    <div class="podcast-list" id="podcastList">
+      
+      <!-- নমুনা পডকাস্ট ১ -->
+      <div class="podcast-card">
+        <div class="podcast-header">
+          <h3 class="podcast-title">হতাশা থেকে মুক্তির সহজ উপায়</h3>
+          <span class="speaker-tag">🎙️ বক্তা: মাওলানা আহমাদ উল্লাহ</span>
+        </div>
+        <p class="podcast-desc">জীবনের কঠিন সময়ে কীভাবে মনকে শান্ত রাখবেন এবং আল্লাহর ওপর ভরসা রেখে মানসিকভাবে শক্ত থাকবেন, তা নিয়ে সংক্ষিপ্ত আলোচনা।</p>
+        <audio controls>
+          <source src="" type="audio/mp3">
+          আপনার ব্রাউজার অডিও সাপোর্ট করে না।
+        </audio>
+      </div>
+
+      <!-- নমুনা পডকাস্ট ২ -->
+      <div class="podcast-card">
+        <div class="podcast-header">
+          <h3 class="podcast-title">পারিবারিক শান্তিতে পারস্পরিক সহনশীলতা</h3>
+          <span class="speaker-tag">🎙️ বক্তা: ড. জাকির নায়েক</span>
+        </div>
+        <p class="podcast-desc">পরিবারে সুসম্পর্ক বজায় রাখা এবং ছোটখাটো ভুলত্রুটি ক্ষমার মানসিকতা গড়ে তোলার ওপর একটি বিশেষ দিকনির্দেশনা।</p>
+        <audio controls>
+          <source src="" type="audio/mp3">
+        </audio>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 Peace for People - সর্বস্বত্ব সংরক্ষিত।</p>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const currentTheme = document.body.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        document.body.removeAttribute('data-theme');
+      } else {
+        document.body.setAttribute('data-theme', 'dark');
+      }
+    }
+
+    function searchPodcasts() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.podcast-card');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(input) ? 'flex' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
