@@ -320,107 +320,93 @@
   </footer>
 
   <!-- জাভাস্ক্রিপ্ট লজিক -->
-  <script>
-    // ১. ডার্ক/নাইট মোড সুইচ করার ফাংশন
-    function toggleTheme() {
-      const html = document.documentElement;
-      const btn = document.querySelector('.theme-toggle-btn');
-      const isDark = html.getAttribute('data-theme') === 'dark';
+ <script>
+  // ১. ডার্ক/নাইট মোড লজিক
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.querySelector('.theme-toggle-btn');
+    const isDark = html.getAttribute('data-theme') === 'dark';
 
-      if (isDark) {
-        html.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-        if (btn) btn.innerText = "🌙 মোড";
-      } else {
-        html.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        if (btn) btn.innerText = "☀️ মোড";
-      }
+    if (isDark) {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      if (btn) btn.innerText = "🌙 মোড";
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      if (btn) btn.innerText = "☀️ মোড";
     }
+  }
 
-    // ২. ব্রিদিং টাইমার
-    const circle = document.getElementById('breathCircle');
-    const text = document.getElementById('breathText');
-    if (circle && text) {
-      setInterval(() => {
-        circle.classList.toggle('inhale');
-        if (circle.classList.contains('inhale')) {
-          circle.innerText = "শ্বাস নিন...";
-          text.innerText = "ধীরে ধীরে শ্বাস গ্রহণ করুন...";
+  // ২. উন্নত ও ত্রুটিমুক্ত বাণী লোডার (YAML Multi-line Fix)
+  async function loadLatestBani() {
+    const baniEl = document.getElementById('daily-bani');
+    if (!baniEl) return;
+
+    try {
+      const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + Date.now());
+      if (!res.ok) return;
+      
+      const files = await res.json();
+      if (Array.isArray(files) && files.length > 0) {
+        const lastFile = files[files.length - 1];
+        const rawRes = await fetch(`https://cdn.jsdelivr.net/gh/PeaceForPeopleOfficial/peacetube-@main/content/bani/${lastFile.name}?t=` + Date.now());
+        const rawText = await rawRes.text();
+
+        let quote = "", title = "আজকের বাণী", author = "Peace for People";
+
+        // JSON বা YAML Parsing
+        if (rawText.trim().startsWith('{')) {
+          const parsed = JSON.parse(rawText);
+          quote = parsed.quote || parsed.body || "";
+          title = parsed.title || title;
+          author = parsed.author || author;
         } else {
-          circle.innerText = "শ্বাস ছাড়ুন...";
-          text.innerText = "ধীরে ধীরে শ্বাস ছেড়ে মন হালকা করুন...";
-        }
-      }, 4000);
-    }
+          // Title Extract
+          const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
+          if (titleMatch) title = titleMatch[1];
 
-    // ৩. লাইক বাটন
-    function toggleLike(id) {
-      const countSpan = document.getElementById(id);
-      if (countSpan) {
-        countSpan.innerText = parseInt(countSpan.innerText) + 1;
-      }
-    }
+          // Author Extract
+          const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
+          if (authorMatch) author = authorMatch[1];
 
-    // ৪. মেসেজ সাবমিট
-    function handlePostSubmit(e) {
-      e.preventDefault();
-      alert('আপনার বার্তাটি পাওয়া গেছে। মন হালকা করার জন্য ধন্যবাদ! 🕊️');
-      document.getElementById('anonymousName').value = '';
-      document.getElementById('anonymousText').value = '';
-    }
-
-    // ৫. অটোমেটিক বাণী লোড করা
-    async function loadLatestBani() {
-      const baniEl = document.getElementById('daily-bani');
-      if (!baniEl) return;
-
-      try {
-        const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + Date.now());
-        if (!res.ok) return;
-        
-        const files = await res.json();
-        if (Array.isArray(files) && files.length > 0) {
-          const lastFile = files[files.length - 1];
-          const rawRes = await fetch(`https://cdn.jsdelivr.net/gh/PeaceForPeopleOfficial/peacetube-@main/content/bani/${lastFile.name}?t=` + Date.now());
-          const rawText = await rawRes.text();
-
-          let quote = "", title = "আজকের বাণী", author = "Peace for People";
-
-          if (rawText.trim().startsWith('{')) {
-            const parsed = JSON.parse(rawText);
-            quote = parsed.quote || parsed.body || "";
-            title = parsed.title || title;
-            author = parsed.author || author;
-          } else {
-            const quoteMatch = rawText.match(/quote:\s*["']?([^"'\n\r]+)["']?/);
-            const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
-            const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
-
-            if (quoteMatch) quote = quoteMatch[1];
-            if (titleMatch) title = titleMatch[1];
-            if (authorMatch) author = authorMatch[1];
+          // Quote Extract (Multi-line / Single line handler)
+          if (rawText.includes('quote:')) {
+            const quotePart = rawText.split('quote:')[1];
+            // Author/Title বা অন্য কোনো কি-ওয়ার্ড আসার আগ পর্যন্ত অংশ নেওয়া
+            const cleanQuote = quotePart.split(/\n[a-zA-Z0-9_-]+:/)[0];
+            quote = cleanQuote.replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
           }
 
-          if (quote) {
-            baniEl.innerHTML = `🕊️ <strong>${title}:</strong> "${quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${author}</span>`;
+          // যদি quote তাও খালি থাকে তবে Frontmatter এর নিচের বডি অংশ নেওয়া
+          if (!quote && rawText.includes('---')) {
+            const parts = rawText.split('---');
+            if (parts.length >= 3) {
+              quote = parts.slice(2).join('---').replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
+            }
           }
         }
-      } catch (err) {
-        console.log('Bani fetch error:', err);
+
+        if (quote) {
+          baniEl.innerHTML = `🕊️ <strong>${title}:</strong> "${quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${author}</span>`;
+        }
       }
+    } catch (err) {
+      console.log('Bani fetch error:', err);
+    }
+  }
+
+  // ৩. পেজ লোড সিঙ্ক
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    const btn = document.querySelector('.theme-toggle-btn');
+    if (savedTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (btn) btn.innerText = "☀️ মোড";
     }
 
-    // ৬. পেজ লোড হবার পর সব ফিচার সিঙ্ক
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('theme');
-      const btn = document.querySelector('.theme-toggle-btn');
-      if (savedTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        if (btn) btn.innerText = "☀️ মোড";
-      }
-      loadLatestBani();
-    });
-  </script>
+    loadLatestBani();
+  });
+</script>
 </body>
 </html>
