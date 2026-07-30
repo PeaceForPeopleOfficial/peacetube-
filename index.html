@@ -615,65 +615,60 @@
             else if (mood === 'peaceful') message = "🧘 মানসিক প্রশান্তিই জীবনের আসল সম্পদ। আপনার এই শান্ত মনোভাবকে ধরে রাখুন।";
             alert(message);
         }
+<script>
+  // ১. ডার্ক/নাইট মোড লজিক
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.querySelector('.theme-toggle-btn');
+    const currentTheme = html.getAttribute('data-theme');
 
-     // ৮. ডার্ক মোড লজিক
-function toggleTheme() {
-  const html = document.documentElement;
-  const btn = document.querySelector('.theme-toggle-btn');
-  const isDark = html.getAttribute('data-theme') === 'dark';
-
-  if (isDark) {
-    html.removeAttribute('data-theme');
-    localStorage.setItem('theme', 'light');
-    if (btn) btn.innerText = "🌙 মোড";
-  } else {
-    html.setAttribute('data-theme', 'dark');
-    localStorage.setItem('theme', 'dark');
-    if (btn) btn.innerText = "☀️ মোড";
+    if (currentTheme === 'dark') {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      if (btn) btn.innerText = "🌙 মোড";
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      if (btn) btn.innerText = "☀️ মোড";
+    }
   }
-}
 
-// পেজ লোড হলেই থিম চেক
-document.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('theme');
-  const btn = document.querySelector('.theme-toggle-btn');
-  if (savedTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    if (btn) btn.innerText = "☀️ মোড";
+  // ২. ব্রিদিং টাইমার লজিক
+  const circle = document.getElementById('breathCircle');
+  const text = document.getElementById('breathText');
+  if (circle && text) {
+    setInterval(() => {
+      circle.classList.toggle('inhale');
+      if (circle.classList.contains('inhale')) {
+        circle.innerText = "শ্বাস নিন...";
+        text.innerText = "ধীরে ধীরে শ্বাস গ্রহণ করুন...";
+      } else {
+        circle.innerText = "শ্বাস ছাড়ুন...";
+        text.innerText = "ধীরে ধীরে শ্বাস ছেড়ে মন হালকা করুন...";
+      }
+    }, 4000);
   }
-});
 
-        // ৯. ব্রিদিং টাইমার লজিক
-        const circle = document.getElementById('breathCircle');
-        const text = document.getElementById('breathText');
-        setInterval(() => {
-            circle.classList.toggle('inhale');
-            if(circle.classList.contains('inhale')) {
-                circle.innerText = "শ্বাস নিন...";
-                text.innerText = "ধীরে ধীরে শ্বাস গ্রহণ করুন...";
-            } else {
-                circle.innerText = "শ্বাস ছাড়ুন...";
-                text.innerText = "ধীরে ধীরে শ্বাস ছেড়ে মন হালকা করুন...";
-            }
-        }, 4000);
+  // ৩. লাইক বাটন লজিক
+  function toggleLike(id) {
+    let countSpan = document.getElementById(id);
+    if (countSpan) {
+      countSpan.innerText = parseInt(countSpan.innerText) + 1;
+    }
+  }
 
-        function toggleLike(id) {
-            let countSpan = document.getElementById(id);
-            countSpan.innerText = parseInt(countSpan.innerText) + 1;
-        }
-  <script>
+  // ৪. স্বয়ংক্রিয় বাণী লোড করার লজিক
   async function loadLatestBani() {
+    const baniEl = document.getElementById('daily-bani');
+    if (!baniEl) return;
+
     try {
-      // 1. GitHub API থেকে বাণী ফোল্ডারের ফাইল তালিকা নেওয়া
       const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + Date.now());
       if (!res.ok) return;
       
       const files = await res.json();
       if (Array.isArray(files) && files.length > 0) {
-        // সবচেয়ে নতুন ফাইলটি নেওয়া
         const lastFile = files[files.length - 1];
-        
-        // jsDelivr CDN দিয়ে ক্যাশ-ফ্রি ডেটা ফেচ
         const rawRes = await fetch(`https://cdn.jsdelivr.net/gh/PeaceForPeopleOfficial/peacetube-@main/content/bani/${lastFile.name}?t=` + Date.now());
         const rawText = await rawRes.text();
 
@@ -681,7 +676,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (rawText.trim().startsWith('{')) {
           const parsed = JSON.parse(rawText);
-          quote = parsed.quote || "";
+          quote = parsed.quote || parsed.body || "";
           title = parsed.title || title;
           author = parsed.author || author;
         } else {
@@ -694,8 +689,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (authorMatch) author = authorMatch[1];
         }
 
-        const baniEl = document.getElementById('daily-bani');
-        if (baniEl && quote) {
+        if (quote) {
           baniEl.innerHTML = `🕊️ <strong>${title}:</strong> "${quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${author}</span>`;
         }
       }
@@ -704,7 +698,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  document.addEventListener('DOMContentLoaded', loadLatestBani);
+  // ৫. পেজ লোড হওয়ার পর থিম ও বাণী সিঙ্ক করা
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    const btn = document.querySelector('.theme-toggle-btn');
+    if (savedTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (btn) btn.innerText = "☀️ মোড";
+    }
+
+    loadLatestBani();
+  });
 </script>
 </body>
-</html>      
+</html>
+    
