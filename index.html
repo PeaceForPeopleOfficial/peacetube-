@@ -616,13 +616,13 @@
             alert(message);
         }
 <script>
-  // ১. ডার্ক/নাইট মোড লজিক
+  // ১. ডার্ক মোড অন/অফ করার লজিক
   function toggleTheme() {
     const html = document.documentElement;
     const btn = document.querySelector('.theme-toggle-btn');
-    const currentTheme = html.getAttribute('data-theme');
+    const isDark = html.getAttribute('data-theme') === 'dark';
 
-    if (currentTheme === 'dark') {
+    if (isDark) {
       html.removeAttribute('data-theme');
       localStorage.setItem('theme', 'light');
       if (btn) btn.innerText = "🌙 মোড";
@@ -633,31 +633,7 @@
     }
   }
 
-  // ২. ব্রিদিং টাইমার লজিক
-  const circle = document.getElementById('breathCircle');
-  const text = document.getElementById('breathText');
-  if (circle && text) {
-    setInterval(() => {
-      circle.classList.toggle('inhale');
-      if (circle.classList.contains('inhale')) {
-        circle.innerText = "শ্বাস নিন...";
-        text.innerText = "ধীরে ধীরে শ্বাস গ্রহণ করুন...";
-      } else {
-        circle.innerText = "শ্বাস ছাড়ুন...";
-        text.innerText = "ধীরে ধীরে শ্বাস ছেড়ে মন হালকা করুন...";
-      }
-    }, 4000);
-  }
-
-  // ৩. লাইক বাটন লজিক
-  function toggleLike(id) {
-    let countSpan = document.getElementById(id);
-    if (countSpan) {
-      countSpan.innerText = parseInt(countSpan.innerText) + 1;
-    }
-  }
-
-  // ৪. স্বয়ংক্রিয় বাণী লোড করার লজিক
+  // ২. স্বয়ংক্রিয়ভাবে লেটেস্ট বাণী লোড করা
   async function loadLatestBani() {
     const baniEl = document.getElementById('daily-bani');
     if (!baniEl) return;
@@ -698,7 +674,7 @@
     }
   }
 
-  // ৫. পেজ লোড হওয়ার পর থিম ও বাণী সিঙ্ক করা
+  // ৩. পেজ লোড হওয়ার সাথে সাথে সেভ হওয়া ডার্ক মোড এবং বাণী চালু করা
   document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     const btn = document.querySelector('.theme-toggle-btn');
@@ -712,4 +688,3 @@
 </script>
 </body>
 </html>
-    
