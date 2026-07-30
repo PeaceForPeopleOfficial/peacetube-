@@ -616,18 +616,32 @@
             alert(message);
         }
 
-        // ৮. ডার্ক মোড লজিক
-        function toggleTheme() {
-            const body = document.body;
-            const btn = document.querySelector('.theme-toggle-btn');
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
-                btn.innerText = "🌙 মোড";
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                btn.innerText = "☀️ মোড";
-            }
-        }
+     // ৮. ডার্ক মোড লজিক
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.querySelector('.theme-toggle-btn');
+  const isDark = html.getAttribute('data-theme') === 'dark';
+
+  if (isDark) {
+    html.removeAttribute('data-theme');
+    localStorage.setItem('theme', 'light');
+    if (btn) btn.innerText = "🌙 মোড";
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+    if (btn) btn.innerText = "☀️ মোড";
+  }
+}
+
+// পেজ লোড হলেই থিম চেক
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme');
+  const btn = document.querySelector('.theme-toggle-btn');
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    if (btn) btn.innerText = "☀️ মোড";
+  }
+});
 
         // ৯. ব্রিদিং টাইমার লজিক
         const circle = document.getElementById('breathCircle');
