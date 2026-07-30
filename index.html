@@ -340,14 +340,15 @@
       if (btn) btn.innerText = "☀️ মোড";
     }
   }
-// ২. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক (ক্যাশ-ফ্রি ও নির্ভুল)
+// ২. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক (সঠিক ফোল্ডার পাথ সহ)
     async function loadLatestBani() {
       const baniEl = document.getElementById('daily-bani');
       if (!baniEl) return;
 
       try {
         const timeParam = new Date().getTime();
-        const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + timeParam, { cache: 'no-store' });
+        // সঠিক ফোল্ডার পাথ: content/daily_bani
+        const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/daily_bani?t=' + timeParam, { cache: 'no-store' });
         if (!res.ok) return;
         
         const files = await res.json();
@@ -355,18 +356,18 @@
           const validFiles = files.filter(f => f.type === 'file' && !f.name.startsWith('.'));
           if (validFiles.length === 0) return;
 
-          // বর্ণানুক্রমিক সর্ট করে সর্বশেষ ফাইল নেওয়া
+          // বর্ণানুক্রমিক সর্ট করে একদম সর্বশেষ তারিখের ফাইল নেওয়া
           validFiles.sort((a, b) => a.name.localeCompare(b.name));
           const lastFile = validFiles[validFiles.length - 1];
 
           // raw fetch
-          const rawUrl = 'https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/bani/' + lastFile.name + '?t=' + timeParam;
+          const rawUrl = 'https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/daily_bani/' + lastFile.name + '?t=' + timeParam;
           const rawRes = await fetch(rawUrl, { cache: 'no-store' });
           const rawText = await rawRes.text();
 
           let quote = "", title = "আজকের বাণী", author = "Peace for People";
 
-          // Line by line parsing for standard YAML frontmatter
+          // Line by line parsing
           const lines = rawText.split('\n');
           for (let line of lines) {
             const trimmed = line.trim();
@@ -379,7 +380,6 @@
             }
           }
 
-          // quote না পেলে YAML এর নিচের বডি অংশ নেওয়া
           if (!quote && rawText.includes('---')) {
             const parts = rawText.split('---');
             if (parts.length >= 3) {
