@@ -340,7 +340,7 @@
       if (btn) btn.innerText = "☀️ মোড";
     }
   }
-// ২. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক (ক্যাশ ছাড়া ও সমস্ত ফরম্যাট সাপোর্ট)
+// ২. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক (ক্যাশ ছাড়া ও অল-ফরম্যাট সাপোর্ট)
     async function loadLatestBani() {
       const baniEl = document.getElementById('daily-bani');
       if (!baniEl) return;
@@ -355,49 +355,38 @@
           const validFiles = files.filter(f => f.type === 'file' && !f.name.startsWith('.'));
           if (validFiles.length === 0) return;
 
-          // বর্ণানুক্রমিক সর্ট করে একদম শেষ ফাইল নির্বাচন
+          // বর্ণানুক্রমিক সর্ট করে একদম শেষের ফাইল বেছে নেওয়া
           validFiles.sort((a, b) => a.name.localeCompare(b.name));
           const lastFile = validFiles[validFiles.length - 1];
 
-          // raw fetch (ক্যাশ ছাড়া)
+          // raw content fetch
           const rawUrl = 'https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/bani/' + lastFile.name + '?t=' + timeParam;
           const rawRes = await fetch(rawUrl, { cache: 'no-store' });
           const rawText = await rawRes.text();
 
           let quote = "", title = "আজকের বাণী", author = "Peace for People";
 
-          if (rawText.trim().startsWith('{')) {
-            const parsed = JSON.parse(rawText);
-            quote = parsed.quote || parsed.body || parsed.title || "";
-            title = parsed.title || title;
-            author = parsed.author || author;
-          } else {
-            // Title extraction
-            const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
-            if (titleMatch) title = titleMatch[1];
+          // Frontmatter extraction (Markdown parsing)
+          const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
+          if (titleMatch) title = titleMatch[1].trim();
 
-            // Author extraction
-            const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
-            if (authorMatch) author = authorMatch[1];
+          const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
+          if (authorMatch) author = authorMatch[1].trim();
 
-            // Quote / Body extraction
-            if (rawText.includes('quote:')) {
-              const quotePart = rawText.split('quote:')[1];
-              const cleanQuote = quotePart.split(/\n[a-zA-Z0-9_-]+:/)[0];
-              quote = cleanQuote.replace(/^[\s---"'\r\n]+|[\s---"'\r\n]+$/g, '').trim();
-            } 
-            
-            // Frontmatter '---' এর বাইরের বডি পার্ট নেওয়া
-            if (!quote && rawText.includes('---')) {
-              const parts = rawText.split('---');
-              if (parts.length >= 3) {
-                quote = parts.slice(2).join('---').replace(/^[\s\r\n]+|[\s\r\n]+$/g, '').trim();
-              }
+          const quoteMatch = rawText.match(/quote:\s*["']?([^"'\n\r]+)["']?/);
+          if (quoteMatch) quote = quoteMatch[1].trim();
+
+          // quote না পেলে --- এর নিচের অংশ নেওয়া
+          if (!quote && rawText.includes('---')) {
+            const parts = rawText.split('---');
+            if (parts.length >= 3) {
+              quote = parts.slice(2).join('---').trim();
             }
+          }
 
-            if (!quote) {
-              quote = rawText.replace(/---[\s\S]*?---/, '').trim();
-            }
+          // তারপরও না পেলে পুরো টেক্সট ক্লিন করে নেওয়া
+          if (!quote) {
+            quote = rawText.replace(/---[\s\S]*?---/, '').trim();
           }
 
           if (quote) {
