@@ -351,52 +351,27 @@ function completeChallenge() {
     text.innerHTML += " <br><span style='color: #138808; font-size: 13px;'>✨ সুন্দর কাজটির জন্য আপনাকে ধন্যবাদ!</span>";
   }
 }
-// ২. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক
-async function loadLatestBani() {
-  const baniEl = document.getElementById('daily-bani');
-  if (!baniEl) return;
-  try {
-    const timeParam = new Date().getTime();
-    const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/daily_bani?t=' + timeParam, { cache: 'no-store' });
-    if (!res.ok) return;
-    const files = await res.json();
+// অ্যাডমিন প্যানেল থেকে অটো লেটেস্ট বাণী লোড করার লজিক
+fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/daily_bani')
+  .then(res => res.json())
+  .then(files => {
     if (Array.isArray(files) && files.length > 0) {
-      const validFiles = files.filter(f => f.type === 'file' && !f.name.startsWith('.'));
-      if (validFiles.length === 0) return;
-      
-      validFiles.sort((a, b) => a.name.localeCompare(b.name));
-      const lastFile = validFiles[validFiles.length - 1];
-      
-      const rawUrl = 'https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/daily_bani/' + lastFile.name + '?t=' + timeParam;
-      const rawRes = await fetch(rawUrl, { cache: 'no-store' });
-      const rawText = await rawRes.text();
-      
-      // অ্যাডমিন প্যানেলের ফাইল থেকে সঠিক টেক্সট বের করার লজিক
-      let cleanQuote = rawText;
-      const lines = rawText.split('\n');
-      for (let line of lines) {
-        if (line.startsWith('quote:')) {
-          cleanQuote = line.replace('quote:', '').trim().replace(/^["']|["']$/g, '');
-          break;
-        }
-      }
-      if (cleanQuote === rawText) {
-        cleanQuote = rawText.replace(/---[\s\S]*?---/, '').trim();
-      }
-      
-      baniEl.innerText = cleanQuote ? "✨ " + cleanQuote : "আজকের বাণী পাওয়া যায়নি।";
+      const lastFile = files[files.length - 1];
+      return fetch(lastFile.download_url);
     }
-  } catch (error) {
-    console.error("বাণী লোড করতে সমস্যা হয়েছে:", error);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", loadLatestBani);
-// আজকের বাণী অটো লোড
-fetch('https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/daily_bani/2026-07-30.md')
-  .then(res => res.text())
+  })
+  .then(res => res ? res.text() : Promise.reject())
   .then(data => {
-    const text = data.split('quote:')[1]?.replace(/["']/g, '').trim() || "জীবনের প্রতিটি কঠিন পরিস্থিতি আপনাকে শক্তিশালী করার জন্যই আসে।";
-    document.getElementById('daily-bani').innerText = "✨ " + text;
-  });   
- 
+    let quote = data;
+    const lines = data.split('\n');
+    for (let line of lines) {
+      if (line.startsWith('quote:')) {
+        quote = line.replace('quote:', '').trim().replace(/^["']|["']$/g, '');
+        break;
+      }
+    }
+    document.getElementById('daily-bani').innerText = "✨ " + quote;
+  })
+  .catch(err => {
+    document.getElementById('daily-bani').innerText = "✨ জীবনের প্রতিটি কঠিন পরিস্থিতি আপনাকে শক্তিশালী করার জন্যই আসে।";
+  });
