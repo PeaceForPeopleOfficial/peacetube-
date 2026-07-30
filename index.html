@@ -1,370 +1,611 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Peace for People - শান্তির নিরাপদ আশ্রয়</title>
-  <meta name="keywords" content="মানসিক প্রশান্তি, মন শান্ত করার উপায়, দুশ্চিন্তা মুক্তির উপায়, Peace for People, মানসিক সমস্যা শেয়ার, আল কুরআন, পিস টিউব">
-  <meta name="description" content="মানসিক প্রশান্তি ও আত্মাকে শান্ত করার শান্তির বাণী, কুরআন তিলাওয়াত এবং আপনার মনের কথা শেয়ার করার নিরাপদ স্থান।">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <style>
-    :root {
-      --orange: #ff9933;
-      --green: #138808;
-      --bg-gradient: linear-gradient(135deg, #e3f2fd 0%, #f1f8e9 100%);
-      --card-bg: #ffffff;
-      --dark: #2c3e50;
-      --text-color: #2c3e50;
-      --light-border: #e2ece2;
-      --red-alert: #d32f2f;
-    }
-    [data-theme="dark"] {
-      --bg-gradient: linear-gradient(135deg, #1e272c 0%, #0f1416 100%);
-      --card-bg: #263238;
-      --dark: #ffffff;
-      --text-color: #eceff1;
-      --light-border: #37474f;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--bg-gradient);
-      background-attachment: fixed;
-      margin: 0;
-      padding: 0;
-      color: var(--text-color);
-      transition: background 0.3s, color 0.3s;
-    }
-    header {
-      background: var(--card-bg);
-      border-top: 5px solid var(--orange);
-      border-bottom: 3px solid var(--green);
-      padding: 15px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .logo-area h1 { color: var(--green); margin: 0; font-size: 24px; }
-    .logo-area h1 span { color: var(--orange); }
-    nav { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
-    nav a { text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 14px; transition: 0.2s; }
-    nav a:hover { color: var(--green); }
-    .theme-toggle-btn {
-      background: var(--green);
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 13px;
-    }
-    .container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
-    .helpline-card {
-      background: #ffebee;
-      border: 1px solid #ffcdd2;
-      border-left: 6px solid var(--red-alert);
-      border-radius: 10px;
-      padding: 15px 20px;
-      margin-bottom: 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .helpline-card h4 { margin: 0; color: var(--red-alert); font-size: 16px; }
-    .helpline-card p { margin: 3px 0 0 0; font-size: 13px; color: #b71c1c; }
-    .search-box { margin-bottom: 25px; display: flex; justify-content: center; }
-    .search-box input {
-      width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px;
-      border: 2px solid var(--green); outline: none; font-size: 15px;
-      background: var(--card-bg); color: var(--text-color);
-    }
-    .welcome-box {
-      background: var(--card-bg); padding: 35px 25px; border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 6px solid var(--orange);
-      text-align: center; margin-bottom: 25px;
-    }
-    .welcome-box h2 { color: var(--green); margin-top: 0; }
-    .btn-group { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-    .btn {
-      display: inline-block; padding: 10px 22px; border-radius: 25px;
-      text-decoration: none; font-weight: bold; transition: 0.3s; border: none;
-      cursor: pointer; font-size: 14px;
-    }
-    .btn-green { background: var(--green); color: white; }
-    .btn-green:hover { background: #0e6306; }
-    .btn-orange { background: var(--orange); color: white; }
-    .btn-orange:hover { background: #e07b16; }
-    .quran-ayat-box {
-      background: var(--card-bg); border-radius: 15px; padding: 20px;
-      margin-bottom: 25px; border-right: 6px solid var(--green);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;
-    }
-    .quran-ayat-box h3 { color: var(--green); margin-top: 0; }
-    .arabic-text { font-size: 22px; font-weight: bold; color: var(--green); margin: 10px 0; }
-    .special-tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
-    @media (max-width: 768px) { .special-tools-grid { grid-template-columns: 1fr; } }
-    .tool-card { background: var(--card-bg); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; }
-    .mood-tracker {
-      background: var(--card-bg); padding: 20px; border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; margin-bottom: 25px;
-      border-top: 5px solid var(--orange);
-    }
-    .mood-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
-    .mood-btn { background: none; border: none; font-size: 35px; cursor: pointer; transition: transform 0.2s; }
-    .mood-btn:hover { transform: scale(1.2); }
-    .mood-btn span { display: block; font-size: 12px; margin-top: 5px; color: var(--text-color); }
-    .breathing-box {
-      background: var(--card-bg); padding: 20px; border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; margin-bottom: 25px;
-      border-top: 5px solid var(--green);
-    }
-    .breathing-circle {
-      width: 90px; height: 90px; background: var(--green); border-radius: 50%;
-      margin: 15px auto; display: flex; align-items: center; justify-content: center;
-      color: white; font-weight: bold; transition: transform 4s ease-in-out;
-    }
-    .breathing-circle.inhale { transform: scale(1.3); background: var(--orange); }
-    .filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-    .tab-btn {
-      background: var(--card-bg); border: 1px solid var(--green); color: var(--green);
-      padding: 8px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;
-    }
-    .tab-btn.active { background: var(--green); color: white; }
-    .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
-    @media (max-width: 768px) { .main-layout { grid-template-columns: 1fr; } }
-    .blog-section h2 { border-left: 5px solid var(--green); padding-left: 10px; color: var(--green); margin-top: 0; }
-    .blog-card {
-      background: var(--card-bg); padding: 20px; border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.02); margin-bottom: 20px; border: 1px solid var(--light-border);
-    }
-    .blog-card h3 { margin-top: 0; color: var(--green); }
-    .blog-card p { line-height: 1.6; }
-    .blog-meta { font-size: 13px; color: #95a5a6; margin-bottom: 10px; }
-    .interaction-bar { display: flex; gap: 15px; border-top: 1px solid var(--light-border); padding-top: 10px; margin-top: 15px; }
-    .interaction-btn { background: none; border: none; color: var(--text-color); cursor: pointer; font-weight: bold; font-size: 13px; display: flex; align-items: center; gap: 5px; }
-    .sidebar { display: flex; flex-direction: column; gap: 25px; }
-    .share-box, .music-box, .quran-quick-card {
-      background: var(--card-bg); padding: 20px; border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-top: 5px solid var(--orange);
-    }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 13px; }
-    .form-group input, .form-group textarea {
-      width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;
-      box-sizing: border-box; font-size: 13px;
-    }
-    .form-group textarea { height: 100px; resize: none; }
-    audio { width: 100%; margin-top: 10px; }
-    footer { background: var(--card-bg); padding: 30px 20px 15px; margin-top: 50px; border-top: 3px solid var(--green); }
-    .footer-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 30px; text-align: left; }
-    @media (max-width: 768px) { .footer-content { grid-template-columns: 1fr; text-align: center; } }
-    .footer-links ul { list-style: none; padding: 0; margin: 0; }
-    .footer-links li { margin-bottom: 8px; }
-    .footer-links a { text-decoration: none; color: var(--text-color); font-size: 14px; }
-    .footer-links a:hover { color: var(--green); }
-    .footer-bottom { text-align: center; margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--light-border); font-size: 13px; color: #7f8c8d; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peace for People - শান্তির নিরাপদ আশ্রয়</title>
+    <meta name="keywords" content="মানসিক প্রশান্তি, মন শান্ত করার উপায়, দুশ্চিন্তা মুক্তির উপায়, Peace for People, মানসিক সমস্যা শেয়ার, আল কুরআন, পিস টিউব">
+    <meta name="description" content="মানসিক প্রশান্তি ও আত্মাকে শান্ত করার শান্তির বাণী, কুরআন তিলাওয়াত এবং আপনার মনের কথা শেয়ার করার নিরাপদ স্থান।">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+        :root {
+            --orange: #ff9933;
+            --green: #138808;
+            --bg-gradient: linear-gradient(135deg, #e3f2fd 0%, #f1f8e9 100%);
+            --card-bg: #ffffff;
+            --dark: #2c3e50;
+            --text-color: #2c3e50;
+            --light-border: #e2ece2;
+            --red-alert: #d32f2f;
+        }
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #1e272c 0%, #0f1416 100%);
+            --card-bg: #263238;
+            --dark: #ffffff;
+            --text-color: #eceff1;
+            --light-border: #37474f;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+        }
+        header {
+            background: var(--card-bg);
+            border-top: 5px solid var(--orange);
+            border-bottom: 3px solid var(--green);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo-area h1 {
+            color: var(--green);
+            margin: 0;
+            font-size: 24px;
+        }
+        .logo-area h1 span {
+            color: var(--orange);
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        nav a:hover {
+            color: var(--green);
+        }
+        .theme-toggle-btn {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+        .helpline-card {
+            background: #ffebee;
+            border: 1px solid #ffcdd2;
+            border-left: 6px solid var(--red-alert);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .helpline-card h4 {
+            margin: 0;
+            color: var(--red-alert);
+            font-size: 16px;
+        }
+        .helpline-card p {
+            margin: 3px 0 0 0;
+            font-size: 13px;
+            color: #b71c1c;
+        }
+        .search-box {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+        }
+        .search-box input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 2px solid var(--green);
+            outline: none;
+            font-size: 15px;
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+        .welcome-box {
+            background: var(--card-bg);
+            padding: 35px 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-left: 6px solid var(--orange);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .welcome-box h2 {
+            color: var(--green);
+            margin-top: 0;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 22px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-green {
+            background: var(--green);
+            color: white;
+        }
+        .btn-green:hover {
+            background: #0e6306;
+        }
+        .btn-orange {
+            background: var(--orange);
+            color: white;
+        }
+        .btn-orange:hover {
+            background: #e07b16;
+        }
+        .quran-ayat-box {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-right: 6px solid var(--green);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .quran-ayat-box h3 {
+            color: var(--green);
+            margin-top: 0;
+        }
+        .arabic-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--green);
+            margin: 10px 0;
+        }
+        .special-tools-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        @media (max-width: 768px) {
+            .special-tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .tool-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .breathing-box {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 25px;
+            border-top: 5px solid var(--green);
+        }
+        .breathing-circle {
+            width: 90px;
+            height: 90px;
+            background: var(--green);
+            border-radius: 50%;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: transform 4s ease-in-out;
+        }
+        .breathing-circle.inhale {
+            transform: scale(1.3);
+            background: var(--orange);
+        }
+        .main-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        .blog-section h2 {
+            border-left: 5px solid var(--green);
+            padding-left: 10px;
+            color: var(--green);
+            margin-top: 0;
+        }
+        .blog-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.02);
+            margin-bottom: 20px;
+            border: 1px solid var(--light-border);
+        }
+        .blog-card h3 {
+            margin-top: 0;
+            color: var(--green);
+        }
+        .blog-card p {
+            line-height: 1.6;
+        }
+        .blog-meta {
+            font-size: 13px;
+            color: #95a5a6;
+            margin-bottom: 10px;
+        }
+        .interaction-bar {
+            display: flex;
+            gap: 15px;
+            border-top: 1px solid var(--light-border);
+            padding-top: 10px;
+            margin-top: 15px;
+        }
+        .interaction-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .share-box {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border-top: 5px solid var(--orange);
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 13px;
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: none;
+        }
+        footer {
+            background: var(--card-bg);
+            padding: 30px 20px 15px;
+            margin-top: 50px;
+            border-top: 3px solid var(--green);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 30px;
+            text-align: left;
+        }
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+        .footer-links a:hover {
+            color: var(--green);
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-border);
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- হেডার ও নেভিগেশন বার -->
-  <header>
-    <div class="logo-area">
-      <h1>🕊️ Peace for <span>People</span></h1>
-    </div>
-    <nav>
-      <a href="index.html" class="active">🏠 হোম</a>
-      <a href="quran.html">📖 আল-কুরআন</a>
-      <a href="video.html">📺 পিস টিউব</a>
-      <a href="podcast.html">🎙️ পডকাস্ট</a>
-      <a href="library.html">📚 লাইব্রেরি</a>
-      <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
-    </nav>
-  </header>
-
-  <div class="container">
-    <!-- হেল্পলাইন -->
-    <div class="helpline-card">
-      <div>
-        <h4>🆘 জরুরি মানসিক সহায়তার প্রয়োজন?</h4>
-        <p>অতিরিক্ত হতাশা বা নিজেকে আঘাত করার ইচ্ছে জাগলে অবিলম্বে বিনামূল্যে কথা বলুন।</p>
-      </div>
-      <a href="tel:109" class="btn" style="background: var(--red-alert); color: white; padding: 6px 15px; font-size: 13px;">📞 ডায়াল করুন ১০৯</a>
-    </div>
-
-    <!-- সার্চ বার -->
-    <div class="search-box">
-      <input type="text" id="searchInput" onkeyup="searchPosts()" placeholder="🔍 আপনার পছন্দমতো বাণী বা টিপস খুঁজুন...">
-    </div>
-
-    <!-- মূল ব্যানার -->
-    <div class="welcome-box">
-      <h2>🕊️ PeaceForPeople</h2>
-      <p style="font-weight: bold; color: var(--green);">হৃদয়ের পবিত্রতা থেকে বিশ্বমানবকল্যাণ!</p>
-      <p>রবের দয়া ও শান্তির এক বিনীত শান্তিদূত হিসেবে আপনাকে এই আলোর কাফেলায় স্বাগত জানাই। এটি আপনার মনের কথা বলার, প্রশান্তি খোঁজার এবং নিজেকে নতুন করে আবিষ্কার করার একটি নিরাপদ আশ্রয়।</p>
-      <div class="btn-group">
-        <a href="quran.html" class="btn btn-green">📖 আল-কুরআন সম্পূর্ণ অ্যাপ</a>
-        <a href="video.html" class="btn btn-green">📺 পিস টিউব (ভিডিও)</a>
-        <a href="#share-box" class="btn btn-orange">💬 নিজের দুঃখ শেয়ার করুন</a>
-      </div>
-    </div>
-
-    <!-- কুরআনের বাণী -->
-    <div class="quran-ayat-box">
-      <h3 style="margin-bottom: 5px;">📖 আজকের কুরআনের বাণী</h3>
-      <div class="arabic-text">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
-      <p style="font-weight: bold; margin: 5px 0 0 0;">"জেনে রেখো, আল্লাহর জিকির ও স্মরণের মাধ্যমেই কেবল অন্তরে প্রশান্তি আসে।"</p>
-      <span style="font-size: 12px; color: #7f8c8d;">— সূরা আর-রা'দ, আয়াত ২৮</span>
-    </div>
-<!-- অটো আপডেটেড বাণী -->
-      <div style="background: var(--card-bg); padding: 12px 20px; border-radius: 10px; text-align: center; margin-bottom: 25px; border-left: 5px solid var(--green); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-        <p id="daily-bani" style="margin: 0; font-weight: bold; color: var(--green); font-size: 15px;">আজকের বাণী লোড হচ্ছে...</p>
-      </div>
-<!-- স্পেশাল টুলস -->
-      <div class="special-tools-grid">
-        <div class="tool-card" style="border-left: 5px solid var(--green);">
-          <h3 style="color: var(--green); margin-top: 0;">🌱 আজকের শান্তির চ্যালেঞ্জ</h3>
-          <p id="challengeText">আজকে পরিচিত বা অপরিচিত অন্তত ১ জন মানুষকে সুন্দর একটি মুচকি হাসি দিন বা সালাম জানান।</p>
-          <button id="challengeBtn" class="btn btn-green" onclick="completeChallenge()">Done / সম্পন্ন করেছি</button>
+    <!-- হেডার ও নেভিগেশন বার -->
+    <header>
+        <div class="logo-area">
+            <h1>🕊️ Peace for <span>People</span></h1>
         </div>
-        <div class="tool-card" style="border-left: 5px solid var(--orange);">
-          <h3 style="color: var(--orange); margin-top: 0;">⚡ খুব অস্থির লাগছে?</h3>
-          <p>হুট করে খুব বেশি দুশ্চিন্তা বা খারাপ লাগলে গভীর শ্বাস নেওয়ার ব্যায়ামটি চেষ্টা করে দেখতে পারেন।</p>
-        </div>
-      </div>
-   
-    <!-- ব্রিদিং এক্সারসাইজ -->
-    <div class="breathing-box">
-      <h3 style="color: var(--green); margin-top: 0;">🫁 ১ মিনিটের শ্বাস-প্রশ্বাসের অনুশীলন</h3>
-      <p id="breathText" style="font-size: 14px; margin-bottom: 10px;">নিচের বৃত্তটির সাখে সাথে ধীরে ধীরে শ্বাস নিন এবং ছাড়ুন...</p>
-      <div class="breathing-circle" id="breathCircle">শ্বাস নিন...</div>
-    </div>
+        <nav>
+            <a href="index.html" class="active">🏠 হোম</a>
+            <a href="quran.html">📖 আল-কুরআন</a>
+            <a href="video.html">📺 পিস টিউব</a>
+            <a href="podcast.html">🎙️ পডকাস্ট</a>
+            <a href="library.html">📚 লাইব্রেরি</a>
+            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+        </nav>
+    </header>
 
-    <!-- লেআউট -->
-    <div class="main-layout">
-      <div class="blog-section">
-        <h2>📝 প্রশান্তির আর্টিকেল ও টিপস</h2>
-        
-        <div class="blog-card">
-          <h3>ডিপ্রেশন ও দুশ্চিন্তা কাটানোর ৫টি কার্যকর উপায়</h3>
-          <div class="blog-meta">✍️ PeaceForPeople</div>
-          <p>মানসিক চাপ আমাদের জীবনের একটি সাধারণ অংশ। কিন্তু এটি যখন অতিরিক্ত হয়ে যায়, তখন তা আমাদের দৈনিক জীবনে ব্যাঘাত ঘটায়। নিয়মিত সালাত, তাফসির পাঠ এবং প্রকৃতিতে সময় কাটানো এতে সাহায্য করতে পারে...</p>
-          <div class="interaction-bar">
-            <button class="interaction-btn" onclick="toggleLike('like1')">❤️ <span id="like1">১২</span> লাইক</button>
-          </div>
-        </div>
-
-        <div class="blog-card">
-          <h3>কুরআন তিলাওয়াত কীভাবে আমাদের মস্তিষ্ককে শান্ত করে?</h3>
-          <div class="blog-meta">✍️ PeaceForPeople</div>
-          <p>বিজ্ঞান প্রমাণ করেছে যে নির্দিষ্ট সুর ও ছন্দের শব্দ তরঙ্গ আমাদের মস্তিষ্কের আলফা ওয়েভ বৃদ্ধি করে, যা মনকে শান্ত করতে সাহায্য করে। আল্লাহর কালাম শোনায় রয়েছে অলৌকিক প্রশান্তি...</p>
-          <div class="interaction-bar">
-            <button class="interaction-btn" onclick="toggleLike('like2')">❤️ <span id="like2">২৫</span> লাইক</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- সাইডবার -->
-      <div class="sidebar">
-        <div class="share-box" id="share-box">
-          <h3 style="color: var(--orange); margin-top: 0;">💬 মনের কথা শেয়ার করুন</h3>
-          <p style="font-size: 12px; color: #666;">আপনার নাম ও তথ্য গোপন থাকবে। হালকা বোধ করতে লিখে ফেলুন।</p>
-          <form onsubmit="handlePostSubmit(event)">
-            <div class="form-group">
-              <label>আপনার ছদ্মনাম (ঐচ্ছিক):</label>
-              <input type="text" id="anonymousName" placeholder="যেমন: শান্ত মন">
+    <div class="container">
+        <!-- হেল্পলাইন -->
+        <div class="helpline-card">
+            <div>
+                <h4>🆘 জরুরি মানসিক সহায়তার প্রয়োজন?</h4>
+                <p>অতিরিক্ত হতাশা বা নিজেকে আঘাত করার ইচ্ছে জাগলে অবিলম্বে বিনামূল্যে কথা বলুন।</p>
             </div>
-            <div class="form-group">
-              <label>আপনার মনের কথা:</label>
-              <textarea id="anonymousText" required placeholder="আপনার কষ্ট বা অনুভূতির কথা লিখুন..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-orange" style="width: 100%;">পাঠিয়ে দিন 🕊️</button>
-          </form>
+            <a href="tel:109" class="btn" style="background: var(--red-alert); color: white; padding: 6px 15px; font-size: 13px;">📞 ডায়াল করুন ১০৯</a>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ফুটার -->
-  <footer>
-    <div class="footer-content">
-      <div>
-        <h3 style="color: var(--green); margin-top: 0;">🕊️ Peace for People</h3>
-        <p style="font-size: 13px; line-height: 1.6;">আমরা একটি অলাভজনক মানসিক স্বাস্থ্য ও মানসিক প্রশান্তি কেন্দ্রিক প্ল্যাটফর্ম। আল-কুরআন ও আধুনিক মনস্তাত্ত্বিক উপায়ে মানুষের অন্তরে শান্তি ফেরানোই আমাদের মূল লক্ষ্য।</p>
-      </div>
-      <div class="footer-links">
-        <h4 style="color: var(--orange); margin-top: 0;">দ্রুত লিংক</h4>
-        <ul>
-          <li><a href="index.html">হোম</a></li>
-          <li><a href="quran.html">আল-কুরআন</a></li>
-          <li><a href="video.html">পিস টিউব</a></li>
-          <li><a href="library.html">লাইব্রেরি</a></li>
-        </ul>
-      </div>
-      <div class="footer-links">
-        <h4 style="color: var(--orange); margin-top: 0;">যোগাযোগ</h4>
-        <p style="font-size: 13px;">ইমেইল: peaceforpeopleoffficial3695@gmail.com</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      &copy; ২০২৬ Peace for People. সর্বস্বত্ব সংরক্ষিত।
-    </div>
-  </footer>
+        <!-- সার্চ বার -->
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="searchPosts()" placeholder="🔍 আপনার পছন্দমতো বাণী বা টিপস খুঁজুন...">
+        </div>
 
-  <!-- জাভাস্ক্রিপ্ট লজিক -->
- <script>
-  // ১. ডার্ক/নাইট মোড লজিক
-  function toggleTheme() {
-    const html = document.documentElement;
-    const btn = document.querySelector('.theme-toggle-btn');
-    const isDark = html.getAttribute('data-theme') === 'dark';
+        <!-- মূল ব্যানার -->
+        <div class="welcome-box">
+            <h2>🕊️ PeaceForPeople</h2>
+            <p style="font-weight: bold; color: var(--green);">হৃদয়ের পবিত্রতা থেকে বিশ্বমানবকল্যাণ!</p>
+            <p>রবের দয়া ও শান্তির এক বিনীত শান্তিদূত হিসেবে আপনাকে এই আলোর কাফেলায় স্বাগত জানাই। এটি আপনার মনের কথা বলার, প্রশান্তি খোঁজার এবং নিজেকে নতুন করে আবিষ্কার করার একটি নিরাপদ আশ্রয়।</p>
+            <div class="btn-group">
+                <a href="quran.html" class="btn btn-green">📖 আল-কুরআন সম্পূর্ণ অ্যাপ</a>
+                <a href="video.html" class="btn btn-green">📺 পিস টিউব (ভিডিও)</a>
+                <a href="#share-box" class="btn btn-orange">💬 নিজের দুঃখ শেয়ার করুন</a>
+            </div>
+        </div>
 
-    if (isDark) {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-      if (btn) btn.innerText = "🌙 মোড";
-    } else {
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-      if (btn) btn.innerText = "☀️ মোড";
-    }
-  }
- // ৩. শান্তির চ্যালেঞ্জ সম্পন্ন করার লজিক
-function completeChallenge() {
-  const btn = document.getElementById('challengeBtn');
-  const text = document.getElementById('challengeText');
-  if (btn) {
-    btn.innerText = "🎉 আলহামদুলিল্লাহ্‌! সম্পন্ন হয়েছে";
-    btn.style.background = "#2e7d32";
-    btn.disabled = true;
-  }
-  if (text) {
-    text.innerHTML += " <br><span style='color: #138808; font-size: 13px;'>✨ সুন্দর কাজটির জন্য আপনাকে ধন্যবাদ!</span>";
-  }
-}
-// অ্যাডমিন প্যানেল থেকে আজকের বাণী লোড করার নিশ্চিত ও সহজ লজিক
-fetch('https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/daily_bani/2026-07-30.md')
-  .then(res => res.text())
-  .then(data => {
-    let cleanQuote = data;
-    const lines = data.split('\n');
-    for (let line of lines) {
-      if (line.startsWith('quote:')) {
-        cleanQuote = line.replace('quote:', '').trim().replace(/^["']|["']$/g, '');
-        break;
-      }
-    }
-    document.getElementById('daily-bani').innerText = "✨ " + cleanQuote;
-  })
-  .catch(err => {
-    document.getElementById('daily-bani').innerText = "✨ জীবনের প্রতিটি কঠিন পরিস্থিতি আপনাকে শক্তিশালী করার জন্যই আসে।";
-  });
+        <!-- কুরআনের বাণী -->
+        <div class="quran-ayat-box">
+            <h3 style="margin-bottom: 5px;">📖 আজকের কুরআনের বাণী</h3>
+            <div class="arabic-text">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+            <p style="font-weight: bold; margin: 5px 0 0 0;">"জেনে রেখো, আল্লাহর জিকির ও স্মরণের মাধ্যমেই কেবল অন্তরে প্রশান্তি আসে।"</p>
+            <span style="font-size: 12px; color: #7f8c8d;">— সূরা আর-রা'দ, আয়াত ২৮</span>
+        </div>
+
+        <!-- অটো আপডেটেড বাণী (অ্যাডমিন প্যানেল থেকে কানেক্টেড) -->
+        <div style="background: var(--card-bg); padding: 12px 20px; border-radius: 10px; text-align: center; margin-bottom: 25px; border-left: 5px solid var(--green); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+            <p id="daily-bani" style="margin: 0; font-weight: bold; color: var(--green); font-size: 15px;">✨ আজকের বাণী লোড হচ্ছে...</p>
+        </div>
+
+        <!-- স্পেশাল টুলস -->
+        <div class="special-tools-grid">
+            <div class="tool-card" style="border-left: 5px solid var(--green);">
+                <h3 style="color: var(--green); margin-top: 0;">🌱 আজকের শান্তির চ্যালেঞ্জ</h3>
+                <p id="challengeText">আজকে পরিচিত বা অপরিচিত অন্তত ১ জন মানুষকে সুন্দর একটি মুচকি হাসি দিন বা সালাম জানান।</p>
+                <button id="challengeBtn" class="btn btn-green" onclick="completeChallenge()">Done / সম্পন্ন করেছি</button>
+            </div>
+            <div class="tool-card" style="border-left: 5px solid var(--orange);">
+                <h3 style="color: var(--orange); margin-top: 0;">⚡ খুব অস্থির লাগছে?</h3>
+                <p>হুট করে খুব বেশি দুশ্চিন্তা বা খারাপ লাগলে গভীর শ্বাস নেওয়ার ব্যায়ামটি চেষ্টা করে দেখতে পারেন।</p>
+            </div>
+        </div>
+
+        <!-- ব্রিদিং এক্সারসাইজ -->
+        <div class="breathing-box">
+            <h3 style="color: var(--green); margin-top: 0;">🫁 ১ মিনিটের শ্বাস-প্রশ্বাসের অনুশীলন</h3>
+            <p id="breathText" style="font-size: 14px; margin-bottom: 10px;">নিচের বৃত্তটির সাথে সাথে ধীরে ধীরে শ্বাস নিন এবং ছাড়ুন...</p>
+            <div class="breathing-circle" id="breathCircle">শ্বাস নিন...</div>
+        </div>
+
+        <!-- লেআউট -->
+        <div class="main-layout">
+            <div class="blog-section">
+                <h2>📝 প্রশান্তির আর্টিকেল ও টিপস</h2>
+                <div class="blog-card">
+                    <h3>ডিপ্রেশন ও দুশ্চিন্তা কাটানোর ৫টি কার্যকর উপায়</h3>
+                    <div class="blog-meta">✍️ PeaceForPeople</div>
+                    <p>মানসিক চাপ আমাদের জীবনের একটি সাধারণ অংশ। কিন্তু এটি যখন অতিরিক্ত হয়ে যায়, তখন তা আমাদের দৈনিক জীবনে ব্যাঘাত ঘটায়। নিয়মিত সালাত, তাফসির পাঠ এবং প্রকৃতিতে সময় কাটানো এতে সাহায্য করতে পারে...</p>
+                    <div class="interaction-bar">
+                        <button class="interaction-btn" onclick="toggleLike('like1')">❤️ <span id="like1">১২</span> লাইক</button>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <h3>কুরআন তিলাওয়াত কীভাবে আমাদের মস্তিষ্ককে শান্ত করে?</h3>
+                    <div class="blog-meta">✍️ PeaceForPeople</div>
+                    <p>বিজ্ঞান প্রমাণ করেছে যে নির্দিষ্ট সুর ও ছন্দের শব্দ তরঙ্গ আমাদের মস্তিষ্কের আলফা ওয়েভ বৃদ্ধি করে, যা মনকে শান্ত করতে সাহায্য করে। আল্লাহর কালাম শোনায় রয়েছে অলৌকিক প্রশান্তি...</p>
+                    <div class="interaction-bar">
+                        <button class="interaction-btn" onclick="toggleLike('like2')">❤️ <span id="like2">২৫</span> লাইক</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- সাইডবার -->
+            <div class="sidebar">
+                <div class="share-box" id="share-box">
+                    <h3 style="color: var(--orange); margin-top: 0;">💬 মনের কথা শেয়ার করুন</h3>
+                    <p style="font-size: 12px; color: #666;">আপনার নাম ও তথ্য গোপন থাকবে। হালকা বোধ করতে লিখে ফেলুন।</p>
+                    <form onsubmit="handlePostSubmit(event)">
+                        <div class="form-group">
+                            <label>আপনার ছদ্মনাম (ঐচ্ছিক):</label>
+                            <input type="text" id="anonymousName" placeholder="যেমন: শান্ত মন">
+                        </div>
+                        <div class="form-group">
+                            <label>আপনার মনের কথা:</label>
+                            <textarea id="anonymousText" required placeholder="আপনার কষ্ট বা অনুভূতির কথা লিখুন..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-orange" style="width: 100%;">পাঠিয়ে দিন 🕊️</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ফুটার -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>🕊️ Peace for People</h3>
+                <p style="font-size: 13px; color: #7f8c8d;">হৃদয়ের পবিত্রতা থেকে বিশ্বমানবকল্যাণ! এটি আপনার মানসিক প্রশান্তি ও আত্মিক উন্নতির একটি নিরাপদ ঠিকানা।</p>
+            </div>
+            <div class="footer-links">
+                <h4>দ্রুত লিংক</h4>
+                <ul>
+                    <li><a href="index.html">🏠 হোম</a></li>
+                    <li><a href="quran.html">📖 আল-কুরআন</a></li>
+                    <li><a href="video.html">📺 পিস টিউব</a></li>
+                    <li><a href="podcast.html">🎙️ পডকাস্ট</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>যোগাযোগ</h4>
+                <ul>
+                    <li><a href="#">ইমেইল: peaceforpeopleoffficial3695@gmail.com</a></li>
+                    <li><a href="#">সহায়তা: ১০৯ (জরুরি)</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; ২০২৬ Peace for People | সর্বস্বত্ব সংরক্ষিত</p>
+        </div>
+    </footer>
+
+    <!-- স্ক্রিপ্ট -->
+    <script>
+        // থিম টগল
+        function toggleTheme() {
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+
+        // ব্রীদিং এনিমেশন
+        const circle = document.getElementById('breathCircle');
+        const breathText = document.getElementById('breathText');
+        let isHolding = false;
+        setInterval(() => {
+            if(!isHolding) {
+                circle.classList.add('inhale');
+                circle.innerText = "শ্বাস ছাড়ুন";
+                breathText.innerText = "ধীরে ধীরে মুখ দিয়ে শ্বাস ছাড়ুন...";
+                isHolding = true;
+            } else {
+                circle.classList.remove('inhale');
+                circle.innerText = "শ্বাস নিন";
+                breathText.innerText = "নাকের মাধ্যমে গভীর শ্বাস নিন...";
+                isHolding = false;
+            }
+        }, 4000);
+
+        // চ্যালেঞ্জ সম্পন্ন
+        function completeChallenge() {
+            const btn = document.getElementById('challengeBtn');
+            btn.innerText = "আলহামদুলিল্লাহ! সম্পন্ন হয়েছে ✔️";
+            btn.style.background = "#0e6306";
+            btn.disabled = true;
+        }
+
+        // লাইক টগল
+        function toggleLike(id) {
+            const span = document.getElementById(id);
+            let count = parseInt(span.innerText);
+            span.innerText = count + 1;
+        }
+
+        // সার্চ পোস্ট
+        function searchPosts() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.blog-card');
+            cards.forEach(card => {
+                let text = card.innerText.toLowerCase();
+                if(text.includes(input)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // মনের কথা ফর্ম সাবমিট
+        function handlePostSubmit(e) {
+            e.preventDefault();
+            alert("আপনার মনের কথাটি সফলভাবে জমা হয়েছে। জাযাকাল্লাহ খাইর!");
+            document.getElementById('anonymousText').value = '';
+            document.getElementById('anonymousName').value = '';
+        }
+
+        // অ্যাডমিন প্যানেল থেকে লেটেস্ট বাণী ফেচ করার লজিক (সরাসরি ডাইরেক্ট লিংক)
+        fetch('https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/daily_bani/2026-07-30.md')
+          .then(res => res.text())
+          .then(data => {
+            let cleanQuote = data;
+            const lines = data.split('\n');
+            for (let line of lines) {
+              if (line.startsWith('quote:')) {
+                cleanQuote = line.replace('quote:', '').trim().replace(/^["']|["']$/g, '');
+                break;
+              }
+            }
+            document.getElementById('daily-bani').innerText = "✨ " + cleanQuote;
+          })
+          .catch(err => {
+            document.getElementById('daily-bani').innerText = "✨ প্রতিটি নতুন সকাল আমাদের জীবনে আল্লাহর পক্ষ থেকে একটি নতুন সুযোগ নিয়ে আসে।";
+          });
+    </script>
+</body>
+</html>
