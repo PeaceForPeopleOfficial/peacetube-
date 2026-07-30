@@ -347,8 +347,7 @@
 
       try {
         const timeParam = new Date().getTime();
-        const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + timeParam);
-        if (!res.ok) return;
+       const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + timeParam, { cache: 'no-store' });
         
         const files = await res.json();
         if (Array.isArray(files) && files.length > 0) {
@@ -361,8 +360,7 @@
 
           // raw fetch (ক্যাশ ছাড়া)
           const rawUrl = 'https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/bani/' + lastFile.name + '?t=' + timeParam;
-          const rawRes = await fetch(rawUrl);
-          const rawText = await rawRes.text();
+         const rawRes = await fetch(rawUrl, { cache: 'no-store' });
 
           let quote = "", title = "আজকের বাণী", author = "Peace for People";
 
