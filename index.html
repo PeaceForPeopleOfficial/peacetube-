@@ -340,16 +340,14 @@
       if (btn) btn.innerText = "☀️ মোড";
     }
   }
-// ৫. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক (ক্যাশ ছাড়া)
+// ২. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক (ক্যাশ ছাড়া)
     async function loadLatestBani() {
       const baniEl = document.getElementById('daily-bani');
       if (!baniEl) return;
 
       try {
         const timeParam = new Date().getTime();
-        const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + timeParam, {
-          cache: 'no-store'
-        });
+        const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + timeParam);
         if (!res.ok) return;
         
         const files = await res.json();
@@ -363,7 +361,7 @@
 
           // raw fetch (ক্যাশ ছাড়া)
           const rawUrl = 'https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/bani/' + lastFile.name + '?t=' + timeParam;
-          const rawRes = await fetch(rawUrl, { cache: 'no-store' });
+          const rawRes = await fetch(rawUrl);
           const rawText = await rawRes.text();
 
           let quote = "", title = "আজকের বাণী", author = "Peace for People";
