@@ -340,7 +340,7 @@
       if (btn) btn.innerText = "☀️ মোড";
     }
   }
-// ২. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক (ক্যাশ ছাড়া ও অল-ফরম্যাট সাপোর্ট)
+// ২. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক (ক্যাশ-ফ্রি ও নির্ভুল)
     async function loadLatestBani() {
       const baniEl = document.getElementById('daily-bani');
       if (!baniEl) return;
@@ -355,28 +355,31 @@
           const validFiles = files.filter(f => f.type === 'file' && !f.name.startsWith('.'));
           if (validFiles.length === 0) return;
 
-          // বর্ণানুক্রমিক সর্ট করে একদম শেষের ফাইল বেছে নেওয়া
+          // বর্ণানুক্রমিক সর্ট করে সর্বশেষ ফাইল নেওয়া
           validFiles.sort((a, b) => a.name.localeCompare(b.name));
           const lastFile = validFiles[validFiles.length - 1];
 
-          // raw content fetch
+          // raw fetch
           const rawUrl = 'https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/bani/' + lastFile.name + '?t=' + timeParam;
           const rawRes = await fetch(rawUrl, { cache: 'no-store' });
           const rawText = await rawRes.text();
 
           let quote = "", title = "আজকের বাণী", author = "Peace for People";
 
-          // Frontmatter extraction (Markdown parsing)
-          const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
-          if (titleMatch) title = titleMatch[1].trim();
+          // Line by line parsing for standard YAML frontmatter
+          const lines = rawText.split('\n');
+          for (let line of lines) {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('title:')) {
+              title = trimmed.replace('title:', '').replace(/^[\s"']+|[\s"']+$|\r$/g, '');
+            } else if (trimmed.startsWith('author:')) {
+              author = trimmed.replace('author:', '').replace(/^[\s"']+|[\s"']+$|\r$/g, '');
+            } else if (trimmed.startsWith('quote:')) {
+              quote = trimmed.replace('quote:', '').replace(/^[\s"']+|[\s"']+$|\r$/g, '');
+            }
+          }
 
-          const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
-          if (authorMatch) author = authorMatch[1].trim();
-
-          const quoteMatch = rawText.match(/quote:\s*["']?([^"'\n\r]+)["']?/);
-          if (quoteMatch) quote = quoteMatch[1].trim();
-
-          // quote না পেলে --- এর নিচের অংশ নেওয়া
+          // quote না পেলে YAML এর নিচের বডি অংশ নেওয়া
           if (!quote && rawText.includes('---')) {
             const parts = rawText.split('---');
             if (parts.length >= 3) {
@@ -384,7 +387,6 @@
             }
           }
 
-          // তারপরও না পেলে পুরো টেক্সট ক্লিন করে নেওয়া
           if (!quote) {
             quote = rawText.replace(/---[\s\S]*?---/, '').trim();
           }
