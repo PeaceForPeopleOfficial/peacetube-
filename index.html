@@ -340,64 +340,65 @@
       if (btn) btn.innerText = "☀️ মোড";
     }
   }
-async function loadLatestBani() {
-    const baniEl = document.getElementById('daily-bani');
-    if (!baniEl) return;
+// ৫. অটোমেটিক সর্বাধুনিক বাণী লোড করার লজিক (ক্যাশ ছাড়া)
+    async function loadLatestBani() {
+      const baniEl = document.getElementById('daily-bani');
+      if (!baniEl) return;
 
-    try {
-      // cache: 'no-store' যুক্ত করা হলো যেন ব্রাউজার কোনো পুরাতন তথ্য না রাখে
-      const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + new Date().getTime(), {
-        cache: 'no-store'
-      });
-      if (!res.ok) return;
-      
-      const files = await res.json();
-      if (Array.isArray(files) && files.length > 0) {
-        const validFiles = files.filter(f => f.type === 'file' && !f.name.startsWith('.'));
-        if (validFiles.length === 0) return;
+      try {
+        const timeParam = new Date().getTime();
+        const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + timeParam, {
+          cache: 'no-store'
+        });
+        if (!res.ok) return;
+        
+        const files = await res.json();
+        if (Array.isArray(files) && files.length > 0) {
+          const validFiles = files.filter(f => f.type === 'file' && !f.name.startsWith('.'));
+          if (validFiles.length === 0) return;
 
-        validFiles.sort((a, b) => a.name.localeCompare(b.name));
-        const lastFile = validFiles[validFiles.length - 1];
+          // বর্ণানুক্রমিক সর্ট করে একদম শেষ ফাইল নির্বাচন
+          validFiles.sort((a, b) => a.name.localeCompare(b.name));
+          const lastFile = validFiles[validFiles.length - 1];
 
-        // raw fetch-এও cache no-store ব্যবহার
-        const rawUrl = `https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/bani/${lastFile.name}?t=` + new Date().getTime();
-        const rawRes = await fetch(rawUrl, { cache: 'no-store' });
-        const rawText = await rawRes.text();
+          // raw fetch (ক্যাশ ছাড়া)
+          const rawUrl = 'https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/bani/' + lastFile.name + '?t=' + timeParam;
+          const rawRes = await fetch(rawUrl, { cache: 'no-store' });
+          const rawText = await rawRes.text();
 
-        let quote = "", title = "আজকের বাণী", author = "Peace for People";
+          let quote = "", title = "আজকের বাণী", author = "Peace for People";
 
-        if (rawText.trim().startsWith('{')) {
-          const parsed = JSON.parse(rawText);
-          quote = parsed.quote || parsed.body || parsed.title || "";
-          title = parsed.title || title;
-          author = parsed.author || author;
-        } else {
-          const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
-          if (titleMatch) title = titleMatch[1];
+          if (rawText.trim().startsWith('{')) {
+            const parsed = JSON.parse(rawText);
+            quote = parsed.quote || parsed.body || parsed.title || "";
+            title = parsed.title || title;
+            author = parsed.author || author;
+          } else {
+            const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
+            if (titleMatch) title = titleMatch[1];
 
-          const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
-          if (authorMatch) author = authorMatch[1];
+            const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
+            if (authorMatch) author = authorMatch[1];
 
-          if (rawText.includes('quote:')) {
-            const quotePart = rawText.split('quote:')[1];
-            const cleanQuote = quotePart.split(/\n[a-zA-Z0-9_-]+:/)[0];
-            quote = cleanQuote.replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
-          }
+            if (rawText.includes('quote:')) {
+              const quotePart = rawText.split('quote:')[1];
+              const cleanQuote = quotePart.split(/\n[a-zA-Z0-9_-]+:/)[0];
+              quote = cleanQuote.replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
+            }
 
-          if (!quote && rawText.includes('---')) {
-            const parts = rawText.split('---');
-            if (parts.length >= 3) {
-              quote = parts.slice(2).join('---').replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
+            if (!quote && rawText.includes('---')) {
+              const parts = rawText.split('---');
+              if (parts.length >= 3) {
+                quote = parts.slice(2).join('---').replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
+              }
             }
           }
-        }
 
-        if (quote) {
-          baniEl.innerHTML = `🕊️ <strong>${title}:</strong> "${quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${author}</span>`;
+          if (quote) {
+            baniEl.innerHTML = `🕊️ <strong>${title}:</strong> "${quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${author}</span>`;
+          }
         }
+      } catch (err) {
+        console.log('Bani fetch error:', err);
       }
-    } catch (err) {
-      console.log('Bani fetch error:', err);
     }
-  }
- 
