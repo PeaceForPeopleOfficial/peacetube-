@@ -392,3 +392,11 @@ async function loadLatestBani() {
 }
 
 document.addEventListener("DOMContentLoaded", loadLatestBani);
+// আজকের বাণী অটো লোড
+fetch('https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/daily_bani/2026-07-30.md')
+  .then(res => res.text())
+  .then(data => {
+    const text = data.split('quote:')[1]?.replace(/["']/g, '').trim() || "জীবনের প্রতিটি কঠিন পরিস্থিতি আপনাকে শক্তিশালী করার জন্যই আসে।";
+    document.getElementById('daily-bani').innerText = "✨ " + text;
+  });   
+ 
