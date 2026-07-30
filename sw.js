@@ -1,4 +1,4 @@
-const CACHE_NAME = 'peaceforpeople-v1';
+const CACHE_NAME = 'peaceforpeople-v2';
 // যেসব ফাইল অফলাইনে সেভ থাকবে
 const OFFLINE_URLS = [
   '/',
