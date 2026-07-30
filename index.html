@@ -338,63 +338,69 @@
     }
   }
 
-  // ২. উন্নত ও ত্রুটিমুক্ত বাণী লোডার (YAML Multi-line Fix)
-  async function loadLatestBani() {
-    const baniEl = document.getElementById('daily-bani');
-    if (!baniEl) return;
+ // ২. সর্বদা সর্বশেষ পোস্ট করা বাণী বের করার আধুনিক লজিক
+    async function loadLatestBani() {
+      const baniEl = document.getElementById('daily-bani');
+      if (!baniEl) return;
 
-    try {
-      const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + Date.now());
-      if (!res.ok) return;
-      
-      const files = await res.json();
-      if (Array.isArray(files) && files.length > 0) {
-        const lastFile = files[files.length - 1];
-        const rawRes = await fetch(`https://cdn.jsdelivr.net/gh/PeaceForPeopleOfficial/peacetube-@main/content/bani/${lastFile.name}?t=` + Date.now());
-        const rawText = await rawRes.text();
+      try {
+        // API থেকে কন্টেন্ট লিস্ট নেওয়া (ক্যাশ বাইপাসসহ)
+        const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + Date.now());
+        if (!res.ok) return;
+        
+        const files = await res.json();
+        if (Array.isArray(files) && files.length > 0) {
+          
+          // শুধু .md বা .json ফাইল ফিল্টার করা
+          const validFiles = files.filter(f => f.type === 'file' && !f.name.startsWith('.'));
+          
+          if (validFiles.length === 0) return;
 
-        let quote = "", title = "আজকের বাণী", author = "Peace for People";
+          // বর্ণানুক্রমিক বা তারিখ অনুসারে একদম শেষ ফাইলটি নির্বাচন (Reverse sort)
+          validFiles.sort((a, b) => a.name.localeCompare(b.name));
+          const lastFile = validFiles[validFiles.length - 1];
 
-        // JSON বা YAML Parsing
-        if (rawText.trim().startsWith('{')) {
-          const parsed = JSON.parse(rawText);
-          quote = parsed.quote || parsed.body || "";
-          title = parsed.title || title;
-          author = parsed.author || author;
-        } else {
-          // Title Extract
-          const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
-          if (titleMatch) title = titleMatch[1];
+          // cdn.jsdelivr.net এর জায়গায় সরাসরি raw.githubusercontent.com ব্যবহার
+          const rawUrl = `https://raw.githubusercontent.com/PeaceForPeopleOfficial/peacetube-/main/content/bani/${lastFile.name}?t=` + Date.now();
+          const rawRes = await fetch(rawUrl);
+          const rawText = await rawRes.text();
 
-          // Author Extract
-          const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
-          if (authorMatch) author = authorMatch[1];
+          let quote = "", title = "আজকের বাণী", author = "Peace for People";
 
-          // Quote Extract (Multi-line / Single line handler)
-          if (rawText.includes('quote:')) {
-            const quotePart = rawText.split('quote:')[1];
-            // Author/Title বা অন্য কোনো কি-ওয়ার্ড আসার আগ পর্যন্ত অংশ নেওয়া
-            const cleanQuote = quotePart.split(/\n[a-zA-Z0-9_-]+:/)[0];
-            quote = cleanQuote.replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
-          }
+          if (rawText.trim().startsWith('{')) {
+            const parsed = JSON.parse(rawText);
+            quote = parsed.quote || parsed.body || parsed.title || "";
+            title = parsed.title || title;
+            author = parsed.author || author;
+          } else {
+            const titleMatch = rawText.match(/title:\s*["']?([^"'\n\r]+)["']?/);
+            if (titleMatch) title = titleMatch[1];
 
-          // যদি quote তাও খালি থাকে তবে Frontmatter এর নিচের বডি অংশ নেওয়া
-          if (!quote && rawText.includes('---')) {
-            const parts = rawText.split('---');
-            if (parts.length >= 3) {
-              quote = parts.slice(2).join('---').replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
+            const authorMatch = rawText.match(/author:\s*["']?([^"'\n\r]+)["']?/);
+            if (authorMatch) author = authorMatch[1];
+
+            if (rawText.includes('quote:')) {
+              const quotePart = rawText.split('quote:')[1];
+              const cleanQuote = quotePart.split(/\n[a-zA-Z0-9_-]+:/)[0];
+              quote = cleanQuote.replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
+            }
+
+            if (!quote && rawText.includes('---')) {
+              const parts = rawText.split('---');
+              if (parts.length >= 3) {
+                quote = parts.slice(2).join('---').replace(/^[>\-\s"'\r\n]+|[ "'\r\n]+$/g, '').trim();
+              }
             }
           }
-        }
 
-        if (quote) {
-          baniEl.innerHTML = `🕊️ <strong>${title}:</strong> "${quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${author}</span>`;
+          if (quote) {
+            baniEl.innerHTML = `🕊️ <strong>${title}:</strong> "${quote}" <span style="font-size:13px; font-weight:normal; color:#555;">— ${author}</span>`;
+          }
         }
+      } catch (err) {
+        console.log('Bani fetch error:', err);
       }
-    } catch (err) {
-      console.log('Bani fetch error:', err);
     }
-  }
 
   // ৩. পেজ লোড সিঙ্ক
   document.addEventListener('DOMContentLoaded', () => {
