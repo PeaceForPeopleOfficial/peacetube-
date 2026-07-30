@@ -371,10 +371,20 @@ async function loadLatestBani() {
       const rawRes = await fetch(rawUrl, { cache: 'no-store' });
       const rawText = await rawRes.text();
       
-      let cleanedText = rawText.replace(/---[\s\S]*?---/, '').trim();
-      if (!cleanedText) cleanedText = rawText;
+      // অ্যাডমিন প্যানেলের ফাইল থেকে সঠিক টেক্সট বের করার লজিক
+      let cleanQuote = rawText;
+      const lines = rawText.split('\n');
+      for (let line of lines) {
+        if (line.startsWith('quote:')) {
+          cleanQuote = line.replace('quote:', '').trim().replace(/^["']|["']$/g, '');
+          break;
+        }
+      }
+      if (cleanQuote === rawText) {
+        cleanQuote = rawText.replace(/---[\s\S]*?---/, '').trim();
+      }
       
-      baniEl.innerText = cleanedText;
+      baniEl.innerText = cleanQuote ? "✨ " + cleanQuote : "আজকের বাণী পাওয়া যায়নি।";
     }
   } catch (error) {
     console.error("বাণী লোড করতে সমস্যা হয়েছে:", error);
