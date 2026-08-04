@@ -420,7 +420,40 @@
             <p style="font-weight: bold; margin: 5px 0 0 0;">"জেনে রেখো, আল্লাহর জিকির ও স্মরণের মাধ্যমেই কেবল অন্তরে প্রশান্তি আসে।"</p>
             <span style="font-size: 12px; color: #7f8c8d;">— সূরা আর-রা'দ, আয়াত ২৮</span>
         </div>
+<!-- আজকের শান্তির বাণী বা নতুন পোস্ট সেকশন -->
+<div class="quran-ayat-box" style="border-right: none; border-left: 6px solid var(--orange);">
+    <h3 style="margin-bottom: 5px;">✨ আজকের শান্তির বাণী</h3>
+    <div id="latest-bani-content" style="font-size: 15px; color: var(--text-color); line-height: 1.6; margin: 10px 0;">
+        লোডিং হচ্ছে...
+    </div>
+    <span style="font-size: 12px; color: #7f8c8d;">— Decap CMS আপডেট</span>
+</div>
 
+<script>
+  async function loadShantirBani() {
+    try {
+      const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani');
+      const files = await response.json();
+      
+      if (Array.isArray(files) && files.length > 0) {
+        const latestFile = files[files.length - 1]; 
+        const fileResponse = await fetch(latestFile.download_url);
+        const markdownText = await fileResponse.text();
+        
+        document.getElementById('latest-bani-content').innerHTML = `
+          <p style="margin: 0; font-weight: bold;">${markdownText}</p>
+        `;
+      } else {
+        document.getElementById('latest-bani-content').innerText = "কোনো নতুন পোস্ট পাওয়া যায়নি।";
+      }
+    } catch (error) {
+      console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
+      document.getElementById('latest-bani-content').innerText = "তথ্য লোড করা সম্ভব হয়নি।";
+    }
+  }
+
+  loadShantirBani();
+</script>
         <!-- আজকের বাণী -->
         <div style="background: var(--card-bg); padding: 15px 20px; border-radius: 10px; text-align: center; margin-bottom: 25px; border-left: 5px solid var(--green); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
             <p id="daily-bani" style="margin: 0; font-weight: bold; color: var(--green); font-size: 15px;">✨ ধৈর্য হলো সেই চাবিকাঠি, যা জীবনের কঠিনতম দরজগুলো খুলে দেয়। যখনই মনে হবে চারপাশ অন্ধকার হয়ে আসছে, তখন নিজের রবের ওপর ভরসা রাখুন; কারণ প্রতিটি কষ্টের পরেই স্বস্তি অপেক্ষা করছে।</p>
@@ -621,13 +654,30 @@
         <p style="margin: 3px 0 0 0; font-size: 12px; color: #7f8c8d;">এখানে ব্যবহৃত সকল কোড ও কন্টেন্ট সম্পূর্ণ কপিরাইট-মুক্ত উৎস থেকে সংগৃহীত।</p>
     </div>
 </footer>
-     <!-- আজকের বাণী বা পোস্ট প্রদর্শনের জন্য কন্টেইনার -->
-<div id="dynamic-bani-display" style="margin: 20px 0; padding: 15px; border-left: 4px solid #10b981; background: #f9fafb; border-radius: 4px;">
-    <h3>📖 আজকের আপডেট বাণী</h3>
-    <div id="bani-content">লোডিং হচ্ছে...</div>
-</div>
+  async function loadShantirBani() {
+    try {
+      const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani');
+      const files = await response.json();
+      
+      if (Array.isArray(files) && files.length > 0) {
+        const latestFile = files[files.length - 1]; 
+        const fileResponse = await fetch(latestFile.download_url);
+        const markdownText = await fileResponse.text();
+        
+        document.getElementById('latest-bani-content').innerHTML = `
+          <p style="margin: 0; font-weight: bold;">${markdownText}</p>
+        `;
+      } else {
+        document.getElementById('latest-bani-content').innerText = "কোনো নতুন পোস্ট পাওয়া যায়নি।";
+      }
+    } catch (error) {
+      console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
+      document.getElementById('latest-bani-content').innerText = "তথ্য লোড করা সম্ভব হয়নি।";
+    }
+  }
 
-<script>
+  loadShantirBani();
+</script> 
   async function loadLatestBani() {
     try {
       const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani');
@@ -652,38 +702,5 @@
 
   loadLatestBani();
 </script>  
-    <!-- আজকের শান্তির বাণী ও ডাইনামিক পোস্ট সেকশন -->
-<div style="margin: 20px 0; padding: 20px; border-left: 4px solid #10b981; background: #f9fafb; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-    <h3 style="color: #0d9488; margin-top: 0; margin-bottom: 10px;">✨ আজকের শান্তির বাণী</h3>
-    <div id="latest-bani-content" style="font-size: 15px; color: #374151; line-height: 1.6;">
-        লোড হচ্ছে...
-    </div>
-</div>
-
-<script>
-  async function loadShantirBani() {
-    try {
-      const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani');
-      const files = await response.json();
-      
-      if (Array.isArray(files) && files.length > 0) {
-        const latestFile = files[files.length - 1]; 
-        const fileResponse = await fetch(latestFile.download_url);
-        const markdownText = await fileResponse.text();
-        
-        document.getElementById('latest-bani-content').innerHTML = `
-          <p style="white-space: pre-line; margin: 0;">${markdownText}</p>
-        `;
-      } else {
-        document.getElementById('latest-bani-content').innerText = "আজকে কোনো নতুন শান্তির বাণী যোগ করা হয়নি।";
-      }
-    } catch (error) {
-      console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
-      document.getElementById('latest-bani-content').innerText = "তথ্য লোড করা সম্ভব হয়নি।";
-    }
-  }
-
-  loadShantirBani();
-</script>            
 </body>
 </html>
