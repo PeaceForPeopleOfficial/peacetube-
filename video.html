@@ -360,10 +360,6 @@
   <span id="active-video-count">📊 মোট ৪টি শান্তিময় ভিডিও পাওয়া গেছে</span>
 </div>
         <div class="video-grid" id="videoGrid">
-<!-- অ্যাডমিন প্যানেল থেকে আপলোড করা ভিডিওগুলো এখানে অটোমেটিক লোড হবে -->
-<div id="videoGrid" class="video-grid">
-    <p style="text-align: center; grid-column: span 2;">🔄 ভিডিও লোড হচ্ছে...</p>
-</div>
             
             <!-- ভিডিও ১ -->
             <div class="video-card" data-category="nature" data-title="গভীর ঘুমের জন্য প্রকৃতির শান্ত সুর বৃষ্টি">
@@ -677,5 +673,9 @@ function extractYouTubeId(url) {
 // পেজ লোড হওয়ার সাথে সাথে ফাংশনটি কল হবে
 document.addEventListener('DOMContentLoaded', loadDynamicVideos);   
 </body>
+       <!-- অ্যাডমিন প্যানেল থেকে আপলোড করা ভিডিওগুলো এখানে অটোমেটিক লোড হবে -->
+<div id="videoGrid" class="video-grid">
+    <p style="text-align: center; grid-column: span 2;">🔄 ভিডিও লোড হচ্ছে...</p>
+</div>     
 </html>
      
