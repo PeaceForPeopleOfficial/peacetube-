@@ -627,48 +627,6 @@ function filterVideos(category, btn) {
                 btn.innerText = "☀️ লাইট মোড";
             }
         }
-          async function loadDynamicVideos() {
-    try {
-        // গিটহাবের কন্টেন্ট ফোল্ডার বা এপিআই থেকে ভিডিও ফাইল ফেচ করা
-        const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/videos');
-        const files = await response.json();
-
-        const videoContainer = document.getElementById('dynamic-videos-container');
-        if (!videoContainer) return;
-
-        for (const file of files) {
-            if (file.name.endsWith('.json')) {
-                const fileRes = await fetch(file.download_url);
-                const videoData = await fileRes.json();
-
-                // প্রতিটি JSON ডাটা থেকে ভিডিও কার্ড তৈরি করা
-                const videoCard = document.createElement('div');
-                videoCard.className = 'video-card';
-                videoCard.innerHTML = `
-                    <h3>📺 ${videoData.title || 'শান্তিময় ভিডিও'}</h3>
-                    <p>${videoData.description || ''}</p>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/${extractYouTubeId(videoData.video_url)}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                `;
-                videoContainer.appendChild(videoCard);
-            }
-        }
-    } catch (error) {
-        console.error('ভিডিও লোড করতে সমস্যা হচ্ছে:', error);
-    }
-}
-
-// ইউটিউব লিংক থেকে সঠিক আইডি আলাদা করার ফাংশন
-function extractYouTubeId(url) {
-    if (!url) return '';
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : '';
-}
-
-// পেজ লোড হওয়ার সাথে সাথে ফাংশনটি কল হবে
-document.addEventListener('DOMContentLoaded', loadDynamicVideos);   
     </script
       <div id="dynamic-videos-container">
     <!-- অ্যাডমিন প্যানেল থেকে আপলোড করা ভিডিওগুলো এখানে অটোমেটিক চলে আসবে -->
