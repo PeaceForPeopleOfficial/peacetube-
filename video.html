@@ -40,15 +40,8 @@
             align-items: center;
             border-bottom: 1px solid var(--border-color);
         }
-        nav a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: bold;
-            font-size: 14px;
-        }
-        nav a.active {
-            color: var(--green);
-        }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 14px; }
+        nav a.active { color: var(--green); }
         header {
             background: var(--card-bg);
             border-top: 6px solid var(--orange);
@@ -64,47 +57,29 @@
         header h1 { color: var(--green); margin: 0; font-size: 24px; }
         header h1 span { color: var(--orange); }
         .header-btns { display: flex; gap: 10px; align-items: center; }
-        .back-btn {
-            background: var(--orange); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 13px;
-        }
-        .theme-toggle-btn {
-            background: var(--green); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;
-        }
+        .back-btn { background: var(--orange); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 13px; }
+        .theme-toggle-btn { background: var(--green); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
         .container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
         
         /* স্লিপ টাইমার */
-        .timer-bar {
-            background: var(--card-bg); padding: 12px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-left: 5px solid var(--orange);
-        }
+        .timer-bar { background: var(--card-bg); padding: 12px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-left: 5px solid var(--orange); }
         .timer-bar h4 { margin: 0; color: var(--green); font-size: 14px; }
-        .timer-btns button {
-            background: #f0f2f5; border: 1px solid var(--green); color: var(--text-color); padding: 4px 10px; border-radius: 15px; cursor: pointer; font-size: 12px;
-        }
+        .timer-btns button { background: #f0f2f5; border: 1px solid var(--green); color: var(--text-color); padding: 4px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; }
 
         /* সার্চ ও ফিল্টার টুল */
-        .search-filter-box {
-            background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; display: flex; flex-direction: column; gap: 15px; align-items: center;
-        }
-        .search-bar {
-            width: 100%; max-width: 500px; padding: 12px 20px; border: 2px solid var(--green); border-radius: 25px; font-size: 15px; outline: none; background: var(--card-bg); color: var(--text-color);
-        }
+        .search-filter-box { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .search-bar { width: 100%; max-width: 500px; padding: 12px 20px; border: 2px solid var(--green); border-radius: 25px; font-size: 15px; outline: none; background: var(--card-bg); color: var(--text-color); }
         .filter-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-        .filter-btn {
-            background: none; border: 1px solid var(--green); color: var(--green); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;
-        }
+        .filter-btn { background: none; border: 1px solid var(--green); color: var(--green); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
         .filter-btn.active { background: var(--green); color: white; }
 
-        .ad-space {
-            background: var(--card-bg); border: 2px dashed var(--green); padding: 15px; text-align: center; margin-bottom: 25px; border-radius: 12px; color: var(--text-color); font-weight: bold; font-size: 14px;
-        }
+        .ad-space { background: var(--card-bg); border: 2px dashed var(--green); padding: 15px; text-align: center; margin-bottom: 25px; border-radius: 12px; color: var(--text-color); font-weight: bold; font-size: 14px; }
 
-        /* ভিডিও গ্রিড */
+        /* ভিডিও গ্রিড (বড় বক্স ডিজাইন) */
         .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         @media (max-width: 768px) { .video-grid { grid-template-columns: 1fr; } }
         
-        .video-card {
-            background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-bottom: 4px solid var(--green); display: flex; flex-direction: column;
-        }
+        .video-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-bottom: 4px solid var(--green); display: flex; flex-direction: column; }
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
@@ -115,12 +90,8 @@
         /* অ্যাকশন বার */
         .action-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 10px; margin-bottom: 12px; flex-wrap: wrap; gap: 5px; }
         .reaction-container { display: flex; gap: 8px; }
-        .reaction-btn, .share-btn, .save-btn, .yt-link-btn {
-            background: #f0f2f5; border: none; padding: 6px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold; color: #333; display: flex; align-items: center; gap: 4px; text-decoration: none;
-        }
-        [data-theme="dark"] .reaction-btn, [data-theme="dark"] .share-btn, [data-theme="dark"] .save-btn, [data-theme="dark"] .yt-link-btn {
-            background: #37474f; color: #fff;
-        }
+        .reaction-btn, .save-btn { background: #f0f2f5; border: none; padding: 6px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold; color: #333; display: flex; align-items: center; gap: 4px; }
+        [data-theme="dark"] .reaction-btn, [data-theme="dark"] .save-btn { background: #37474f; color: #fff; }
 
         /* কমেন্ট সেকশন */
         .comment-section { border-top: 1px solid var(--border-color); padding-top: 10px; }
@@ -170,13 +141,13 @@
         <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 আপনার পছন্দের শান্তিময় ভিডিও খুঁজুন..." onkeyup="filterVideos()">
         <div class="filter-buttons">
             <button class="filter-btn active" onclick="filterByCategory('all', this)">সব ভিডিও</button>
-            <button class="filter-btn" onclick="filterByCategory('nature', this)">প্রকৃতি</button>
+            <button class="filter-btn" onclick="filterByCategory('nature', this)">প্রকৃতির সুর</button>
             <button class="filter-btn" onclick="filterByCategory('meditation', this)">মেডিটেশন</button>
             <button class="filter-btn" onclick="filterByCategory('islamic', this)">ইসলামিক মিউজিক</button>
         </div>
     </div>
 
-    <!-- অ্যাডমিন প্যানেল থেকে ভিডিওগুলো এখানে গ্রিড আকারে অটোমেটিক লোড হবে -->
+    <!-- বড় বড় কার্ড আকৃতিতে ভিডিওগুলো এখানে অটোমেটিক লোড হবে -->
     <div id="dynamic-videos-container" class="video-grid">
         <p style="text-align: center; grid-column: span 2;">🔄 ভিডিও লোড হচ্ছে...</p>
     </div>
