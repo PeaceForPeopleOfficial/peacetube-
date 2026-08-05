@@ -620,22 +620,37 @@ if (circle && breathText) {
         }
     }, 4000);
 }
-  // ৪. সার্চ পোস্ট ফাংশন
-function searchPosts() {
-    let input = document.getElementById('searchInput');
-    if (!input) return;
-    let filter = input.value.toLowerCase();
-    let cards = document.querySelectorAll('.blog-card, .card, article'); 
-    
-    cards.forEach(card => {
-        let text = card.innerText.toLowerCase();
-        if (text.includes(filter)) {
-            card.style.display = "";
-        } else {
-            card.style.display = "none";
-        }
-    });
-}     
-</script> 
-</html>    
-        
+// ৪. সার্চ পোস্ট ফাংশন
+    function searchPosts() {
+        let input = document.getElementById('searchInput');
+        if (!input) return;
+        let filter = input.value.toLowerCase();
+        let cards = document.querySelectorAll('.blog-card, .card, article');
+        cards.forEach(card => {
+            let text = card.innerText.toLowerCase();
+            if (text.includes(filter)) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>
+
+<!-- ডার্ক মোড স্ক্রিপ্ট -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  });
+
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+  }
+</script>
+
+</body>
+</html> 
