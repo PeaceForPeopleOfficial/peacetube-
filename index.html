@@ -580,25 +580,27 @@
         </div>
     </footer>
 </body>
-</html>    
-        
-    <!-- স্ক্রিপ্ট -->
-    <script>
-        // থিম টগল
-        function toggleTheme() {
-            if (document.documentElement.getAttribute('data-theme') === 'dark') {
-                document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-        }
+   <script>
+// ১. চ্যালেঞ্জ সম্পন্ন করার ফাংশন
+function completeChallenge() {
+    const btn = document.getElementById('challengeBtn');
+    if (btn) {
+        btn.innerText = "আলহামদুলিল্লাহ! সম্পন্ন হয়েছে ✔️";
+        btn.style.background = "#0e6306";
+        btn.disabled = true;
+    }
+}
 
-      // ১ মিনিটের শ্বাস-প্রশ্বাসের অ্যানিমেশন লজিক
+// ২. লাইক টগল ফাংশন
+function toggleLike(id) {
+    const span = document.getElementById(id);
+    if (span) {
+        let currentLikes = parseInt(span.innerText) || 0;
+        span.innerText = currentLikes + 1;
+    }
+}
+
+// ৩. ব্রীদিং অ্যানিমেশন লজিক
 const circle = document.getElementById('breathCircle');
 const breathText = document.getElementById('breathText');
 let isHolding = false;
@@ -618,34 +620,22 @@ if (circle && breathText) {
         }
     }, 4000);
 }
-      
-            // লাইক টগল
-        function toggleLike(id) {
-            const span = document.getElementById(id);
-            let count = parseInt(span.innerText);
-            span.innerText = count + 1;
+  // ৪. সার্চ পোস্ট ফাংশন
+function searchPosts() {
+    let input = document.getElementById('searchInput');
+    if (!input) return;
+    let filter = input.value.toLowerCase();
+    let cards = document.querySelectorAll('.blog-card, .card, article'); 
+    
+    cards.forEach(card => {
+        let text = card.innerText.toLowerCase();
+        if (text.includes(filter)) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none";
         }
-// চ্যালেঞ্জ সম্পন্ন
-function completeChallenge() {
-    const btn = document.getElementById('challengeBtn');
-    if (btn) {
-        btn.innerText = "আলহামদুলিল্লাহ! সম্পন্ন হয়েছে ✔️";
-        btn.style.background = "#0e6306";
-        btn.disabled = true;
-    }
-}
+    });
+}     
+</script> 
+</html>    
         
-        // সার্চ পোস্ট
-        function searchPosts() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.querySelectorAll('.blog-card');
-            cards.forEach(card => {
-                let text = card.innerText.toLowerCase();
-                if(text.includes(input)) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        }
-   
