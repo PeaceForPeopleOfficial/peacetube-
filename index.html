@@ -597,23 +597,26 @@
             document.documentElement.setAttribute('data-theme', 'dark');
         }
 
-        // ব্রীদিং এনিমেশন
-        const circle = document.getElementById('breathCircle');
-        const breathText = document.getElementById('breathText');
-        let isHolding = false;
-        setInterval(() => {
-            if(!isHolding) {
-                circle.classList.add('inhale');
-                circle.innerText = "শ্বাস ছাড়ুন";
-                breathText.innerText = "ধীরে ধীরে মুখ দিয়ে শ্বাস ছাড়ুন...";
-                isHolding = true;
-            } else {
-                circle.classList.remove('inhale');
-                circle.innerText = "শ্বাস নিন";
-                breathText.innerText = "নাকের মাধ্যমে গভীর শ্বাস নিন...";
-                isHolding = false;
-            }
-        }, 4000);
+      // ১ মিনিটের শ্বাস-প্রশ্বাসের অ্যানিমেশন লজিক
+const circle = document.getElementById('breathCircle');
+const breathText = document.getElementById('breathText');
+let isHolding = false;
+
+if (circle && breathText) {
+    setInterval(() => {
+        if (!isHolding) {
+            circle.classList.add('inhale');
+            circle.innerText = "শ্বাস ছাড়ুন";
+            breathText.innerText = "ধীরে ধীরে মুখ দিয়ে শ্বাস ছাড়ুন...";
+            isHolding = true;
+        } else {
+            circle.classList.remove('inhale');
+            circle.innerText = "শ্বাস নিন";
+            breathText.innerText = "নাকের মাধ্যমে গভীর শ্বাস নিন...";
+            isHolding = false;
+        }
+    }, 4000);
+}
       
             // লাইক টগল
         function toggleLike(id) {
