@@ -609,15 +609,14 @@
                 isHolding = false;
             }
         }, 4000);
-
-        // চ্যালেঞ্জ সম্পন্ন
-        function completeChallenge() {
-            const btn = document.getElementById('challengeBtn');
-            btn.innerText = "আলহামদুলিল্লাহ! সম্পন্ন হয়েছে ✔️";
-            btn.style.background = "#0e6306";
-            btn.disabled = true;
-        }
-
+// চ্যালেঞ্জ সম্পন্ন
+function completeChallenge() {
+    const btn = document.querySelector('.btn-orange');
+    btn.innerText = "আলহামদুলিল্লাহ! সম্পন্ন হয়েছে ✔️";
+    btn.style.background = "#0e6306";
+    btn.disabled = true;
+}
+     
         // লাইক টগল
         function toggleLike(id) {
             const span = document.getElementById(id);
