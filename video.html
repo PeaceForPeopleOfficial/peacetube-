@@ -337,7 +337,10 @@
         </div>
 
         <!-- সার্চ ও ফিল্টার বক্স -->
-        <div class="search-filter-box">
+        <div class="search-filter-box"> <!-- অ্যাডমিন প্যানেল থেকে আপলোড করা ভিডিওগুলো এখানে অটোমেটিক লোড হবে -->
+<div id="videoGrid" class="video-grid">
+    <p style="text-align: center; grid-column: span 2;">🔄 ভিডিও লোড হচ্ছে...</p>
+</div>
             <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 আপনার পছন্দের শান্তিময় ভিডিও খুঁজুন (যেমন: বৃষ্টি, ধান)..." onkeyup="searchVideos()">
             <div class="filter-buttons">
                <!-- 🏷️ সার্চ সাজেশন ট্যাগ -->
@@ -361,12 +364,7 @@
 </div>
         <div class="video-grid" id="videoGrid">
             
-   <!-- অ্যাডমিন প্যানেল থেকে আপলোড করা ভিডিওগুলো এখানে অটোমেটিক লোড হবে -->
-<div id="videoGrid" class="video-grid">
-    <p style="text-align: center; grid-column: span 2;">🔄 ভিডিও লোড হচ্ছে...</p>
-</div>
-    
-                    <div class="action-bar">
+                       <div class="action-bar">
                         <div class="reaction-container">
                             <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১২</span>)</button>
                             <button class="reaction-btn" onclick="addReaction(this)">🍃 Calm (<span class="count">৮</span>)</button>
