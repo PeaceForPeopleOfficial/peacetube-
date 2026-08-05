@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PeaceTube - মানসিক প্রশান্তির ভিডিও ও মিডিয়া প্ল্যাটফর্ম</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <style>
         :root {
             --orange: #ff9933;
@@ -15,7 +13,6 @@
             --card-bg: #ffffff;
             --text-color: #2c3e50;
             --border-color: #eee;
-            --red-alert: #d32f2f;
         }
         [data-theme="dark"] {
             --bg-gradient: linear-gradient(135deg, #1e272c 0%, #0f1416 100%);
@@ -33,7 +30,12 @@
             transition: background 0.3s, color 0.3s;
         }
         .container { max-width: 800px; margin: auto; }
-        .search-box { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 20px; box-sizing: border-box; }
+        .nav-links { margin-bottom: 20px; font-weight: bold; }
+        .nav-links a { text-decoration: none; color: var(--green); margin-right: 15px; }
+        .search-box { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; }
+        .category-filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .category-btn { background: #fff; border: 1px solid #ccc; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        .category-btn.active, .category-btn:hover { background: var(--green); color: #fff; border-color: var(--green); }
         .video-card { background: var(--card-bg); padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid var(--border-color); }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-top: 10px; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -43,15 +45,25 @@
 <body>
 
 <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <a href="index.html" style="text-decoration: none; color: #138808; font-weight: bold;">⬅️ হোমপেজে ফিরুন</a>
-        <h2>📺 Peace Tube</h2>
+    <div class="nav-links">
+        <a href="index.html">🏠 হোম</a>
+        <a href="video.html">📺 পিস টিউব</a>
     </div>
 
-    <!-- সার্চ করার ইনপুট বক্স (এখান থেকে সার্চ করলে ভিডিও ফিল্টার হবে) -->
+    <h2>📺 Peace Tube - শান্তিময় ভিডিও সংগ্রহ</h2>
+
+    <!-- সার্চ করার বক্স -->
     <input type="text" id="videoSearch" class="search-box" placeholder="🔍 আপনার পছন্দের শান্তিময় ভিডিও বা মিউজিক খুঁজুন..." onkeyup="filterVideos()">
 
-    <!-- অ্যাডমিন প্যানেল থেকে আপলোড করা ভিডিওগুলো এখানে অটোমেটিক লোড হবে -->
+    <!-- ক্যাটাগরি ফিল্টার বাটনসমূহ -->
+    <div class="category-filters">
+        <button class="category-btn active" onclick="filterByCategory('all', this)">সব ভিডিও</button>
+        <button class="category-btn" onclick="filterByCategory('nature', this)">প্রকৃতির সুর</button>
+        <button class="category-btn" onclick="filterByCategory('meditation', this)">মেডিটেশন</button>
+        <button class="category-btn" onclick="filterByCategory('islamic', this)">ইসলামিক মিউজিক</button>
+    </div>
+
+    <!-- অ্যাডমিন প্যানেল থেকে আসা ভিডিওগুলো এখানে লোড হবে -->
     <div id="dynamic-videos-container">
         <p>🔄 ভিডিও লোড হচ্ছে...</p>
     </div>
@@ -59,10 +71,10 @@
 
 <script>
     let allVideosData = [];
+    let currentCategory = 'all';
 
     async function loadDynamicVideos() {
         try {
-            // গিটহাবের কন্টেন্ট ফোল্ডার থেকে ফাইল ফেচ করা
             const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/videos');
             const files = await response.json();
 
@@ -90,7 +102,7 @@
         videoContainer.innerHTML = '';
 
         if (videos.length === 0) {
-            videoContainer.innerHTML = '<p>দুঃখিত, কোনো ভিডিও পাওয়া যায়নি।</p>';
+            videoContainer.innerHTML = '<p>দুঃখিত, এই মুহূর্তে কোনো ভিডিও পাওয়া যায়নি।</p>';
             return;
         }
 
@@ -113,15 +125,33 @@
         });
     }
 
-    // সার্চ ফিল্টার ফাংশন
+    // সার্চ এবং ক্যাটাগরি ফিল্টার একত্রে কাজ করার ফাংশন
     function filterVideos() {
         const query = document.getElementById('videoSearch').value.toLowerCase();
+        
         const filtered = allVideosData.filter(video => {
             const title = (video.title || '').toLowerCase();
             const desc = (video.description || '').toLowerCase();
-            return title.includes(query) || desc.includes(query);
+            const category = (video.category || '').toLowerCase();
+            
+            const matchesSearch = title.includes(query) || desc.includes(query);
+            const matchesCategory = (currentCategory === 'all') || category.includes(currentCategory);
+
+            return matchesSearch && matchesCategory;
         });
+
         displayVideos(filtered);
+    }
+
+    // ক্যাটাগরি সিলেক্ট করার ফাংশন
+    function filterByCategory(category, btnElement) {
+        currentCategory = category;
+        
+        // বাটনের অ্যাক্টিভ ক্লাস পরিবর্তন
+        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        filterVideos();
     }
 
     // ইউটিউব আইডি বের করার ফাংশন
