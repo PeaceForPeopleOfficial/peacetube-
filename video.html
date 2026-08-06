@@ -266,6 +266,33 @@
     </div>
 </div>
 
+    <!-- ২ নম্বর ভিডিও বক্স -->
+        <div class="video-card" data-category="poem">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>📺 ২. মন ছোঁয়া কবিতা ও প্রশান্তির গান</h3>
+                <p>হৃদয় ছোঁয়া আবৃত্তি ও মানসিক প্রশান্তির সুর যা আপনার মনকে সতেজ করবে।</p>
+                <div class="action-bar">
+                    <div class="reaction-container">
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৮</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৪</span>)</button>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-box">
+                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                    </div>
+                    <div class="comments-list"></div>
+                </div>
+            </div>
+        </div>
 <script>
     async function loadDynamicVideos() {
         try {
