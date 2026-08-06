@@ -133,20 +133,21 @@
     </div>
 
     <div class="search-filter-box">
-        <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 শান্তি, মোটিভেশন বা কবিতা খুঁজুন..." onkeyup="filterVideos()">
+        <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 শান্তি, মিউজিক বা কবিতা খুঁজুন..." onkeyup="filterVideos()">
         <div class="filter-buttons">
             <button class="filter-btn active" onclick="filterByCategory('all', this)">সব কন্টেন্ট</button>
             <button class="filter-btn" onclick="filterByCategory('premium', this)">⭐ প্রিমিয়াম</button>
             <button class="filter-btn" onclick="filterByCategory('motivational', this)">🔥 মোটিভেশন ও গান</button>
             <button class="filter-btn" onclick="filterByCategory('visual', this)">🌿 ভিজ্যুয়াল ও গল্প</button>
             <button class="filter-btn" onclick="filterByCategory('islamic', this)">✨ ইসলামিক প্রশান্তি</button>
+            <button class="filter-btn" onclick="filterByCategory('music', this)">🎧 রিল্যাক্সিং মিউজিক</button>
         </div>
     </div>
 
-    <!-- সুসংগঠিত ৪টি প্রধান ক্যাটাগরি বক্সসমূহ -->
+    <!-- সুসংগঠিত ক্যাটাগরি বক্সসমূহ -->
     <div id="videoGrid" class="video-grid">
         
-        <!-- ১. অফিসিয়াল চ্যানেল বক্স (সর্বদা ফিক্সড) -->
+        <!-- ১. অফিসিয়াল চ্যানেল বক্স -->
         <div class="video-card" data-category="official">
             <div class="video-container">
                 <div class="channel-showcase">
@@ -157,7 +158,7 @@
             </div>
             <div class="video-info">
                 <h3>📺 পিস টিউব অফিসিয়াল ইউটিউব চ্যানেল</h3>
-                <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেলের সকল লেটেস্ট আপডেট ও পیس টিউবের এক্সক্লুসিভ কন্টেন্ট।</p>
+                <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেলের সকল লেটেস্ট আপডেট ও পিস টিউবের এক্সক্লুসিভ কন্টেন্ট।</p>
                 <div class="action-bar">
                     <div class="reaction-container">
                         <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৩০</span>)</button>
@@ -292,6 +293,34 @@
             </div>
         </div>
 
+        <!-- ৬. কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক বক্স (নতুন যুক্ত হলো) -->
+        <div class="video-card" id="box-music" data-category="music">
+            <div class="video-container">
+                <div style="color:white; display:flex; align-items:center; justify-content:center; height:100%; background:#1e272c; text-align:center; padding:15px;">🎧 কপিরাইট ফ্রি রিল্যাক্সিং মিউজিকের অপেক্ষায়...</div>
+            </div>
+            <div class="video-info">
+                <h3>🎧 কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক (ইসলামিক ও নন-ইসলামিক)</h3>
+                <p>সকল প্রকার রিল্যাক্সিং সাউন্ড, লো-ফাই ও কপিরাইট ফ্রি মিউজিকের চমৎকার সংগ্রহ।</p>
+                <div class="action-bar">
+                    <div class="reaction-container">
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">২০</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১২</span>)</button>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <a href="#" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-box">
+                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                    </div>
+                    <div class="comments-list"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -319,15 +348,17 @@
         const cat = (videoData.category || '').toLowerCase();
         let targetCard = null;
 
-        // ২০টি ক্যাটাগরি থেকে স্বয়ংক্রিয়ভাবে সঠিক প্রধান বক্সে ফিল্টার করার নিয়ম
+        // ক্যাটাগরি অনুযায়ী সঠিক বক্সে ফিল্টার করা
         if (cat.includes('premium')) {
             targetCard = document.getElementById('box-premium');
         } else if (cat.includes('motivational') || cat.includes('song') || cat.includes('empathy') || cat.includes('poems') || cat.includes('success') || cat.includes('interviews') || cat.includes('productivity')) {
             targetCard = document.getElementById('box-motivational');
-        } else if (cat.includes('islamic') || cat.includes('mindfulness') || cat.includes('history') || cat.includes('spiritual')) {
+        } else if (cat.includes('islamic') || cat.includes('history') || cat.includes('spiritual')) {
             targetCard = document.getElementById('box-islamic');
+        } else if (cat.includes('music') || cat.includes('sound') || cat.includes('sleep') || cat.includes('relaxation') || cat.includes('mindfulness')) {
+            targetCard = document.getElementById('box-music');
         } else {
-            // বাকি সব ক্যাটাগরি (Nature, Visual Stories, Inner Healing, Sleep, Social Welfare ইত্যাদি) ভিজ্যুয়াল বক্সে যাবে
+            // ডিফল্ট বা Nature, Visual Stories ইত্যাদির জন্য
             targetCard = document.getElementById('box-visual');
         }
 
