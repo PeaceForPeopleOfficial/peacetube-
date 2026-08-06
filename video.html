@@ -98,6 +98,12 @@
         .comments-list { max-height: 100px; overflow-y: auto; font-size: 12px; color: var(--text-color); }
         .single-comment { background: #f7f9fa; padding: 6px 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid var(--orange); }
         [data-theme="dark"] .single-comment { background: #37474f; }
+        
+        /* ডাইরেক্ট প্লেলিস্ট বা মিউজিক ড্রপডাউন ডিজাইন */
+        .music-playlist { background: #f7f9fa; border-radius: 8px; padding: 10px; margin-bottom: 12px; max-height: 120px; overflow-y: auto; }
+        [data-theme="dark"] .music-playlist { background: #1e272c; }
+        .music-item { padding: 6px 10px; margin-bottom: 5px; background: var(--card-bg); border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--orange); }
+        .music-item:hover { background: var(--green); color: #fff; }
     </style>
 </head>
 <body>
@@ -153,7 +159,7 @@
                 <div class="channel-showcase">
                     <h2>🌿 PeaceTube Official</h2>
                     <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেলের সকল আপডেট পেতে যুক্ত থাকুন</p>
-                    <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" class="channel-btn">📺 চ্যানেল ভিজিট করুন</a>
+                    <a href="url?id=5" target="_blank" class="channel-btn">📺 চ্যানেল ভিজিট করুন</a>
                 </div>
             </div>
             <div class="video-info">
@@ -293,21 +299,30 @@
             </div>
         </div>
 
-        <!-- ৬. কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক বক্স (নতুন যুক্ত হলো) -->
+        <!-- ৬. কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক বক্স (সরাসরি সেট করা মিউজিক সহ) -->
         <div class="video-card" id="box-music" data-category="music">
             <div class="video-container">
-                <div style="color:white; display:flex; align-items:center; justify-content:center; height:100%; background:#1e272c; text-align:center; padding:15px;">🎧 কপিরাইট ফ্রি রিল্যাক্সিং মিউজিকের অপেক্ষায়...</div>
+                <iframe id="musicIframe" src="https://www.youtube.com/embed/5qap5aO4i9A" title="Relaxing Music" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="video-info">
                 <h3>🎧 কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক (ইসলামিক ও নন-ইসলামিক)</h3>
-                <p>সকল প্রকার রিল্যাক্সিং সাউন্ড, লো-ফাই ও কপিরাইট ফ্রি মিউজিকের চমৎকার সংগ্রহ।</p>
+                <p>ক্লিক করে যেকোনো রিল্যাক্সিং সাউন্ড বা মিউজিক শুনুন:</p>
+                
+                <!-- ডাইরেক্ট প্লেলিস্ট সিলেকশন -->
+                <div class="music-playlist">
+                    <div class="music-item" onclick="playMusic('5qap5aO4i9A', this)">🌿 Lofi Sleep Music & Nature Sounds</div>
+                    <div class="music-item" onclick="playMusic('jfKfPfyJRdk', this)">☕ Lofi Hip Hop Radio - Beats to Relax</div>
+                    <div class="music-item" onclick="playMusic('77Z183w49m0', this)">✨ Peaceful Islamic Nasheed (Copyright Free)</div>
+                    <div class="music-item" onclick="playMusic('Vw2z_WzE1xk', this)">🌙 Deep Relaxation & Stress Relief Audio</div>
+                </div>
+
                 <div class="action-bar">
                     <div class="reaction-container">
-                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">২০</span>)</button>
-                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১২</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৪৫</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">২৮</span>)</button>
                     </div>
                     <div style="display: flex; gap: 5px;">
-                        <a href="#" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                        <a id="musicYtBtn" href="https://youtu.be/5qap5aO4i9A" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
                     </div>
                 </div>
@@ -316,7 +331,9 @@
                         <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
                         <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
                     </div>
-                    <div class="comments-list"></div>
+                    <div class="comments-list">
+                        <div class="single-comment">🎶 মিউজিকগুলো শোনার পর মন একদম শান্ত হয়ে যায়!</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -325,6 +342,22 @@
 </div>
 
 <script>
+    // ডাইরেক্ট মিউজিক প্লে করার ফাংশন
+    function playMusic(videoId, element) {
+        const iframe = document.getElementById('musicIframe');
+        if (iframe) {
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        }
+        const ytBtn = document.getElementById('musicYtBtn');
+        if (ytBtn) {
+            ytBtn.href = `https://youtu.be/${videoId}`;
+        }
+        // সিলেক্টেড ইফেক্ট দেওয়া
+        document.querySelectorAll('.music-item').forEach(item => item.style.background = 'var(--card-bg)');
+        element.style.background = 'var(--green)';
+        element.style.color = '#fff';
+    }
+
     async function loadDynamicVideos() {
         try {
             const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/videos');
@@ -348,7 +381,6 @@
         const cat = (videoData.category || '').toLowerCase();
         let targetCard = null;
 
-        // ক্যাটাগরি অনুযায়ী সঠিক বক্সে ফিল্টার করা
         if (cat.includes('premium')) {
             targetCard = document.getElementById('box-premium');
         } else if (cat.includes('motivational') || cat.includes('song') || cat.includes('empathy') || cat.includes('poems') || cat.includes('success') || cat.includes('interviews') || cat.includes('productivity')) {
@@ -356,9 +388,9 @@
         } else if (cat.includes('islamic') || cat.includes('history') || cat.includes('spiritual')) {
             targetCard = document.getElementById('box-islamic');
         } else if (cat.includes('music') || cat.includes('sound') || cat.includes('sleep') || cat.includes('relaxation') || cat.includes('mindfulness')) {
+            // যদি কেউ অ্যাডমিন থেকে মিউজিক দেয় তবে তা প্লেলিস্টের পাশাপাশি মেইন ভিডিও হিসেবেও দেখাবে
             targetCard = document.getElementById('box-music');
         } else {
-            // ডিফল্ট বা Nature, Visual Stories ইত্যাদির জন্য
             targetCard = document.getElementById('box-visual');
         }
 
@@ -367,7 +399,7 @@
         const youtubeUrl = videoData.video_url || videoData.url || '';
         const youtubeId = extractYouTubeId(youtubeUrl);
 
-        if (youtubeId) {
+        if (youtubeId && targetCard.id !== 'box-music') {
             const container = targetCard.querySelector('.video-container');
             container.innerHTML = `<iframe src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>`;
             
