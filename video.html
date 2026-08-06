@@ -99,7 +99,6 @@
         .single-comment { background: #f7f9fa; padding: 6px 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid var(--orange); }
         [data-theme="dark"] .single-comment { background: #37474f; }
         
-        /* ডাইরেক্ট প্লেলিস্ট বা মিউজিক ড্রপডাউন ডিজাইন */
         .music-playlist { background: #f7f9fa; border-radius: 8px; padding: 10px; margin-bottom: 12px; max-height: 120px; overflow-y: auto; }
         [data-theme="dark"] .music-playlist { background: #1e272c; }
         .music-item { padding: 6px 10px; margin-bottom: 5px; background: var(--card-bg); border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--orange); }
@@ -159,7 +158,7 @@
                 <div class="channel-showcase">
                     <h2>🌿 PeaceTube Official</h2>
                     <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেলের সকল আপডেট পেতে যুক্ত থাকুন</p>
-                    <a href="url?id=5" target="_blank" class="channel-btn">📺 চ্যানেল ভিজিট করুন</a>
+                    <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" class="channel-btn">📺 চ্যানেল ভিজিট করুন</a>
                 </div>
             </div>
             <div class="video-info">
@@ -302,7 +301,7 @@
         <!-- ৬. কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক বক্স (সরাসরি সেট করা মিউজিক সহ) -->
         <div class="video-card" id="box-music" data-category="music">
             <div class="video-container">
-                <iframe id="musicIframe" src="https://www.youtube.com/embed/5qap5aO4i9A" title="Relaxing Music" frameborder="0" allowfullscreen></iframe>
+                <iframe id="musicIframe" src="https://www.youtube.com/embed/5qap5aO4i9A" title="Relaxing Music" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="video-info">
                 <h3>🎧 কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক (ইসলামিক ও নন-ইসলামিক)</h3>
@@ -342,7 +341,6 @@
 </div>
 
 <script>
-    // ডাইরেক্ট মিউজিক প্লে করার ফাংশন
     function playMusic(videoId, element) {
         const iframe = document.getElementById('musicIframe');
         if (iframe) {
@@ -352,7 +350,6 @@
         if (ytBtn) {
             ytBtn.href = `https://youtu.be/${videoId}`;
         }
-        // সিলেক্টেড ইফেক্ট দেওয়া
         document.querySelectorAll('.music-item').forEach(item => item.style.background = 'var(--card-bg)');
         element.style.background = 'var(--green)';
         element.style.color = '#fff';
@@ -388,7 +385,6 @@
         } else if (cat.includes('islamic') || cat.includes('history') || cat.includes('spiritual')) {
             targetCard = document.getElementById('box-islamic');
         } else if (cat.includes('music') || cat.includes('sound') || cat.includes('sleep') || cat.includes('relaxation') || cat.includes('mindfulness')) {
-            // যদি কেউ অ্যাডমিন থেকে মিউজিক দেয় তবে তা প্লেলিস্টের পাশাপাশি মেইন ভিডিও হিসেবেও দেখাবে
             targetCard = document.getElementById('box-music');
         } else {
             targetCard = document.getElementById('box-visual');
@@ -401,7 +397,7 @@
 
         if (youtubeId && targetCard.id !== 'box-music') {
             const container = targetCard.querySelector('.video-container');
-            container.innerHTML = `<iframe src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>`;
+            container.innerHTML = `<iframe src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             
             const titleElem = targetCard.querySelector('.video-info h3');
             if (titleElem && videoData.title) {
