@@ -354,16 +354,58 @@
                 <button class="filter-btn" onclick="filterVideos('premium', this)">👑 প্রিমিয়াম ভিডিও</button>
             </div>
         </div>
+function displayVideos(videos) {
+        const videoContainer = document.getElementById('videoGrid');
+        videoContainer.innerHTML = '';
 
-     <div class="video-card" data-category="nature">
-    <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/QH2-TGUlwu4" allowfullscreen></iframe>
-    </div>
-    <div class="video-info">
-        <h3>১. শান্তিময় লো-ফাই গল্প ও ভিজ্যুয়াল সুর</h3>
-        <p>শান্তিময় লো-ফাই ব্যাকগ্রাউন্ড স্টোরিজ, ভিজ্যুয়াল, মন ছোঁয়া কবিতা, গান ও মানবীয় বন্ধনের চমৎকার মুহূর্ত।</p>
-    </div>
-</div>
+        if (videos.length === 0) {
+            videoContainer.innerHTML = '<p style="text-align:center; grid-column: span 2;">দুঃখিত, এই মুহূর্তে কোনো ভিডিও পাওয়া যায়নি।</p>';
+            return;
+        }
+
+        videos.forEach((videoData, index) => {
+            const videoCard = document.createElement('div');
+            videoCard.className = 'video-card';
+            
+            const youtubeUrl = videoData.video_url || videoData.url || '';
+            const youtubeId = extractYouTubeId(youtubeUrl);
+            
+            // ১ নম্বর ভিডিও বক্সের জন্য আপনার কাঙ্ক্ষিত নাম ও বিবরণ, বাকিগুলোর জন্য অ্যাডমিন প্যানেলের টাইটেল
+            let boxTitle = (index === 0) ? '১. শান্তিময় লো-ফাই গল্প ও ভিজ্যুয়াল সুর' : (videoData.title || 'শান্তিময় ভিডিও ও কন্টেন্ট');
+            let boxDesc = (index === 0) ? 'শান্তিময় লো-ফাই ব্যাকগ্রাউন্ড স্টোরিজ, ভিজ্যুয়াল, মন ছোঁয়া কবিতা, গান ও মানবীয় বন্ধনের চমৎকার মুহূর্ত।' : (videoData.description || '');
+            
+            videoCard.innerHTML = `
+                <div class="video-container">
+                    ${youtubeId ? `<iframe src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>` : '<div style="color:white; display:flex; align-items:center; justify-content:center; height:100%;">লিংক সঠিক নয়</div>'}
+                </div>
+                <div class="video-info">
+                    <h3>📺 ${boxTitle}</h3>
+                    <p>${boxDesc}</p>
+                    <div class="action-bar">
+                        <div class="reaction-container">
+                            <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১২</span>)</button>
+                            <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৫</span>)</button>
+                        </div>
+                        <div style="display: flex; gap: 5px;">
+                            ${youtubeId ? `<a href="https://youtu.be/${youtubeId}" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>` : ''}
+                            <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                        </div>
+                    </div>
+                    <div class="comment-section">
+                        <div class="comment-input-box">
+                            <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                            <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                        </div>
+                        <div class="comments-list">
+                            <div class="single-comment">🔄 খুব সুন্দর মিউজিক, মনটা শান্ত হয়ে গেল!</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            videoContainer.appendChild(videoCard);
+        });
+    }
+    
                          
             <!-- ভিডিও ২ -->
             <div class="video-card" data-category="meditation" data-title="৫ মিনিটের কুইক রিল্যাক্সেশন মেডিটেশন">
