@@ -150,10 +150,36 @@
 
     <!-- ডায়নামিক ও স্ট্যাটিক ভিডিওগুলো লোড হওয়ার মূল গ্রিড কন্টেইনার -->
     <div id="videoGrid" class="video-grid">
+        <!-- পিস টিউব অফিসিয়াল ইউটিউব বক্স -->
+        <div class="video-card" data-category="update">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>📺 পিস টিউব অফিসিয়াল ইউটিউব চ্যানেল</h3>
+                <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেলের সকল আপডেট, নতুন ভিডিও এবং বিশেষ প্রজেক্টের সাথে যুক্ত থাকুন।</p>
+                <div class="action-bar">
+                    <div class="reaction-container">
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৩০</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১৮</span>)</button>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <a href="https://youtube.com/@YOUR_CHANNEL_HANDLE" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-box">
+                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                    </div>
+                    <div class="comments-list"></div>
+                </div>
+            </div>
+        </div>
         <!-- ১ নম্বর ভিডিও বক্স (আপনার কাঙ্ক্ষিত থিম অনুযায়ী কাস্টমাইজড) --
         <!-- ২ নম্বর ভিডিও বক্স -->
-        <!-- ৩ নম্বর ভিডিও বক্স (অফিসিয়াল ইউটিউব লিংক) -->
-        <!-- প্রিমিয়াম ভিডিও বক্স -->
+               <!-- প্রিমিয়াম ভিডিও বক্স -->
         <div class="video-card" data-category="lofi">
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/BX3WirvWap4" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
@@ -184,33 +210,7 @@
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
             </div>
-            <div class="video-info">
-                <h3>📺 ৩. পিস টিউব অফিসিয়াল আপডেট ও প্রজেক্ট</h3>
-                <p>আমাদের নিজস্ব প্ল্যাটফর্ম 'Peacetube'-এর বিশেষ আপডেট, প্রজেক্ট এবং মানবতার কল্যাণে বিশেষ মুহূর্ত।</p>
-                <div class="action-bar">
-                    <div class="reaction-container">
-                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১৫</span>)</button>
-                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১০</span>)</button>
-                    </div>
-                    <div style="display: flex; gap: 5px;">
-                        <a href="https://youtu.be/YOUR_VIDEO_ID" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
-                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
-                    </div>
-                </div>
-                <div class="comment-section">
-                    <div class="comment-input-box">
-                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
-                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
-                    </div>
-                    <div class="comments-list"></div>
-                </div>
-            </div>
-        </div>
-        <div class="video-card" data-category="poem">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
+                      <div class="video-info">
                 <h3>📺 ২. মন ছোঁয়া কবিতা ও প্রশান্তির গান</h3>
                 <p>হৃদয় ছোঁয়া আবৃত্তি ও মানসিক প্রশান্তির সুর যা আপনার মনকে সতেজ করবে।</p>
                 <div class="action-bar">
