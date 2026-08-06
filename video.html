@@ -145,6 +145,35 @@
 
     <!-- মূল ভিডিও গ্রিড -->
     <div id="videoGrid" class="video-grid">
+        <!-- ১ নম্বর ভিডিও বক্স -->
+        <div class="video-card" data-category="lofi">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/QH2-TGUlwu4" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>📺 ১. শান্তিময় লো-ফাই গল্প ও ভিজ্যুয়াল সুর</h3>
+                <p>শান্তিময় লো-ফাই ব্যাকগ্রাউন্ড স্টোরিজ, ভিজ্যুয়াল, মন ছোঁয়া কবিতা, গান ও মানবীয় বন্ধনের চমৎকার মুহূর্ত।</p>
+                <div class="action-bar">
+                    <div class="reaction-container">
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১২</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৫</span>)</button>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <a href="https://youtu.be/QH2-TGUlwu4" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-box">
+                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                    </div>
+                    <div class="comments-list">
+                        <div class="single-comment">🔄 খুব সুন্দর মিউজিক, মনটা শান্ত হয়ে গেল!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- স্থায়ী অফিসিয়াল ইউটিউব চ্যানেল বক্স -->
         <div class="video-card" data-category="update">
