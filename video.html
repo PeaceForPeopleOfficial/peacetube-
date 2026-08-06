@@ -133,16 +133,17 @@
     </div>
 
     <div class="search-filter-box">
-        <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 শান্তি, লো-ফাই গল্প বা কবিতা খুঁজুন..." onkeyup="filterVideos()">
+        <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 শান্তি, মোটিভেশন বা কবিতা খুঁজুন..." onkeyup="filterVideos()">
         <div class="filter-buttons">
             <button class="filter-btn active" onclick="filterByCategory('all', this)">সব কন্টেন্ট</button>
-            <button class="filter-btn" onclick="filterByCategory('premium', this)">⭐ প্রিমিয়াম বক্স</button>
-            <button class="filter-btn" onclick="filterByCategory('song', this)">🎶 প্রশান্তির গান</button>
-            <button class="filter-btn" onclick="filterByCategory('visual', this)">🌿 শান্তিময় ভিজ্যুয়াল ও গল্প</button>
+            <button class="filter-btn" onclick="filterByCategory('premium', this)">⭐ প্রিমিয়াম</button>
+            <button class="filter-btn" onclick="filterByCategory('motivational', this)">🔥 মোটিভেশন ও গান</button>
+            <button class="filter-btn" onclick="filterByCategory('visual', this)">🌿 ভিজ্যুয়াল ও গল্প</button>
+            <button class="filter-btn" onclick="filterByCategory('islamic', this)">✨ ইসলামিক প্রশান্তি</button>
         </div>
     </div>
 
-    <!-- নির্দিষ্ট ক্যাটাগরি অনুযায়ী নির্ধারিত ভিডিও বক্সসমূহ -->
+    <!-- সুসংগঠিত ৪টি প্রধান ক্যাটাগরি বক্সসমূহ -->
     <div id="videoGrid" class="video-grid">
         
         <!-- ১. অফিসিয়াল চ্যানেল বক্স (সর্বদা ফিক্সড) -->
@@ -151,19 +152,19 @@
                 <div class="channel-showcase">
                     <h2>🌿 PeaceTube Official</h2>
                     <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেলের সকল আপডেট পেতে যুক্ত থাকুন</p>
-                    <a href="https://youtube.com/@PeaceForPeopleOfficial" target="_blank" class="channel-btn">📺 চ্যানেল ভিজিট করুন</a>
+                    <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" class="channel-btn">📺 চ্যানেল ভিজিট করুন</a>
                 </div>
             </div>
             <div class="video-info">
                 <h3>📺 পিস টিউব অফিসিয়াল ইউটিউব চ্যানেল</h3>
-                <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেলের সকল লেটেস্ট আপডেট ও পিস টিউবের এক্সক্লুসিভ কন্টেন্ট।</p>
+                <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেলের সকল লেটেস্ট আপডেট ও পیس টিউবের এক্সক্লুসিভ কন্টেন্ট।</p>
                 <div class="action-bar">
                     <div class="reaction-container">
                         <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৩০</span>)</button>
                         <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১৮</span>)</button>
                     </div>
                     <div style="display: flex; gap: 5px;">
-                        <a href="https://youtube.com/@PeaceForPeopleOfficial" target="_blank" class="yt-link-btn" title="সাবস্ক্রাইব করুন">🔔 সাবস্ক্রাইব</a>
+                        <a href="https://www.youtube.com/@PeaceForPeopleOfficial?sub_confirmation=1" target="_blank" class="yt-link-btn" title="সাবস্ক্রাইব করুন">🔔 সাবস্ক্রাইব</a>
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
                     </div>
                 </div>
@@ -179,14 +180,14 @@
             </div>
         </div>
 
-        <!-- ২. প্রিমিয়াম বক্স -->
+        <!-- ২. প্রিমিয়াম কালেকশন বক্স -->
         <div class="video-card" id="box-premium" data-category="premium">
             <div class="video-container">
-                <div style="color:white; display:flex; align-items:center; justify-content:center; height:100%; background:#1e272c; text-align:center; padding:15px;">⭐ প্রিমিয়াম ভিডিওর অপেক্ষায়... (অ্যাডমিন প্যানেল থেকে প্রিমিয়াম ক্যাটাগরি দিন)</div>
+                <div style="color:white; display:flex; align-items:center; justify-content:center; height:100%; background:#1e272c; text-align:center; padding:15px;">⭐ প্রিমিয়াম ভিডিওর অপেক্ষায়...</div>
             </div>
             <div class="video-info">
-                <h3>⭐ প্রিমিয়াম এক্সক্লুসিভ ভিডিও</h3>
-                <p>বিশেষ ও বাছাইকৃত প্রিমিয়াম কন্টেন্ট যা আপনার মন জুড়িয়ে দেবে।</p>
+                <h3>⭐ প্রিমিয়াম এক্সক্লুসিভ কন্টেন্ট</h3>
+                <p>বিশেষ ও বাছাইকৃত প্রিমিয়াম কালেকশন যা আপনার মন জুড়িয়ে দেবে।</p>
                 <div class="action-bar">
                     <div class="reaction-container">
                         <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৫</span>)</button>
@@ -207,14 +208,14 @@
             </div>
         </div>
 
-        <!-- ৩. প্রশান্তির গান বক্স -->
-        <div class="video-card" id="box-song" data-category="song">
+        <!-- ৩. মোটিভেশন ও গান বক্স -->
+        <div class="video-card" id="box-motivational" data-category="motivational">
             <div class="video-container">
-                <div style="color:white; display:flex; align-items:center; justify-content:center; height:100%; background:#1e272c; text-align:center; padding:15px;">🎶 প্রশান্তির গানের অপেক্ষায়... (অ্যাডমিন প্যানেল থেকে song ক্যাটাগরি দিন)</div>
+                <div style="color:white; display:flex; align-items:center; justify-content:center; height:100%; background:#1e272c; text-align:center; padding:15px;">🔥 মোটিভেশন ও গানের ভিডিওর অপেক্ষায়...</div>
             </div>
             <div class="video-info">
-                <h3>🎶 প্রশান্তির গান ও সুর</h3>
-                <p>মন শান্ত করা মনোরম সুর ও চমৎকার সব গানের কালেকশন।</p>
+                <h3>🔥 বাংলা মোটিভেশনাল ভিডিও, গান ও উক্তি</h3>
+                <p>মন ছোঁয়া গান, ইনস্পায়ারিং মোটিভেশন ও মানবীয় বন্ধনের চমৎকার মুহূর্ত।</p>
                 <div class="action-bar">
                     <div class="reaction-container">
                         <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৮</span>)</button>
@@ -235,14 +236,14 @@
             </div>
         </div>
 
-        <!-- ৪. শান্তিময় ভিজ্যুয়াল ও গল্প বক্স -->
+        <!-- ৪. ভিজ্যুয়াল ও গল্প বক্স -->
         <div class="video-card" id="box-visual" data-category="visual">
             <div class="video-container">
-                <div style="color:white; display:flex; align-items:center; justify-content:center; height:100%; background:#1e272c; text-align:center; padding:15px;">🌿 শান্তিময় ভিজ্যুয়াল ও গল্পের অপেক্ষায়... (অ্যাডমিন প্যানেল থেকে visual ক্যাটাগরি দিন)</div>
+                <div style="color:white; display:flex; align-items:center; justify-content:center; height:100%; background:#1e272c; text-align:center; padding:15px;">🌿 ভিজ্যুয়াল ও গল্পের অপেক্ষায়...</div>
             </div>
             <div class="video-info">
-                <h3>🌿 শান্তিময় ভিজ্যুয়াল, গল্প ও কবিতা</h3>
-                <p>মন ছোঁয়া কবিতা, ভিজ্যুয়াল গল্প এবং মানবীয় বন্ধনের চমৎকার মুহূর্ত।</p>
+                <h3>🌿 শান্তিময় লো-ফাই ভিজ্যুয়াল ও গল্প</h3>
+                <p>প্রকৃতির শব্দ, লো-ফাই মিউজিক ও ভিজ্যুয়াল গল্পের অপূর্ব সমন্বয়।</p>
                 <div class="action-bar">
                     <div class="reaction-container">
                         <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১২</span>)</button>
@@ -263,23 +264,21 @@
             </div>
         </div>
 
-    </div>
-</div>
-<!-- ২ নম্বর ভিডিও বক্স -->
-        <div class="video-card" data-category="poem">
+        <!-- ৫. ইসলামিক প্রশান্তি বক্স -->
+        <div class="video-card" id="box-islamic" data-category="islamic">
             <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+                <div style="color:white; display:flex; align-items:center; justify-content:center; height:100%; background:#1e272c; text-align:center; padding:15px;">✨ ইসলামিক প্রশান্তির ভিডিওর অপেক্ষায়...</div>
             </div>
             <div class="video-info">
-                <h3>📺 ২. মন ছোঁয়া কবিতা ও প্রশান্তির গান</h3>
-                <p>হৃদয় ছোঁয়া আবৃত্তি ও মানসিক প্রশান্তির সুর যা আপনার মনকে সতেজ করবে।</p>
+                <h3>✨ ইসলামিক প্রশান্তি ও আত্মিক উন্নয়ন</h3>
+                <p>কুরআনের আলো, সুন্নাহ এবং আত্মিক প্রশান্তির চমৎকার বয়ান ও আমল।</p>
                 <div class="action-bar">
                     <div class="reaction-container">
-                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৮</span>)</button>
-                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৪</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১৫</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১০</span>)</button>
                     </div>
                     <div style="display: flex; gap: 5px;">
-                        <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                        <a href="#" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
                     </div>
                 </div>
@@ -292,7 +291,10 @@
                 </div>
             </div>
         </div>
-    
+
+    </div>
+</div>
+
 <script>
     async function loadDynamicVideos() {
         try {
@@ -305,7 +307,6 @@
                     const fileRes = await fetch(file.download_url);
                     const videoData = await fileRes.json();
                     
-                    // ক্যাটাগরি অনুযায়ী সঠিক বক্সে ডেটা সেট করা
                     assignVideoToBox(videoData);
                 }
             }
@@ -318,11 +319,15 @@
         const cat = (videoData.category || '').toLowerCase();
         let targetCard = null;
 
+        // ২০টি ক্যাটাগরি থেকে স্বয়ংক্রিয়ভাবে সঠিক প্রধান বক্সে ফিল্টার করার নিয়ম
         if (cat.includes('premium')) {
             targetCard = document.getElementById('box-premium');
-        } else if (cat.includes('song') || cat.includes('music')) {
-            targetCard = document.getElementById('box-song');
-        } else if (cat.includes('visual') || cat.includes('story') || cat.includes('lofi') || cat.includes('poem')) {
+        } else if (cat.includes('motivational') || cat.includes('song') || cat.includes('empathy') || cat.includes('poems') || cat.includes('success') || cat.includes('interviews') || cat.includes('productivity')) {
+            targetCard = document.getElementById('box-motivational');
+        } else if (cat.includes('islamic') || cat.includes('mindfulness') || cat.includes('history') || cat.includes('spiritual')) {
+            targetCard = document.getElementById('box-islamic');
+        } else {
+            // বাকি সব ক্যাটাগরি (Nature, Visual Stories, Inner Healing, Sleep, Social Welfare ইত্যাদি) ভিজ্যুয়াল বক্সে যাবে
             targetCard = document.getElementById('box-visual');
         }
 
