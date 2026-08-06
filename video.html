@@ -143,7 +143,62 @@
     </div>
 
     <!-- মূল ভিডিও গ্রিড (অফিসিয়াল চ্যানেল বক্স এবং অ্যাডমিন ভিডিওগুলো এখানে থাকবে) -->
-    <div id="videoGrid" class="video-grid">
+    <div id="videoGrid" class="video-grid
+<!-- ২ নম্বর ভিডিও বক্স -->
+        <div class="video-card" data-category="poem">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>📺 ২. মন ছোঁয়া কবিতা ও প্রশান্তির গান</h3>
+                <p>হৃদয় ছোঁয়া আবৃত্তি ও মানসিক প্রশান্তির সুর যা আপনার মনকে সতেজ করবে।</p>
+                <div class="action-bar">
+                    <div class="reaction-container">
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৮</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৪</span>)</button>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-box">
+                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                    </div>
+                    <div class="comments-list"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- প্রিমিয়াম ভিডিও বক্স -->
+        <div class="video-card" data-category="lofi">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/BX3WirvWap4" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>📺 প্রিমিয়াম মেডিটেশন ও গভীর প্রশান্তি</h3>
+                <p>মন এবং স্নায়ুকে শান্ত করার জন্য বিশেষ প্রিমিয়াম মেডিটেশন মিউজিক যা দুশ্চিন্তা দূর করে মনের ভেতর পরম শান্তি এনে দেয়।</p>
+                <div class="action-bar">
+                    <div class="reaction-container">
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">২৫</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১২</span>)</button>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <a href="https://youtu.be/BX3WirvWap4" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-box">
+                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                    </div>
+                    <div class="comments-list"></div>
+                </div>
+            </div>
+        </div>
         
         <!-- স্থায়ী অফিসিয়াল ইউটিউব চ্যানেল বক্স (র্যান্ডম ভিডিও ছাড়াই সরাসরি চ্যানেলের সুন্দর ব্যানার ও ভিজিট বাটন) -->
         <div class="video-card" data-category="update">
