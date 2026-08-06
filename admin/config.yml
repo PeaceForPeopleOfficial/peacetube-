@@ -26,49 +26,12 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - label: "Video Title"
-        name: "title"
-        widget: "string"
-      - label: "YouTube Video Link / Embed URL"
-        name: "link"
-        widget: "string"
-        hint: "ইউটিউব ভিডিও বা এমবেড লিংক বসান"
-      - label: "Category"
-        name: "category"
-        widget: "select"
-        options:
-    - "Nature & Lo-Fi Sounds"
-    - "Visual Stories & Short Films"
-    - "Heart Touching Songs & Naats"
-    - "Inspiring Poems & Quotes"
-    - "Empathy, Kindness & Humanity"
-    - "Bangla Motivational & Success"
-    - "Islamic Peace & Spiritual Light"
-    - "Mindfulness & Deep Meditation"
-    - "Exclusive Podcasts & Interviews"
-    - "Premium VIP Collection"
-    - "Inner Healing & Mental Relief"
-    - "Self-Improvement & Life Lessons"
-    - "Sleep Sounds & Relaxation"
-    - "Social Welfare & Charity Works"
-    - "Mental Health Awareness"
-    - "Islamic History & Teachings"
-    - "Goal Setting & Productivity"
-    - "Family Bonding & Relationships"
-    - "PeaceTube Official Announcements"
-    - "Subscriber Community Picks"
-        default: "nature"
-      - label: "Description"
-        name: "description"
-        widget: "text"
-        required: false
-      - label: "Is Premium Video?"
-        name: "is_premium"
-        widget: "boolean"
-        default: false
-      - label: "Publish Date"
-        name: "date"
-        widget: "datetime"
+      - { label: "Video Title", name: "title", widget: "string" }
+      - { label: "YouTube Video Link / Embed URL", name: "link", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["official", "premium", "motivational", "visual", "islamic", "music"] }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Is Premium Video?", name: "is_premium", widget: "boolean", default: false }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
 
   - name: "daily_bani"
     label: "Daily Quotes & Bani"
