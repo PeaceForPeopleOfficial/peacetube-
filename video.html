@@ -149,13 +149,12 @@
         </div>
     </div>
 
-    <!-- সুসংগঠিত ক্যাটাগরি বক্সসমূহ -->
     <div id="videoGrid" class="video-grid">
+        
         <!-- ১. অফিসিয়াল চ্যানেল বক্স -->
         <div class="video-card" data-category="official">
             <div class="video-container">
-                <!-- এখানে iframe ট্যাগ বসিয়ে আপনার ভিডিওর আইডি যুক্ত করতে হবে -->
-                <iframe src="https://www.youtube.com/embed/আপনার_তৈরি_করা_ভিডিওর_আইডি" title="PeaceTube Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/PeaceForPeopleOfficial" title="PeaceTube Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="video-info">
                 <h3>📺 পিস টিউব অফিসিয়াল ইউটিউব চ্যানেল</h3>
@@ -166,13 +165,13 @@
                         <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১৮</span>)</button>
                     </div>
                     <div style="display: flex; gap: 5px;">
-                        <a href="https://youtu.be/আপনার_তৈরি_করা_ভিডিওর_আইডি" target="_blank" class="yt-link-btn" title="সাবস্ক্রাইব করুন">🔔 সাবস্ক্রাইব</a>
+                        <a href="https://www.youtube.com/@PeaceForPeopleOfficial?sub_confirmation=1" target="_blank" class="yt-link-btn" title="সাবস্ক্রাইব করুন">🔔 সাবস্ক্রাইব</a>
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
                     </div>
                 </div>
             </div>
         </div>
-      
+
         <!-- ২. প্রিমিয়াম কালেকশন বক্স -->
         <div class="video-card" id="box-premium" data-category="premium">
             <div class="video-container">
@@ -191,17 +190,10 @@
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
                     </div>
                 </div>
-                <div class="comment-section">
-                    <div class="comment-input-box">
-                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
-                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
-                    </div>
-                    <div class="comments-list"></div>
-                </div>
             </div>
         </div>
 
-  <!-- ৩. মোটিভেশন ও গান বক্স -->
+        <!-- ৩. মোটিভেশন ও গান বক্স -->
         <div class="video-card" id="box-motivational" data-category="motivational">
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/5qap5aO4i9A" title="Motivational & Peaceful Music" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -219,15 +211,9 @@
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
                     </div>
                 </div>
-                <div class="comment-section">
-                    <div class="comment-input-box">
-                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
-                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
-                    </div>
-                    <div class="comments-list"></div>
-                </div>
             </div>
         </div>
+
         <!-- ৪. ভিজ্যুয়াল ও গল্প বক্স -->
         <div class="video-card" id="box-visual" data-category="visual">
             <div class="video-container">
@@ -245,13 +231,6 @@
                         <a href="#" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
                     </div>
-                </div>
-                <div class="comment-section">
-                    <div class="comment-input-box">
-                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
-                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
-                    </div>
-                    <div class="comments-list"></div>
                 </div>
             </div>
         </div>
@@ -274,26 +253,18 @@
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
                     </div>
                 </div>
-                <div class="comment-section">
-                    <div class="comment-input-box">
-                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
-                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
-                    </div>
-                    <div class="comments-list"></div>
-                </div>
             </div>
         </div>
 
-        <!-- ৬. কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক বক্স (সরাসরি এবং ১০০% প্লে হওয়ার মতো গ্যারান্টেড মিউজিক সহ) -->
+        <!-- ৬. কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক বক্স -->
         <div class="video-card" id="box-music" data-category="music">
             <div class="video-container">
-                <iframe id="musicIframe" src="url?id=9embed/L_LUpnjgPso" title="Relaxing Music" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe id="musicIframe" src="https://www.youtube.com/embed/L_LUpnjgPso" title="Relaxing Music" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="video-info">
                 <h3>🎧 কপিরাইট ফ্রি ও রিল্যাক্সিং মিউজিক (ইসলামিক ও নন-ইসলামিক)</h3>
                 <p>ক্লিক করে যেকোনো রিল্যাক্সিং সাউন্ড বা মিউজিক শুনুন:</p>
                 
-                <!-- ডাইরেক্ট প্লেলিস্ট সিলেকশন (১০০% নিরাপদ ও প্লেযোগ্য আইডি) -->
                 <div class="music-playlist">
                     <div class="music-item" onclick="playMusic('L_LUpnjgPso', this)">🌿 Peaceful Relaxing Piano & Nature</div>
                     <div class="music-item" onclick="playMusic('5qap5aO4i9A', this)">☕ Lofi Sleep Music & Beats</div>
@@ -309,15 +280,6 @@
                     <div style="display: flex; gap: 5px;">
                         <a id="musicYtBtn" href="https://youtu.be/L_LUpnjgPso" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
-                    </div>
-                </div>
-                <div class="comment-section">
-                    <div class="comment-input-box">
-                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
-                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
-                    </div>
-                    <div class="comments-list">
-                        <div class="single-comment">🎶 মিউজিকগুলো শোনার পর মন একদম শান্ত হয়ে যায়!</div>
                     </div>
                 </div>
             </div>
@@ -351,7 +313,6 @@
                 if (file.name.endsWith('.json')) {
                     const fileRes = await fetch(file.download_url);
                     const videoData = await fileRes.json();
-                    
                     assignVideoToBox(videoData);
                 }
             }
@@ -462,18 +423,6 @@
             btn.style.background = '';
             btn.style.color = '';
         }
-    }
-
-    function postComment(btn) {
-        const input = btn.previousElementSibling;
-        const text = input.value.trim();
-        if(!text) return;
-        const list = btn.parentElement.nextElementSibling;
-        const commentDiv = document.createElement('div');
-        commentDiv.className = 'single-comment';
-        commentDiv.innerText = text;
-        list.prepend(commentDiv);
-        input.value = '';
     }
 
     document.addEventListener('DOMContentLoaded', loadDynamicVideos);
