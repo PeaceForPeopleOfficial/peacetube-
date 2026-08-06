@@ -359,14 +359,7 @@
             let boxTitle = (index === 0) ? '১. শান্তিময় লো-ফাই গল্প ও ভিজ্যুয়াল সুর' : (videoData.title || 'শান্তিময় ভিডিও ও কন্টেন্ট');
             let boxDesc = (index === 0) ? 'শান্তিময় লো-ফাই ব্যাকগ্রাউন্ড স্টোরিজ, ভিজ্যুয়াল, মন ছোঁয়া কবিতা, গান ও মানবীয় বন্ধনের চমৎকার মুহূর্ত।' : (videoData.description || '');
             
-            videoCard.innerHTML = `
-                <div class="video-container">
-                    ${youtubeId ? `<iframe src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>` : '<div style="color:white; display:flex; align-items:center; justify-content:center; height:100%;">লিংক সঠিক নয়</div>'}
-                </div>
-                <div class="video-info">
-                    <h3>📺 ${boxTitle}</h3>
-                    <p>${boxDesc}</p>
-                    <div class="action-bar">
+                              <div class="action-bar">
                         <div class="reaction-container">
                             <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১২</span>)</button>
                             <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৫</span>)</button>
