@@ -15,7 +15,6 @@
             --card-bg: #ffffff;
             --text-color: #2c3e50;
             --border-color: #eee;
-            --red-alert: #d32f2f;
         }
         [data-theme="dark"] {
             --bg-gradient: linear-gradient(135deg, #1e272c 0%, #0f1416 100%);
@@ -56,17 +55,13 @@
         }
         header h1 { color: var(--green); margin: 0; font-size: 24px; }
         header h1 span { color: var(--orange); }
-        .header-btns { display: flex; gap: 10px; align-items: center; }
-        .back-btn { background: var(--orange); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 13px; }
         .theme-toggle-btn { background: var(--green); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
         .container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
         
-        /* স্লিপ টাইমার */
         .timer-bar { background: var(--card-bg); padding: 12px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-left: 5px solid var(--orange); }
         .timer-bar h4 { margin: 0; color: var(--green); font-size: 14px; }
         .timer-btns button { background: #f0f2f5; border: 1px solid var(--green); color: var(--text-color); padding: 4px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; }
 
-        /* সার্চ ও ফিল্টার টুল */
         .search-filter-box { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
         .search-bar { width: 100%; max-width: 500px; padding: 12px 20px; border: 2px solid var(--green); border-radius: 25px; font-size: 15px; outline: none; background: var(--card-bg); color: var(--text-color); }
         .filter-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
@@ -75,25 +70,22 @@
 
         .ad-space { background: var(--card-bg); border: 2px dashed var(--green); padding: 15px; text-align: center; margin-bottom: 25px; border-radius: 12px; color: var(--text-color); font-weight: bold; font-size: 14px; }
 
-        /* ভিডিও গ্রিড */
         .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         @media (max-width: 768px) { .video-grid { grid-template-columns: 1fr; } }
         
         .video-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-bottom: 4px solid var(--green); display: flex; flex-direction: column; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #111; display: flex; align-items: center; justify-content: center; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
         .video-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .video-info h3 { margin: 0 0 8px 0; font-size: 17px; color: var(--green); }
         .video-info p { margin: 0 0 15px 0; font-size: 13px; color: #7f8c8d; line-height: 1.5; flex-grow: 1; }
 
-        /* অ্যাকশন বার */
         .action-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 10px; margin-bottom: 12px; flex-wrap: wrap; gap: 5px; }
         .reaction-container { display: flex; gap: 8px; }
-        .reaction-btn, .share-btn, .save-btn, .yt-link-btn { background: #f0f2f5; border: none; padding: 6px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold; color: #333; display: flex; align-items: center; gap: 4px; text-decoration: none; }
-        [data-theme="dark"] .reaction-btn, [data-theme="dark"] .share-btn, [data-theme="dark"] .save-btn, [data-theme="dark"] .yt-link-btn { background: #37474f; color: #fff; }
+        .reaction-btn, .save-btn, .yt-link-btn { background: #f0f2f5; border: none; padding: 6px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold; color: #333; display: flex; align-items: center; gap: 4px; text-decoration: none; }
+        [data-theme="dark"] .reaction-btn, [data-theme="dark"] .save-btn, [data-theme="dark"] .yt-link-btn { background: #37474f; color: #fff; }
 
-        /* কমেন্ট সেকশন */
         .comment-section { border-top: 1px solid var(--border-color); padding-top: 10px; }
         .comment-input-box { display: flex; gap: 8px; margin-bottom: 10px; }
         .comment-input { flex-grow: 1; padding: 8px 12px; border: 1px solid var(--green); border-radius: 20px; outline: none; font-size: 13px; background: var(--card-bg); color: var(--text-color); }
@@ -101,6 +93,11 @@
         .comments-list { max-height: 100px; overflow-y: auto; font-size: 12px; color: var(--text-color); }
         .single-comment { background: #f7f9fa; padding: 6px 10px; border-radius: 8px; margin-bottom: 5px; border-left: 3px solid var(--orange); }
         [data-theme="dark"] .single-comment { background: #37474f; }
+        
+        .channel-banner-box { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #138808, #2c3e50); color: white; text-align: center; padding: 20px; }
+        .channel-banner-box h2 { margin: 0 0 10px 0; font-size: 22px; }
+        .channel-banner-box p { margin: 0 0 15px 0; font-size: 13px; opacity: 0.9; }
+        .visit-channel-btn { background: #ff9933; color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -115,11 +112,9 @@
 </nav>
 
 <header>
-    <a href="index.html" class="back-btn">⬅️ হোমপেজে ফিরুন</a>
+    <a href="index.html" class="theme-toggle-btn" style="text-decoration:none;">⬅️ হোমপেজে ফিরুন</a>
     <h1>📺 Peace<span>Tube</span></h1>
-    <div class="header-btns">
-        <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 ডার্ক মোড</button>
-    </div>
+    <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 ডার্ক মোড</button>
 </header>
 
 <div class="container">
@@ -143,112 +138,32 @@
             <button class="filter-btn active" onclick="filterByCategory('all', this)">সব কন্টেন্ট</button>
             <button class="filter-btn" onclick="filterByCategory('lofi', this)">লো-ফাই গল্প ও ভিজ্যুয়াল</button>
             <button class="filter-btn" onclick="filterByCategory('poem', this)">কবিতা ও গান</button>
-            <button class="filter-btn" onclick="filterByCategory('empathy', this)">সহানুভূতি ও বন্ধন</button>
             <button class="filter-btn" onclick="filterByCategory('update', this)">পিস টিউব আপডেট</button>
         </div>
     </div>
-<!-- ডায়নামিক ও স্ট্যাটিক ভিডিওগুলো লোড হওয়ার মূল গ্রিড কন্টেইনার -->
+
+    <!-- মূল ভিডিও গ্রিড (অফিসিয়াল চ্যানেল বক্স এবং অ্যাডমিন ভিডিওগুলো এখানে থাকবে) -->
     <div id="videoGrid" class="video-grid">
         
-        <!-- অফিসিয়াল ইউটিউব চ্যানেল বক্স -->
+        <!-- স্থায়ী অফিসিয়াল ইউটিউব চ্যানেল বক্স (র্যান্ডম ভিডিও ছাড়াই সরাসরি চ্যানেলের সুন্দর ব্যানার ও ভিজিট বাটন) -->
         <div class="video-card" data-category="update">
             <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+                <div class="channel-banner-box">
+                    <h2>🌿 PeaceTube Official</h2>
+                    <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেলে ভিজিট করুন এবং সব আপডেট পান।</p>
+                    <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" class="visit-channel-btn">📺 চ্যানেল ভিজিট করুন</a>
+                </div>
             </div>
             <div class="video-info">
                 <h3>📺 পিস টিউব অফিসিয়াল ইউটিউব চ্যানেল</h3>
-                <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেল [PeaceTube](https://www.youtube.com/@PeaceForPeopleOfficial)-এর সকল আপডেট ও নতুন ভিডিও।</p>
+                <p>আমাদের অফিসিয়াল ইউটিউব চ্যানেল [PeaceTube](https://www.youtube.com/@PeaceForPeopleOfficial)-এর সকল আপডেট ও নতুন ভিডিও। চ্যানেলটি সাবস্ক্রাইব করে সাথেই থাকুন।</p>
                 <div class="action-bar">
                     <div class="reaction-container">
                         <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৩০</span>)</button>
                         <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১৮</span>)</button>
                     </div>
                     <div style="display: flex; gap: 5px;">
-                        <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
-                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
-                    </div>
-                </div>
-                <div class="comment-section">
-                    <div class="comment-input-box">
-                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
-                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
-                    </div>
-                    <div class="comments-list"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- প্রিমিয়াম মেডিটেশন ভিডিও বক্স -->
-        <div class="video-card" data-category="lofi">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/BX3WirvWap4" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <h3>📺 প্রিমিয়াম মেডিটেশন ও গভীর প্রশান্তি</h3>
-                <p>মন এবং স্নায়ুকে শান্ত করার জন্য বিশেষ প্রিমিয়াম মেডিটেশন মিউজিক যা দুশ্চিন্তা দূর করে।</p>
-                <div class="action-bar">
-                    <div class="reaction-container">
-                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">২৫</span>)</button>
-                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">১২</span>)</button>
-                    </div>
-                    <div style="display: flex; gap: 5px;">
-                        <a href="https://youtu.be/BX3WirvWap4" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
-                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
-                    </div>
-                </div>
-                <div class="comment-section">
-                    <div class="comment-input-box">
-                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
-                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
-                    </div>
-                    <div class="comments-list"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ২ নম্বর ভিডিও বক্স -->
-        <div class="video-card" data-category="poem">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <h3>📺 ২. মন ছোঁয়া কবিতা ও প্রশান্তির গান</h3>
-                <p>হৃদয় ছোঁয়া আবৃত্তি ও মানসিক প্রশান্তির সুর যা আপনার মনকে সতেজ করবে।</p>
-                <div class="action-bar">
-                    <div class="reaction-container">
-                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">৮</span>)</button>
-                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৪</span>)</button>
-                    </div>
-                    <div style="display: flex; gap: 5px;">
-                        <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
-                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
-                    </div>
-                </div>
-                <div class="comment-section">
-                    <div class="comment-input-box">
-                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
-                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
-                    </div>
-                    <div class="comments-list"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ১ নম্বর ভিডিও বক্স -->
-        <div class="video-card" data-category="lofi">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/QH2-TGUlwu4" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <h3>📺 ১. শান্তিময় লো-ফাই গল্প ও ভিজ্যুয়াল সুর</h3>
-                <p>শান্তিময় লো-ফাই ব্যাকগ্রাউন্ড স্টোরিজ, ভিজ্যুয়াল, মন ছোঁয়া কবিতা, গান ও মানবীয় বন্ধনের চমৎকার মুহূর্ত।</p>
-                <div class="action-bar">
-                    <div class="reaction-container">
-                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১২</span>)</button>
-                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৫</span>)</button>
-                    </div>
-                    <div style="display: flex; gap: 5px;">
-                        <a href="https://youtu.be/QH2-TGUlwu4" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>
+                        <a href="https://www.youtube.com/@PeaceForPeopleOfficial?sub_confirmation=1" target="_blank" class="yt-link-btn" title="সাবস্ক্রাইব করুন">🔔 সাবস্ক্রাইব</a>
                         <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
                     </div>
                 </div>
@@ -258,12 +173,148 @@
                         <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
                     </div>
                     <div class="comments-list">
-                        <div class="single-comment">🔄 খুব সুন্দর মিউজিক, মনটা শান্ত হয়ে গেল!</div>
+                        <div class="single-comment">🔄 অফিসিয়াল চ্যানেলটি সাবস্ক্রাইব করলাম, অসাধারণ উদ্যোগ!</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- বাকি ভিডিওগুলো অ্যাডমিন প্যানেল থেকে অটোমেটিক এখানে যুক্ত হবে -->
     </div>
-   
+</div>
+
+<script>
+    async function loadDynamicVideos() {
+        try {
+            const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/videos');
+            if (!response.ok) return;
+            const files = await response.json();
+
+            for (const file of files) {
+                if (file.name.endsWith('.json')) {
+                    const fileRes = await fetch(file.download_url);
+                    const videoData = await fileRes.json();
+                    appendAdminVideo(videoData);
+                }
+            }
+        } catch (error) {
+            console.error('অ্যাডমিন ভিডিও লোড করতে সমস্যা:', error);
+        }
+    }
+
+    function appendAdminVideo(videoData) {
+        const videoContainer = document.getElementById('videoGrid');
+        const videoCard = document.createElement('div');
+        videoCard.className = 'video-card';
+        videoCard.setAttribute('data-category', videoData.category || 'lofi');
+        
+        const youtubeUrl = videoData.video_url || videoData.url || '';
+        const youtubeId = extractYouTubeId(youtubeUrl);
+        
+        videoCard.innerHTML = `
+            <div class="video-container">
+                ${youtubeId ? `<iframe src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>` : '<div style="color:white; display:flex; align-items:center; justify-content:center; height:100%;">লিংক সঠিক নয়</div>'}
+            </div>
+            <div class="video-info">
+                <h3>📺 ${videoData.title || 'শান্তিময় ভিডিও ও কন্টেন্ট'}</h3>
+                <p>${videoData.description || 'মন ছোঁয়া কবিতা, গান ও মানবীয় বন্ধনের চমৎকার মুহূর্ত।'}</p>
+                <div class="action-bar">
+                    <div class="reaction-container">
+                        <button class="reaction-btn" onclick="addReaction(this)">😌 Relaxed (<span class="count">১০</span>)</button>
+                        <button class="reaction-btn" onclick="addReaction(this)">✨ Inspired (<span class="count">৩</span>)</button>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        ${youtubeId ? `<a href="https://youtu.be/${youtubeId}" target="_blank" class="yt-link-btn" title="ইউটিউবে খুলুন">▶ YT</a>` : ''}
+                        <button class="save-btn" onclick="toggleSave(this)">🔖 সেভ</button>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-box">
+                        <input type="text" class="comment-input" placeholder="আপনার অনুভূতি লিখুন...">
+                        <button class="comment-submit" onclick="postComment(this)">পোস্ট</button>
+                    </div>
+                    <div class="comments-list"></div>
+                </div>
+            </div>
+        `;
+        videoContainer.appendChild(videoCard);
+    }
+
+    function extractYouTubeId(url) {
+        if (!url) return '';
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : '';
+    }
+
+    function filterVideos() {
+        const query = document.getElementById('videoSearch').value.toLowerCase();
+        const cards = document.querySelectorAll('.video-card');
+        
+        cards.forEach((card, index) => {
+            if (index === 0) return; // অফিসিয়াল চ্যানেল বক্স সবসময় দৃশ্যমান থাকবে
+            const text = card.innerText.toLowerCase();
+            card.style.display = text.includes(query) ? 'flex' : 'none';
+        });
+    }
+
+    function filterByCategory(category, btnElement) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+        
+        const cards = document.querySelectorAll('.video-card');
+        cards.forEach((card, index) => {
+            if (index === 0) return; // অফিসিয়াল চ্যানেল বক্স সবসময় দৃশ্যমান থাকবে
+            const cat = card.getAttribute('data-category') || '';
+            if (category === 'all' || cat.includes(category)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    function toggleTheme() {
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    }
+
+    function addReaction(btn) {
+        const countSpan = btn.querySelector('.count');
+        let count = parseInt(countSpan.innerText) || 0;
+        countSpan.innerText = count + 1;
+        btn.style.background = 'var(--orange)';
+        btn.style.color = '#fff';
+    }
+
+    function toggleSave(btn) {
+        if(btn.innerText.includes('সেভ')) {
+            btn.innerText = '✅ সেভড';
+            btn.style.background = 'var(--green)';
+            btn.style.color = '#fff';
+        } else {
+            btn.innerText = '🔖 সেভ';
+            btn.style.background = '';
+            btn.style.color = '';
+        }
+    }
+
+    function postComment(btn) {
+        const input = btn.previousElementSibling;
+        const text = input.value.trim();
+        if(!text) return;
+        const list = btn.parentElement.nextElementSibling;
+        const commentDiv = document.createElement('div');
+        commentDiv.className = 'single-comment';
+        commentDiv.innerText = text;
+        list.prepend(commentDiv);
+        input.value = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', loadDynamicVideos);
+</script>
+
+</body>
+</html>
