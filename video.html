@@ -386,12 +386,8 @@
                         </div>
                     </div>
                 </div>
-            `;
-            videoContainer.appendChild(videoCard);
-        });
-    }
-    
-                         
+          
+                             
             <!-- ভিডিও ২ -->
             <div class="video-card" data-category="meditation" data-title="৫ মিনিটের কুইক রিল্যাক্সেশন মেডিটেশন">
                 <div class="video-container">
@@ -501,20 +497,7 @@
             alert('⏱️ স্লিপ টাইমার বন্ধ করা হয়েছে।');
         }
 
-        // ১. ভিডিও সংখ্যা আপডেট করার ফাংশন
-function updateVideoCount() {
-  let cards = document.querySelectorAll('.video-card');
-  let visibleCount = 0;
-  cards.forEach(card => {
-    if (card.style.display !== 'none') {
-      visibleCount++;
-    }
-  });
-  let countText = document.getElementById('active-video-count');
-  if (countText) {
-    countText.innerText = `📊 মোট ${visibleCount}টি শান্তিময় ভিডিও পাওয়া গেছে`;
-  }
-}
+          
 function displayVideos(videos) {
         const videoContainer = document.getElementById('videoGrid');
         videoContainer.innerHTML = '';
