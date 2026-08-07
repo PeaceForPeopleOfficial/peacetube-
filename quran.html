@@ -246,11 +246,8 @@
         let audioSpeed = 1.0;
         let currentArabicFontSize = 26;
         let currentBanglaFontSize = 16;
-        
-        // সব রকম বৈচিত্র্যময় বিসমিল্লাহ ট্যাগ রিমুভ করার জন্য প্যাটার্ন
-        const bismillahRegex = /^(بِسْمِ\s*ٱللَّهِ\s*ٱلرَّحْمَـٰنِ\s*ٱلرَّحِيمِ|بِسْمِ\s*اللهِ\s*الرَّحْمٰنِ\s*الرَّحِيْمِ|بِسْمِ\s+اللَّهِ\s+الرَّحْمَٰنِ\s+الرَّحِيمِ)\s*/i;
 
-        const request = indexedDB.open("QuranAppDB_V7", 1);
+        const request = indexedDB.open("QuranAppDB_V8", 1);
         request.onupgradeneeded = (e) => {
             db = e.target.result;
             if (!db.objectStoreNames.contains("surahs")) {
@@ -303,9 +300,17 @@
                         ayahCount: surahAr.ayahs.length,
                         ayahs: surahAr.ayahs.map((ayah, index) => {
                             let text = ayah.text;
-                            // সূরা ফাতিহা (১) এবং তওবা (৯) বাদে সব সূরার প্রথম আয়াত থেকে বিসমিল্লাহ ক্লিন করা
+                            // সূরা ফাতিহা (১) এবং তওবা (৯) বাদে যেকোনো সূরার প্রথম আয়াতের সাথে থাকা বিসমিল্লাহ স্মার্টলি ড্রপ করা
                             if (surahAr.number !== 1 && surahAr.number !== 9 && index === 0) {
-                                text = text.replace(bismillahRegex, "").trim();
+                                // যদি টেক্সটে 'الرَّحِيمِ' বা 'الرحيم' থাকে, তার পরের অংশটুকু নিয়ে বাকি বিসমিল্লাহ বাদ দেওয়া
+                                let keywords = ["الرَّحِيمِ", "الرحيم", "الرَّحِيمِ", "ٱلرَّحِيمِ"];
+                                for (let kw of keywords) {
+                                    let pos = text.indexOf(kw);
+                                    if (pos !== -1) {
+                                        text = text.substring(pos + kw.length).trim();
+                                        break;
+                                    }
+                                }
                             }
                             return {
                                 numberInSurah: ayah.numberInSurah,
@@ -419,10 +424,6 @@
 
                 surah.ayahs.forEach((ayah, index) => {
                     let arabicText = ayah.arabic;
-                    if (surah.number !== 1 && surah.number !== 9 && index === 0) {
-                        arabicText = arabicText.replace(bismillahRegex, "").trim();
-                    }
-
                     container.innerHTML += `
                         <div class="ayah-card" id="ayah-${index}">
                             <div class="ayah-header">
