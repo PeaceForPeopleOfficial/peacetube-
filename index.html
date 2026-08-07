@@ -715,6 +715,27 @@ async function loadQuranBani() {
 }
 loadQuranBani();
 
+  async function loadQuranBaniFromCMS() {
+    try {
+        // Decap CMS-এর সেটিংস ফাইল থেকে ডেটা ফেচ করা
+        const response = await fetch('content/settings/daily_quotes.json'); // অথবা আপনার কনফিগারেশন অনুযায়ী সঠিক পাথ
+        const data = await response.json();
+        
+        if(data.quran_arabic && data.quran_bangla) {
+            document.getElementById('latest-quran-content').innerHTML = `
+                <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
+                    ${data.quran_arabic}
+                </div>
+                <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+                    ${data.quran_bangla}
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.log("কুরআনের বাণী লোড করতে সমস্যা হচ্ছে:", error);
+    }
+}
+loadQuranBaniFromCMS();
 </script>
 
 </body>
