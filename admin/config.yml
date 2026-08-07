@@ -52,3 +52,14 @@ collections:
       - label: "Date"
         name: "date"
         widget: "date"
+
+  - name: "confessions"
+    label: "মন ও ডায়েরি (Confessions)"
+    folder: "content/confessions"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Nickname / ছদ্মনাম", name: "title", widget: "string", default: "শান্ত মন" }
+      - { label: "Confession Message / মনের কথা", name: "message", widget: "text" }
+      - { label: "Admin Reply / সান্ত্বনা ও উত্তর", name: "reply", widget: "text", required: false }
+      - { label: "Date", name: "date", widget: "datetime" }
