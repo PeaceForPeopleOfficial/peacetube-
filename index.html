@@ -418,7 +418,13 @@
                 <a href="#share-box" class="btn btn-orange">💬 নিজের দুঃখ শেয়ার করুন</a>
             </div>
         </div>
-
+<!-- প্রফেশনাল ওয়েবসাইট শেয়ারিং বাটন -->
+        <div style="text-align: center; margin: 20px 0; padding: 0 15px;">
+            <button onclick="shareOurWebsite()" style="background: linear-gradient(135deg, #FF6F00, #2E7D32); color: white; border: none; padding: 11px 24px; border-radius: 25px; font-size: 14.5px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.12); display: inline-flex; align-items: center; gap: 8px;">
+                🔗 এই ওয়েবসাইটটি শেয়ার করুন
+            </button>
+        </div>
+        
         <!-- কুরআনের বাণী -->
         <div class="quran-ayat-box">
             <h3 style="margin-bottom: 5px;">📖 আজকের কুরআনের বাণী</h3>
@@ -665,6 +671,21 @@ if (circle && breathText) {
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
   }
+function shareOurWebsite() {
+        const shareData = {
+            title: 'Peace for People - শান্তির নিরাপদ আশ্রয়',
+            text: 'পবিত্র কুরআন তেলাওয়াত ও শান্তির নানা আয়োজন নিয়ে চমৎকার একটি ওয়েবসাইট। একবার ঘুরে দেখতে পারেন:',
+            url: window.location.href
+        };
+
+        if (navigator.share) {
+            navigator.share(shareData).catch((err) => console.log('Sharing failed', err));
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert("🔗 ওয়েবসাইটের লিংক কপি হয়ে গেছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।");
+        }
+    }
+    
 </script>
 
 </body>
