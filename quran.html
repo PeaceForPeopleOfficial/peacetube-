@@ -28,6 +28,22 @@
             --light-green: #1B2E1C;
             --light-orange: #2C1D11;
         }
+        body.sepia-mode {
+            --bg-soft: #F4ECD8;
+            --bg-white: #FCF8EE;
+            --text-dark: #5F4B32;
+            --border-color: #D3C2A5;
+            --light-green: #EFE6D5;
+            --light-orange: #EADCBF;
+        }
+        body.paper-mode {
+            --bg-soft: #F9F9F9;
+            --bg-white: #FFFFFF;
+            --text-dark: #2C2C2C;
+            --border-color: #E0E0E0;
+            --light-green: #F0F4F1;
+            --light-orange: #FDF3E7;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Noto Sans Bengali', sans-serif; transition: background-color 0.3s, color 0.3s; }
         body { background-color: var(--bg-soft); color: var(--text-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
         .app-container { width: 100%; max-width: 1100px; height: 95vh; background-color: var(--bg-white); box-shadow: 0 15px 35px rgba(0,0,0,0.15); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; border: 2px solid var(--primary-orange); position: relative; }
@@ -48,6 +64,10 @@
         .sync-banner { background: var(--light-orange); border: 1px solid var(--primary-orange); color: var(--text-dark); padding: 16px 20px; border-radius: 14px; margin-bottom: 18px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center; }
         .sync-btn { background: var(--primary-orange); color: white; border: none; padding: 10px 24px; font-weight: bold; border-radius: 25px; cursor: pointer; box-shadow: 0 3px 8px rgba(255, 111, 0, 0.3); }
         
+        .tracker-card { background: var(--bg-white); border: 1px solid var(--border-color); padding: 16px; border-radius: 14px; margin-bottom: 18px; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
+        .progress-bar-container { background: var(--border-color); border-radius: 10px; height: 12px; width: 100%; margin-top: 8px; overflow: hidden; }
+        .progress-bar-fill { background: var(--primary-green); height: 100%; width: 0%; transition: width 0.4s; }
+
         .quick-actions-bar { display: flex; gap: 10px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 5px; }
         .action-chip { background: var(--light-green); color: var(--primary-green); border: 1px solid var(--primary-green); padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
         
@@ -72,6 +92,7 @@
         .small-btn.bookmark { background: #E91E63; }
         .small-btn.share { background: #0288D1; }
         .small-btn.copy { background: #7B1FA2; }
+        .small-btn.tafsir-btn { background: #E65100; }
         
         .ayah-body { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .arabic-container { direction: rtl; text-align: right; background-color: var(--light-green); padding: 16px; border-radius: 10px; border-right: 4px solid var(--primary-green); }
@@ -79,10 +100,12 @@
         .arabic-text { font-size: var(--arabic-font-size); font-weight: bold; line-height: 2.1; color: var(--text-dark); }
         .bangla-meaning { font-size: var(--bangla-font-size); line-height: 1.7; color: var(--text-dark); }
         
+        .tafsir-box { background: var(--light-green); border: 1px dashed var(--primary-green); padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 13.5px; line-height: 1.6; }
+
         .controls-bar { background: var(--light-green); border: 1px solid var(--primary-green); padding: 12px 18px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .font-controls { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: bold; }
         .font-btn { background: var(--primary-green); color: white; border: none; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-weight: bold; }
-        .speed-select { padding: 4px 8px; border-radius: 8px; border: 1px solid var(--primary-green); background: white; font-size: 12px; outline: none; }
+        .speed-select, .reciter-select { padding: 4px 8px; border-radius: 8px; border: 1px solid var(--primary-green); background: white; font-size: 12px; outline: none; }
         
         .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 100; padding: 20px; }
         .modal-content { background: var(--bg-white); padding: 24px; border-radius: 16px; max-width: 520px; width: 100%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: 2px solid var(--primary-orange); }
@@ -108,7 +131,7 @@
             </div>
             <div class="header-tools">
                 <a href="index.html" class="icon-btn" title="হোমপেজে যান" style="text-decoration: none;">🏠</a>
-                <button class="icon-btn" onclick="toggleDarkMode()" title="ডার্ক মোড">🌙</button>
+                <button class="icon-btn" onclick="cycleTheme()" title="থিম পরিবর্তন (ডার্ক/সেপিয়া/পেপার)">🎨</button>
                 <button class="icon-btn" onclick="showModal('aboutModal')" title="উদ্দেশ্য">🎯</button>
                 <button class="icon-btn" onclick="exitApp()" title="অ্যাপ বন্ধ করুন">🚪</button>
             </div>
@@ -128,6 +151,20 @@
                 <div class="daily-ayah-card">
                     <div class="daily-ayah-title">💡 আজকের বিশেষ বাণী</div>
                     <div class="daily-ayah-text">"নিশ্চয়ই কষ্টের সাথেই স্বস্তি রয়েছে।" (সূরা আল-ইনশিরাহ: ৫-৬)</div>
+                </div>
+
+                <div class="tracker-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 14px; color: var(--primary-green);">
+                        <span>📊 খাতম কুরআন প্রোগ্রেস ট্র্যাকার</span>
+                        <span id="trackerStats">০ / ৬২৩৬ আয়াত পড়া হয়েছে</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="progressBarFill"></div>
+                    </div>
+                    <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                        <span>টার্গেট: ৩০ দিনে কুরআন সমাপ্তি</span>
+                        <button class="small-btn" onclick="resetTracker()" style="background: #D32F2F;">রিসেট</button>
+                    </div>
                 </div>
 
                 <div class="sync-banner" id="syncBanner">
@@ -158,7 +195,15 @@
                 <div class="controls-bar">
                     <button class="audio-btn" id="playAllBtn" onclick="togglePlayAll()">▶️ পুরো সূরা শুনুন</button>
                     <div class="font-controls">
-                        <span>অডিও স্পিড:</span>
+                        <span>কারী:</span>
+                        <select class="reciter-select" id="reciterSelect" onchange="changeReciter(this.value)">
+                            <option value="ar.alafasy">মিশারি রাশিদ আল-আফাসী</option>
+                            <option value="ar.abdulbasit">আব্দুল বাসিদ আবদ আস-সামাদ</option>
+                            <option value="ar.sudais">আব্দুর রহমান আস-সুদাইস</option>
+                        </select>
+                    </div>
+                    <div class="font-controls">
+                        <span>স্পিড:</span>
                         <select class="speed-select" id="speedSelect" onchange="changeSpeed(this.value)">
                             <option value="0.75">0.75x</option>
                             <option value="1.0" selected>1.0x</option>
@@ -167,7 +212,7 @@
                         </select>
                     </div>
                     <div class="font-controls">
-                        <span>টেক্সট সাইজ:</span>
+                        <span>সাইজ:</span>
                         <button class="font-btn" onclick="changeFontSize(-2)">-</button>
                         <button class="font-btn" onclick="changeFontSize(2)">+</button>
                     </div>
@@ -182,7 +227,7 @@
             <div class="modal-content">
                 <h3>🕊️ PeaceForPeople</h3>
                 <h4>হৃদয়ের পবিত্রতা থেকে বিশ্বমানবকল্যাণ!</h4>
-                <p>রবের দয়া ও শান্তির এক বিনীত শান্তিদূত হিসেবে আপনাকে এই আলোর কাফেলায় স্বাগত জানাই। এটি আপনার মনের কথা বলার, প্রশান্তি খোঁজার এবং নিজেকে নতুন করে আবিষ্কার করার একটি নিরাপদ আশ্রয়।</p>
+                <p>রবের দয়া ও শান্তির এক বিনীত শান্তিদূত হিসেবে আপনাকে এই আলোর কাফেলায় স্বাগত জানাই। এটি আপনার মনের কথা বলার, প্রশান্তি খোঁজার এবং নিজেকে নতুন করে আবিষ্কার করার একটি নিরাপদ আশ্রয়।</p>
                 <div class="highlight-box"> 📖 অতএব আপনি অন্তত একবার পুরো কুরআন পড়ে দ্যাখো! ✨ </div>
                 <button class="close-modal" onclick="closeModal('aboutModal')">বন্ধ করুন</button>
             </div>
@@ -202,11 +247,6 @@
                         <strong>২. দুনিয়া ও আখেরাতের কল্যাণের দোআ:</strong>
                         <p style="color:var(--primary-green); font-size:18px; margin:4px 0;">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</p>
                         <p style="font-size:13px;">"হে আমাদের রব! আমাদের দুনিয়াতে কল্যাণ দিন এবং আখেরাতেও কল্যাণ দিন।" (সূরা বাকারা: ২০১)</p>
-                    </div>
-                    <div style="background:var(--light-orange); padding:12px; border-radius:10px;">
-                        <strong>৩. ধৈর্যের জন্য দোআ:</strong>
-                        <p style="color:var(--primary-green); font-size:18px; margin:4px 0;">رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا</p>
-                        <p style="font-size:13px;">"হে আমাদের রব! আমাদের ধৈর্য দান করুন এবং আমাদের অবিচল রাখুন।" (সূরা বাকারা: ২৫০)</p>
                     </div>
                 </div>
                 <div style="text-align:center;">
@@ -246,8 +286,11 @@
         let audioSpeed = 1.0;
         let currentArabicFontSize = 26;
         let currentBanglaFontSize = 16;
+        let currentReciter = "ar.alafasy";
+        let currentThemeIndex = 0;
+        const themes = ["", "dark-mode", "sepia-mode", "paper-mode"];
 
-        const request = indexedDB.open("QuranAppDB_V8", 1);
+        const request = indexedDB.open("QuranAppDB_V9", 1);
         request.onupgradeneeded = (e) => {
             db = e.target.result;
             if (!db.objectStoreNames.contains("surahs")) {
@@ -257,7 +300,37 @@
         request.onsuccess = (e) => {
             db = e.target.result;
             checkOfflineData();
+            updateTrackerDisplay();
         };
+
+        function cycleTheme() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            document.body.className = themes[currentThemeIndex];
+        }
+
+        function updateTrackerDisplay() {
+            let readCount = parseInt(localStorage.getItem('quran_read_count') || '0');
+            const totalAyahs = 6236;
+            let percent = ((readCount / totalAyahs) * 100).toFixed(1);
+            document.getElementById("trackerStats").innerText = `${readCount} / ${totalAyahs} (${percent}%)`;
+            document.getElementById("progressBarFill").style.width = percent + '%';
+        }
+
+        function markAyahRead() {
+            let readCount = parseInt(localStorage.getItem('quran_read_count') || '0');
+            if (readCount < 6236) {
+                readCount++;
+                localStorage.setItem('quran_read_count', readCount);
+                updateTrackerDisplay();
+            }
+        }
+
+        function resetTracker() {
+            if (confirm("আপনি কি প্রোগ্রেস রিসেট করতে চান?")) {
+                localStorage.setItem('quran_read_count', '0');
+                updateTrackerDisplay();
+            }
+        }
 
         function checkOfflineData() {
             const tx = db.transaction("surahs", "readonly");
@@ -300,9 +373,7 @@
                         ayahCount: surahAr.ayahs.length,
                         ayahs: surahAr.ayahs.map((ayah, index) => {
                             let text = ayah.text;
-                            // সূরা ফাতিহা (১) এবং তওবা (৯) বাদে যেকোনো সূরার প্রথম আয়াতের সাথে থাকা বিসমিল্লাহ স্মার্টলি ড্রপ করা
                             if (surahAr.number !== 1 && surahAr.number !== 9 && index === 0) {
-                                // যদি টেক্সটে 'الرَّحِيمِ' বা 'الرحيم' থাকে, তার পরের অংশটুকু নিয়ে বাকি বিসমিল্লাহ বাদ দেওয়া
                                 let keywords = ["الرَّحِيمِ", "الرحيم", "الرَّحِيمِ", "ٱلرَّحِيمِ"];
                                 for (let kw of keywords) {
                                     let pos = text.indexOf(kw);
@@ -424,16 +495,18 @@
 
                 surah.ayahs.forEach((ayah, index) => {
                     let arabicText = ayah.arabic;
+                    let dummyTafsir = `সংক্ষিপ্ত তাফসির: এই আয়াতে মহান আল্লাহ তাআলা বান্দাকে ধৈর্য ও ঈমানের সাথে তাঁর ওপর ভরসা করার নির্দেশ দিয়েছেন এবং এর মাধ্যমে দুনিয়া ও আখেরাতের শান্তি নিশ্চিত হয়।`;
                     container.innerHTML += `
-                        <div class="ayah-card" id="ayah-${index}">
+                        <div class="ayah-card" id="ayah-${index}" onclick="markAyahRead()">
                             <div class="ayah-header">
                                 <span class="ayah-badge">
                                     আয়াত ${ayah.numberInSurah}
                                     ${ayah.ruku ? `<span class="ruku-badge">রুকু ${ayah.ruku}</span>` : ''}
                                 </span>
                                 <div class="ayah-actions">
-                                    <button class="audio-btn" onclick="playAudio('${ayah.audioUrl}', this)">▶ শুনুন</button>
+                                    <button class="audio-btn" onclick="playAudio(${index}, this)">▶ শুনুন</button>
                                     <button class="small-btn bookmark" onclick="toggleBookmark(${surah.number}, ${ayah.numberInSurah})">🔖 সেভ</button>
+                                    <button class="small-btn tafsir-btn" onclick="toggleTafsir(${index})">📖 তাফসির</button>
                                     <button class="small-btn copy" onclick="copyAyah('${arabicText}', '${ayah.bangla}', ${surah.number}, ${ayah.numberInSurah})">📋 কপি</button>
                                 </div>
                             </div>
@@ -445,10 +518,18 @@
                                     <div class="bangla-meaning" style="font-size: ${currentBanglaFontSize}px;">${ayah.bangla}</div>
                                 </div>
                             </div>
+                            <div id="tafsir-${index}" class="tafsir-box" style="display:none;">
+                                <strong>তাফসির (সংক্ষিপ্ত):</strong> ${dummyTafsir}
+                            </div>
                         </div>
                     `;
                 });
             };
+        }
+
+        function toggleTafsir(index) {
+            const box = document.getElementById(`tafsir-${index}`);
+            box.style.display = box.style.display === 'none' ? 'block' : 'none';
         }
 
         function goBack() {
@@ -457,9 +538,24 @@
             document.getElementById("homePage").style.display = "block";
             document.getElementById("backBtn").style.display = "none";
             document.getElementById("headerTitle").innerText = "কুরআন পড়ে দ্যাখো একবার";
+            updateTrackerDisplay();
         }
 
-        function playAudio(url, btn) {
+        function getAudioUrlForReciter(globalAyahNum) {
+            if (currentReciter === "ar.alafasy") {
+                return `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalAyahNum}.mp3`;
+            } else if (currentReciter === "ar.abdulbasit") {
+                return `https://cdn.islamic.network/quran/audio/128/ar.abdulbasit/${globalAyahNum}.mp3`;
+            } else if (currentReciter === "ar.sudais") {
+                return `https://cdn.islamic.network/quran/audio/128/ar.sudais/${globalAyahNum}.mp3`;
+            }
+            return `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalAyahNum}.mp3`;
+        }
+
+        function playAudio(index, btn) {
+            const ayah = currentSurahAyahs[index];
+            let url = getAudioUrlForReciter(ayah.globalNumber);
+
             if (currentAudio) {
                 currentAudio.pause();
                 if (currentPlayBtn) currentPlayBtn.innerText = "▶ শুনুন";
@@ -479,6 +575,10 @@
                 currentAudio = null;
                 currentPlayBtn = null;
             };
+        }
+
+        function changeReciter(reciter) {
+            currentReciter = reciter;
         }
 
         function togglePlayAll() {
@@ -502,8 +602,9 @@
                 return;
             }
             const ayah = currentSurahAyahs[currentAyahIndex];
+            let url = getAudioUrlForReciter(ayah.globalNumber);
             if (currentAudio) currentAudio.pause();
-            currentAudio = new Audio(ayah.audioUrl);
+            currentAudio = new Audio(url);
             currentAudio.playbackRate = audioSpeed;
             currentAudio.play();
             
@@ -526,10 +627,6 @@
             currentBanglaFontSize += val;
             document.querySelectorAll('.arabic-text').forEach(el => el.style.fontSize = currentArabicFontSize + 'px');
             document.querySelectorAll('.bangla-meaning').forEach(el => el.style.fontSize = currentBanglaFontSize + 'px');
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
         }
 
         function showModal(id) {
@@ -599,7 +696,7 @@
         }
         
         function resumeLastRead() {
-            alert("সর্বশেষ পঠিত ফিচারটি শীঘ্রই আপডেট করা হবে!");
+            alert("আপনার পঠিত শেষ অবস্থান ট্র্যাকার থেকে আপডেট করা হচ্ছে!");
         }
     </script>
 </body>
