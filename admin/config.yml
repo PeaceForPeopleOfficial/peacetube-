@@ -20,15 +20,15 @@ collections:
       - { label: "Audio File / এমপিথ্রি ফাইল আপলোড", name: "audio_file", widget: "file", required: false }
       - { label: "Audio URL / অনলাইন এমপিথ্রি লিংক (বিকল্প)", name: "audio_url", widget: "string", required: false }
       - { label: "Publish Date", name: "date", widget: "datetime" }
-
-  - name: "videos"
+- name: "videos"
     label: "Video Content"
     folder: "content/videos"
     create: true
     slug: "{{slug}}"
     fields:
       - { label: "Video Title", name: "title", widget: "string" }
-      - { label: "YouTube Link", name: "link", widget: "string" }
+      - { label: "YouTube Link", name: "link", widget: "string", required: false }
+      - { label: "Direct Video File / সরাসরি ভিডিও ফাইল আপলোড", name: "video_file", widget: "file", required: false }
       - { label: "Category", name: "category", widget: "select", options: ["official", "premium", "motivational", "visual", "islamic", "music"] }
       - { label: "Description", name: "description", widget: "text" }
       - { label: "Is Premium", name: "is_premium", widget: "boolean", default: false }
