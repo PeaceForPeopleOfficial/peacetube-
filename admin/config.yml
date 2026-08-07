@@ -14,10 +14,10 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Title / শিরোনাম", name: "title", widget: "string" }
-      - { label: "Reciter / ক্বারী বা শিল্পীর নাম", name: "artist", widget: "string", required: false }
-      - { label: "Audio File / MP3 ফাইল আপলোড", name: "audio_file", widget: "file", required: false }
-      - { label: "Audio URL / অনলাইন এমপিথ্রি লিংক (বিকল্প)", name: "audio_url", widget: "string", required: false }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Artist", name: "artist", widget: "string", required: false }
+      - { label: "Audio File", name: "audio_file", widget: "file", required: false }
+      - { label: "Audio URL", name: "audio_url", widget: "string", required: false }
       - { label: "Publish Date", name: "date", widget: "datetime" }
 
   - name: "videos"
@@ -27,14 +27,14 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Video Title", name: "title", widget: "string" }
-      - { label: "YouTube Video Link / Embed URL", name: "link", widget: "string" }
+      - { label: "YouTube Link", name: "link", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["official", "premium", "motivational", "visual", "islamic", "music"] }
       - { label: "Description", name: "description", widget: "text" }
-      - { label: "Is Premium Video?", name: "is_premium", widget: "boolean", default: false }
+      - { label: "Is Premium", name: "is_premium", widget: "boolean", default: false }
       - { label: "Publish Date", name: "date", widget: "datetime" }
 
   - name: "daily_bani"
-    label: "Daily Quotes & Bani"
+    label: "Daily Quotes"
     folder: "content/bani"
     create: true
     slug: "{{year}}-{{month}}-{{day}}"
@@ -42,10 +42,10 @@ collections:
       - label: "Title"
         name: "title"
         widget: "string"
-      - label: "Quote / Bani Text"
+      - label: "Quote Text"
         name: "quote"
         widget: "text"
-      - label: "Author / Source"
+      - label: "Author"
         name: "author"
         widget: "string"
         default: "Peace for People"
@@ -53,13 +53,13 @@ collections:
         name: "date"
         widget: "date"
 
-- name: "confessions"
-    label: "📖 হৃদয়ের কথা ও সমাধান (Heartfelt Notes)"
+  - name: "confessions"
+    label: "Heartfelt Notes"
     folder: "content/confessions"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Nickname / ছদ্মনাম", name: "title", widget: "string", default: "শান্ত মন" }
-      - { label: "Confession Message / মনের কথা", name: "message", widget: "text" }
-      - { label: "Admin Reply / সান্ত্বনা ও উত্তর", name: "reply", widget: "text", required: false }
+      - { label: "Nickname", name: "title", widget: "string", default: "শান্ত মন" }
+      - { label: "Message", name: "message", widget: "text" }
+      - { label: "Admin Reply", name: "reply", widget: "text", required: false }
       - { label: "Date", name: "date", widget: "datetime" }
