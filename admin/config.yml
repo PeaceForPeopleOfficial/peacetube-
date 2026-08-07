@@ -79,7 +79,7 @@ collections:
       - { label: "Admin Reply", name: "reply", widget: "text", required: false }
       - { label: "Date", name: "date", widget: "datetime" }
 
-- name: "settings"
+  - name: "settings"
     label: "হোমপেজ আপডেট"
     files:
       - file: "index.html"
