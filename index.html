@@ -436,31 +436,46 @@
 </div>
 
 <script>
-  async function loadShantirBani() {
-    try {
-      const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani');
-      const files = await response.json();
-      
-      if (Array.isArray(files) && files.length > 0) {
-        const latestFile = files[files.length - 1]; 
-        const fileResponse = await fetch(latestFile.download_url);
-        const markdownText = await fileResponse.text();
-        
-        document.getElementById('latest-bani-content').innerHTML = `
-          <p style="margin: 0; font-weight: bold;">${markdownText}</p>
-        `;
-      } else {
-        document.getElementById('latest-bani-content').innerText = "কোনো নতুন পোস্ট পাওয়া যায়নি।";
-      }
-    } catch (error) {
-      console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
-      document.getElementById('latest-bani-content').innerText = "তথ্য লোড করা সম্ভব হয়নি।";
-    }
-  }
+    async function loadShantirBani() {
+        try {
+            const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani');
+            const files = await response.json();
+            if (Array.isArray(files) && files.length > 0) {
+                const latestFile = files[files.length - 1];
+                const fileResponse = await fetch(latestFile.download_url);
+                const markdownText = await fileResponse.text();
+                
+                // YAML Frontmatter থেকে Title, Quote এবং Author আলাদা করার লজিক
+                let titleMatch = markdownText.match(/title:\s*(.*)/);
+                let quoteMatch = markdownText.match(/quote:\s*([\s\S]*?)author:/);
+                let authorMatch = markdownText.match(/author:\s*(.*)/);
 
-  loadShantirBani();
+                let titleText = titleMatch ? titleMatch[1].trim() : "শান্তির বার্তা";
+                let quoteText = quoteMatch ? quoteMatch[1].trim().replace(/[\r\n]+/g, ' ') : markdownText;
+                let authorText = authorMatch ? authorMatch[1].trim() : "Peace for People";
+
+                // পরিষ্কার ও প্রফেশনাল ডিজাইনে রেন্ডার করা
+                document.getElementById('latest-bani-content').innerHTML = `
+                    <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.1rem;">
+                        ✨ ${titleText}
+                    </div>
+                    <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+                        "${quoteText}"
+                    </div>
+                    <div style="text-align: right; font-size: 0.9rem; font-weight: 600; color: #7f8c8d;">
+                        — ${authorText}
+                    </div>
+                `;
+            } else {
+                document.getElementById('latest-bani-content').innerText = "কোনো নতুন পোস্ট পাওয়া যায়নি।";
+            }
+        } catch (error) {
+            console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
+            document.getElementById('latest-bani-content').innerText = "তথ্য লোড করা সম্ভব হয়নি।";
+        }
+    }
+    loadShantirBani();
 </script>
-              <!-- স্পেশাল টুলস -->
         <div class="special-tools-grid">
             <div class="tool-card" style="border-left: 5px solid var(--green);">
                 <h3 style="color: var(--green); margin-top: 0;">🌱 আজকের শান্তির চ্যালেঞ্জ</h3>
