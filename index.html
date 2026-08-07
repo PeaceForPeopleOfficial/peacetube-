@@ -685,19 +685,27 @@ function shareOurWebsite() {
             alert("🔗 ওয়েবসাইটের লিংক কপি হয়ে গেছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।");
         }
     }
-document.addEventListener("DOMContentLoaded", function() {
-    // index.html এর ফ্রন্টমেটার থেকে কুরআনের বাণী ফেচ করা
-    const arabicText = "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ";
-    const banglaText = '"অতএব তোমরা আমাকে স্মরণ করো, আমিও তোমাদের স্মরণ করব এবং আমার কৃতজ্ঞতা প্রকাশ করো, অকৃতজ্ঞ হয়ো না।" (সূরা আল-বাকারা: ১৫২)';
-    
-    document.getElementById('latest-quran-content').innerHTML = `
-        <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
-            ${arabicText}
-        </div>
-        <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
-            ${banglaText}
-        </div>
-    `;
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+        // সরাসরি CMS ফাইলের ডেটা লোড করার লজিক
+        const response = await fetch('content/settings/daily_quotes.json').catch(() => null);
+        if (response && response.ok) {
+            const data = await response.json();
+            if (data.quran_arabic && data.quran_bangla) {
+                document.getElementById('latest-quran-content').innerHTML = `
+                    <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
+                        ${data.quran_arabic}
+                    </div>
+                    <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+                        ${data.quran_bangla}
+                    </div>
+                `;
+                return;
+            }
+        }
+    } catch (e) {
+        console.log("CMS fetch fallback used");
+    }
 });
   
 </script>
