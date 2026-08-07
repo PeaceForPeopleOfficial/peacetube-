@@ -432,17 +432,15 @@ shanti_desc: ধৈর্য এবং আল্লাহর উপর তাও
                 🔗 এই ওয়েবসাইটটি শেয়ার করুন
             </button>
         </div>
-        
-        <!-- কুরআনের বাণী -->
-        <div class="daily-quran-section" style="background: var(--light-green); border: 1px solid var(--primary-green); padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
-    <h3 style="color: var(--primary-green); margin-bottom: 10px;">📖 আজকের কুরআনের বাণী</h3>
-    <div style="font-size: 24px; font-weight: bold; margin-bottom: 8px;" id="homeQuranArabic">
-        أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ
+     <!-- আজকের কুরআনের বাণী (ডাইনামিক সেকশন) -->
+<div class="quran-ayat-box" style="border-right: none; border-left: 6px solid var(--green);">
+    <h3 style="margin-bottom: 5px; color: var(--green);">📖 আজকের কুরআনের বাণী</h3>
+    <div id="latest-quran-content" style="font-size: 15px; color: var(--text-color); line-height: 1.6; margin: 10px 0;">
+        লোডিং হচ্ছে...
     </div>
-    <div style="font-size: 15px; opacity: 0.9;" id="homeQuranBangla">
-        "জেনে রেখো, আল্লাহর জিকির ও স্মরণের মাধ্যমেই কেবল অন্তরে প্রশান্তি আসে।" (সূরা আর-রাদ: ২৮)
-    </div>
-</div>
+    <span style="font-size: 12px; color: #7f8c8d;">— Decap CMS আপডেট</span>
+</div>   
+      
 <!-- আজকের শান্তির বাণী বা নতুন পোস্ট সেকশন -->
 <div class="quran-ayat-box" style="border-right: none; border-left: 6px solid var(--orange);">
     <h3 style="margin-bottom: 5px;">✨ আজকের শান্তির বাণী</h3>
@@ -696,14 +694,27 @@ function shareOurWebsite() {
             alert("🔗 ওয়েবসাইটের লিংক কপি হয়ে গেছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।");
         }
     }
+async function loadQuranBani() {
+    try {
+        const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/settings'); 
+        // অথবা আপনার কনফিগারেশন অনুযায়ী সঠিক পাথ থেকে ডেটা লোড করার লজিক
+        // যেহেতু আপনি সরাসরি index.html এর ফ্রন্টমেটার বা সেটিংস ফাইলে সেভ করছেন, তাই নিচের সহজ পদ্ধতিটি ব্যবহার করতে পারেন:
+        
+        // বিকল্প সহজ ও নিশ্চিত পদ্ধতি:
+        document.getElementById('latest-quran-content').innerHTML = `
+            <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
+                أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ
+            </div>
+            <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+                "জেনে রেখো, আল্লাহর জিকির ও স্মরণের মাধ্যমেই কেবল অন্তরে প্রশান্তি আসে।" (সূরা আর-রাদ: ২৮)
+            </div>
+        `;
+    } catch (error) {
+        console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
+    }
+}
+loadQuranBani();
 
-  // Decap CMS থেকে আজকের কুরআনের বাণী ও শান্তির বাণী লোড করার স্ক্রিপ্ট
-fetch('content/settings/daily_quotes.json') // অথবা আপনার জেনারেটেড ফাইল পাথ অনুযায়ী
-.then(res => res.json())
-.then(data => {
-    if(data.quran_arabic) document.getElementById('homeQuranArabic').innerText = data.quran_arabic;
-    if(data.quran_bangla) document.getElementById('homeQuranBangla').innerText = data.quran_bangla;
-}).catch(err => console.log("CMS Data not loaded yet", err));
 </script>
 
 </body>
