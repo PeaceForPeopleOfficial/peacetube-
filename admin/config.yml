@@ -53,8 +53,8 @@ collections:
         name: "date"
         widget: "date"
 
-  - name: "confessions"
-    label: "মন ও ডায়েরি (Confessions)"
+- name: "confessions"
+    label: "📖 হৃদয়ের কথা ও সমাধান (Heartfelt Notes)"
     folder: "content/confessions"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
