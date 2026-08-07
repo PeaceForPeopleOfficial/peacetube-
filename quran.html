@@ -65,7 +65,8 @@
         
         .ayah-card { background: var(--bg-white); padding: 20px; border-radius: 14px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.04); }
         .ayah-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; }
-        .ayah-badge { font-size: 13px; background: var(--primary-orange); color: white; padding: 3px 12px; border-radius: 12px; font-weight: bold; }
+        .ayah-badge { font-size: 13px; background: var(--primary-orange); color: white; padding: 3px 12px; border-radius: 12px; font-weight: bold; display: flex; gap: 8px; align-items: center; }
+        .ruku-badge { font-size: 11px; background: var(--primary-green); color: white; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
         .ayah-actions { display: flex; gap: 6px; flex-wrap: wrap; }
         .audio-btn, .small-btn { background: var(--primary-green); color: white; border: none; padding: 6px 12px; border-radius: 18px; cursor: pointer; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
         .small-btn.bookmark { background: #E91E63; }
@@ -310,7 +311,8 @@
                                 arabic: text,
                                 bangla: bnData.data.surahs[i].ayahs[index].text,
                                 audioUrl: ayah.audio,
-                                globalNumber: ayah.number
+                                globalNumber: ayah.number,
+                                ruku: ayah.ruku
                             };
                         })
                     };
@@ -415,19 +417,29 @@
                 container.innerHTML = "";
 
                 surah.ayahs.forEach((ayah, index) => {
+                    let arabicText = ayah.arabic;
+                    if (surah.number !== 1 && surah.number !== 9 && index === 0) {
+                        if (arabicText.startsWith(BISMILLAH_TEXT)) {
+                            arabicText = arabicText.replace(BISMILLAH_TEXT, "").trim();
+                        }
+                    }
+
                     container.innerHTML += `
                         <div class="ayah-card" id="ayah-${index}">
                             <div class="ayah-header">
-                                <span class="ayah-badge">আয়াত ${ayah.numberInSurah}</span>
+                                <span class="ayah-badge">
+                                    আয়াত ${ayah.numberInSurah}
+                                    ${ayah.ruku ? `<span class="ruku-badge">রুকু ${ayah.ruku}</span>` : ''}
+                                </span>
                                 <div class="ayah-actions">
                                     <button class="audio-btn" onclick="playAudio('${ayah.audioUrl}', this)">▶ শুনুন</button>
                                     <button class="small-btn bookmark" onclick="toggleBookmark(${surah.number}, ${ayah.numberInSurah})">🔖 সেভ</button>
-                                    <button class="small-btn copy" onclick="copyAyah('${ayah.arabic}', '${ayah.bangla}', ${surah.number}, ${ayah.numberInSurah})">📋 কপি</button>
+                                    <button class="small-btn copy" onclick="copyAyah('${arabicText}', '${ayah.bangla}', ${surah.number}, ${ayah.numberInSurah})">📋 কপি</button>
                                 </div>
                             </div>
                             <div class="ayah-body">
                                 <div class="arabic-container">
-                                    <div class="arabic-text" style="font-size: ${currentArabicFontSize}px;">${ayah.arabic}</div>
+                                    <div class="arabic-text" style="font-size: ${currentArabicFontSize}px;">${arabicText}</div>
                                 </div>
                                 <div class="bangla-container">
                                     <div class="bangla-meaning" style="font-size: ${currentBanglaFontSize}px;">${ayah.bangla}</div>
