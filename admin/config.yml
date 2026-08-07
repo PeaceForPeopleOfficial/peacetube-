@@ -53,6 +53,19 @@ collections:
         name: "date"
         widget: "date"
 
+  - name: "library"
+    label: "📖 E-Books & Library"
+    folder: "content/library"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Book / Item Title", name: "title", widget: "string" }
+      - { label: "Author or Reciter", name: "author", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["ebook", "audio_song", "poem"] }
+      - { label: "PDF or Media File", name: "file", widget: "file", required: false }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+
   - name: "confessions"
     label: "Heartfelt Notes"
     folder: "content/confessions"
