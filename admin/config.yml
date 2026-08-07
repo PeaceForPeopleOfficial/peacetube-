@@ -9,15 +9,16 @@ public_folder: "/images"
 
 collections:
   - name: "audio"
-    label: "Audio Recitations"
+    label: "🎵 Audio & Recitations"
     folder: "content/audio"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Artist", name: "artist", widget: "string", required: false }
-      - { label: "Audio File", name: "audio_file", widget: "file", required: false }
-      - { label: "Audio URL", name: "audio_url", widget: "string", required: false }
+      - { label: "Title / শিরোনাম", name: "title", widget: "string" }
+      - { label: "Artist or Reciter / কণ্ঠশিল্পী বা ক্বারী", name: "artist", widget: "string", required: false }
+      - { label: "Category / ক্যাটাগরি", name: "category", widget: "select", options: ["islamic_gojol", "quran_recitation", "song", "poem_shairy"] }
+      - { label: "Audio File / এমপিথ্রি ফাইল আপলোড", name: "audio_file", widget: "file", required: false }
+      - { label: "Audio URL / অনলাইন এমপিথ্রি লিংক (বিকল্প)", name: "audio_url", widget: "string", required: false }
       - { label: "Publish Date", name: "date", widget: "datetime" }
 
   - name: "videos"
