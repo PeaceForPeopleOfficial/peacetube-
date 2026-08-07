@@ -9,16 +9,16 @@ public_folder: "/images"
 
 collections:
   - name: "audio"
-    label: "🎵 Audio & Recitations"
+    label: "🎙️ Podcasts & Audio Talks"
     folder: "content/audio"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Artist", name: "artist", widget: "string", required: false }
-      - { label: "Category", name: "category", widget: "select", options: ["islamic_gojol", "quran_recitation", "song", "poem_shairy"] }
-      - { label: "Audio File", name: "audio_file", widget: "file", required: false }
-      - { label: "Audio URL", name: "audio_url", widget: "string", required: false }
+      - { label: "Title / শিরোনাম", name: "title", widget: "string" }
+      - { label: "Speaker or Reciter / বক্তা বা ক্বারী", name: "artist", widget: "string", required: false }
+      - { label: "Category / ক্যাটাগরি", name: "category", widget: "select", options: ["podcast_talk", "islamic_bayan", "quran_recitation"] }
+      - { label: "Audio File / এমপিথ্রি ফাইল", name: "audio_file", widget: "file", required: false }
+      - { label: "Audio URL / অনলাইন লিংক", name: "audio_url", widget: "string", required: false }
       - { label: "Publish Date", name: "date", widget: "datetime" }
 
   - name: "videos"
@@ -56,16 +56,16 @@ collections:
         widget: "date"
 
   - name: "library"
-    label: "📖 E-Books & Library"
+    label: "📖 E-Books, Poetry & Gojol"
     folder: "content/library"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Book Title", name: "title", widget: "string" }
-      - { label: "Author", name: "author", widget: "string" }
-      - { label: "Category", name: "category", widget: "select", options: ["ebook", "audio_song", "poem"] }
-      - { label: "PDF or Media File", name: "file", widget: "file", required: false }
-      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Title / বই বা রচনার নাম", name: "title", widget: "string" }
+      - { label: "Author or Artist / লেখক বা শিল্পী", name: "author", widget: "string" }
+      - { label: "Category / ক্যাটাগরি", name: "category", widget: "select", options: ["ebook", "islamic_gojol", "poem_shairy"] }
+      - { label: "File Upload / ফাইল আপলোড (PDF বা MP3)", name: "file", widget: "file", required: false }
+      - { label: "Description / বিবরণ", name: "description", widget: "text" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
 
   - name: "confessions"
