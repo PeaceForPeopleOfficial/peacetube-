@@ -78,3 +78,15 @@ collections:
       - { label: "Message", name: "message", widget: "text" }
       - { label: "Admin Reply", name: "reply", widget: "text", required: false }
       - { label: "Date", name: "date", widget: "datetime" }
+
+- name: "settings"
+    label: "হোমপেজ আপডেট"
+    files:
+      - file: "index.html"
+        label: "দৈনিক বাণীসমূহ"
+        name: "daily_quotes"
+        fields:
+          - { label: "আজকের কুরআনের বাণী (আরবি)", name: "quran_arabic", widget: "string" }
+          - { label: "আজকের কুরআনের বাণী (বাংলা অনুবাদ ও সূরা)", name: "quran_bangla", widget: "text" }
+          - { label: "আজকের শান্তির বাণী (শিরোনাম)", name: "shanti_title", widget: "string" }
+          - { label: "আজকের শান্তির বাণী (মূল বর্ণনা)", name: "shanti_desc", widget: "text" }
