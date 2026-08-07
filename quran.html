@@ -887,64 +887,66 @@
         function showModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // ৮. সূরা পড়া
-        function openSurah(num) {
-            const tx = db.transaction("surahs", "readonly");
-            const store = tx.objectStore("surahs");
-            const getSurah = store.get(num);
-
-            getSurah.onsuccess = () => {
-                const surah = getSurah.result;
-                if (!surah) {
-                    alert("⚠️ ডাটা ডাউনলোড করা নেই! 'ডাউনলোড করুন' বাটনে চাপ দিন।");
-                    return;
-                }
-
-                currentSurahAyahs = surah.ayahs;
-                isPlayingAll = false;
-                document.getElementById("playAllBtn").innerHTML = "▶️ পুরো সূরা শুনুন";
-
-                document.getElementById("homePage").style.display = "none";
-                document.getElementById("detailPage").style.display = "flex";
-                document.getElementById("backBtn").style.display = "flex";
-                document.getElementById("headerTitle").innerText = `সূরা ${surah.name}`;
-
-                const bismillahHeader = document.getElementById("bismillahHeader");
-                if (surah.number !== 9) {
-                    bismillahHeader.innerHTML = `
-                        <div class="bismillah-card">
-                            <div class="bismillah-arabic">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
-                            <div class="bismillah-bangla">পরম করুণাময় অসীম দয়ালু আল্লাহর নামে (শুরু করছি)</div>
-                        </div>
-                    `;
-                } else {
-                    bismillahHeader.innerHTML = "";
-                }
-
-                const container = document.getElementById("ayahContainer");
-                container.innerHTML = "";
-
-                surah.ayahs.forEach((a, idx) => {
-                    container.innerHTML += `
-                        <div class="ayah-card" id="ayah-card-${a.numberInSurah}" onclick="saveLastRead(${surah.number}, '${surah.name}', ${a.numberInSurah})">
-                            <div class="ayah-header">
-                                <span class="ayah-badge">আয়াত ${a.numberInSurah}</span>
-                                <div class="ayah-actions">
-                                    <button class="audio-btn" id="btn-ayah-${idx}" onclick="playAudio('${a.audioUrl}', this, ${a.globalNumber})">🔊 তিলওয়াত</button>
-                                    <button class="small-btn copy" onclick="copyAyah('${a.arabic}', '${a.bangla}')">📋</button>
-                                    <button class="small-btn bookmark" onclick="saveBookmark('${surah.name}', ${a.numberInSurah}, '${a.arabic}', '${a.bangla}')">❤️</button>
-                                    <button class="small-btn share" onclick="shareAyah('${surah.name}', ${a.numberInSurah}, '${a.arabic}', '${a.bangla}')">📤</button>
-                                </div>
-                            </div>
-                            <div class="ayah-body">
-                                <div class="arabic-container"><div class="arabic-text">${a.arabic}</div></div>
-                                <div class="bangla-container"><div class="bangla-meaning">${a.bangla}</div></div>
-                            </div>
-                        </div>
-                    `;
-                });
-            };
+      // ৮. সূরা পড়া function
+function openSurah(num) {
+    const tx = db.transaction("surahs", "readonly");
+    const store = tx.objectStore("surahs");
+    const getSurah = store.get(num);
+    
+    getSurah.onsuccess = () => {
+        const surah = getSurah.result;
+        if (!surah) {
+            alert("⚠️ ডাটা ডাউনলোড করা নেই! 'ডাউনলোড করুন' বাটনে চাপ দিন।");
+            return;
         }
+        currentSurahAyahs = surah.ayahs;
+        isPlayingAll = false;
+        document.getElementById("playAllBtn").innerHTML = "▶️ পুরো সূরা শুনুন";
+        document.getElementById("homePage").style.display = "none";
+        document.getElementById("detailPage").style.display = "flex";
+        document.getElementById("backBtn").style.display = "flex";
+        document.getElementById("headerTitle").innerText = `সূরা ${surah.name}`;
+        
+        const bismillahHeader = document.getElementById("bismillahHeader");
+        if (surah.number !== 9) {
+            bismillahHeader.innerHTML = `
+                <div class="bismillah-card">
+                    <div class="bismillah-arabic">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
+                    <div class="bismillah-bangla">পরম করুণাময় অসীম দয়ালু আল্লাহর নামে (শুরু করছি)</div>
+                </div>
+            `;
+        } else {
+            bismillahHeader.innerHTML = "";
+        }
+
+        // আয়াতের প্রথম আয়াত থেকে অতিরিক্ত বিসমিল্লাহ ফিল্টার করার লজিকসহ रুকু (Ruku) বা আয়াত রেন্ডার করার প্রস্তুতি
+        const container = document.getElementById("ayahsContainer");
+        container.innerHTML = "";
+        
+        surah.ayahs.forEach((ayah) => {
+            let arabicText = ayah.text;
+            const bismillahPattern = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ";
+            
+            // যদি ১ম আয়াত হয় এবং তাতে বিসমিল্লাহ জোড়া থাকে, তবে তা সরিয়ে ফেলা হবে
+            if (ayah.numberInSurah === 1 && arabicText.startsWith(bismillahPattern)) {
+                arabicText = arabicText.replace(bismillahPattern, "").trim();
+            }
+
+            // এখানে আপনার আয়াতের কার্ড বা ডিভ তৈরি হচ্ছে
+            const ayahCard = document.createElement("div");
+            ayahCard.className = "ayah-card";
+            ayahCard.innerHTML = `
+                <div class="ayah-header">
+                    <span class="ayah-number">আয়াত ${ayah.numberInSurah}</span>
+                    ${ayah.ruku ? `<span class="ruku-badge">রুকু ${ayah.ruku}</span>` : ''}
+                </div>
+                <div class="arabic-text">${arabicText}</div>
+                <div class="translation-text">${ayah.translation || ''}</div>
+            `;
+            container.appendChild(ayahCard);
+        });
+    };
+}
 
         function goBack() {
             isPlayingAll = false;
