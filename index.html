@@ -1,7 +1,6 @@
 ---
 quran_arabic: فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا
-quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি। হ্যাঁ, নিশ্চয়ই কষ্টের সাথেই
-  রয়েছে স্বস্তি।" (সূরা আল-ইনশিরাহ: ৫-৬)'
+quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি। হ্যাঁ, নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি।" (সূরা আল-ইনশিরাহ: ৫-৬)'
 ---
 <!DOCTYPE html>
 <html lang="bn">
@@ -15,12 +14,8 @@ quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়�
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <style>
-       #breathCircle {
-    transition: transform 4s ease-in-out, background-color 4s ease-in-out;
-}
-#breathCircle.inhale {
-    transform: scale(1.2);
-} 
+        #breathCircle { transition: transform 4s ease-in-out, background-color 4s ease-in-out; }
+        #breathCircle.inhale { transform: scale(1.2); }
         :root {
             --orange: #ff9933;
             --green: #138808;
@@ -61,328 +56,73 @@ quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়�
             align-items: center;
             flex-wrap: wrap;
         }
-        .logo-area h1 {
-            color: var(--green);
-            margin: 0;
-            font-size: 24px;
-        }
-        .logo-area h1 span {
-            color: var(--orange);
-        }
-        nav {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        nav a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-        nav a:hover {
-            color: var(--green);
-        }
-        .theme-toggle-btn {
-            background: var(--green);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 25px auto;
-            padding: 0 20px;
-        }
+        .logo-area h1 { color: var(--green); margin: 0; font-size: 24px; }
+        .logo-area h1 span { color: var(--orange); }
+        nav { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 14px; transition: 0.2s; }
+        nav a:hover { color: var(--green); }
+        .theme-toggle-btn { background: var(--green); color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        .container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
         .helpline-card {
-            background: #ffebee;
-            border: 1px solid #ffcdd2;
-            border-left: 6px solid var(--red-alert);
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            background: #ffebee; border: 1px solid #ffcdd2; border-left: 6px solid var(--red-alert);
+            border-radius: 10px; padding: 15px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
         }
-        .helpline-card h4 {
-            margin: 0;
-            color: var(--red-alert);
-            font-size: 16px;
-        }
-        .helpline-card p {
-            margin: 3px 0 0 0;
-            font-size: 13px;
-            color: #b71c1c;
-        }
-        .search-box {
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-        }
+        .helpline-card h4 { margin: 0; color: var(--red-alert); font-size: 16px; }
+        .helpline-card p { margin: 3px 0 0 0; font-size: 13px; color: #b71c1c; }
+        .search-box { margin-bottom: 25px; display: flex; justify-content: center; }
         .search-box input {
-            width: 100%;
-            max-width: 500px;
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 2px solid var(--green);
-            outline: none;
-            font-size: 15px;
-            background: var(--card-bg);
-            color: var(--text-color);
+            width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px;
+            border: 2px solid var(--green); outline: none; font-size: 15px; background: var(--card-bg); color: var(--text-color);
         }
         .welcome-box {
-            background: var(--card-bg);
-            padding: 35px 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-left: 6px solid var(--orange);
-            text-align: center;
-            margin-bottom: 25px;
+            background: var(--card-bg); padding: 35px 25px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 6px solid var(--orange); text-align: center; margin-bottom: 25px;
         }
-        .welcome-box h2 {
-            color: var(--green);
-            margin-top: 0;
-        }
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 22px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .btn-green {
-            background: var(--green);
-            color: white;
-        }
-        .btn-green:hover {
-            background: #0e6306;
-        }
-        .btn-orange {
-            background: var(--orange);
-            color: white;
-        }
-        .btn-orange:hover {
-            background: #e07b16;
-        }
+        .welcome-box h2 { color: var(--green); margin-top: 0; }
+        .btn-group { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 10px 22px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: 0.3s; border: none; cursor: pointer; font-size: 14px; }
+        .btn-green { background: var(--green); color: white; }
+        .btn-green:hover { background: #0e6306; }
+        .btn-orange { background: var(--orange); color: white; }
+        .btn-orange:hover { background: #e07b16; }
         .quran-ayat-box {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-right: 6px solid var(--green);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            text-align: center;
+            background: var(--card-bg); border-radius: 15px; padding: 20px; margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;
         }
-        .quran-ayat-box h3 {
-            color: var(--green);
-            margin-top: 0;
-        }
-        .arabic-text {
-            font-size: 22px;
-            font-weight: bold;
-            color: var(--green);
-            margin: 10px 0;
-        }
-        .special-tools-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        @media (max-width: 768px) {
-            .special-tools-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .tool-card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        .breathing-box {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            text-align: center;
-            margin-bottom: 25px;
-            border-top: 5px solid var(--green);
-        }
+        .special-tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+        @media (max-width: 768px) { .special-tools-grid { grid-template-columns: 1fr; } }
+        .tool-card { background: var(--card-bg); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; }
+        .breathing-box { background: var(--card-bg); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; margin-bottom: 25px; border-top: 5px solid var(--green); }
         .breathing-circle {
-            width: 90px;
-            height: 90px;
-            background: var(--green);
-            border-radius: 50%;
-            margin: 15px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            transition: transform 4s ease-in-out;
+            width: 90px; height: 90px; background: var(--green); border-radius: 50%; margin: 15px auto;
+            display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: transform 4s ease-in-out;
         }
-        .breathing-circle.inhale {
-            transform: scale(1.3);
-            background: var(--orange);
-        }
-        .main-layout {
-            display: grid;
-            grid-template-columns: 1.3fr 1fr;
-            gap: 25px;
-        }
-        @media (max-width: 768px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-        .blog-section h2 {
-            border-left: 5px solid var(--green);
-            padding-left: 10px;
-            color: var(--green);
-            margin-top: 0;
-        }
-        .blog-card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.02);
-            margin-bottom: 20px;
-            border: 1px solid var(--light-border);
-        }
-        .blog-card h3 {
-            margin-top: 0;
-            color: var(--green);
-        }
-        .blog-card p {
-            line-height: 1.6;
-        }
-        .blog-meta {
-            font-size: 13px;
-            color: #95a5a6;
-            margin-bottom: 10px;
-        }
-        .interaction-bar {
-            display: flex;
-            gap: 15px;
-            border-top: 1px solid var(--light-border);
-            padding-top: 10px;
-            margin-top: 15px;
-        }
-        .interaction-btn {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-        .share-box {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border-top: 5px solid var(--orange);
-        }
-        .form-group {
-            margin-bottom: 12px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size: 13px;
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 13px;
-        }
-        .form-group textarea {
-            height: 100px;
-            resize: none;
-        }
-        footer {
-            background: var(--card-bg);
-            padding: 30px 20px 15px;
-            margin-top: 50px;
-            border-top: 3px solid var(--green);
-        }
-        .footer-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 30px;
-            text-align: left;
-        }
-        @media (max-width: 768px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
-        .footer-links ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .footer-links li {
-            margin-bottom: 8px;
-        }
-        .footer-links a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 14px;
-        }
-        .footer-links a:hover {
-            color: var(--green);
-        }
-        .footer-bottom {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid var(--light-border);
-            font-size: 13px;
-            color: #7f8c8d;
-        }
+        .breathing-circle.inhale { transform: scale(1.3); background: var(--orange); }
+        .main-layout { display: grid; grid-template-columns: 1.3fr 1fr; gap: 25px; }
+        @media (max-width: 768px) { .main-layout { grid-template-columns: 1fr; } }
+        .blog-section h2 { border-left: 5px solid var(--green); padding-left: 10px; color: var(--green); margin-top: 0; }
+        .blog-card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.02); margin-bottom: 20px; border: 1px solid var(--light-border); }
+        .blog-card h3 { margin-top: 0; color: var(--green); }
+        .blog-meta { font-size: 13px; color: #95a5a6; margin-bottom: 10px; }
+        .interaction-bar { display: flex; gap: 15px; border-top: 1px solid var(--light-border); padding-top: 10px; margin-top: 15px; }
+        .interaction-btn { background: none; border: none; color: var(--text-color); cursor: pointer; font-weight: bold; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+        .sidebar { display: flex; flex-direction: column; gap: 25px; }
+        .share-box { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-top: 5px solid var(--orange); }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 13px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 13px; color: var(--text-color); background: var(--card-bg); }
+        .form-group textarea { height: 100px; resize: none; }
+        footer { background: var(--card-bg); padding: 30px 20px 15px; margin-top: 50px; border-top: 3px solid var(--green); }
+        .footer-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 30px; text-align: left; }
+        @media (max-width: 768px) { .footer-content { grid-template-columns: 1fr; text-align: center; } }
+        .footer-links ul { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a { text-decoration: none; color: var(--text-color); font-size: 14px; }
+        .footer-links a:hover { color: var(--green); }
+        .footer-bottom { text-align: center; margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--light-border); font-size: 13px; color: #7f8c8d; }
     </style>
 </head>
 <body>
-
-    <!-- হেডার ও নেভিগেশন বার -->
     <header>
         <div class="logo-area">
             <h1>🕊️ Peace for <span>People</span></h1>
@@ -423,71 +163,33 @@ quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়�
                 <a href="#share-box" class="btn btn-orange">💬 নিজের দুঃখ শেয়ার করুন</a>
             </div>
         </div>
-<!-- প্রফেশনাল ওয়েবসাইট শেয়ারিং বাটন -->
+
+        <!-- প্রফেশনাল ওয়েবসাইট শেয়ারিং বাটন -->
         <div style="text-align: center; margin: 20px 0; padding: 0 15px;">
             <button onclick="shareOurWebsite()" style="background: linear-gradient(135deg, #FF6F00, #2E7D32); color: white; border: none; padding: 11px 24px; border-radius: 25px; font-size: 14.5px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.12); display: inline-flex; align-items: center; gap: 8px;">
                 🔗 এই ওয়েবসাইটটি শেয়ার করুন
             </button>
         </div>
-<!-- আজকের কুরআনের বাণী (ডাইনামিক কার্ড) -->
-<div class="quran-ayat-box" style="border-right: none; border-left: 6px solid var(--green);">
-    <h3 style="margin-bottom: 5px; color: var(--green);">📖 আজকের কুরআনের বাণী</h3>
-    <div id="latest-quran-content" style="font-size: 15px; color: var(--text-color); line-height: 1.6; margin: 10px 0;">
-        লোডিং হচ্ছে...
-    </div>
-    <span style="font-size: 12px; color: #7f8c8d;">— Decap CMS আপডেট</span>
-</div>
-      
-<!-- আজকের শান্তির বাণী বা নতুন পোস্ট সেকশন -->
-<div class="quran-ayat-box" style="border-right: none; border-left: 6px solid var(--orange);">
-    <h3 style="margin-bottom: 5px;">✨ আজকের শান্তির বাণী</h3>
-    <div id="latest-bani-content" style="font-size: 15px; color: var(--text-color); line-height: 1.6; margin: 10px 0;">
-        লোডিং হচ্ছে...
-    </div>
-    <span style="font-size: 12px; color: #7f8c8d;">— Decap CMS আপডেট</span>
-</div>
-<script>
-    async function loadShantirBani() {
-        try {
-            const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani');
-            const files = await response.json();
-            if (Array.isArray(files) && files.length > 0) {
-                const latestFile = files[files.length - 1];
-                const fileResponse = await fetch(latestFile.download_url);
-                const markdownText = await fileResponse.text();
-                
-                // YAML Frontmatter থেকে Title, Quote এবং Author আলাদা করার লজিক
-                let titleMatch = markdownText.match(/title:\s*(.*)/);
-                let quoteMatch = markdownText.match(/quote:\s*([\s\S]*?)author:/);
-                let authorMatch = markdownText.match(/author:\s*(.*)/);
 
-                let titleText = titleMatch ? titleMatch[1].trim() : "শান্তির বার্তা";
-                let quoteText = quoteMatch ? quoteMatch[1].trim().replace(/[\r\n]+/g, ' ') : markdownText;
-                let authorText = authorMatch ? authorMatch[1].trim() : "Peace for People";
+        <!-- আজকের কুরআনের বাণী -->
+        <div class="quran-ayat-box" style="border-right: none; border-left: 6px solid var(--green);">
+            <h3 style="margin-bottom: 5px; color: var(--green);">📖 আজকের কুরআনের বাণী</h3>
+            <div id="latest-quran-content" style="font-size: 15px; color: var(--text-color); line-height: 1.6; margin: 10px 0;">
+                <!-- কুরআনের বাণী এখানে ডাইনামিক রেন্ডার হবে -->
+            </div>
+            <span style="font-size: 12px; color: #7f8c8d;">— Decap CMS আপডেট</span>
+        </div>
 
-                // পরিষ্কার ও প্রফেশনাল ডিজাইনে রেন্ডার করা
-                document.getElementById('latest-bani-content').innerHTML = `
-                    <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.1rem;">
-                        ✨ ${titleText}
-                    </div>
-                    <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
-                        "${quoteText}"
-                    </div>
-                    <div style="text-align: right; font-size: 0.9rem; font-weight: 600; color: #7f8c8d;">
-                        — ${authorText}
-                    </div>
-                `;
-            } else {
-                document.getElementById('latest-bani-content').innerText = "কোনো নতুন পোস্ট পাওয়া যায়নি।";
-            }
-        } catch (error) {
-            console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
-            document.getElementById('latest-bani-content').innerText = "তথ্য লোড করা সম্ভব হয়নি।";
-        }
-    }
-    loadShantirBani();
+        <!-- আজকের শান্তির বাণী -->
+        <div class="quran-ayat-box" style="border-right: none; border-left: 6px solid var(--orange);">
+            <h3 style="margin-bottom: 5px;">✨ আজকের শান্তির বাণী</h3>
+            <div id="latest-bani-content" style="font-size: 15px; color: var(--text-color); line-height: 1.6; margin: 10px 0;">
+                লোডিং হচ্ছে...
+            </div>
+            <span style="font-size: 12px; color: #7f8c8d;">— Decap CMS আপডেট</span>
+        </div>
 
-</script>
+        <!-- চ্যালেঞ্জ ও টুলস -->
         <div class="special-tools-grid">
             <div class="tool-card" style="border-left: 5px solid var(--green);">
                 <h3 style="color: var(--green); margin-top: 0;">🌱 আজকের শান্তির চ্যালেঞ্জ</h3>
@@ -523,67 +225,55 @@ quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়�
                     <h3>কুরআন তিলাওয়াত কীভাবে আমাদের মস্তিষ্ককে শান্ত করে?</h3>
                     <div class="blog-meta">✍️ PeaceForPeople</div>
                     <p>বিজ্ঞান প্রমাণ করেছে যে নির্দিষ্ট সুর ও ছন্দের শব্দ তরঙ্গ আমাদের মস্তিষ্কের আলফা ওয়েভ বৃদ্ধি করে, যা মনকে শান্ত করতে সাহায্য করে। আল্লাহর কালাম শোনায় রয়েছে অলৌকিক প্রশান্তি...</p>
-
                     <div class="interaction-bar">
                         <button class="interaction-btn" onclick="toggleLike('like2')">❤️ <span id="like2">২৫</span> লাইক</button>
                     </div>
                 </div>
             </div>
-<!-- সাইডবার (মনের কথা শেয়ার ও অডিও বক্স আলাদা করা) -->
+
             <div class="sidebar">
-                
-                <!-- ১. শান্তির সুর ও কুরআনের তিলাওয়াত বক্স -->
+                <!-- শান্তির সুর বক্স -->
                 <div class="share-box" style="border-top: 5px solid var(--green);">
                     <h3 style="color: var(--green); margin-top: 0;">🎧 শান্তির সুর ও কুরআনের তিলাওয়াত শুনুন:</h3>
                     <p style="font-size: 13px; color: var(--text-color); margin-bottom: 10px;">মনকে প্রফুল্ল করতে এবং প্রশান্তি পেতে কিছুক্ষণ কান পেতে শুনুন:</p>
-                    
-                    <!-- শান্তির মিউজিক অডিও -->
                     <div style="margin-bottom: 15px;">
                         <p style="margin: 0 0 5px 0; font-size: 12px; font-weight: bold; color: var(--orange);">🎵 রিল্যাক্সিং শান্তির মিউজিক:</p>
                         <audio controls style="width: 100%; height: 35px;">
                             <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=meditation-zen-garden-11333.mp3" type="audio/mpeg">
-                            আপনার ব্রাউজার অডিও ট্যাগ সমর্থন করে না।
                         </audio>
                     </div>
-
-                   <!-- কুরআনের আয়াত অডিও (আলহামদুলিল্লাহি রাব্বিল আলামীন) -->
-                <div style="margin-top: 15px;">
-                    <p style="margin: 0 0 5px 0; font-size: 12px; font-weight: bold; color: var(--green);">📖 আল-হামদু লিল্লাহে রাব্বিল আলামীন:</p>
-                    <audio controls style="width: 100%; height: 35px;">
-                        <source src="https://everyayah.com/data/Alafasy_128kbps/001002.mp3" type="audio/mpeg">
-                        আপনার ব্রাউজার অডিও ট্যাগ সমর্থন করে না।
-                    </audio>
+                    <div style="margin-top: 15px;">
+                        <p style="margin: 0 0 5px 0; font-size: 12px; font-weight: bold; color: var(--green);">📖 আল-হামদু লিল্লাহে রাব্বিল আলামীন:</p>
+                        <audio controls style="width: 100%; height: 35px;">
+                            <source src="https://everyayah.com/data/Alafasy_128kbps/001002.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
                 </div>
 
-                    
-                <!-- ২. মনের কথা শেয়ার করুন বক্স -->
+                <!-- মনের কথা শেয়ার বক্স -->
                 <div class="share-box" id="share-box" style="border-top: 5px solid var(--orange);">
-                    <h3 style="color: var(--orange); margin-top: 0;">💬 মনের কথা শেয়ার করুন</h3>
-                    <p style="font-size: 12px; color: #666;">আপনার নাম ও তথ্য গোপন থাকবে। হালকা বোধ করতে লিখে ফেলুন।</p>
-                    <form onsubmit="handlePostSubmit(event)">
+                    <h3 style="color: var(--orange); margin-top: 0;">💬 আপনার মনের কথা শেয়ার করুন</h3>
+                    <form onsubmit="submitStory(event)">
                         <div class="form-group">
-                            <label>আপনার ছদ্মনাম (ঐচ্ছিক):</label>
-                            <input type="text" id="anonymousName" placeholder="যেমন: শান্ত মন">
+                            <label>আপনার নাম (ঐচ্ছিক):</label>
+                            <input type="text" id="userName" placeholder="নাম বা বেনামী">
                         </div>
                         <div class="form-group">
-                            <label>আপনার মনের কথা:</label>
-                            <textarea id="anonymousText" required placeholder="আপনার কষ্ট বা অনুভূতির কথা লিখুন..."></textarea>
+                            <label>আপনার মনের কথা বা অনুভূতির কথা:</label>
+                            <textarea id="userStory" placeholder="এখানে লিখুন..." required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-orange" style="width: 100%;">পাঠিয়ে দিন 🕊️</button>
+                        <button type="submit" class="btn btn-orange" style="width: 100%;">শেয়ার করুন</button>
                     </form>
                 </div>
-            </div
-                
- <!-- /.sidebar শেষ -->
-      </div> <!-- /.main-layout শেষ -->
-    </div> <!-- /.container শেষ -->
-           
-    <!-- ফুটার সেকশন -->
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-content">
-            <div class="footer-about">
+            <div class="footer-info">
                 <h3>🕊️ Peace for People</h3>
-                <p>মনকে শান্ত করার এবং মানসিক প্রশান্তি খুঁজে পাওয়ার একটি নিরাপদ আশ্রয়।</p>
+                <p>হৃদয়ের পবিত্রতা থেকে বিশ্বমানবকল্যাণ! এটি একটি অলাভজনক ও মানসিক প্রশান্তিমূলক নিরাপদ আশ্রয়।</p>
             </div>
             <div class="footer-links">
                 <h3>দ্রুত লিংক</h3>
@@ -591,130 +281,95 @@ quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়�
                     <li><a href="index.html">হোম</a></li>
                     <li><a href="quran.html">আল-কুরআন</a></li>
                     <li><a href="video.html">পিস টিউব</a></li>
+                    <li><a href="podcast.html">পডকাস্ট</a></li>
                     <li><a href="library.html">লাইব্রেরি</a></li>
                 </ul>
             </div>
             <div class="footer-links">
-                <h3>যোগাযোগ</h3>
+                <h3>সহযোগিতা</h3>
                 <ul>
-                    <li><a href="#">সহায়তা</a></li>
-                    <li><a href="#">গোপনীয়তা নীতি</a></li>
+                    <li><a href="tel:109">জরুরি হেল্পলাইন: ১০৯</a></li>
+                    <li><a href="#share-box">আপনার অনুভূতি জানান</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Peace for People. সর্বস্বত্ব সংরক্ষিত।</p>
+            <p>&copy; ২০২৬ Peace for People. সর্বস্বত্ব সংরক্ষিত।</p>
         </div>
     </footer>
-</body>
-   <script>
-// ১. চ্যালেঞ্জ সম্পন্ন করার ফাংশন
-function completeChallenge() {
-    const btn = document.getElementById('challengeBtn');
-    if (btn) {
-        btn.innerText = "আলহামদুলিল্লাহ! সম্পন্ন হয়েছে ✔️";
-        btn.style.background = "#0e6306";
-        btn.disabled = true;
-    }
-}
 
-// ২. লাইক টগল ফাংশন
-function toggleLike(id) {
-    const span = document.getElementById(id);
-    if (span) {
-        let currentLikes = parseInt(span.innerText) || 0;
-        span.innerText = currentLikes + 1;
-    }
-}
-
-// ৩. ব্রীদিং অ্যানিমেশন লজিক
-const circle = document.getElementById('breathCircle');
-const breathText = document.getElementById('breathText');
-let isHolding = false;
-
-if (circle && breathText) {
-    setInterval(() => {
-        if (!isHolding) {
-            circle.classList.add('inhale');
-            circle.innerText = "শ্বাস ছাড়ুন";
-            breathText.innerText = "ধীরে ধীরে মুখ দিয়ে শ্বাস ছাড়ুন...";
-            isHolding = true;
-        } else {
-            circle.classList.remove('inhale');
-            circle.innerText = "শ্বাস নিন";
-            breathText.innerText = "নাকের মাধ্যমে গভীর শ্বাস নিন...";
-            isHolding = false;
-        }
-    }, 4000);
-}
-// ৪. সার্চ পোস্ট ফাংশন
-    function searchPosts() {
-        let input = document.getElementById('searchInput');
-        if (!input) return;
-        let filter = input.value.toLowerCase();
-        let cards = document.querySelectorAll('.blog-card, .card, article');
-        cards.forEach(card => {
-            let text = card.innerText.toLowerCase();
-            if (text.includes(filter)) {
-                card.style.display = "";
+    <!-- সমস্ত ফাংশনাল জাভাস্ক্রিপ্ট -->
+    <script>
+        // ১. ডার্ক মোড টগল লজিক
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
             } else {
-                card.style.display = "none";
-            }
-        });
-    }
-</script>
-
-<!-- ডার্ক মোড স্ক্রিপ্ট -->
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.setAttribute("data-theme", savedTheme);
-  });
-
-  function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
-  }
-function shareOurWebsite() {
-        const shareData = {
-            title: 'Peace for People - শান্তির নিরাপদ আশ্রয়',
-            text: 'পবিত্র কুরআন তেলাওয়াত ও শান্তির নানা আয়োজন নিয়ে চমৎকার একটি ওয়েবসাইট। একবার ঘুরে দেখতে পারেন:',
-            url: window.location.href
-        };
-
-        if (navigator.share) {
-            navigator.share(shareData).catch((err) => console.log('Sharing failed', err));
-        } else {
-            navigator.clipboard.writeText(window.location.href);
-            alert("🔗 ওয়েবসাইটের লিংক কপি হয়ে গেছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।");
-        }
-    }
-
-  document.addEventListener("DOMContentLoaded", async function () {
-    try {
-        // সরাসরি CMS ফাইলের ডেটা লোড করার লজিক
-        const response = await fetch('content/settings/daily_quotes.json').catch(() => null);
-        if (response && response.ok) {
-            const data = await response.json();
-            if (data.quran_arabic && data.quran_bangla) {
-                document.getElementById('latest-quran-content').innerHTML = `
-                    <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
-                        ${data.quran_arabic}
-                    </div>
-                    <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
-                        ${data.quran_bangla}
-                    </div>
-                `;
-                return;
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
             }
         }
-    } catch (e) {
-        console.log("CMS fetch fallback used");
-    }
+        // পেজ লোড হলে আগের থিম চেক করা
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
 
-        // ১. আজকের শান্তির বাণী ডাইনামিকালি লোড করার ফাংশন
+        // ২. ওয়েবসাইট শেয়ার করার ফাংশন
+        function shareOurWebsite() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Peace for People',
+                    text: 'মানসিক প্রশান্তি ও আত্মাকে শান্ত করার চমৎকার একটি নিরাপদ আশ্রয়:',
+                    url: window.location.href,
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('লিংকটি ক্লিপবোর্ডে কপি হয়ে গেছে!');
+            }
+        }
+
+        // ৩. চ্যালেঞ্জ সম্পন্ন ফাংশন
+        function completeChallenge() {
+            const btn = document.getElementById('challengeBtn');
+            if (btn) {
+                btn.innerText = "আলহামদুলিল্লাহ! সম্পন্ন হয়েছে ✔️";
+                btn.style.background = "#0e6306";
+                btn.disabled = true;
+            }
+        }
+
+        // ৪. লাইক টগল ফাংশন
+        function toggleLike(id) {
+            const span = document.getElementById(id);
+            if (span) {
+                let currentLikes = parseInt(span.innerText) || 0;
+                span.innerText = currentLikes + 1;
+            }
+        }
+
+        // ৫. ব্রীদিং অ্যানিমেশন
+        const circle = document.getElementById('breathCircle');
+        const breathText = document.getElementById('breathText');
+        let isHolding = false;
+        if (circle && breathText) {
+            setInterval(() => {
+                if (!isHolding) {
+                    circle.classList.add('inhale');
+                    circle.innerText = "শ্বাস ছাড়ুন";
+                    breathText.innerText = "ধীরে ধীরে মুখ দিয়ে শ্বাস ছাড়ুন...";
+                    isHolding = true;
+                } else {
+                    circle.classList.remove('inhale');
+                    circle.innerText = "শ্বাস নিন";
+                    breathText.innerText = "গভীরভাবে শ্বাস নিন...";
+                    isHolding = false;
+                }
+            }, 4000);
+        }
+
+        // ৬. আজকের শান্তির বাণী লোড করার ফাংশন
         async function loadShantirBani() {
             try {
                 const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + new Date().getTime());
@@ -748,33 +403,41 @@ function shareOurWebsite() {
                 }
             } catch (error) {
                 console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
+                document.getElementById('latest-bani-content').innerText = "তথ্য লোড করা সম্ভব হয়নি।";
             }
         }
         loadShantirBani();
 
-        // ২. আজকের কুরআনের বাণী ফ্রন্টমেটার থেকে ডাইনামিকালি রেন্ডার করার কোড
+        // ৭. আজকের কুরআনের বাণী ফ্রন্টমেটার থেকে রেন্ডার করার ফাংশন
         function loadQuranBani() {
-            try {
-                // আপনার পেজের ওপরের ফ্রন্টমেটার থেকে বর্তমান বাণীটি সরাসরি তুলে আনা হলো
-                const arabicText = "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ";
-                const banglaText = '"হে মুমিনগণ! ধৈর্য ও সালাতের মাধ্যমে সাহায্য প্রার্থনা কর। নিশ্চয়ই আল্লাহ ধৈর্যশীলদের সাথে আছেন।" (সূরা আল-বাকারা: ১৫৩)';
-                
-                const quranBox = document.getElementById('latest-quran-content');
-                if (quranBox) {
-                    quranBox.innerHTML = `
-                        <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
-                            ${arabicText}
-                        </div>
-                        <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
-                            ${banglaText}
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error("কুরআনের বাণী লোড করতে সমস্যা হয়েছে:", error);
+            const arabicText = "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا";
+            const banglaText = '"নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি। হ্যাঁ, নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি।" (সূরা আল-ইনশিরাহ: ৫-৬)';
+            
+            const quranBox = document.getElementById('latest-quran-content');
+            if (quranBox) {
+                quranBox.innerHTML = `
+                    <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
+                        ${arabicText}
+                    </div>
+                    <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+                        ${banglaText}
+                    </div>
+                `;
             }
         }
         loadQuranBani();
+
+        // ৮. স্টোরি সাবমিট ডামি ফাংশন
+        function submitStory(e) {
+            e.preventDefault();
+            alert('আলহামদুলিল্লাহ! আপনার মনের কথাটি গ্রহণ করা হয়েছে।');
+            e.target.reset();
+        }
+
+        // ৯. সার্চ ফাংশন
+        function searchPosts() {
+            // বেসিক সার্চ হ্যান্ডলার
+        }
     </script>
 </body>
 </html>
