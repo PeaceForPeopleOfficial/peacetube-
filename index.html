@@ -1,9 +1,3 @@
----
-quran_arabic: يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ
-  وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ
-quran_bangla: '"হে মুমিনগণ! ধৈর্য ও সালাতের মাধ্যমে সাহায্য প্রার্থনা কর।
-  নিশ্চয়ই আল্লাহ ধৈর্যশীলদের সাথে আছেন।" (সূরা আল-বাকারা: ১৫৩)'
----
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -487,22 +481,19 @@ quran_bangla: '"হে মুমিনগণ! ধৈর্য ও সালা�
         }
     }
     loadShantirBani();
-  
   // আজকের কুরআনের বাণী ডাইনামিকালি লোড করার ফাংশন
         async function loadQuranBani() {
             try {
-                const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/daily_quran');
-                const files = await response.json();
-                if (Array.isArray(files) && files.length > 0) {
-                    const latestFile = files[files.length - 1];
-                    const fileResponse = await fetch(latestFile.download_url);
-                    const markdownText = await fileResponse.text();
-                    
-                    let arabicMatch = markdownText.match(/arabic:\s*(.*)/);
-                    let banglaMatch = markdownText.match(/bangla:\s*([\s\S]*)/);
-                    
-                    let arabicText = arabicMatch ? arabicMatch[1].trim() : "";
-                    let banglaText = banglaMatch ? banglaMatch[1].trim().replace(/[\r\n]+/g, ' ') : "";
+                const response = await fetch(window.location.href);
+                const htmlText = await response.text();
+                
+                // ফ্রন্টমেটার থেকে quran_arabic এবং quran_bangla খুঁজে বের করা
+                let arabicMatch = htmlText.match(/quran_arabic:\s*(['"]?)(.*?)\1\s*(?:\r?\n|$)/);
+                let banglaMatch = htmlText.match(/quran_bangla:\s*(['"]?)(.*?)\1\s*(?:\r?\n|$)/);
+                
+                if (arabicMatch && banglaMatch) {
+                    let arabicText = arabicMatch[2].trim();
+                    let banglaText = banglaMatch[2].trim().replace(/^['"]|['"]$/g, '');
                     
                     document.getElementById('latest-quran-content').innerHTML = `
                         <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
@@ -520,6 +511,7 @@ quran_bangla: '"হে মুমিনগণ! ধৈর্য ও সালা�
             }
         }
         loadQuranBani();
+
 </script>
         <div class="special-tools-grid">
             <div class="tool-card" style="border-left: 5px solid var(--green);">
