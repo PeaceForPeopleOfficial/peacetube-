@@ -477,20 +477,70 @@
             btn.style.color = '';
         }
     }
+async function loadDynamicVideos() {
+            try {
+                const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/videos');
+                if (!response.ok) return;
+                const files = await response.json();
+                
+                for (const file of files) {
+                    if (file.name.endsWith('.json')) {
+                        const fileRes = await fetch(file.download_url);
+                        const videoData = await fileRes.json();
+                        assignVideoToBox(videoData);
+                    }
+                }
+            } catch (error) {
+                console.error('ভিডিও লোড করতে সমস্যা:', error);
+            }
+        }
 
-    function postComment(btn) {
-        const input = btn.previousElementSibling;
-        const text = input.value.trim();
-        if(!text) return;
-        const list = btn.parentElement.nextElementSibling;
-        const commentDiv = document.createElement('div');
-        commentDiv.className = 'single-comment';
-        commentDiv.innerText = text;
-        list.prepend(commentDiv);
-        input.value = '';
-    }
+        function assignVideoToBox(videoData) {
+            const cat = (videoData.category || '').toLowerCase();
+            let targetCard = null;
 
-    document.addEventListener('DOMContentLoaded', loadDynamicVideos);
+            if (cat.includes('premium')) {
+                targetCard = document.getElementById('box-premium');
+            } else if (cat.includes('motivational') || cat.includes('song') || cat.includes('empathy') || cat.includes('poems') || cat.includes('success') || cat.includes('interviews') || cat.includes('productivity')) {
+                targetCard = document.getElementById('box-motivational');
+            } else if (cat.includes('islamic') || cat.includes('history') || cat.includes('spiritual')) {
+                targetCard = document.getElementById('box-islamic');
+            } else if (cat.includes('visual') || cat.includes('lofi') || cat.includes('nature') || cat.includes('story')) {
+                targetCard = document.getElementById('box-visual');
+            }
+
+            if (targetCard && videoData.url) {
+                const videoId = extractYouTubeId(videoData.url);
+                if (videoId) {
+                    const container = targetCard.querySelector('.video-container');
+                    const titleElem = targetCard.querySelector('.video-info h3');
+                    const descElem = targetCard.querySelector('.video-info p');
+                    const ytBtn = targetCard.querySelector('.yt-link-btn');
+
+                    if (container) {
+                        container.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" title="${videoData.title || 'Video'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                    }
+                    if (titleElem && videoData.title) {
+                        titleElem.innerText = videoData.title;
+                    }
+                    if (descElem && videoData.description) {
+                        descElem.innerText = videoData.description;
+                    }
+                    if (ytBtn && videoData.url) {
+                        ytBtn.href = videoData.url;
+                    }
+                }
+            }
+        }
+
+        function extractYouTubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadDynamicVideos);
+   
 </script>
 
 </body>
