@@ -691,7 +691,8 @@ function shareOurWebsite() {
             alert("🔗 ওয়েবসাইটের লিংক কপি হয়ে গেছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।");
         }
     }
-document.addEventListener("DOMContentLoaded", async function () {
+
+  document.addEventListener("DOMContentLoaded", async function () {
     try {
         // সরাসরি CMS ফাইলের ডেটা লোড করার লজিক
         const response = await fetch('content/settings/daily_quotes.json').catch(() => null);
