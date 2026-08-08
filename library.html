@@ -271,19 +271,109 @@
         card.style.display = text.includes(input) ? 'flex' : 'none';
       });
     }
+// PDF রিডার চালু করা
+        function openPdf(url, title) {
+            document.getElementById('pdfTitle').innerText = '📖 ' + title;
+            document.getElementById('pdfFrame').src = url;
+            document.getElementById('pdfViewer').style.display = 'block';
+            window.scrollTo({ top: document.getElementById('pdfViewer').offsetTop - 50, behavior: 'smooth' });
+        }
 
-    // PDF রিডার চালু করা
-    function openPdf(url, title) {
-      document.getElementById('pdfTitle').innerText = '📖 ' + title;
-      document.getElementById('pdfFrame').src = url;
-      document.getElementById('pdfViewer').style.display = 'block';
-      window.location.href = '#pdfViewer';
-    }
+        function closePdf() {
+            document.getElementById('pdfViewer').style.display = 'none';
+            document.getElementById('pdfFrame').src = '';
+        }
 
-    function closePdf() {
-      document.getElementById('pdfViewer').style.display = 'none';
-      document.getElementById('pdfFrame').src = '';
-    }
-  </script>
+        // গিটহাব API থেকে লাইব্রেরি ফাইলগুলো স্বয়ংক্রিয়ভাবে ফেচ করা
+        async function loadDynamicLibrary() {
+            const gridContainer = document.getElementById('libraryGrid');
+            try {
+                const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/library');
+                if (!response.ok) return;
+                
+                const files = await response.json();
+                const mdFiles = files.filter(file => file.name.endsWith('.md') || file.name.endsWith('.json'));
+
+                if (mdFiles.length === 0) return;
+                gridContainer.innerHTML = '';
+
+                for (const file of mdFiles) {
+                    const fileRes = await fetch(file.download_url);
+                    const content = await fileRes.text();
+
+                    if (file.name.endsWith('.md')) {
+                        const parts = content.split('---');
+                        if (parts.length >= 3) {
+                            const yamlMeta = parts[1];
+                            const titleMatch = yamlMeta.match(/title:\s*"?(.*?)"?$/m);
+                            const authorMatch = yamlMeta.match(/author:\s*"?(.*?)"?$/m);
+                            const catMatch = yamlMeta.match(/category:\s*"?(.*?)"?$/m);
+                            const descMatch = yamlMeta.match(/description:\s*"?(.*?)"?$/m);
+                            const fileUrlMatch = yamlMeta.match(/file_url:\s*"?(.*?)"?$/m) || yamlMeta.match(/audio:\s*"?(.*?)"?$/m);
+
+                            const title = titleMatch ? titleMatch[1].replace(/["']/g, '') : 'শিরোনামহীন';
+                            const author = authorMatch ? authorMatch[1].replace(/["']/g, '') : '';
+                            const category = catMatch ? catMatch[1].replace(/["']/g, '') : 'ebook';
+                            const description = descMatch ? descMatch[1].replace(/["']/g, '') : '';
+                            const itemUrl = fileUrlMatch ? fileUrlMatch[1].replace(/["']/g, '') : '';
+
+                            renderLibraryCard(category, title, author, description, itemUrl);
+                        }
+                    } else if (file.name.endsWith('.json')) {
+                        const itemData = JSON.parse(content);
+                        renderLibraryCard(
+                            itemData.category || 'ebook', 
+                            itemData.title || 'শিরোনামহীন', 
+                            itemData.author || '', 
+                            itemData.description || '', 
+                            itemData.url || itemData.file_url || ''
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error('লাইব্রেরি ডেটা লোড করতে সমস্যা:', error);
+            }
+        }
+
+        function renderLibraryCard(category, title, author, description, url) {
+            const gridContainer = document.getElementById('libraryGrid');
+            const card = document.createElement('div');
+            
+            let badgeText = '📚 ই-বুক';
+            let badgeClass = 'badge green';
+            let cardClass = 'library-card ebook-card';
+            let actionHtml = '';
+
+            if (category.includes('nasheed') || category.includes('song')) {
+                badgeText = '🎵 গজল ও গান';
+                badgeClass = 'badge';
+                cardClass = 'library-card';
+                actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
+            } else if (category.includes('poetry') || category.includes('poem')) {
+                badgeText = '✍️ কবিতা আবৃত্তি';
+                badgeClass = 'badge';
+                cardClass = 'library-card';
+                actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
+            } else {
+                actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
+            }
+
+            card.className = cardClass;
+            card.setAttribute('data-category', category);
+            card.innerHTML = `
+                <div>
+                    <span class="${badgeClass}">${badgeText}</span>
+                    <h3>${title}</h3>
+                    ${author ? `<div class="author-name">লেখক/শিল্পী: ${author}</div>` : ''}
+                    <p style="font-size: 13px;">${description}</p>
+                </div>
+                ${actionHtml}
+            `;
+            gridContainer.appendChild(card);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadDynamicLibrary);
+    </script>
 </body>
 </html>
+   
