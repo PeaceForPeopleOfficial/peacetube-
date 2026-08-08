@@ -507,6 +507,8 @@ async function loadDynamicVideos() {
                 targetCard = document.getElementById('box-islamic');
             } else if (cat.includes('visual') || cat.includes('lofi') || cat.includes('nature') || cat.includes('story')) {
                 targetCard = document.getElementById('box-visual');
+            } else if (cat.includes('music') || cat.includes('sound') || cat.includes('sleep') || cat.includes('relaxation') || cat.includes('mindfulness')) {
+                targetCard = document.getElementById('box-music');
             }
 
             if (targetCard && videoData.url) {
@@ -540,7 +542,6 @@ async function loadDynamicVideos() {
         }
 
         document.addEventListener('DOMContentLoaded', loadDynamicVideos);
-   
 </script>
 
 </body>
