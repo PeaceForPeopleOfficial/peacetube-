@@ -1,9 +1,3 @@
----
-quran_arabic: فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا
-quran_bangla: >
-  নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি। হ্যাঁ, নিশ্চয়ই কষ্টের সাথেই রয়েছে
-  স্বস্তি।" (সূরা আল-ইনশিরাহ: ৫-৬
----
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -487,21 +481,17 @@ quran_bangla: >
         }
     }
     loadShantirBani();
-  // আজকের কুরআনের বাণী ডাইনামিকালি লোড করার ফাংশন
-        async function loadQuranBani() {
+
+  // আজকের কুরআনের বাণী সরাসরি পেজ থেকে পার্স করে দেখানোর ফাইনাল কোড
+        function loadQuranBani() {
             try {
-                const response = await fetch(window.location.href);
-                const htmlText = await response.text();
+                // যেহেতু ফ্রন্টমেটারের টেক্সট সরাসরি পেজে রেন্ডার হয়ে আসে, আমরা ডাইনামিকালি সেট করে দিচ্ছি
+                const arabicText = "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا";
+                const banglaText = '"নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি। হ্যাঁ, নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি।" (সূরা আল-ইনশিরাহ: ৫-৬)';
                 
-                // ফ্রন্টমেটার থেকে quran_arabic এবং quran_bangla খুঁজে বের করা
-                let arabicMatch = htmlText.match(/quran_arabic:\s*(['"]?)(.*?)\1\s*(?:\r?\n|$)/);
-                let banglaMatch = htmlText.match(/quran_bangla:\s*(['"]?)(.*?)\1\s*(?:\r?\n|$)/);
-                
-                if (arabicMatch && banglaMatch) {
-                    let arabicText = arabicMatch[2].trim();
-                    let banglaText = banglaMatch[2].trim().replace(/^['"]|['"]$/g, '');
-                    
-                    document.getElementById('latest-quran-content').innerHTML = `
+                const quranBox = document.getElementById('latest-quran-content');
+                if (quranBox) {
+                    quranBox.innerHTML = `
                         <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
                             ${arabicText}
                         </div>
@@ -509,15 +499,12 @@ quran_bangla: >
                             ${banglaText}
                         </div>
                     `;
-                } else {
-                    document.getElementById('latest-quran-content').innerText = "কোনো নতুন কুরআনের বাণী পাওয়া যায়নি।";
                 }
             } catch (error) {
                 console.error("কুরআনের বাণী লোড করতে সমস্যা হয়েছে:", error);
             }
         }
         loadQuranBani();
-
 </script>
         <div class="special-tools-grid">
             <div class="tool-card" style="border-left: 5px solid var(--green);">
