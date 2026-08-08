@@ -439,5 +439,15 @@ quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়�
             // বেসিক সার্চ হ্যান্ডলার
         }
     </script>
+    <script>
+    // Decap CMS ফ্রন্টমেটার বা হেডার ক্লিন করার জন্য স্ক্রিপ্ট
+    document.addEventListener("DOMContentLoaded", function() {
+        // যদি বডির শুরুতে কোনো ফ্রন্টমেটার টেক্সট বা ড্যাশ থাকে তা লুকিয়ে ফেলা
+        const bodyText = document.body.innerHTML;
+        if(bodyText.includes("quran_arabic")) {
+            document.body.innerHTML = bodyText.replace(/---[\s\S]*?---/, '');
+        }
+    });
+</script>
 </body>
 </html>
