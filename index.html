@@ -719,6 +719,18 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
     }
 });
+async function loadQuranBani() {
+    try {
+        // GitHub API থেকে settings ফোল্ডার বা ফাইলের ডেটা ফেচ করা
+        const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/index.html');
+        // অথবা সরাসরি ডাইনামিক ফিল্ড রেন্ডার করার লজিক
+        console.log("কুরআনের বাণী ফাংশন কাজ করছে");
+    } catch (error) {
+        console.error("কুরআনের বাণী লোড করতে সমস্যা হয়েছে:", error);
+    }
+}
+loadQuranBani();
+    
 </script>
 </body>
 </html>
