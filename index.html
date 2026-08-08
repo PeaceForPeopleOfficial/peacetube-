@@ -1,8 +1,3 @@
----
-quran_arabic: وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ
-quran_bangla: '"আর যে ব্যক্তি আল্লাহর ওপর তাওয়াক্কুল বা ভরসা করে, তবে তিনিই তার
-  জন্য যথেষ্ট।" (সূরা আত-তালাক: ৩)'
----
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -690,52 +685,20 @@ function shareOurWebsite() {
             alert("🔗 ওয়েবসাইটের লিংক কপি হয়ে গেছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।");
         }
     }
-document.addEventListener("DOMContentLoaded", async function () {
-    try {
-        // সরাসরি CMS ফাইলের ডেটা লোড করার লজিক
-        const response = await fetch('content/settings/daily_quotes.json').catch(() => null);
-        if (response && response.ok) {
-            const data = await response.json();
-            if (data.quran_arabic && data.quran_bangla) {
-                document.getElementById('latest-quran-content').innerHTML = `
-                    <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
-                        ${data.quran_arabic}
-                    </div>
-                    <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
-                        ${data.quran_bangla}
-                    </div>
-                `;
-                return;
-            }
-        }
-    } catch (e) {
-        console.log("CMS fetch fallback used");
-    }
 document.addEventListener("DOMContentLoaded", function () {
     const quranBox = document.getElementById('latest-quran-content');
     if (quranBox) {
         quranBox.innerHTML = `
             <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
-                فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا
+                وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ
             </div>
             <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
-                "নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি। হ্যাঁ, নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি।" (সূরা আল-ইনশিরাহ: ৫-৬)
+                "আর যে ব্যক্তি আল্লাহর ওপর তাওয়াক্কুল বা ভরসা করে, তবে তিনিই তার জন্য যথেষ্ট।" (সূরা আত-তালাক: ৩)
             </div>
         `;
     }
 });
-async function loadQuranBani() {
-    try {
-        // GitHub API থেকে settings ফোল্ডার বা ফাইলের ডেটা ফেচ করা
-        const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/index.html');
-        // অথবা সরাসরি ডাইনামিক ফিল্ড রেন্ডার করার লজিক
-        console.log("কুরআনের বাণী ফাংশন কাজ করছে");
-    } catch (error) {
-        console.error("কুরআনের বাণী লোড করতে সমস্যা হয়েছে:", error);
-    }
-}
-loadQuranBani();
-    
+
 </script>
 </body>
 </html>
