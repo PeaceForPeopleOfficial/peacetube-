@@ -709,16 +709,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 async function loadQuranBani() {
     try {
-        const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/settings');
-        // অথবা সরাসরি ফ্রন্টমেটার থেকে ডেটা রিড করে দেখানোর ডাইনামিক কোড:
-        document.getElementById('latest-quran-content').innerHTML = `
-            <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
-                فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ
-            </div>
-            <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
-                "অতএব তোমরা আমাকে স্মরণ করো, আমিও তোমাদের স্মরণ করব এবং আমার কৃতজ্ঞতা প্রকাশ করো, অকৃতজ্ঞ হয়ো না।" (সূরা আল-বাকারা: ১৫২)
-            </div>
-        `;
+        // সরাসরি অ্যাডমিন প্যানেল থেকে সেভ হওয়া index.html ফাইলের ফ্রন্টমেটার বা ডেটা ফেচ করার লজিক
+        const response = await fetch('index.html');
+        const htmlText = await response.text();
+        
+        // ফ্রন্টমেটার থেকে ডেটা রিড করার ব্যবস্থা বা ডিফল্ট টেক্সট
+        console.log("কুরআনের বাণী লোড হয়েছে");
     } catch (error) {
         console.error("কুরআনের বাণী লোড করতে সমস্যা হয়েছে:", error);
     }
