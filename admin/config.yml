@@ -83,8 +83,8 @@ collections:
     label: "হোমপেজ আপডেট"
     files:
       - file: "index.html"
-        label: "দৈনিক কুরআনের বাণী"
-        name: "daily_quotes"
+        label: "আজকের কুরআনের বাণী"
+        name: "daily_quran"
         fields:
           - { label: "আজকের কুরআনের বাণী (আরবি)", name: "quran_arabic", widget: "string" }
           - { label: "আজকের কুরআনের বাণী (বাংলা অনুবাদ ও সূরা)", name: "quran_bangla", widget: "text" }
