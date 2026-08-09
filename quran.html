@@ -699,5 +699,33 @@
             alert("আপনার পঠিত শেষ অবস্থান ট্র্যাকার থেকে আপডেট করা হচ্ছে!");
         }
     </script>
+    <script>
+    const quranMessages = [
+        "📖 আল-কুরআনের তিলাওয়াত আপনার মস্তিষ্কের আলফা ওয়েভ বৃদ্ধি করে মনকে শান্ত করে।",
+        "🤍 'অতএব, তোমরা আমাকে স্মরণ করো, আমিও তোমাদের স্মরণ করব।' — সূরা আল-বাকারা",
+        "🌿 কালামে পাকের ছায়ায় একটু সময় কাটান, এটি হৃদয়ের সব গ্লানি ধুয়ে দেয়।"
+    ];
+
+    function showQuranToast() {
+        const randomMsg = quranMessages[Math.floor(Math.random() * quranMessages.length)];
+        const toast = document.createElement('div');
+        toast.innerHTML = `<span>${randomMsg}</span>`;
+        Object.assign(toast.style, {
+            position: 'fixed', bottom: '20px', right: '20px',
+            background: '#263238', color: '#ffffff', padding: '12px 18px',
+            borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+            zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #ff9933',
+            transition: 'opacity 0.5s ease', opacity: '0'
+        });
+        document.body.appendChild(toast);
+        setTimeout(() => toast.style.opacity = '1', 100);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }, 5000);
+    }
+
+    setInterval(showQuranToast, 180000);
+</script>
 </body>
 </html>
