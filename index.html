@@ -449,5 +449,42 @@ quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়�
         }
     });
 </script>
+<script>
+    const homeMessages = [
+        "🕊️ মনে রাখবেন, প্রতিটি কষ্টের সাথেই স্বস্তি রয়েছে। একটু গভীর দীর্ঘ শ্বাস নিন।",
+        "✨ আজকের শান্তির চ্যালেঞ্জটি কি সম্পন্ন করেছেন? পরিচিত কাউকে আজ মুচকি হাসি দিন।",
+        "🌿 আল্লাহর জিকিরে মন শান্ত হয়। নিজের ওপর বিশ্বাস রাখুন, ইনশাআল্লাহ সব ঠিক হয়ে যাবে।"
+    ];
+
+    function showToast() {
+        const randomMsg = homeMessages[Math.floor(Math.random() * homeMessages.length)];
+        createToastElement(randomMsg);
+    }
+
+    function createToastElement(message) {
+        const existing = document.getElementById('peaceToast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.id = 'peaceToast';
+        toast.innerHTML = `<span>${message}</span>`;
+        Object.assign(toast.style, {
+            position: 'fixed', bottom: '20px', right: '20px',
+            background: '#263238', color: '#ffffff', padding: '12px 18px',
+            borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+            zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #138808',
+            transition: 'opacity 0.5s ease', opacity: '0'
+        });
+        document.body.appendChild(toast);
+        setTimeout(() => toast.style.opacity = '1', 100);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }, 5000);
+    }
+
+    // প্রতি ৩ মিনিট (১৮০০০০ মিলি সেকেন্ড) পর পর টোস্ট দেখাবে
+    setInterval(showToast, 180000);
+</script>
 </body>
 </html>
