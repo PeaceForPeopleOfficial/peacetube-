@@ -438,7 +438,15 @@
             </div>
 
         </div>
-
+  <!-- 🔍 তাফসির বা শানে নুযুল ডায়ালগ বক্স -->
+<div class="modal" id="tafsirModal">
+    <div class="modal-content">
+        <h3>🔍 সংক্ষিপ্ত তাফসির / শানে নুযুল</h3>
+        <p id="tafsirTextContent" style="text-align: right; direction: rtl; font-size: 16px; margin-top: 15px; line-height: 1.8;">লোড হচ্ছে...</p>
+        <button class="close-modal" onclick="closeModal('tafsirModal')">বন্ধ করুন</button>
+    </div>
+</div>
+        
         <!-- 🎯 উদ্দেশ্য ডায়ালগ (সুন্দরভাবে সাজানো বার্তা) -->
         <div class="modal" id="aboutModal">
             <div class="modal-content">
@@ -978,15 +986,7 @@ function loadAndPlayTrack(index) {
 
         setInterval(showQuranToast, 180000);
         
-        <!-- 🔍 তাফসির বা শানে নুযুল ডায়ালগ বক্স -->
-<div class="modal" id="tafsirModal">
-    <div class="modal-content">
-        <h3>🔍 সংক্ষিপ্ত তাফসির / শানে নুযুল</h3>
-        <p id="tafsirTextContent" style="text-align: right; direction: rtl; font-size: 16px; margin-top: 15px; line-height: 1.8;">লোড হচ্ছে...</p>
-        <button class="close-modal" onclick="closeModal('tafsirModal')">বন্ধ করুন</button>
-    </div>
-</div>
-     function showTafsir(ayahNum) {
+           function showTafsir(ayahNum) {
     const modal = document.getElementById("tafsirModal");
     const textEl = document.getElementById("tafsirTextContent");
     
