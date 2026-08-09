@@ -6,17 +6,24 @@
     <title>আল-কুরআন - Peace for People</title>
     <style>
         :root {
-            --bg-color: #f8f9fa;
+            --bg-color: #f4f9f4;
             --text-color: #333333;
             --card-bg: #ffffff;
-            --primary: #138808;
-            --orange: #ff9933;
+            --primary: #2e7d32; /* Green */
+            --orange: #ff9933;   /* Orange */
+            --white: #ffffff;
+            --accent-green: #e8f5e9;
         }
+
         body.dark-mode {
             --bg-color: #121212;
             --text-color: #e0e0e0;
             --card-bg: #1e1e1e;
+            --primary: #4caf50;
+            --orange: #ffb74d;
+            --accent-green: #1b3320;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
@@ -25,301 +32,155 @@
             padding: 0;
             transition: background 0.3s, color 0.3s;
         }
+
         header {
-            background: linear-gradient(135deg, #ff9933, #138808);
+            background: linear-gradient(135deg, var(--primary), var(--orange));
             color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        header h1 {
-            margin: 0;
-            font-size: 22px;
-        }
-        nav {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-        nav a:hover, nav a.active {
-            text-decoration: underline;
-        }
+
         .container {
             max-width: 900px;
-            margin: 30px auto;
-            padding: 0 20px;
+            margin: 20px auto;
+            padding: 0 15px;
         }
-        .search-box {
-            width: 100%;
-            padding: 12px 20px;
-            font-size: 16px;
-            border: 2px solid var(--orange);
-            border-radius: 25px;
-            outline: none;
-            background: var(--card-bg);
-            color: var(--text-color);
-            margin-bottom: 25px;
-            box-sizing: border-box;
-        }
-        .surah-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 15px;
-        }
-        .surah-card {
-            background: var(--card-bg);
-            padding: 15px 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+
+        .controls-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 4px solid var(--primary);
-            transition: transform 0.2s;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-left: 5px solid var(--orange);
         }
-        .surah-card:hover {
-            transform: translateY(-3px);
+
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: var(--card-bg);
+            color: var(--text-color);
         }
-        .surah-info h3 {
-            margin: 0 0 5px 0;
-            font-size: 16px;
-        }
-        .surah-info p {
-            margin: 0;
-            font-size: 12px;
-            color: #777;
-        }
-        .btn-read {
-            background: var(--primary);
+
+        button {
+            background-color: var(--primary);
             color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            text-decoration: none;
-        }
-        .theme-toggle-btn, .share-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 1px solid white;
-            padding: 6px 12px;
-            border-radius: 20px;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--orange);
+        }
+
+        .surah-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .surah-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            border-top: 4px solid var(--primary);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .surah-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-top-color: var(--orange);
+        }
+
+        .footer-note {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            color: #777;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>📖 আল-কুরআন</h1>
-        <nav>
-            <a href="index.html">🏠 হোম</a>
-            <a href="quran.html" class="active">📖 আল-কুরআন</a>
-            <a href="video.html">📺 পিস টিউব</a>
-            <a href="podcast.html">🎙️ পডকাস্ট</a>
-            <a href="library.html">📚 লাইব্রেরি</a>
-            <button class="share-btn" onclick="shareCurrentPage()">🔗 শেয়ার</button>
-            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
-        </nav>
+        <h1>আল-কুরআনুল কারীম</h1>
+        <p>Peace for People - শান্তি ও শান্তির বাণী</p>
     </header>
 
     <div class="container">
-        <input type="text" id="searchInput" class="search-box" placeholder="🔍 সূরার নাম বা নম্বর লিখে খুঁজুন..." onkeyup="filterSurahs()">
+        <!-- কন্ট্রোল এবং ফিচার বার -->
+        <div class="controls-bar">
+            <input type="text" id="searchInput" placeholder="সূরা বা আয়াত খুঁজুন...">
+            <div>
+                <button onclick="toggleDarkMode()">ডার্ক মোড</button>
+                <button onclick="loadBookmarks()">বুকমার্কস</button>
+            </div>
+        </div>
 
-        <div class="surah-list" id="surahContainer">
-            <!-- ১ থেকে ১১৪ সূরার কমপ্লিট লিস্ট -->
-            <div class="surah-card" data-name="1 al-faatiha ফাতিহা"><div class="surah-info"><h3>1. Al-Faatiha (আল-ফাতিহা)</h3><p>মাক্কী • আয়াত: ৭</p></div><a href="surah.html?id=1" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="2 al-baqara বাকারা"><div class="surah-info"><h3>2. Al-Baqara (আল-বাকারা)</h3><p>মাদানী • আয়াত: ২৮৬</p></div><a href="surah.html?id=2" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="3 aal-i-imraan ইমরান"><div class="surah-info"><h3>3. Aal-i-Imraan (আলে ইমরান)</h3><p>মাদানী • আয়াত: ২০০</p></div><a href="surah.html?id=3" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="4 an-nisaa নিসা"><div class="surah-info"><h3>4. An-Nisaa (আন-নিসা)</h3><p>মাদানী • আয়াত: ১৭৬</p></div><a href="surah.html?id=4" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="5 al-maaidah মায়েদা"><div class="surah-info"><h3>5. Al-Maaidah (আল-মায়েদা)</h3><p>মাদানী • আয়াত: ১২০</p></div><a href="surah.html?id=5" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="6 al-an'aam আনআম"><div class="surah-info"><h3>6. Al-An'aam (আল-আনআম)</h3><p>মাক্কী • আয়াত: ১৬৫</p></div><a href="surah.html?id=6" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="7 al-araaf আরাফ"><div class="surah-info"><h3>7. Al-A'raaf (আল-আরাফ)</h3><p>মাক্কী • আয়াত: ২০৬</p></div><a href="surah.html?id=7" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="8 al-anfaal আনফাল"><div class="surah-info"><h3>8. Al-Anfaal (আল-আনফাল)</h3><p>মাদানী • আয়াত: ৭৫</p></div><a href="surah.html?id=8" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="9 at-tawbah তাওবা তওবা"><div class="surah-info"><h3>9. At-Tawbah (আত-তাওবা)</h3><p>মাদানী • আয়াত: ১২৯</p></div><a href="surah.html?id=9" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="10 yunus ইউনুস"><div class="surah-info"><h3>10. Yunus (ইউনুস)</h3><p>মাক্কী • আয়াত: ১০৯</p></div><a href="surah.html?id=10" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="11 hud হুদ"><div class="surah-info"><h3>11. Hud (হুদ)</h3><p>মাক্কী • আয়াত: ১২৩</p></div><a href="surah.html?id=11" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="12 yusuf ইউসুফ"><div class="surah-info"><h3>12. Yusuf (ইউসুফ)</h3><p>মাক্কী • আয়াত: ১১১</p></div><a href="surah.html?id=12" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="13 ar-rad রাদ"><div class="surah-info"><h3>13. Ar-Ra'd (আর-রাদ)</h3><p>মাদানী • আয়াত: ৪৩</p></div><a href="surah.html?id=13" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="14 ibrahim ইব্রাহিম"><div class="surah-info"><h3>14. Ibrahim (ইব্রাহিম)</h3><p>মাক্কী • আয়াত: ৫২</p></div><a href="surah.html?id=14" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="15 al-hijr হিজর"><div class="surah-info"><h3>15. Al-Hijr (আল-হিজর)</h3><p>মাক্কী • আয়াত: ৯৯</p></div><a href="surah.html?id=15" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="16 an-nahl নাহল"><div class="surah-info"><h3>16. An-Nahl (আন-নহল)</h3><p>মাক্কী • আয়াত: ১২৮</p></div><a href="surah.html?id=16" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="17 bani israel isra'il ইসরা বনি ইসরাঈল আল ইসরা"><div class="surah-info"><h3>17. Al-Isra (আল-ইসরা)</h3><p>মাক্কী • আয়াত: ১১১</p></div><a href="surah.html?id=17" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="18 al-kahf কাহফ"><div class="surah-info"><h3>18. Al-Kahf (আল-কাহফ)</h3><p>মাক্কী • আয়াত: ১১০</p></div><a href="surah.html?id=18" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="19 maryam মরিয়ম"><div class="surah-info"><h3>19. Maryam (মরিয়ম)</h3><p>মাক্কী • আয়াত: ৯৮</p></div><a href="surah.html?id=19" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="20 taha ত্বহা"><div class="surah-info"><h3>20. Taha (ত্বহা)</h3><p>মাক্কী • আয়াত: ১৩৫</p></div><a href="surah.html?id=20" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="21 al-anbiyaa আম্বিয়া"><div class="surah-info"><h3>21. Al-Anbiyaa (আল-আম্বিয়া)</h3><p>মাক্কী • আয়াত: ১১২</p></div><a href="surah.html?id=21" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="22 al-hajj হজ"><div class="surah-info"><h3>22. Al-Hajj (আল-হজ)</h3><p>মাদানী • আয়াত: ৭৮</p></div><a href="surah.html?id=22" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="23 al-muminun মুমিনুন"><div class="surah-info"><h3>23. Al-Mu'minun (আল-মুমিনুন)</h3><p>মাক্কী • আয়াত: ১১৮</p></div><a href="surah.html?id=23" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="24 an-noor নূর"><div class="surah-info"><h3>24. An-Noor (আন-নূর)</h3><p>মাদানী • আয়াত: ৬৪</p></div><a href="surah.html?id=24" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="25 al-furqan ফুরকান"><div class="surah-info"><h3>25. Al-Furqan (আল-ফুরকান)</h3><p>মাক্কী • আয়াত: ৭৭</p></div><a href="surah.html?id=25" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="26 ash-shuara শুআরা"><div class="surah-info"><h3>26. Ash-Shu'ara (আশ-শুআরা)</h3><p>মাক্কী • আয়াত: ২২৭</p></div><a href="surah.html?id=26" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="27 an-naml নমল"><div class="surah-info"><h3>27. An-Naml (আন-নমল)</h3><p>মাক্কী • আয়াত: ৯৩</p></div><a href="surah.html?id=27" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="28 al-qasas কাসাস"><div class="surah-info"><h3>28. Al-Qasas (আল-কাসাস)</h3><p>মাক্কী • আয়াত: ৮৮</p></div><a href="surah.html?id=28" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="29 al-ankabut আনকাবুত"><div class="surah-info"><h3>29. Al-Ankabut (আল-আনকাবুত)</h3><p>মাক্কী • আয়াত: ৬৯</p></div><a href="surah.html?id=29" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="30 ar-rum রুম"><div class="surah-info"><h3>30. Ar-Rum (আর-রুম)</h3><p>মাক্কী • আয়াত: ৬০</p></div><a href="surah.html?id=30" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="31 luqman লুকমান"><div class="surah-info"><h3>31. Luqman (লুকমান)</h3><p>মাক্কী • আয়াত: ৩৪</p></div><a href="surah.html?id=31" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="32 as-sajdah সিজদাহ"><div class="surah-info"><h3>32. As-Sajdah (আস-সিজদাহ)</h3><p>মাক্কী • আয়াত: ৩০</p></div><a href="surah.html?id=32" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="33 al-ahzaab আহযাব"><div class="surah-info"><h3>33. Al-Ahzaab (আল-আহযাব)</h3><p>মাদানী • আয়াত: ৭৩</p></div><a href="surah.html?id=33" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="34 saba সাবা"><div class="surah-info"><h3>34. Saba (সাবা)</h3><p>মাক্কী • আয়াত: ৫৪</p></div><a href="surah.html?id=34" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="35 fatir ফাতির"><div class="surah-info"><h3>35. Fatir (ফাতির)</h3><p>মাক্কী • আয়াত: ৪৫</p></div><a href="surah.html?id=35" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="36 yaseen ইয়াসিন"><div class="surah-info"><h3>36. Yaseen (ইয়াসিন)</h3><p>মাক্কী • আয়াত: ৮৩</p></div><a href="surah.html?id=36" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="37 as-saaffaat সাফফাত"><div class="surah-info"><h3>37. As-Saaffaat (আস-সাফফাত)</h3><p>মাক্কী • আয়াত: ১৮২</p></div><a href="surah.html?id=37" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="38 saad সোয়াদ"><div class="surah-info"><h3>38. Saad (সোয়াদ)</h3><p>মাক্কী • আয়াত: ৮৮</p></div><a href="surah.html?id=38" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="39 az-zumar জুমার"><div class="surah-info"><h3>39. Az-Zumar (আজ-জুমার)</h3><p>মাক্কী • আয়াত: ৭৫</p></div><a href="surah.html?id=39" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="40 ghafir মুমিন গাফির"><div class="surah-info"><h3>40. Ghafir (গাফির)</h3><p>মাক্কী • আয়াত: ৮৫</p></div><a href="surah.html?id=40" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="41 fussilat ফুসসিরাত"><div class="surah-info"><h3>41. Fussilat (ফুসসিরাত)</h3><p>মাক্কী • আয়াত: ৫৪</p></div><a href="surah.html?id=41" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="42 ash-shura শূরা"><div class="surah-info"><h3>42. Ash-Shura (আশ-শূরা)</h3><p>মাক্কী • আয়াত: ৫৩</p></div><a href="surah.html?id=42" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="43 az-zukhruf যুখরুফ"><div class="surah-info"><h3>43. Az-Zukhruf (আজ-যুখরুফ)</h3><p>মাক্কী • আয়াত: ৮৯</p></div><a href="surah.html?id=43" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="44 ad-dukhan দুখান"><div class="surah-info"><h3>44. Ad-Dukhan (আদ-দুখান)</h3><p>মাক্কী • আয়াত: ৫৯</p></div><a href="surah.html?id=44" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="45 al-jathiyah জাসিয়া"><div class="surah-info"><h3>45. Al-Jathiyah (আল-জাসিয়া)</h3><p>মাক্কী • আয়াত: ৩৭</p></div><a href="surah.html?id=45" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="46 al-ahqaf আহকাফ"><div class="surah-info"><h3>46. Al-Ahqaf (আল-আহকাফ)</h3><p>মাক্কী • আয়াত: ৩৫</p></div><a href="surah.html?id=46" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="47 muhammad মোহাম্মদ"><div class="surah-info"><h3>47. Muhammad (মুহাম্মদ)</h3><p>মাদানী • আয়াত: ৩৮</p></div><a href="surah.html?id=47" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="48 al-fath ফাতহ"><div class="surah-info"><h3>48. Al-Fath (আল-ফাতহ)</h3><p>মাদানী • আয়াত: ২৯</p></div><a href="surah.html?id=48" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="49 al-hujurat হুজুরাত"><div class="surah-info"><h3>49. Al-Hujurat (আল-হুজুরাত)</h3><p>মাদানী • আয়াত: ১৮</p></div><a href="surah.html?id=49" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="50 qaf ক্বাফ"><div class="surah-info"><h3>50. Qaf (ক্বাফ)</h3><p>মাক্কী • আয়াত: ৪৫</p></div><a href="surah.html?id=50" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="51 adh-zariyat জারিয়াত"><div class="surah-info"><h3>51. Adh-Zariyat (আদ-জারিয়াত)</h3><p>মাক্কী • আয়াত: ৬০</p></div><a href="surah.html?id=51" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="52 at-tur তূর"><div class="surah-info"><h3>52. At-Tur (আত-তূর)</h3><p>মাক্কী • আয়াত: ৪৯</p></div><a href="surah.html?id=52" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="53 an-najm নাজম"><div class="surah-info"><h3>53. An-Najm (আন-নাজম)</h3><p>মাক্কী • আয়াত: ৬২</p></div><a href="surah.html?id=53" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="54 al-qamar ক্বমর"><div class="surah-info"><h3>54. Al-Qamar (আল-ক্বমর)</h3><p>মাক্কী • আয়াত: ৫৫</p></div><a href="surah.html?id=54" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="55 ar-rahman রহমান"><div class="surah-info"><h3>55. Ar-Rahman (আর-রহমান)</h3><p>মাদানী • আয়াত: ৭৮</p></div><a href="surah.html?id=55" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="56 al-waqi'ah ওয়াকিয়া"><div class="surah-info"><h3>56. Al-Waqi'ah (আল-ওয়াকিয়া)</h3><p>মাক্কী • আয়াত: ৯৬</p></div><a href="surah.html?id=56" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="57 al-hadid হাদিদ"><div class="surah-info"><h3>57. Al-Hadid (আল-হাদিদ)</h3><p>মাদানী • আয়াত: ২৯</p></div><a href="surah.html?id=57" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="58 al-mujadila মুজাদালা"><div class="surah-info"><h3>58. Al-Mujadila (আল-মুজাদালা)</h3><p>মাদানী • আয়াত: ২২</p></div><a href="surah.html?id=58" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="59 al-hashr হাশর"><div class="surah-info"><h3>59. Al-Hashr (আল-হাশর)</h3><p>মাদানী • আয়াত: ২৪</p></div><a href="surah.html?id=59" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="60 al-mumtahanah মুমতাহানা"><div class="surah-info"><h3>60. Al-Mumtahanah (আল-মুমতাহানা)</h3><p>মাদানী • আয়াত: ১৩</p></div><a href="surah.html?id=60" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="61 as-saff সাফ"><div class="surah-info"><h3>61. As-Saff (আস-সাফ)</h3><p>মাদানী • আয়াত: ১৪</p></div><a href="surah.html?id=61" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="62 al-jumu'ah জুমা"><div class="surah-info"><h3>62. Al-Jumu'ah (আল-জুমা)</h3><p>মাদানী • আয়াত: ১১</p></div><a href="surah.html?id=62" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="63 al-munafiqun মুনাফিকুন"><div class="surah-info"><h3>63. Al-Munafiqun (আল-মুনাফিকুন)</h3><p>মাদানী • আয়াত: ১১</p></div><a href="surah.html?id=63" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="64 at-taghabun তাগাবুন"><div class="surah-info"><h3>64. At-Taghabun (আত-তাগাবুন)</h3><p>মাদানী • আয়াত: ১৮</p></div><a href="surah.html?id=64" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="65 at-talaq তালাক"><div class="surah-info"><h3>65. At-Talaq (আত-তালাক)</h3><p>মাদানী • আয়াত: ১২</p></div><a href="surah.html?id=65" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="66 at-tahrim তাহরীম"><div class="surah-info"><h3>66. At-Tahrim (আত-তাহরীম)</h3><p>মাদানী • আয়াত: ১২</p></div><a href="surah.html?id=66" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="67 al-mulk মুল্ক"><div class="surah-info"><h3>67. Al-Mulk (আল-মুল্ক)</h3><p>মাক্কী • আয়াত: ৩০</p></div><a href="surah.html?id=67" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="68 al-qalam কলম"><div class="surah-info"><h3>68. Al-Qalam (আল-কলম)</h3><p>মাক্কী • আয়াত: ৫২</p></div><a href="surah.html?id=68" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="69 al-haqqah হাক্কাহ"><div class="surah-info"><h3>69. Al-Haqqah (আল-হাক্কাহ)</h3><p>মাক্কী • আয়াত: ৫২</p></div><a href="surah.html?id=69" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="70 al-ma'arij মাআরিজ"><div class="surah-info"><h3>70. Al-Ma'arij (আল-মাআরিজ)</h3><p>মাক্কী • আয়াত: ৪৪</p></div><a href="surah.html?id=70" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="71 nuh নূহ"><div class="surah-info"><h3>71. Nuh (নূহ)</h3><p>মাক্কী • আয়াত: ২৮</p></div><a href="surah.html?id=71" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="72 al-jinn জিন"><div class="surah-info"><h3>72. Al-Jinn (আল-জিন)</h3><p>মাক্কী • আয়াত: ২৮</p></div><a href="surah.html?id=72" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="73 al-muzzammil মুজ্জাম্মিল"><div class="surah-info"><h3>73. Al-Muzzammil (আল-মুজ্জাম্মিল)</h3><p>মাক্কী • আয়াত: ২০</p></div><a href="surah.html?id=73" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="74 al-muddassir মুদ্দাসসির"><div class="surah-info"><h3>74. Al-Muddassir (আল-মুদ্দাসসির)</h3><p>মাক্কী • আয়াত: ৫৬</p></div><a href="surah.html?id=74" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="75 al-qiyamah কিয়ামাহ"><div class="surah-info"><h3>75. Al-Qiyamah (আল-কিয়ামাহ)</h3><p>মাক্কী • আয়াত: ৪০</p></div><a href="surah.html?id=75" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="76 al-insan দাহর ইনসান"><div class="surah-info"><h3>76. Al-Insan (আল-ইনসান)</h3><p>মাদানী • আয়াত: ৩১</p></div><a href="surah.html?id=76" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="77 al-mursalat মুরসালাত"><div class="surah-info"><h3>77. Al-Mursalat (আল-মুরসালাত)</h3><p>মাক্কী • আয়াত: ৫০</p></div><a href="surah.html?id=77" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="78 an-naba নাবা"><div class="surah-info"><h3>78. An-Naba (আন-নাবা)</h3><p>মাক্কী • আয়াত: ৪০</p></div><a href="surah.html?id=78" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="79 an-nazi'aat নাযিয়াত"><div class="surah-info"><h3>79. An-Nazi'aat (আন-নাযিয়াত)</h3><p>মাক্কী • আয়াত: ৪৬</p></div><a href="surah.html?id=79" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="80 abasa আবাসা"><div class="surah-info"><h3>80. Abasa (আবাসা)</h3><p>মাক্কী • আয়াত: ৪২</p></div><a href="surah.html?id=80" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="81 at-takwir তাকভীর"><div class="surah-info"><h3>81. At-Takwir (আত-তাকভীর)</h3><p>মাক্কী • আয়াত: ২৯</p></div><a href="surah.html?id=81" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="82 al-infitar ইনফিতার"><div class="surah-info"><h3>82. Al-Infitar (আল-ইনফিতার)</h3><p>মাক্কী • আয়াত: ১৯</p></div><a href="surah.html?id=82" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="83 al-mutaffifin মুতাফফিফিন"><div class="surah-info"><h3>83. Al-Mutaffifin (আল-মুতাফফিফিন)</h3><p>মাক্কী • আয়াত: ৩৬</p></div><a href="surah.html?id=83" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="84 al-inshiqaq ইনশিকাক"><div class="surah-info"><h3>84. Al-Inshiqaq (আল-ইনশিকাক)</h3><p>মাক্কী • আয়াত: ২৫</p></div><a href="surah.html?id=84" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="85 al-burooj বুরুজ"><div class="surah-info"><h3>85. Al-Burooj (আল-বুরুজ)</h3><p>মাক্কী • আয়াত: ২২</p></div><a href="surah.html?id=85" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="86 at-tariq তারিক"><div class="surah-info"><h3>86. At-Tariq (আত-তারিক)</h3><p>মাক্কী • আয়াত: ১৭</p></div><a href="surah.html?id=86" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="87 al-ala আলা আ'লা"><div class="surah-info"><h3>87. Al-A'la (আল-আ'লা)</h3><p>মাক্কী • আয়াত: ১৯</p></div><a href="surah.html?id=87" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="88 al-ghashiyah গাশিয়া"><div class="surah-info"><h3>88. Al-Ghashiyah (আল-গাশিয়া)</h3><p>মাক্কী • আয়াত: ২৬</p></div><a href="surah.html?id=88" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="89 al-fajr ফজর"><div class="surah-info"><h3>89. Al-Fajr (আল-ফজর)</h3><p>মাক্কী • আয়াত: ৩০</p></div><a href="surah.html?id=89" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="90 al-balad বালাদ"><div class="surah-info"><h3>90. Al-Balad (আল-বালাদ)</h3><p>মাক্কী • আয়াত: ২০</p></div><a href="surah.html?id=90" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="91 ash-shams শামস"><div class="surah-info"><h3>91. Ash-Shams (আশ-শামস)</h3><p>মাক্কী • আয়াত: ১৫</p></div><a href="surah.html?id=91" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="92 al-layl লাইল"><div class="surah-info"><h3>92. Al-Layl (আল-লাইল)</h3><p>মাক্কী • আয়াত: ২১</p></div><a href="surah.html?id=92" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="93 ad-duhaa দুহা"><div class="surah-info"><h3>93. Ad-Duhaa (আদ-দুহা)</h3><p>মাক্কী • আয়াত: ১১</p></div><a href="surah.html?id=93" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="94 ash-sharh ইনশিরাহ শরহ"><div class="surah-info"><h3>94. Ash-Sharh (আশ-শারহ)</h3><p>মাক্কী • আয়াত: ৮</p></div><a href="surah.html?id=94" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="95 at-tin তিন"><div class="surah-info"><h3>95. At-Tin (আত-তিন)</h3><p>মাক্কী • আয়াত: ৮</p></div><a href="surah.html?id=95" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="96 al-alaq আলাক"><div class="surah-info"><h3>96. Al-Alaq (আল-আলাক)</h3><p>মাক্কী • আয়াত: ১৯</p></div><a href="surah.html?id=96" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="97 al-qadr কদর"><div class="surah-info"><h3>97. Al-Qadr (আল-কদর)</h3><p>মাক্কী • আয়াত: ৫</p></div><a href="surah.html?id=97" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="98 al-bayyinah বাইয়িনাহ"><div class="surah-info"><h3>98. Al-Bayyinah (আল-বাইয়িনাহ)</h3><p>মাদানী • আয়াত: ৮</p></div><a href="surah.html?id=98" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="99 az-zalzalah যিলযাল জালযালা"><div class="surah-info"><h3>99. Az-Zalzalah (আজ-যিলযাল)</h3><p>মাদানী • আয়াত: ৮</p></div><a href="surah.html?id=99" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="100 al-adiyat আদিয়াত"><div class="surah-info"><h3>100. Al-Adiyat (আল-আদিয়াত)</h3><p>মাক্কী • আয়াত: ১১</p></div><a href="surah.html?id=100" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="101 al-qari'ah কারিআ"><div class="surah-info"><h3>101. Al-Qari'ah (আল-কারিআ)</h3><p>মাক্কী • আয়াত: ১১</p></div><a href="surah.html?id=101" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="102 at-takasur তাকাসুর"><div class="surah-info"><h3>102. At-Takasur (আত-তাকাসুর)</h3><p>মাক্কী • আয়াত: ৮</p></div><a href="surah.html?id=102" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="103 al-asr আসর"><div class="surah-info"><h3>103. Al-Asr (আল-আসর)</h3><p>মাক্কী • আয়াত: ৩</p></div><a href="surah.html?id=103" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="104 al-humazah হুযাজাহ হুমাযাহ"><div class="surah-info"><h3>104. Al-Humazah (আল-হুমাযাহ)</h3><p>মাক্কী • আয়াত: ৯</p></div><a href="surah.html?id=104" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="105 al-fil ফীল"><div class="surah-info"><h3>105. Al-Fil (আল-ফীল)</h3><p>মাক্কী • আয়াত: ৫</p></div><a href="surah.html?id=105" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="106 quraysh কুরাইশ"><div class="surah-info"><h3>106. Quraysh (কুরাইশ)</h3><p>মাক্কী • আয়াত: ৪</p></div><a href="surah.html?id=106" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="107 al-ma'un মাউন"><div class="surah-info"><h3>107. Al-Ma'un (আল-মাউন)</h3><p>মাক্কী • আয়াত: ৭</p></div><a href="surah.html?id=107" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="108 al-kawthar কাউসার"><div class="surah-info"><h3>108. Al-Kawthar (আল-কাউসার)</h3><p>মাক্কী • আয়াত: ৩</p></div><a href="surah.html?id=108" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="109 al-kafirun কাফিরুন"><div class="surah-info"><h3>109. Al-Kafirun (আল-কাফিরুন)</h3><p>মাক্কী • আয়াত: ৬</p></div><a href="surah.html?id=109" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="110 an-nasr নসর"><div class="surah-info"><h3>110. An-Nasr (আন-নসর)</h3><p>মাদানী • আয়াত: ৩</p></div><a href="surah.html?id=110" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="111 al-masad লাহাব মাসাদ"><div class="surah-info"><h3>111. Al-Masad (আল-মাসাদ)</h3><p>মাক্কী • আয়াত: ৫</p></div><a href="surah.html?id=111" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="112 al-ikhlas এখলাছ ইখলাস"><div class="surah-info"><h3>112. Al-Ikhlas (আল-ইখলাস)</h3><p>মাক্কী • আয়াত: ৪</p></div><a href="surah.html?id=112" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="113 al-falaq ফালাক"><div class="surah-info"><h3>113. Al-Falaq (আল-ফালাক)</h3><p>মাক্কী • আয়াত: ৫</p></div><a href="surah.html?id=113" class="btn-read">পড়ুন ➔</a></div>
-            <div class="surah-card" data-name="114 an-nas নাস"><div class="surah-info"><h3>114. An-Nas (আন-নাস)</h3><p>মাক্কী • আয়াত: ৬</p></div><a href="surah.html?id=114" class="btn-read">পড়ুন ➔</a></div>
+        <!-- সূরা লিস্ট সেকশন -->
+        <div id="surahContainer" class="surah-list">
+            <!-- ডাইনামিক সূরা কার্ড এখানে লোড হবে -->
         </div>
     </div>
 
+    <div class="footer-note">
+        <p>&copy; 2026 Peace for People | সর্বস্বত্ব সংরক্ষিত</p>
+    </div>
+
     <script>
-        function toggleTheme() {
+        // ডার্ক মোড টগল ফাংশন
+        function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
         }
 
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
-
-        function filterSurahs() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('surah-card');
-            for (let i = 0; i < cards.length; i++) {
-                let name = cards[i].getAttribute('data-name');
-                if (name.includes(input)) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
+        // পেজ লোড হওয়ার সময় আগের থিম ও লাস্ট রিড চেক করা
+        window.onload = () => {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
             }
+            fetchSurahList();
+        };
+
+        // সূরা লিস্ট ফেচ করার ফাংশন
+        function fetchSurahList() {
+            const container = document.getElementById('surahContainer');
+            // ডেমো ডেটা দিয়ে স্ট্রাকচার তৈরি (পরে API বা ফুল ডেটা যুক্ত করা যাবে)
+            const sampleSurahs = [
+                { no: 1, name: "আল-ফাতিহা", meaning: "সূচনা", verses: 7 },
+                { no: 2, name: "আল-বাকারাহ", meaning: "গরু", verses: 286 },
+                { no: 3, name: "আলে-ইমরান", meaning: "ইমরানের পরিবার", verses: 200 }
+            ];
+
+            container.innerHTML = sampleSurahs.s(s => `
+                <div class="surah-card" onclick="alert('${s.name} সূরা সিলেক্ট করা হয়েছে। অডিও ও তাফসির লোড হচ্ছে...')">
+                    <h3>${s.no}. ${s.name}</h3>
+                    <p>অর্থ: ${s.meaning} | আয়াত: ${s.verses}</p>
+                </div>
+            `).join('');
         }
 
-        function shareCurrentPage() {
-            const pageUrl = window.location.href;
-            if (navigator.share) {
-                navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
-            } else {
-                navigator.clipboard.writeText(pageUrl).then(() => {
-                    alert('✨ কুরআনের পেজের লিঙ্কটি সফলভাবে কপি হয়েছে!');
-                });
-            }
+        // বুকমার্ক ফাংশন
+        function loadBookmarks() {
+            alert("আপনার সেভ করা বুকমার্ক এবং লাস্ট রিড পজিশন এখানে প্রদর্শিত হবে।");
         }
-
-        // ৩ মিনিট পরপর টোস্ট নোটিফিকেশন
-        const quranMessages = [
-            "📖 আল-কুরআনের তিলাওয়াত আপনার মস্তিষ্কের আলফা ওয়েভ বৃদ্ধি করে মনকে শান্ত করে।",
-            "🤍 'অতএব, তোমরা আমাকে স্মরণ করো, আমিও তোমাদের স্মরণ করব।' — সূরা আল-বাকারা",
-            "🌿 কালামে পাকের ছায়ায় একটু সময় কাটান, এটি হৃদয়ের সব গ্লানি ধুয়ে দেয়।"
-        ];
-
-        function showQuranToast() {
-            const randomMsg = quranMessages[Math.floor(Math.random() * quranMessages.length)];
-            const toast = document.createElement('div');
-            toast.innerHTML = `<span>${randomMsg}</span>`;
-            Object.assign(toast.style, {
-                position: 'fixed', bottom: '20px', right: '20px',
-                background: '#263238', color: '#ffffff', padding: '12px 18px',
-                borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #ff9933',
-                transition: 'opacity 0.5s ease', opacity: '0'
-            });
-            document.body.appendChild(toast);
-            setTimeout(() => toast.style.opacity = '1', 100);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 500);
-            }, 5000);
-        }
-
-        setInterval(showQuranToast, 180000);
     </script>
 </body>
 </html>
