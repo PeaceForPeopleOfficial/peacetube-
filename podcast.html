@@ -192,5 +192,34 @@
         // পেজ লোড হওয়ার সাথে সাথে পডকাস্ট ফেচ করা কল হবে
         document.addEventListener('DOMContentLoaded', loadPodcasts);
     </script>
+    <script>
+    const podcastMessages = [
+        "🎙️ পডকাস্টের এই অডিও বার্তাগুলো আপনার মনের অস্থিরতা কমাতে দারুণ কার্যকরী।",
+        "🎧 চোখ বন্ধ করে হেডফোনে শান্তির বাণীগুলো মনোযোগ দিয়ে শুনতে থাকুন।",
+        "🌿 প্রশান্তির সুর ও কথা মনকে সতেজ করে তোলে।"
+    ];
+
+    function showPodcastToast() {
+        const randomMsg = podcastMessages[Math.floor(Math.random() * podcastMessages.length)];
+        const toast = document.createElement('div');
+        toast.innerHTML = `<span>${randomMsg}</span>`;
+        Object.assign(toast.style, {
+            position: 'fixed', bottom: '20px', right: '20px',
+            background: '#263238', color: '#ffffff', padding: '12px 18px',
+            borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+            zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #ff9933',
+            transition: 'opacity 0.5s ease', opacity: '0'
+        });
+        document.body.appendChild(toast);
+        setTimeout(() => toast.style.opacity = '1', 100);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }, 5000);
+    }
+
+    // প্রতি ৩ মিনিট পর পর পডকাস্ট পেজে নোটিফিকেশন দেখাবে
+    setInterval(showPodcastToast, 180000);
+</script>
 </body>
 </html>
