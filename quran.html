@@ -357,9 +357,28 @@
                 <span class="header-title" id="headerTitle">কুরআন পড়ে দ্যাখো একবার</span>
             </div>
             <div class="header-tools">
-                <button class="icon-btn" onclick="toggleDarkMode()" title="ডার্ক মোড">🌙</button>
-                <button class="icon-btn" onclick="showModal('aboutModal')" title="উদ্দেশ্য">🎯</button>
-                <button class="icon-btn" onclick="exitApp()" title="অ্যাপ বন্ধ করুন">🚪</button>
+                <nav>
+    <a href="index.html">🏠 হোম</a>
+    <a href="quran.html">📖 আল-কুরআন</a>
+    <a href="video.html">📺 পিস টিউব</a>
+    <a href="podcast.html" class="active">🎙️ পডকাস্ট</a>
+    <a href="library.html">📚 লাইব্রেরি</a>
+    <button onclick="shareCurrentPage()" style="background: #ff9933; color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;">🔗 শেয়ার</button>
+    <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+</nav>
+
+<script>
+    function shareCurrentPage() {
+        const pageUrl = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(pageUrl).then(() => {
+                alert('✨ পডকাস্ট পেজের লিঙ্কটি কপি হয়েছে!');
+            });
+        }
+    }
+</script>
             </div>
         </div>
 
@@ -878,6 +897,57 @@
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
         }
+        const audio = document.getElementById('mainAudioPlayer');
+let isLooping = false;
+let currentTrackIndex = 1; // বর্তমান সূরার বা ট্র্যাকের আইডি
+
+// স্পিড পরিবর্তন করার ফাংশন
+function changeSpeed() {
+    const speedSelector = document.getElementById('playbackSpeed');
+    audio.playbackRate = parseFloat(speedSelector.value);
+}
+
+// লুপ বা রিপিট টগল করার ফাংশন
+function toggleLoop() {
+    isLooping = !isLooping;
+    audio.loop = isLooping;
+    const loopBtn = document.getElementById('loopBtn');
+    if (isLooping) {
+        loopBtn.style.background = "var(--primary)";
+        loopBtn.innerText = "🔁 রিপিট: চালু";
+    } else {
+        loopBtn.style.background = "#333";
+        loopBtn.innerText = "🔁 রিপিট: বন্ধ";
+    }
+}
+
+// পরবর্তী অডিও বা সূরা প্লে করার ফাংশন
+function playNext() {
+    if (currentTrackIndex < 114) {
+        currentTrackIndex++;
+        loadAndPlayTrack(currentTrackIndex);
+    }
+}
+
+// পূর্ববর্তী অডিও বা সূরা প্লে করার ফাংশন
+function playPrevious() {
+    if (currentTrackIndex > 1) {
+        currentTrackIndex--;
+        loadAndPlayTrack(currentTrackIndex);
+    }
+}
+
+// ট্র্যাক লোড ও প্লে করার হেল্পার ফাংশন
+function playTrack(trackNumber) {
+    currentTrackIndex = trackNumber;
+    loadAndPlayTrack(trackNumber);
+}
+
+function loadAndPlayTrack(index) {
+    const formattedIndex = index > 99 ? index : ('0' + index).slice(-2);
+    audio.src = `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${formattedIndex}.mp3`;
+    audio.play().catch(e => console.log("অডিও প্লে করতে সমস্যা হয়েছে:", e));
+}
     </script>
 </body>
 </html>
