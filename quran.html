@@ -956,7 +956,15 @@
                 });
             };
         }
-
+// আয়াত রেন্ডার করার লুপের ভেতর এটি বসিয়ে দেবেন:
+`
+<div class="ayah-card" style="padding: 15px; margin-bottom: 10px; background: var(--card-bg); border-radius: 8px;">
+    <div class="arabic-text" style="font-size: 24px; text-align: right; margin-bottom: 8px;">${ayah.text} ﴿${ayah.numberInSurah}﴾</div>
+    <div class="translation-text" style="font-size: 15px; color: #ddd; margin-bottom: 10px;"><strong>${ayah.numberInSurah}.</strong> ${bengaliTranslation}</div>
+    <button class="ayah-action-btn" onclick="copyOrShareAyah(\`${ayah.text}\`, \`${bengaliTranslation}\`, ${ayah.numberInSurah})">🔗 কপি/শেয়ার</button>
+</div>
+`
+    
         function goBack() {
             isPlayingAll = false;
             stopAudio();
@@ -1020,6 +1028,88 @@ function loadAndPlayTrack(index) {
     audio.src = `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${formattedIndex}.mp3`;
     audio.play().catch(e => console.log("অডিও প্লে করতে সমস্যা হয়েছে:", e));
 }
+     // ১. আয়াত কপি বা শেয়ার করার ফাংশন
+function copyOrShareAyah(arabicText, translationText, ayahNo) {
+    const textToCopy = `আয়াত ${ayahNo}:\n${arabicText}\n\nঅনুবাদ:\n${translationText}\n\n- পিস টিউব কুরআন অ্যাপ থেকে সংগৃহীত`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: `আয়াত ${ayahNo}`,
+            text: textToCopy
+        }).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert(`✨ আয়াত ${ayahNo} ক্লিপবোর্ডে কপি করা হয়েছে!`);
+        });
+    }
+}
+
+// ২. ফন্ট সাইজ ছোট-বড় করার ফাংশন
+let currentArabicFontSize = 24;
+function changeAyahFontSize(step) {
+    currentArabicFontSize += step;
+    document.querySelectorAll('.arabic-text').forEach(el => {
+        el.style.fontSize = currentArabicFontSize + 'px';
+    });
+}
+
+// ৩. ফন্ট ফ্যামিলি পরিবর্তন করার ফাংশন
+function changeFontFamily(fontFamily) {
+    document.querySelectorAll('.arabic-text').forEach(el => {
+        el.style.fontFamily = fontFamily;
+    });
+}
+
+// ৪. অটো-স্ক্রোল রিডিং মোড
+let isAutoScrollActive = false;
+let autoScrollInterval = null;
+function toggleAutoScroll() {
+    isAutoScrollActive = !isAutoScrollActive;
+    const btn = document.getElementById('autoScrollBtn');
+    
+    if (isAutoScrollActive) {
+        btn.style.background = "#ff9933";
+        btn.style.color = "#fff";
+        btn.innerText = "📜 অটো-স্ক্রোল: চালু";
+        
+        // প্রতি ৩ সেকেন্ডে একটু করে স্ক্রিন নিচে নামবে
+        autoScrollInterval = setInterval(() => {
+            window.scrollBy({ top: 100, behavior: 'smooth' });
+            // যদি পেজের একদম নিচে চলে যায় তবে থেমে যাবে
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                toggleAutoScroll();
+            }
+        }, 3000);
+    } else {
+        btn.style.background = "#333";
+        btn.style.color = "#ccc";
+        btn.innerText = "📜 অটো-স্ক্রোল: বন্ধ";
+        clearInterval(autoScrollInterval);
+    }
+}
+
+// ৫. ব্রাউজার স্টোরেজ কোটা ও ইউজেজ চেক করার ফাংশন
+async function checkStorageUsage() {
+    if (navigator.storage && navigator.storage.estimate) {
+        const estimate = await navigator.storage.estimate();
+        const usedMB = (estimate.usage / (1024 * 1024)).toFixed(2);
+        const totalMB = (estimate.quota / (1024 * 1024)).toFixed(2);
+        const percentage = ((estimate.usage / estimate.quota) * 100).toFixed(1);
+        
+        const usageText = document.getElementById('storageUsageText');
+        const progressBar = document.getElementById('storageProgressBar');
+        
+        if (usageText && progressBar) {
+            usageText.innerText = `${usedMB} MB ব্যবহৃত হয়েছে (মোট: ${totalMB} MB)`;
+            progressBar.style.width = `${percentage}%`;
+        }
+    }
+}
+
+// পেজ লোড হওয়ার পর স্টোরেজ চেক কল করা
+window.addEventListener('load', () => {
+    checkStorageUsage();
+});   
     </script>
 </body>
 </html>
