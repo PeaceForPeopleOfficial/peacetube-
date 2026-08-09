@@ -543,6 +543,33 @@ async function loadDynamicVideos() {
 
         document.addEventListener('DOMContentLoaded', loadDynamicVideos);
 </script>
+<script>
+    const videoMessages = [
+        "📺 ভিডিওগুলো উপভোগ করছেন? প্রয়োজনে চোখকে একটু বিশ্রাম দিন।",
+        "🎬 পিস টিউবের এই অনুপ্রেরণামূলক আলোচনাগুলো আপনার আত্মউন্নয়নে সাহায্য করবে ইনশাআল্লাহ।",
+        "🌿 স্ক্রিন থেকে দৃষ্টি সরিয়ে এক মিনিট গভীর শ্বাস নিন।"
+    ];
 
+    function showVideoToast() {
+        const randomMsg = videoMessages[Math.floor(Math.random() * videoMessages.length)];
+        const toast = document.createElement('div');
+        toast.innerHTML = `<span>${randomMsg}</span>`;
+        Object.assign(toast.style, {
+            position: 'fixed', bottom: '20px', right: '20px',
+            background: '#263238', color: '#ffffff', padding: '12px 18px',
+            borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+            zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #138808',
+            transition: 'opacity 0.5s ease', opacity: '0'
+        });
+        document.body.appendChild(toast);
+        setTimeout(() => toast.style.opacity = '1', 100);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }, 5000);
+    }
+
+    setInterval(showVideoToast, 180000);
+</script>
 </body>
 </html>
