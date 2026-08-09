@@ -134,6 +134,34 @@ quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়�
             <a href="podcast.html">🎙️ পডকাস্ট</a>
             <a href="library.html">📚 লাইব্রেরি</a>
             <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+           <header>
+    <div class="logo-area">
+        <h1>🕊️ Peace for <span>People</span></h1>
+    </div>
+    <nav>
+        <a href="index.html" class="active">🏠 হোম</a>
+        <a href="quran.html">📖 আল-কুরআন</a>
+        <a href="video.html">📺 পিস টিউব</a>
+        <a href="podcast.html">🎙️ পডকাস্ট</a>
+        <a href="library.html">📚 লাইব্রেরি</a>
+        <!-- শেয়ার বাটন -->
+        <button onclick="shareCurrentPage()" style="background: var(--orange); color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;">🔗 শেয়ার</button>
+        <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+    </nav>
+</header>
+
+<script>
+    function shareCurrentPage() {
+        const pageUrl = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(pageUrl).then(() => {
+                alert('✨ পেজের লিঙ্কটি কপি হয়েছে!');
+            });
+        }
+    }
+</script> 
         </nav>
     </header>
 
@@ -485,28 +513,6 @@ quran_bangla: '"নিশ্চয়ই কষ্টের সাথেই রয়�
 
     // প্রতি ৩ মিনিট (১৮০০০০ মিলি সেকেন্ড) পর পর টোস্ট দেখাবে
     setInterval(showToast, 180000);
-</script>
-    <!-- শেয়ার করার বাটন ডিজাইন -->
-<div style="text-align: center; margin: 30px 0;">
-    <button onclick="shareCurrentPage()" style="background: linear-gradient(135deg, #ff9933, #138808); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s;">
-        🔗 এই ওয়েবসাইটটি শেয়ার করুন
-    </button>
-</div>
-
-<script>
-    function shareCurrentPage() {
-        const pageUrl = window.location.href;
-        if (navigator.share) {
-            navigator.share({
-                title: document.title,
-                url: pageUrl
-            }).catch(() => {});
-        } else {
-            navigator.clipboard.writeText(pageUrl).then(() => {
-                alert('✨ এই পেজের লিঙ্কটি সফলভাবে কপি হয়েছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।');
-            });
-        }
-    }
 </script>
 </body>
 </html>
