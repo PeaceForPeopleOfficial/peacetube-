@@ -956,14 +956,6 @@
                 });
             };
         }
-// আয়াত রেন্ডার করার লুপের ভেতর এটি বসিয়ে দেবেন:
-`
-<div class="ayah-card" style="padding: 15px; margin-bottom: 10px; background: var(--card-bg); border-radius: 8px;">
-    <div class="arabic-text" style="font-size: 24px; text-align: right; margin-bottom: 8px;">${ayah.text} ﴿${ayah.numberInSurah}﴾</div>
-    <div class="translation-text" style="font-size: 15px; color: #ddd; margin-bottom: 10px;"><strong>${ayah.numberInSurah}.</strong> ${bengaliTranslation}</div>
-    <button class="ayah-action-btn" onclick="copyOrShareAyah(\`${ayah.text}\`, \`${bengaliTranslation}\`, ${ayah.numberInSurah})">🔗 কপি/শেয়ার</button>
-</div>
-`
     
         function goBack() {
             isPlayingAll = false;
