@@ -374,6 +374,34 @@
 
         document.addEventListener('DOMContentLoaded', loadDynamicLibrary);
     </script>
+  <script>
+    const libraryMessages = [
+        "📚 বই পড়া জ্ঞানের পরিধি বাড়ায় এবং মানসিক প্রশান্তি আনে।",
+        "✍️ আমাদের কবিতা ও গজলগুলো আপনার হৃদয়কে কোমল করবে।",
+        "🌿 জ্ঞান অর্জনের এই যাত্রায় আপনাকে স্বাগতম।"
+    ];
+
+    function showLibraryToast() {
+        const randomMsg = libraryMessages[Math.floor(Math.random() * libraryMessages.length)];
+        const toast = document.createElement('div');
+        toast.innerHTML = `<span>${randomMsg}</span>`;
+        Object.assign(toast.style, {
+            position: 'fixed', bottom: '20px', right: '20px',
+            background: '#263238', color: '#ffffff', padding: '12px 18px',
+            borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+            zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #138808',
+            transition: 'opacity 0.5s ease', opacity: '0'
+        });
+        document.body.appendChild(toast);
+        setTimeout(() => toast.style.opacity = '1', 100);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }, 5000);
+    }
+
+    setInterval(showLibraryToast, 180000);
+</script>
 </body>
 </html>
    
