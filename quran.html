@@ -3,27 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আল-কুরআন - Peace for People</title>
+    <title>কুরআন পড়ে দ্যাখো একবার - Pro Ultra</title>
     <style>
         :root {
-            --bg-color: #f4f9f4;
+            --bg-color: #f8f9fa;
             --text-color: #333333;
             --card-bg: #ffffff;
-            --primary: #2e7d32; /* Green */
-            --orange: #ff9933;   /* Orange */
-            --white: #ffffff;
-            --accent-green: #e8f5e9;
+            --primary: #138808;
+            --orange: #ff9933;
         }
-
         body.dark-mode {
             --bg-color: #121212;
             --text-color: #e0e0e0;
             --card-bg: #1e1e1e;
-            --primary: #4caf50;
-            --orange: #ffb74d;
-            --accent-green: #1b3320;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
@@ -32,154 +25,240 @@
             padding: 0;
             transition: background 0.3s, color 0.3s;
         }
-
         header {
-            background: linear-gradient(135deg, var(--primary), var(--orange));
+            background: linear-gradient(135deg, #ff9933, #138808);
             color: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-
+        header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+        nav a:hover, nav a.active {
+            text-decoration: underline;
+        }
         .container {
             max-width: 900px;
             margin: 20px auto;
             padding: 0 15px;
         }
-
-        .controls-bar {
+        .pro-card {
+            background: var(--card-bg);
+            border: 2px solid var(--orange);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #ff9933, #e67e22);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .quick-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .quick-btn {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--primary);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .quick-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 15px;
+            border: 2px solid var(--orange);
+            border-radius: 25px;
+            outline: none;
+            background: var(--card-bg);
+            color: var(--text-color);
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .surah-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 15px;
+        }
+        .surah-card {
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-            border-left: 5px solid var(--orange);
+            border-left: 4px solid var(--primary);
         }
-
-        input[type="text"] {
-            padding: 10px;
-            width: 100%;
-            max-width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background: var(--card-bg);
-            color: var(--text-color);
-        }
-
-        button {
-            background-color: var(--primary);
+        .btn-read {
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            text-decoration: none;
+        }
+        .theme-toggle-btn, .share-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 5px 10px;
+            border-radius: 15px;
             cursor: pointer;
             font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        button:hover {
-            background-color: var(--orange);
-        }
-
-        .surah-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-        }
-
-        .surah-card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            cursor: pointer;
-            border-top: 4px solid var(--primary);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .surah-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border-top-color: var(--orange);
-        }
-
-        .footer-note {
-            text-align: center;
-            padding: 20px;
-            font-size: 14px;
-            color: #777;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>আল-কুরআনুল কারীম</h1>
-        <p>Peace for People - শান্তি ও শান্তির বাণী</p>
+        <h1>📖 কুরআন পড়ে দ্যাখো একবার</h1>
+        <nav>
+            <a href="index.html">🏠 হোম</a>
+            <a href="quran.html" class="active">📖 আল-কুরআন</a>
+            <a href="video.html">📺 পিস টিউব</a>
+            <a href="podcast.html">🎙️ পডকাস্ট</a>
+            <a href="library.html">📚 লাইব্রেরি</a>
+            <button class="share-btn" onclick="shareCurrentPage()">🔗 শেয়ার</button>
+            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+        </nav>
     </header>
 
     <div class="container">
-        <!-- কন্ট্রোল এবং ফিচার বার -->
-        <div class="controls-bar">
-            <input type="text" id="searchInput" placeholder="সূরা বা আয়াত খুঁজুন...">
-            <div>
-                <button onclick="toggleDarkMode()">ডার্ক মোড</button>
-                <button onclick="loadBookmarks()">বুকমার্কস</button>
+        <!-- আজকের বিশেষ বাণী ও ট্র্যাকার -->
+        <div class="pro-card">
+            <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold; color: var(--orange);">💡 আজকের বিশেষ বাণী</p>
+            <p style="margin: 0; font-style: italic; font-size: 14px;">"নিশ্চয়ই কষ্টের সাথেই স্বস্তি রয়েছে।" (সূরা আল-ইনশিরাহ: ৫-৬)</p>
+        </div>
+
+        <div class="pro-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: bold; font-size: 14px;">📊 খাতম কুরআন প্রোগ্রেস ট্র্যাকার</span>
+                <span style="font-size: 13px; font-weight: bold; color: var(--primary);">0 / 6236 (0.0%)</span>
+            </div>
+            <p style="margin: 0 0 10px 0; font-size: 12px; color: #777; text-align: left;">টার্গেট: ৩০ দিনে কুরআন সমাপ্তি</p>
+        </div>
+
+        <!-- অফলাইন ডাউনলোড সেকশন -->
+        <div class="pro-card" style="background: rgba(255, 153, 51, 0.05);">
+            <p style="margin: 0; font-size: 13px; font-weight: 600;">📱 ১১৪টি সূরা অফলাইনে পড়তে এবং অডিও চালাতে ডাউনলোড বাটনে চাপ দিন।</p>
+            <button class="download-btn" onclick="alert('ডাউনলোড প্রক্রিয়া শুরু হয়েছে!')">ডাউনলোড করুন (১১৪ সূরা)</button>
+        </div>
+
+        <!-- দ্রুত এক্সেস বাটনসমূহ -->
+        <div class="quick-buttons">
+            <button class="quick-btn" onclick="alert('পঠিত স্থানে যাওয়া হচ্ছে...')">📌 পঠিত স্থানে যান</button>
+            <button class="quick-btn" onclick="alert('সেভ করা আয়াতসমূহ লোড হচ্ছে...')">🔖 সেভ করা আয়াত</button>
+            <button class="quick-btn" onclick="alert('কুরআনিক দোআ লোড হচ্ছে...')">🤲 কুরআনিক দোআ</button>
+            <button class="quick-btn" onclick="shareCurrentPage()">🌐 অ্যাপ শেয়ার</button>
+            <button class="quick-btn" onclick="alert('পছন্দের তালিকায় যোগ করা হয়েছে!')">❤️ পছন্দ</button>
+            <button class="quick-btn" onclick="alert('রেটিং দেওয়ার জন্য ধন্যবাদ!')">⭐ রেটিং দিন</button>
+        </div>
+
+        <!-- সার্চ বক্স -->
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 সূরার নাম বা নম্বর লিখে খুঁজুন..." onkeyup="filterSurahs()">
+
+        <!-- সূরার তালিকা -->
+        <div class="surah-list" id="surahContainer">
+            <div class="surah-card" data-name="1 al-faatiha ফাতিহা">
+                <div>
+                    <h3 style="margin: 0 0 4px 0; font-size: 15px;">1. Al-Faatiha (আল-ফাতিহা)</h3>
+                    <p style="margin: 0; font-size: 12px; color: #777;">মাক্কী • আয়াত: ৭</p>
+                </div>
+                <a href="surah.html?id=1" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="2 al-baqara বাকারা">
+                <div>
+                    <h3 style="margin: 0 0 4px 0; font-size: 15px;">2. Al-Baqara (আল-বাকারা)</h3>
+                    <p style="margin: 0; font-size: 12px; color: #777;">মাদানী • আয়াত: ২৮৬</p>
+                </div>
+                <a href="surah.html?id=2" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="3 aal-i-imraan ইমরান">
+                <div>
+                    <h3 style="margin: 0 0 4px 0; font-size: 15px;">3. Aal-i-Imraan (আলে ইমরান)</h3>
+                    <p style="margin: 0; font-size: 12px; color: #777;">মাদানী • আয়াত: ২০০</p>
+                </div>
+                <a href="surah.html?id=3" class="btn-read">পড়ুন ➔</a>
             </div>
         </div>
-
-        <!-- সূরা লিস্ট সেকশন -->
-        <div id="surahContainer" class="surah-list">
-            <!-- ডাইনামিক সূরা কার্ড এখানে লোড হবে -->
-        </div>
-    </div>
-
-    <div class="footer-note">
-        <p>&copy; 2026 Peace for People | সর্বস্বত্ব সংরক্ষিত</p>
     </div>
 
     <script>
-        // ডার্ক মোড টগল ফাংশন
-        function toggleDarkMode() {
+        function toggleTheme() {
             document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         }
 
-        // পেজ লোড হওয়ার সময় আগের থিম ও লাস্ট রিড চেক করা
-        window.onload = () => {
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark-mode');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        function filterSurahs() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('surah-card');
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getAttribute('data-name');
+                if (name.includes(input)) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
             }
-            fetchSurahList();
-        };
-
-        // সূরা লিস্ট ফেচ করার ফাংশন
-        function fetchSurahList() {
-            const container = document.getElementById('surahContainer');
-            // ডেমো ডেটা দিয়ে স্ট্রাকচার তৈরি (পরে API বা ফুল ডেটা যুক্ত করা যাবে)
-            const sampleSurahs = [
-                { no: 1, name: "আল-ফাতিহা", meaning: "সূচনা", verses: 7 },
-                { no: 2, name: "আল-বাকারাহ", meaning: "গরু", verses: 286 },
-                { no: 3, name: "আলে-ইমরান", meaning: "ইমরানের পরিবার", verses: 200 }
-            ];
-
-            container.innerHTML = sampleSurahs.s(s => `
-                <div class="surah-card" onclick="alert('${s.name} সূরা সিলেক্ট করা হয়েছে। অডিও ও তাফসির লোড হচ্ছে...')">
-                    <h3>${s.no}. ${s.name}</h3>
-                    <p>অর্থ: ${s.meaning} | আয়াত: ${s.verses}</p>
-                </div>
-            `).join('');
         }
 
-        // বুকমার্ক ফাংশন
-        function loadBookmarks() {
-            alert("আপনার সেভ করা বুকমার্ক এবং লাস্ট রিড পজিশন এখানে প্রদর্শিত হবে।");
+        function shareCurrentPage() {
+            const pageUrl = window.location.href;
+            if (navigator.share) {
+                navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(pageUrl).then(() => {
+                    alert('✨ পেজের লিঙ্কটি সফলভাবে কপি হয়েছে!');
+                });
+            }
         }
     </script>
 </body>
