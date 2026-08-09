@@ -345,6 +345,78 @@
             .ayah-body { grid-template-columns: 1fr; }
             .app-container { height: 100vh; border-radius: 0; border: none; }
         }
+        <style>
+    /* ফন্ট ও রিডিং কন্ট্রোল প্যানেল */
+    .reading-controls-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--card-bg, #1e1e1e);
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+        border: 1px solid #333;
+    }
+    .storage-meter-box {
+        width: 100%;
+        background: #2a2a2a;
+        border-radius: 4px;
+        overflow: hidden;
+        height: 8px;
+        margin-top: 10px;
+    }
+    .storage-progress {
+        height: 100%;
+        background: #ff9933;
+        width: 0%;
+        transition: width 0.4s ease;
+    }
+    .ayah-action-btn {
+        background: transparent;
+        border: 1px solid #555;
+        color: #ccc;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-right: 5px;
+    }
+    .ayah-action-btn:hover {
+        background: #ff9933;
+        color: #fff;
+        border-color: #ff9933;
+    }
+</style>
+
+<!-- রিডিং ও ফন্ট কাস্টমাইজেশন কন্ট্রোল প্যানেল (ডিটেইলস পেজে বসানোর জন্য) -->
+<div class="reading-controls-bar">
+    <div class="font-resizer">
+        <label style="font-size: 13px;">ফন্ট সাইজ:</label>
+        <button onclick="changeAyahFontSize(2)" class="ayah-action-btn">A+</button>
+        <button onclick="changeAyahFontSize(-2)" class="ayah-action-btn">A-</button>
+    </div>
+    <div class="font-family-selector">
+        <label style="font-size: 13px;">ফন্ট:</label>
+        <select id="fontFamilySelect" onchange="changeFontFamily(this.value)" style="background: #222; color: #fff; border: 1px solid #444; padding: 4px; border-radius: 4px;">
+            <option value="'Amiri', serif">Amiri</option>
+            <option value="'Traditional Arabic', serif">Traditional Arabic</option>
+            <option value="sans-serif">Standard</option>
+        </select>
+    </div>
+    <div class="auto-scroll-toggle">
+        <button id="autoScrollBtn" onclick="toggleAutoScroll()" class="ayah-action-btn" style="background: #333;">📜 অটো-স্ক্রোল: বন্ধ</button>
+    </div>
+</div>
+
+<!-- স্টোরেজ ইন্ডিকেটর মিটার (হোম পেজের ডাউনলোড সেকশনের নিচে বসানোর জন্য) -->
+<div class="storage-info-box" style="margin-top: 10px; font-size: 12px; color: #aaa;">
+    <span>স্টোরেজ ব্যবহার: <span id="storageUsageText">গণনা করা হচ্ছে...</span></span>
+    <div class="storage-meter-box">
+        <div id="storageProgressBar" class="storage-progress"></div>
+    </div>
+</div>
     </style>
 </head>
 <body>
