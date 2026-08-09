@@ -874,6 +874,7 @@
                                     <button class="small-btn copy" onclick="copyAyah('${a.arabic}', '${a.bangla}')">📋</button>
                                     <button class="small-btn bookmark" onclick="saveBookmark('${surah.name}', ${a.numberInSurah}, '${a.arabic}', '${a.bangla}')">❤️</button>
                                     <button class="small-btn share" onclick="shareAyah('${surah.name}', ${a.numberInSurah}, '${a.arabic}', '${a.bangla}')">📤</button>
+                                    <button class="small-btn" style="background: #00897B;" onclick="showTafsir(${ayah.numberInSurah})">🔍 তাফসির</button>
                                 </div>
                             </div>
                             <div class="ayah-body">
@@ -976,6 +977,24 @@ function loadAndPlayTrack(index) {
         }
 
         setInterval(showQuranToast, 180000);
+        
+        <!-- 🔍 তাফসির বা শানে নুযুল ডায়ালগ বক্স -->
+<div class="modal" id="tafsirModal">
+    <div class="modal-content">
+        <h3>🔍 সংক্ষিপ্ত তাফসির / শানে নুযুল</h3>
+        <p id="tafsirTextContent" style="text-align: right; direction: rtl; font-size: 16px; margin-top: 15px; line-height: 1.8;">লোড হচ্ছে...</p>
+        <button class="close-modal" onclick="closeModal('tafsirModal')">বন্ধ করুন</button>
+    </div>
+</div>
+     function showTafsir(ayahNum) {
+    const modal = document.getElementById("tafsirModal");
+    const textEl = document.getElementById("tafsirTextContent");
+    
+    // আপনি এখানে আপনার ইচ্ছামতো সংক্ষিপ্ত তাফসির বা প্রেক্ষাপট যুক্ত করতে পারেন
+    textEl.innerHTML = `আয়াত নম্বর ${ayahNum} এর সংক্ষিপ্ত তাফসির: এই আয়াতে মহান আল্লাহ তাআলা বান্দাকে ধৈর্য ও ইস্তিকামতের সাথে জীবন পরিচালনার নির্দেশ দিয়েছেন এবং এর বিশেষ প্রেক্ষাপট রয়েছে। (প্রয়োজনে এখানে ডেটাসেট যুক্ত করতে পারেন)।`;
+    
+    modal.style.display = "flex";
+}   
     </script>
 </body>
 </html>
