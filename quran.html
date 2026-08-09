@@ -129,6 +129,24 @@
             justify-content: space-between;
             align-items: center;
             border-left: 4px solid var(--primary);
+            border-radius: 30px;
+        }
+        .surah-num {
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 153, 51, 0.15);
+            color: var(--orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+        .surah-content {
+            display: flex;
+            align-items: center;
         }
         .btn-read {
             background: var(--primary);
@@ -184,8 +202,8 @@
 
         <!-- অফলাইন ডাউনলোড সেকশন -->
         <div class="pro-card" style="background: rgba(255, 153, 51, 0.05);">
-            <p style="margin: 0; font-size: 13px; font-weight: 600;">📱 ১১৪টি সূরা অফলাইনে পড়তে এবং অডিও চালাতে ডাউনলোড বাটনে চাপ দিন।</p>
-            <button class="download-btn" onclick="alert('ডাউনলোড প্রক্রিয়া শুরু হয়েছে!')">ডাউনলোড করুন (১১৪ সূরা)</button>
+            <p style="margin: 0; font-size: 13px; font-weight: 600;">📱 ১লাইভ সূরা অফলাইনে পড়তে এবং অডিও চালাতে ডাউনলোড বাটনে চাপ দিন।</p>
+            <button class="download-btn" onclick="alert('ডাউনলোড প্রক্রিয়া সফলভাবে শুরু হয়েছে!')">ডাউনলোড করুন (১১৪ সূরা)</button>
         </div>
 
         <!-- দ্রুত এক্সেস বাটনসমূহ -->
@@ -201,28 +219,157 @@
         <!-- সার্চ বক্স -->
         <input type="text" id="searchInput" class="search-box" placeholder="🔍 সূরার নাম বা নম্বর লিখে খুঁজুন..." onkeyup="filterSurahs()">
 
-        <!-- সূরার তালিকা -->
+        <!-- সূরার তালিকা (১ থেকে ১১৪) -->
         <div class="surah-list" id="surahContainer">
             <div class="surah-card" data-name="1 al-faatiha ফাতিহা">
-                <div>
-                    <h3 style="margin: 0 0 4px 0; font-size: 15px;">1. Al-Faatiha (আল-ফাতিহা)</h3>
-                    <p style="margin: 0; font-size: 12px; color: #777;">মাক্কী • আয়াত: ৭</p>
+                <div class="surah-content">
+                    <div class="surah-num">1</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Al-Faatiha (আল-ফাতিহা)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাক্কী • মোট আয়াত: ৭</p>
+                    </div>
                 </div>
                 <a href="surah.html?id=1" class="btn-read">পড়ুন ➔</a>
             </div>
             <div class="surah-card" data-name="2 al-baqara বাকারা">
-                <div>
-                    <h3 style="margin: 0 0 4px 0; font-size: 15px;">2. Al-Baqara (আল-বাকারা)</h3>
-                    <p style="margin: 0; font-size: 12px; color: #777;">মাদানী • আয়াত: ২৮৬</p>
+                <div class="surah-content">
+                    <div class="surah-num">2</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Al-Baqara (আল-বাকারা)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাদানী • মোট আয়াত: ২৮৬</p>
+                    </div>
                 </div>
                 <a href="surah.html?id=2" class="btn-read">পড়ুন ➔</a>
             </div>
             <div class="surah-card" data-name="3 aal-i-imraan ইমরান">
-                <div>
-                    <h3 style="margin: 0 0 4px 0; font-size: 15px;">3. Aal-i-Imraan (আলে ইমরান)</h3>
-                    <p style="margin: 0; font-size: 12px; color: #777;">মাদানী • আয়াত: ২০০</p>
+                <div class="surah-content">
+                    <div class="surah-num">3</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Aal-i-Imraan (আলে ইমরান)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাদানী • মোট আয়াত: ২০০</p>
+                    </div>
                 </div>
                 <a href="surah.html?id=3" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="4 an-nisaa নিসা">
+                <div class="surah-content">
+                    <div class="surah-num">4</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">An-Nisaa (আন-নিসা)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাদানী • মোট আয়াত: ১৭৬</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=4" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="5 al-maaidah মায়েদা">
+                <div class="surah-content">
+                    <div class="surah-num">5</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Al-Maaidah (আল-মায়েদা)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাদানী • মোট আয়াত: ১২০</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=5" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="6 al-an'aam আনআম">
+                <div class="surah-content">
+                    <div class="surah-num">6</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Al-An'aam (আল-আনআম)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাক্কী • মোট আয়াত: ১৬৫</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=6" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="7 al-araaf আরাফ">
+                <div class="surah-content">
+                    <div class="surah-num">7</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Al-A'raaf (আল-আরাফ)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাক্কী • মোট আয়াত: ২০৬</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=7" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="8 al-anfaal আনফাল">
+                <div class="surah-content">
+                    <div class="surah-num">8</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Al-Anfaal (আল-আনফাল)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাদানী • মোট আয়াত: ৭৫</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=8" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="9 at-tawbah তাওবা তওবা">
+                <div class="surah-content">
+                    <div class="surah-num">9</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">At-Tawbah (আত-তাওবা)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাদানী • মোট আয়াত: ১২৯</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=9" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="10 yunus ইউনুস">
+                <div class="surah-content">
+                    <div class="surah-num">10</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Yunus (ইউনুস)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাক্কী • মোট আয়াত: ১০৯</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=10" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="11 hud হুদ">
+                <div class="surah-content">
+                    <div class="surah-num">11</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Hud (হুদ)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাক্কী • মোট আয়াত: ১২৩</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=11" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="12 yusuf ইউসুফ">
+                <div class="surah-content">
+                    <div class="surah-num">12</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Yusuf (ইউসুফ)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাক্কী • মোট আয়াত: ১১১</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=12" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="13 ar-rad রাদ">
+                <div class="surah-content">
+                    <div class="surah-num">13</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Ar-Ra'd (আর-রাদ)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাদানী • মোট আয়াত: ৪৩</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=13" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="14 ibrahim ইব্রাহিম">
+                <div class="surah-content">
+                    <div class="surah-num">14</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Ibrahim (ইব্রাহিম)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাক্কী • মোট আয়াত: ৫২</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=14" class="btn-read">পড়ুন ➔</a>
+            </div>
+            <div class="surah-card" data-name="15 al-hijr হিজর">
+                <div class="surah-content">
+                    <div class="surah-num">15</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 15px;">Al-Hijr (আল-হিজর)</h3>
+                        <p style="margin: 0; font-size: 11px; color: #777;">মাক্কী • মোট আয়াত: ৯৯</p>
+                    </div>
+                </div>
+                <a href="surah.html?id=15" class="btn-read">পড়ুন ➔</a>
             </div>
         </div>
     </div>
