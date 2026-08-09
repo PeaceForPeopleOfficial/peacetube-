@@ -402,6 +402,24 @@
 
     setInterval(showLibraryToast, 180000);
 </script>
+  <div style="text-align: center; margin: 30px 0;">
+    <button onclick="shareCurrentPage()" style="background: linear-gradient(135deg, #ff9933, #138808); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        🔗 লাইব্রেরি পেজটি শেয়ার করুন
+    </button>
+</div>
+
+<script>
+    function shareCurrentPage() {
+        const pageUrl = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(pageUrl).then(() => {
+                alert('✨ লাইব্রেরি পেজের লিঙ্ক কপি হয়েছে!');
+            });
+        }
+    }
+</script>
 </body>
 </html>
    
