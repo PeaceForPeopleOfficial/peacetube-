@@ -3,737 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>কুরআন পড়ে দ্যাখো একবার - Pro Ultra</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <title>আল-কুরআন - Peace for People</title>
     <style>
         :root {
-            --primary-orange: #FF6F00;
-            --primary-green: #2E7D32;
-            --light-green: #E8F5E9;
-            --light-orange: #FFF3E0;
-            --bg-white: #FFFFFF;
-            --bg-soft: #F4F6F8;
-            --text-dark: #1F2937;
-            --border-color: #FFE0B2;
-            --arabic-font-size: 26px;
-            --bangla-font-size: 16px;
+            --bg-color: #f8f9fa;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --primary: #138808;
+            --orange: #ff9933;
         }
         body.dark-mode {
-            --bg-soft: #121212;
-            --bg-white: #1E1E1E;
-            --text-dark: #F3F4F6;
-            --border-color: #333333;
-            --light-green: #1B2E1C;
-            --light-orange: #2C1D11;
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
         }
-        body.sepia-mode {
-            --bg-soft: #F4ECD8;
-            --bg-white: #FCF8EE;
-            --text-dark: #5F4B32;
-            --border-color: #D3C2A5;
-            --light-green: #EFE6D5;
-            --light-orange: #EADCBF;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            transition: background 0.3s, color 0.3s;
         }
-        body.paper-mode {
-            --bg-soft: #F9F9F9;
-            --bg-white: #FFFFFF;
-            --text-dark: #2C2C2C;
-            --border-color: #E0E0E0;
-            --light-green: #F0F4F1;
-            --light-orange: #FDF3E7;
+        header {
+            background: linear-gradient(135deg, #ff9933, #138808);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Noto Sans Bengali', sans-serif; transition: background-color 0.3s, color 0.3s; }
-        body { background-color: var(--bg-soft); color: var(--text-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
-        .app-container { width: 100%; max-width: 1100px; height: 95vh; background-color: var(--bg-white); box-shadow: 0 15px 35px rgba(0,0,0,0.15); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; border: 2px solid var(--primary-orange); position: relative; }
-        
-        .app-header { background: linear-gradient(135deg, var(--primary-orange), var(--primary-green)); color: white; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 10; }
-        .header-left { display: flex; align-items: center; gap: 12px; }
-        .header-title { font-size: 19px; font-weight: bold; letter-spacing: 0.5px; }
-        .back-btn, .icon-btn { background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 16px; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .back-btn { display: none; }
-        .header-tools { display: flex; align-items: center; gap: 8px; }
-        
-        .app-content { flex: 1; padding: 20px; overflow-y: auto; }
-        
-        .daily-ayah-card { background: linear-gradient(135deg, var(--light-green), var(--light-orange)); border: 1.5px solid var(--primary-green); padding: 16px; border-radius: 14px; margin-bottom: 18px; text-align: center; }
-        .daily-ayah-title { font-weight: bold; color: var(--primary-green); margin-bottom: 6px; font-size: 14px; }
-        .daily-ayah-text { font-size: 15px; font-weight: 500; font-style: italic; }
-        
-        .sync-banner { background: var(--light-orange); border: 1px solid var(--primary-orange); color: var(--text-dark); padding: 16px 20px; border-radius: 14px; margin-bottom: 18px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center; }
-        .sync-btn { background: var(--primary-orange); color: white; border: none; padding: 10px 24px; font-weight: bold; border-radius: 25px; cursor: pointer; box-shadow: 0 3px 8px rgba(255, 111, 0, 0.3); }
-        
-        .tracker-card { background: var(--bg-white); border: 1px solid var(--border-color); padding: 16px; border-radius: 14px; margin-bottom: 18px; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
-        .progress-bar-container { background: var(--border-color); border-radius: 10px; height: 12px; width: 100%; margin-top: 8px; overflow: hidden; }
-        .progress-bar-fill { background: var(--primary-green); height: 100%; width: 0%; transition: width 0.4s; }
-
-        .quick-actions-bar { display: flex; gap: 10px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 5px; }
-        .action-chip { background: var(--light-green); color: var(--primary-green); border: 1px solid var(--primary-green); padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
-        
-        .search-box input { width: 100%; padding: 14px 22px; border-radius: 50px; border: 2px solid var(--border-color); background-color: var(--bg-white); color: var(--text-dark); margin-bottom: 20px; outline: none; font-size: 15px; }
-        
-        .surah-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-        .surah-card { background: var(--bg-white); border: 1px solid var(--border-color); padding: 18px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
-        .surah-card:hover { border-color: var(--primary-green); transform: translateY(-2px); }
-        .surah-number { width: 44px; height: 44px; background-color: var(--light-orange); color: var(--primary-orange); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 1px solid var(--primary-orange); }
-        .surah-tag { font-size: 11px; background: var(--light-green); color: var(--primary-green); padding: 2px 8px; border-radius: 10px; font-weight: bold; margin-left: 6px; }
-        
-        .bismillah-card { background: var(--light-green); border: 1px solid var(--primary-green); padding: 18px; border-radius: 14px; text-align: center; margin-bottom: 20px; }
-        .bismillah-arabic { font-size: 28px; font-weight: bold; color: var(--primary-green); margin-bottom: 6px; }
-        .bismillah-bangla { font-size: 14px; opacity: 0.9; font-weight: 500; }
-        
-        .ayah-card { background: var(--bg-white); padding: 20px; border-radius: 14px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.04); }
-        .ayah-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; }
-        .ayah-badge { font-size: 13px; background: var(--primary-orange); color: white; padding: 3px 12px; border-radius: 12px; font-weight: bold; display: flex; gap: 8px; align-items: center; }
-        .ruku-badge { font-size: 11px; background: var(--primary-green); color: white; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
-        .ayah-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-        .audio-btn, .small-btn { background: var(--primary-green); color: white; border: none; padding: 6px 12px; border-radius: 18px; cursor: pointer; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
-        .small-btn.bookmark { background: #E91E63; }
-        .small-btn.share { background: #0288D1; }
-        .small-btn.copy { background: #7B1FA2; }
-        .small-btn.tafsir-btn { background: #E65100; }
-        
-        .ayah-body { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .arabic-container { direction: rtl; text-align: right; background-color: var(--light-green); padding: 16px; border-radius: 10px; border-right: 4px solid var(--primary-green); }
-        .bangla-container { direction: ltr; text-align: left; background-color: var(--light-orange); padding: 16px; border-radius: 10px; border-left: 4px solid var(--primary-orange); }
-        .arabic-text { font-size: var(--arabic-font-size); font-weight: bold; line-height: 2.1; color: var(--text-dark); }
-        .bangla-meaning { font-size: var(--bangla-font-size); line-height: 1.7; color: var(--text-dark); }
-        
-        .tafsir-box { background: var(--light-green); border: 1px dashed var(--primary-green); padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 13.5px; line-height: 1.6; }
-
-        .controls-bar { background: var(--light-green); border: 1px solid var(--primary-green); padding: 12px 18px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .font-controls { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: bold; }
-        .font-btn { background: var(--primary-green); color: white; border: none; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-weight: bold; }
-        .speed-select, .reciter-select { padding: 4px 8px; border-radius: 8px; border: 1px solid var(--primary-green); background: white; font-size: 12px; outline: none; }
-        
-        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 100; padding: 20px; }
-        .modal-content { background: var(--bg-white); padding: 24px; border-radius: 16px; max-width: 520px; width: 100%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: 2px solid var(--primary-orange); }
-        .modal-content h3 { color: var(--primary-orange); margin-bottom: 8px; font-size: 22px; }
-        .modal-content h4 { color: var(--primary-green); margin-bottom: 14px; font-weight: 600; font-size: 15px; }
-        .modal-content p { line-height: 1.7; color: var(--text-dark); font-size: 14.5px; margin-bottom: 12px; }
-        .highlight-box { background: var(--light-orange); border-left: 4px solid var(--primary-orange); padding: 12px 16px; border-radius: 8px; font-weight: bold; color: var(--primary-orange); margin: 15px 0 5px 0; font-size: 15px; }
-        .close-modal { margin-top: 15px; background: var(--primary-green); color: white; border: none; padding: 10px 28px; border-radius: 20px; cursor: pointer; font-weight: bold; }
-
-        @media (max-width: 768px) {
-            .ayah-body { grid-template-columns: 1fr; }
-            .app-container { height: 100vh; border-radius: 0; border: none; }
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        nav a:hover, nav a.active {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid var(--orange);
+            border-radius: 25px;
+            outline: none;
+            background: var(--card-bg);
+            color: var(--text-color);
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+        .surah-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 15px;
+        }
+        .surah-card {
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.2s;
+        }
+        .surah-card:hover {
+            transform: translateY(-3px);
+        }
+        .surah-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        .surah-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #777;
+        }
+        .btn-read {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            text-decoration: none;
+        }
+        .theme-toggle-btn, .share-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- হেডার -->
-        <div class="app-header">
-            <div class="header-left">
-                <button class="back-btn" id="backBtn" onclick="goBack()">←</button>
-                <span class="header-title" id="headerTitle">কুরআন পড়ে দ্যাখো একবার</span>
+
+    <header>
+        <h1>📖 আল-কুরআন</h1>
+        <nav>
+            <a href="index.html">🏠 হোম</a>
+            <a href="quran.html" class="active">📖 আল-কুরআন</a>
+            <a href="video.html">📺 পিস টিউব</a>
+            <a href="podcast.html">🎙️ পডকাস্ট</a>
+            <a href="library.html">📚 লাইব্রেরি</a>
+            <button class="share-btn" onclick="shareCurrentPage()">🔗 শেয়ার</button>
+            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 সূরার নাম বা নম্বর লিখে খুঁজুন..." onkeyup="filterSurahs()">
+
+        <div class="surah-list" id="surahContainer">
+            <div class="surah-card" data-name="1 al-faatiha ফাতিহা">
+                <div class="surah-info">
+                    <h3>1. Al-Faatiha (আল-ফাতিহা)</h3>
+                    <p>মাক্কী • মোট আয়াত: ৭</p>
+                </div>
+                <a href="surah.html?id=1" class="btn-read">পড়ুন ➔</a>
             </div>
-            <div class="header-tools">
-                
-                <nav>
-    <a href="index.html">🏠 হোম</a>
-    <a href="quran.html" class="active">📖 আল-কুরআন</a>
-    <a href="video.html">📺 পিস টিউব</a>
-    <a href="podcast.html">🎙️ পডকাস্ট</a>
-    <a href="library.html">📚 লাইব্রেরি</a>
-    <button onclick="shareCurrentPage()" style="background: #ff9933; color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;">🔗 শেয়ার</button>
-    <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
-</nav>
-
-<script>
-    function shareCurrentPage() {
-        const pageUrl = window.location.href;
-        if (navigator.share) {
-            navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
-        } else {
-            navigator.clipboard.writeText(pageUrl).then(() => {
-                alert('✨ কুরআনের পেজের লিঙ্কটি কপি হয়েছে!');
-            });
-        }
-    }
-</script>
-        <div class="app-content" id="appContent">
-            <!-- হোম পেজ -->
-            <div id="homePage">
-                <div class="daily-ayah-card">
-                    <div class="daily-ayah-title">💡 আজকের বিশেষ বাণী</div>
-                    <div class="daily-ayah-text">"নিশ্চয়ই কষ্টের সাথেই স্বস্তি রয়েছে।" (সূরা আল-ইনশিরাহ: ৫-৬)</div>
+            <div class="surah-card" data-name="2 al-baqara বাকারা">
+                <div class="surah-info">
+                    <h3>2. Al-Baqara (আল-বাকারা)</h3>
+                    <p>মাদানী • মোট আয়াত: ২৮৬</p>
                 </div>
-
-                <div class="tracker-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 14px; color: var(--primary-green);">
-                        <span>📊 খাতম কুরআন প্রোগ্রেস ট্র্যাকার</span>
-                        <span id="trackerStats">০ / ৬২৩৬ আয়াত পড়া হয়েছে</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar-fill" id="progressBarFill"></div>
-                    </div>
-                    <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
-                        <span>টার্গেট: ৩০ দিনে কুরআন সমাপ্তি</span>
-                        <button class="small-btn" onclick="resetTracker()" style="background: #D32F2F;">রিসেট</button>
-                    </div>
-                </div>
-
-                <div class="sync-banner" id="syncBanner">
-                    <span id="syncStatus">📲 ১১৪টি সূরা অফলাইনে পড়তে এবং অডিও চালাতে ডাউনলোড বাটনে চাপ দিন।</span>
-                    <button class="sync-btn" id="downloadBtn" onclick="downloadAllSurahs()">ডাউনলোড করুন (১১৪ সূরা)</button>
-                </div>
-
-                <div class="quick-actions-bar">
-                    <div class="action-chip" onclick="resumeLastRead()">📌 পঠিত স্থানে যান</div>
-                    <div class="action-chip" onclick="showBookmarks()">🔖 সেভ করা আয়াত</div>
-                    <div class="action-chip" onclick="showDuas()">🤲 কুরআনিক দোআ</div>
-                    <div class="action-chip" onclick="shareApp()">🔗 অ্যাপ শেয়ার</div>
-                    <div class="action-chip" onclick="likeApp()">❤️ পছন্দ</div>
-                    <div class="action-chip" onclick="showModal('rateModal')">⭐ রেটিং দিন</div>
-                </div>
-
-                <div class="search-box">
-                    <input type="text" id="searchInput" onkeyup="filterSurahs()" placeholder="🔍 সূরার নাম বা নম্বর লিখে খুঁজুন...">
-                </div>
-
-                <div class="surah-list" id="surahListContainer">
-                    <p style="text-align: center;">সূরা তালিকা লোড হচ্ছে...</p>
-                </div>
+                <a href="surah.html?id=2" class="btn-read">পড়ুন ➔</a>
             </div>
-
-            <!-- ডিটেইলস পেজ -->
-            <div id="detailPage" style="display:none; flex-direction:column;">
-                <div class="controls-bar">
-                    <button class="audio-btn" id="playAllBtn" onclick="togglePlayAll()">▶️ পুরো সূরা শুনুন</button>
-                    <div class="font-controls">
-                        <span>কারী:</span>
-                        <select class="reciter-select" id="reciterSelect" onchange="changeReciter(this.value)">
-                            <option value="ar.alafasy">মিশারি রাশিদ আল-আফাসী</option>
-                            <option value="ar.abdulbasit">আব্দুল বাসিদ আবদ আস-সামাদ</option>
-                            <option value="ar.sudais">আব্দুর রহমান আস-সুদাইস</option>
-                        </select>
-                    </div>
-                    <div class="font-controls">
-                        <span>স্পিড:</span>
-                        <select class="speed-select" id="speedSelect" onchange="changeSpeed(this.value)">
-                            <option value="0.75">0.75x</option>
-                            <option value="1.0" selected>1.0x</option>
-                            <option value="1.25">1.25x</option>
-                            <option value="1.5">1.5x</option>
-                        </select>
-                    </div>
-                    <div class="font-controls">
-                        <span>সাইজ:</span>
-                        <button class="font-btn" onclick="changeFontSize(-2)">-</button>
-                        <button class="font-btn" onclick="changeFontSize(2)">+</button>
-                    </div>
+            <div class="surah-card" data-name="3 aal-i-imraan ইমরান">
+                <div class="surah-info">
+                    <h3>3. Aal-i-Imraan (আলে ইমরান)</h3>
+                    <p>মাদানী • মোট আয়াত: ২০০</p>
                 </div>
-                <div id="bismillahHeader"></div>
-                <div id="ayahContainer"></div>
+                <a href="surah.html?id=3" class="btn-read">পড়ুন ➔</a>
             </div>
-        </div>
-
-        <!-- 🎯 উদ্দেশ্য ডায়ালগ -->
-        <div class="modal" id="aboutModal">
-            <div class="modal-content">
-                <h3>🕊️ PeaceForPeople</h3>
-                <h4>হৃদয়ের পবিত্রতা থেকে বিশ্বমানবকল্যাণ!</h4>
-                <p>রবের দয়া ও শান্তির এক বিনীত শান্তিদূত হিসেবে আপনাকে এই আলোর কাফেলায় স্বাগত জানাই। এটি আপনার মনের কথা বলার, প্রশান্তি খোঁজার এবং নিজেকে নতুন করে আবিষ্কার করার একটি নিরাপদ আশ্রয়।</p>
-                <div class="highlight-box"> 📖 অতএব আপনি অন্তত একবার পুরো কুরআন পড়ে দ্যাখো! ✨ </div>
-                <button class="close-modal" onclick="closeModal('aboutModal')">বন্ধ করুন</button>
-            </div>
-        </div>
-
-        <!-- 🤲 দোআ ডায়ালগ -->
-        <div class="modal" id="duaModal">
-            <div class="modal-content" style="max-height:80vh; overflow-y:auto; text-align:left;">
-                <h3 style="text-align:center;">🤲 কুরআনিক গুরুত্বপূর্ণ দোআসমূহ</h3>
-                <div style="margin-top:15px; display:flex; flex-direction:column; gap:12px;">
-                    <div style="background:var(--light-orange); padding:12px; border-radius:10px;">
-                        <strong>১. হে আমার রব! আমাকে জ্ঞান বাড়িয়ে দিন:</strong>
-                        <p style="color:var(--primary-green); font-size:18px; margin:4px 0;">رَّبِّ زِدْنِي عِلْمًا</p>
-                        <p style="font-size:13px;">"রব্বি যিদ্নী 'ইলমা।" (সূরা ত্বা-হা: ১১৪)</p>
-                    </div>
-                    <div style="background:var(--light-green); padding:12px; border-radius:10px;">
-                        <strong>২. দুনিয়া ও আখেরাতের কল্যাণের দোআ:</strong>
-                        <p style="color:var(--primary-green); font-size:18px; margin:4px 0;">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</p>
-                        <p style="font-size:13px;">"হে আমাদের রব! আমাদের দুনিয়াতে কল্যাণ দিন এবং আখেরাতেও কল্যাণ দিন।" (সূরা বাকারা: ২০১)</p>
-                    </div>
+            <div class="surah-card" data-name="4 an-nisaa নিসা">
+                <div class="surah-info">
+                    <h3>4. An-Nisaa (আন-নিসা)</h3>
+                    <p>মাদানী • মোট আয়াত: ১৭৬</p>
                 </div>
-                <div style="text-align:center;">
-                    <button class="close-modal" onclick="closeModal('duaModal')">বন্ধ করুন</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ⭐ রেটিং ডায়ালগ -->
-        <div class="modal" id="rateModal">
-            <div class="modal-content">
-                <h3>⭐ অ্যাপটি আপনার কেমন লেগেছে?</h3>
-                <div style="font-size: 30px; cursor: pointer; margin: 15px 0;" onclick="submitRating()">⭐⭐⭐⭐⭐</div>
-                <p>আপনার শুভকামনা আমাদের অনুপ্রেরণা!</p>
-                <button class="close-modal" onclick="closeModal('rateModal')">বন্ধ করুন</button>
-            </div>
-        </div>
-
-        <!-- 🔖 বুকমার্ক ডায়ালগ -->
-        <div class="modal" id="bookmarkModal">
-            <div class="modal-content" style="max-height:80vh; overflow-y:auto;">
-                <h3>🔖 সেভ করা আয়াতসমূহ</h3>
-                <div id="bookmarkList" style="text-align:left; margin-top:10px;"></div>
-                <button class="close-modal" onclick="closeModal('bookmarkModal')">বন্ধ করুন</button>
+                <a href="surah.html?id=4" class="btn-read">পড়ুন ➔</a>
             </div>
         </div>
     </div>
 
     <script>
-        let db;
-        let allSurahsList = [];
-        let currentAudio = null;
-        let currentPlayBtn = null;
-        let isPlayingAll = false;
-        let currentAyahIndex = 0;
-        let currentSurahAyahs = [];
-        let audioSpeed = 1.0;
-        let currentArabicFontSize = 26;
-        let currentBanglaFontSize = 16;
-        let currentReciter = "ar.alafasy";
-        let currentThemeIndex = 0;
-        const themes = ["", "dark-mode", "sepia-mode", "paper-mode"];
-
-        const request = indexedDB.open("QuranAppDB_V9", 1);
-        request.onupgradeneeded = (e) => {
-            db = e.target.result;
-            if (!db.objectStoreNames.contains("surahs")) {
-                db.createObjectStore("surahs", { keyPath: "number" });
-            }
-        };
-        request.onsuccess = (e) => {
-            db = e.target.result;
-            checkOfflineData();
-            updateTrackerDisplay();
-        };
-
-        function cycleTheme() {
-            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-            document.body.className = themes[currentThemeIndex];
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         }
 
-        function updateTrackerDisplay() {
-            let readCount = parseInt(localStorage.getItem('quran_read_count') || '0');
-            const totalAyahs = 6236;
-            let percent = ((readCount / totalAyahs) * 100).toFixed(1);
-            document.getElementById("trackerStats").innerText = `${readCount} / ${totalAyahs} (${percent}%)`;
-            document.getElementById("progressBarFill").style.width = percent + '%';
-        }
-
-        function markAyahRead() {
-            let readCount = parseInt(localStorage.getItem('quran_read_count') || '0');
-            if (readCount < 6236) {
-                readCount++;
-                localStorage.setItem('quran_read_count', readCount);
-                updateTrackerDisplay();
-            }
-        }
-
-        function resetTracker() {
-            if (confirm("আপনি কি প্রোগ্রেস রিসেট করতে চান?")) {
-                localStorage.setItem('quran_read_count', '0');
-                updateTrackerDisplay();
-            }
-        }
-
-        function checkOfflineData() {
-            const tx = db.transaction("surahs", "readonly");
-            const store = tx.objectStore("surahs");
-            const getAll = store.getAllKeys();
-            getAll.onsuccess = () => {
-                if (getAll.result.length >= 114) {
-                    document.getElementById("syncBanner").style.background = "var(--light-green)";
-                    document.getElementById("syncBanner").style.borderColor = "var(--primary-green)";
-                    document.getElementById("syncStatus").innerText = "✅ ১১৪টি সূরা অফলাইনে সেভ আছে!";
-                    document.getElementById("downloadBtn").style.display = "none";
-                }
-                loadSurahList();
-            };
-        }
-
-        async function downloadAllSurahs() {
-            const statusText = document.getElementById("syncStatus");
-            const btn = document.getElementById("downloadBtn");
-            btn.disabled = true;
-            statusText.innerText = "⏳ ডাটা সেভ হচ্ছে... কিছুক্ষণ অপেক্ষা করুন।";
-            try {
-                const [arRes, bnRes] = await Promise.all([
-                    fetch("https://api.alquran.cloud/v1/quran/ar.alafasy"),
-                    fetch("https://api.alquran.cloud/v1/quran/bn.bengali")
-                ]);
-                const arData = await arRes.json();
-                const bnData = await bnRes.json();
-                const tx = db.transaction("surahs", "readwrite");
-                const store = tx.objectStore("surahs");
-
-                for (let i = 0; i < 114; i++) {
-                    const surahAr = arData.data.surahs[i];
-                    const surahBn = bnData.data.surahs[i];
-                    const fullSurahObj = {
-                        number: surahAr.number,
-                        name: surahAr.englishName,
-                        revelationType: surahAr.revelationType === "Meccan" ? "মাক্কী" : "মাদানী",
-                        translatedName: surahBn.englishNameTranslation,
-                        ayahCount: surahAr.ayahs.length,
-                        ayahs: surahAr.ayahs.map((ayah, index) => {
-                            let text = ayah.text;
-                            if (surahAr.number !== 1 && surahAr.number !== 9 && index === 0) {
-                                let keywords = ["الرَّحِيمِ", "الرحيم", "الرَّحِيمِ", "ٱلرَّحِيمِ"];
-                                for (let kw of keywords) {
-                                    let pos = text.indexOf(kw);
-                                    if (pos !== -1) {
-                                        text = text.substring(pos + kw.length).trim();
-                                        break;
-                                    }
-                                }
-                            }
-                            return {
-                                numberInSurah: ayah.numberInSurah,
-                                arabic: text,
-                                bangla: bnData.data.surahs[i].ayahs[index].text,
-                                audioUrl: ayah.audio,
-                                globalNumber: ayah.number,
-                                ruku: ayah.ruku
-                            };
-                        })
-                    };
-                    store.put(fullSurahObj);
-                }
-                tx.oncomplete = () => {
-                    alert("🎉 ১১৪টি সূরা সফলভাবে সেভ হয়েছে!");
-                    checkOfflineData();
-                };
-            } catch (err) {
-                alert("❌ ডাউনলোড ব্যর্থ হয়েছে। ইন্টারনেট সংযোগ চেক করুন।");
-                btn.disabled = false;
-                statusText.innerText = "📲 আবার চেষ্টা করুন।";
-            }
-        }
-
-        function loadSurahList() {
-            const container = document.getElementById("surahListContainer");
-            container.innerHTML = "";
-            const tx = db.transaction("surahs", "readonly");
-            const store = tx.objectStore("surahs");
-            const getAll = store.getAll();
-            getAll.onsuccess = () => {
-                allSurahsList = getAll.result;
-                if (allSurahsList.length === 0) {
-                    fetch("https://api.alquran.cloud/v1/surah")
-                        .then(res => res.json())
-                        .then(data => renderList(data.data.map(s => ({
-                            number: s.number,
-                            name: s.englishName,
-                            ayahCount: s.numberOfAyahs,
-                            revelationType: s.revelationType === "Meccan" ? "মাক্কী" : "মাদানী"
-                        }))));
-                } else {
-                    renderList(allSurahsList);
-                }
-            };
-        }
-
-        function renderList(list) {
-            const container = document.getElementById("surahListContainer");
-            container.innerHTML = "";
-            list.forEach(s => {
-                container.innerHTML += `
-                    <div class="surah-card" onclick="openSurah(${s.number})">
-                        <div style="display: flex; align-items: center; gap: 14px;">
-                            <div class="surah-number">${s.number}</div>
-                            <div>
-                                <div style="font-weight: bold; font-size: 16px;">${s.name} <span class="surah-tag">${s.revelationType || ''}</span></div>
-                                <div style="font-size: 13px; opacity: 0.7;">মোট আয়াত: ${s.ayahCount}</div>
-                            </div>
-                        </div>
-                        <div style="color: var(--primary-green); font-weight: bold;">পড়ুন ➔</div>
-                    </div>
-                `;
-            });
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
         }
 
         function filterSurahs() {
-            const query = document.getElementById("searchInput").value.toLowerCase();
-            const filtered = allSurahsList.filter(s => s.name.toLowerCase().includes(query) || s.number.toString().includes(query));
-            renderList(filtered);
-        }
-
-        function openSurah(num) {
-            if (!db) {
-                alert("ডাটাবেজ প্রস্তুত নয়, একটু অপেক্ষা করুন।");
-                return;
-            }
-            const tx = db.transaction("surahs", "readonly");
-            const store = tx.objectStore("surahs");
-            const getSurah = store.get(num);
-
-            getSurah.onsuccess = () => {
-                const surah = getSurah.result;
-                if (!surah) {
-                    alert("⚠️ এই সূরার ডাটা সেভ করা নেই! দয়া করে 'ডাউনলোড করুন' বাটনে চাপ দিয়ে ডাটা নামিয়ে নিন।");
-                    return;
-                }
-                currentSurahAyahs = surah.ayahs;
-                isPlayingAll = false;
-                if(currentAudio) { currentAudio.pause(); currentAudio = null; }
-                
-                document.getElementById("homePage").style.display = "none";
-                document.getElementById("detailPage").style.display = "flex";
-                document.getElementById("backBtn").style.display = "flex";
-                document.getElementById("headerTitle").innerText = `সূরা ${surah.name}`;
-
-                const bismillahHeader = document.getElementById("bismillahHeader");
-                if (surah.number !== 9 && surah.number !== 1) {
-                    bismillahHeader.innerHTML = `
-                        <div class="bismillah-card">
-                            <div class="bismillah-arabic">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
-                            <div class="bismillah-bangla">পরম করুণাময় অসীম দয়ালু আল্লাহর নামে (শুরু করছি)</div>
-                        </div>
-                    `;
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('surah-card');
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getAttribute('data-name');
+                if (name.includes(input)) {
+                    cards[i].style.display = "";
                 } else {
-                    bismillahHeader.innerHTML = "";
-                }
-
-                const container = document.getElementById("ayahContainer");
-                container.innerHTML = "";
-
-                surah.ayahs.forEach((ayah, index) => {
-                    let arabicText = ayah.arabic;
-                    let dummyTafsir = `সংক্ষিপ্ত তাফসির: এই আয়াতে মহান আল্লাহ তাআলা বান্দাকে ধৈর্য ও ঈমানের সাথে তাঁর ওপর ভরসা করার নির্দেশ দিয়েছেন এবং এর মাধ্যমে দুনিয়া ও আখেরাতের শান্তি নিশ্চিত হয়।`;
-                    container.innerHTML += `
-                        <div class="ayah-card" id="ayah-${index}" onclick="markAyahRead()">
-                            <div class="ayah-header">
-                                <span class="ayah-badge">
-                                    আয়াত ${ayah.numberInSurah}
-                                    ${ayah.ruku ? `<span class="ruku-badge">রুকু ${ayah.ruku}</span>` : ''}
-                                </span>
-                                <div class="ayah-actions">
-                                    <button class="audio-btn" onclick="playAudio(${index}, this)">▶ শুনুন</button>
-                                    <button class="small-btn bookmark" onclick="toggleBookmark(${surah.number}, ${ayah.numberInSurah})">🔖 সেভ</button>
-                                    <button class="small-btn tafsir-btn" onclick="toggleTafsir(${index})">📖 তাফসির</button>
-                                    <button class="small-btn copy" onclick="copyAyah('${arabicText}', '${ayah.bangla}', ${surah.number}, ${ayah.numberInSurah})">📋 কপি</button>
-                                </div>
-                            </div>
-                            <div class="ayah-body">
-                                <div class="arabic-container">
-                                    <div class="arabic-text" style="font-size: ${currentArabicFontSize}px;">${arabicText}</div>
-                                </div>
-                                <div class="bangla-container">
-                                    <div class="bangla-meaning" style="font-size: ${currentBanglaFontSize}px;">${ayah.bangla}</div>
-                                </div>
-                            </div>
-                            <div id="tafsir-${index}" class="tafsir-box" style="display:none;">
-                                <strong>তাফসির (সংক্ষিপ্ত):</strong> ${dummyTafsir}
-                            </div>
-                        </div>
-                    `;
-                });
-            };
-        }
-
-        function toggleTafsir(index) {
-            const box = document.getElementById(`tafsir-${index}`);
-            box.style.display = box.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function goBack() {
-            if(currentAudio) { currentAudio.pause(); currentAudio = null; }
-            document.getElementById("detailPage").style.display = "none";
-            document.getElementById("homePage").style.display = "block";
-            document.getElementById("backBtn").style.display = "none";
-            document.getElementById("headerTitle").innerText = "কুরআন পড়ে দ্যাখো একবার";
-            updateTrackerDisplay();
-        }
-
-        function getAudioUrlForReciter(globalAyahNum) {
-            if (currentReciter === "ar.alafasy") {
-                return `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalAyahNum}.mp3`;
-            } else if (currentReciter === "ar.abdulbasit") {
-                return `https://cdn.islamic.network/quran/audio/128/ar.abdulbasit/${globalAyahNum}.mp3`;
-            } else if (currentReciter === "ar.sudais") {
-                return `https://cdn.islamic.network/quran/audio/128/ar.sudais/${globalAyahNum}.mp3`;
-            }
-            return `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalAyahNum}.mp3`;
-        }
-
-        function playAudio(index, btn) {
-            const ayah = currentSurahAyahs[index];
-            let url = getAudioUrlForReciter(ayah.globalNumber);
-
-            if (currentAudio) {
-                currentAudio.pause();
-                if (currentPlayBtn) currentPlayBtn.innerText = "▶ শুনুন";
-                if (currentAudio.src === url) {
-                    currentAudio = null;
-                    currentPlayBtn = null;
-                    return;
+                    cards[i].style.display = "none";
                 }
             }
-            currentAudio = new Audio(url);
-            currentAudio.playbackRate = audioSpeed;
-            currentPlayBtn = btn;
-            btn.innerText = "⏸ থামা করুন";
-            currentAudio.play();
-            currentAudio.onended = () => {
-                btn.innerText = "▶ শুনুন";
-                currentAudio = null;
-                currentPlayBtn = null;
-            };
         }
 
-        function changeReciter(reciter) {
-            currentReciter = reciter;
-        }
-
-        function togglePlayAll() {
-            if (isPlayingAll) {
-                if (currentAudio) currentAudio.pause();
-                isPlayingAll = false;
-                document.getElementById("playAllBtn").innerText = "▶ পুরো সূরা শুনুন";
-                return;
-            }
-            if (currentSurahAyahs.length === 0) return;
-            isPlayingAll = true;
-            currentAyahIndex = 0;
-            document.getElementById("playAllBtn").innerText = "⏸ বন্ধ করুন";
-            playNextInSequence();
-        }
-
-        function playNextInSequence() {
-            if (!isPlayingAll || currentAyahIndex >= currentSurahAyahs.length) {
-                isPlayingAll = false;
-                document.getElementById("playAllBtn").innerText = "▶ পুরো সূরা শুনুন";
-                return;
-            }
-            const ayah = currentSurahAyahs[currentAyahIndex];
-            let url = getAudioUrlForReciter(ayah.globalNumber);
-            if (currentAudio) currentAudio.pause();
-            currentAudio = new Audio(url);
-            currentAudio.playbackRate = audioSpeed;
-            currentAudio.play();
-            
-            const card = document.getElementById(`ayah-${currentAyahIndex}`);
-            if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            currentAudio.onended = () => {
-                currentAyahIndex++;
-                playNextInSequence();
-            };
-        }
-
-        function changeSpeed(speed) {
-            audioSpeed = parseFloat(speed);
-            if (currentAudio) currentAudio.playbackRate = audioSpeed;
-        }
-
-        function changeFontSize(val) {
-            currentArabicFontSize += val;
-            currentBanglaFontSize += val;
-            document.querySelectorAll('.arabic-text').forEach(el => el.style.fontSize = currentArabicFontSize + 'px');
-            document.querySelectorAll('.bangla-meaning').forEach(el => el.style.fontSize = currentBanglaFontSize + 'px');
-        }
-
-        function showModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        function toggleBookmark(surahNum, ayahNum) {
-            let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks') || '[]');
-            const index = bookmarks.findIndex(b => b.surah === surahNum && b.ayah === ayahNum);
-            if (index > -1) {
-                bookmarks.splice(index, 1);
-                alert("🔖 বুকমার্ক মুছে ফেলা হয়েছে।");
-            } else {
-                bookmarks.push({ surah: surahNum, ayah: ayahNum });
-                alert("🔖 সফলভাবে বুকমার্ক করা হয়েছে!");
-            }
-            localStorage.setItem('quran_bookmarks', JSON.stringify(bookmarks));
-        }
-
-        function showBookmarks() {
-            let bookmarks = JSON.parse(localStorage.getItem('quran_bookmarks') || '[]');
-            const list = document.getElementById("bookmarkList");
-            if (bookmarks.length === 0) {
-                list.innerHTML = "<p>কোনো বুকমার্ক করা আয়াত নেই।</p>";
-            } else {
-                list.innerHTML = bookmarks.map(b => `<div style="padding: 8px; border-bottom: 1px solid var(--border-color); cursor:pointer;" onclick="openSurah(${b.surah})">সূরা নম্বর: ${b.surah}, আয়াত: ${b.ayah}</div>`).join('');
-            }
-            showModal('bookmarkModal');
-        }
-
-        function copyAyah(arabic, bangla, sNum, aNum) {
-            const text = `${arabic}\n\n${bangla}\n(সূরা: ${sNum}, আয়াত: ${aNum} - PeaceForPeople)`;
-            navigator.clipboard.writeText(text);
-            alert("📋 আয়াত ক্লিপবোর্ডে কপি করা হয়েছে!");
-        }
-
-        function shareApp() {
+        function shareCurrentPage() {
+            const pageUrl = window.location.href;
             if (navigator.share) {
-                navigator.share({ title: 'আল-কুরআন অ্যাপ', url: window.location.href });
+                navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
             } else {
-                navigator.clipboard.writeText(window.location.href);
-                alert("🔗 লিংক কপি করা হয়েছে!");
+                navigator.clipboard.writeText(pageUrl).then(() => {
+                    alert('✨ কুরআনের পেজের লিঙ্কটি সফলভাবে কপি হয়েছে!');
+                });
             }
         }
 
-        function likeApp() {
-            let likes = parseInt(localStorage.getItem('app_likes') || '0') + 1;
-            localStorage.setItem('app_likes', likes);
-            alert("❤️ আপনার পছন্দের জন্য ধন্যবাদ!");
+        // ৩ মিনিট পরপর টোস্ট নোটিফিকেশন
+        const quranMessages = [
+            "📖 আল-কুরআনের তিলাওয়াত আপনার মস্তিষ্কের আলফা ওয়েভ বৃদ্ধি করে মনকে শান্ত করে।",
+            "🤍 'অতএব, তোমরা আমাকে স্মরণ করো, আমিও তোমাদের স্মরণ করব।' — সূরা আল-বাকারা",
+            "🌿 কালামে পাকের ছায়ায় একটু সময় কাটান, এটি হৃদয়ের সব গ্লানি ধুয়ে দেয়।"
+        ];
+
+        function showQuranToast() {
+            const randomMsg = quranMessages[Math.floor(Math.random() * quranMessages.length)];
+            const toast = document.createElement('div');
+            toast.innerHTML = `<span>${randomMsg}</span>`;
+            Object.assign(toast.style, {
+                position: 'fixed', bottom: '20px', right: '20px',
+                background: '#263238', color: '#ffffff', padding: '12px 18px',
+                borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #ff9933',
+                transition: 'opacity 0.5s ease', opacity: '0'
+            });
+            document.body.appendChild(toast);
+            setTimeout(() => toast.style.opacity = '1', 100);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 5000);
         }
 
-        function submitRating() {
-            alert("⭐⭐⭐⭐⭐ মূল্যবান রেটিং দেওয়ার জন্য আপনাকে অসংখ্য ধন্যবাদ!");
-            closeModal('rateModal');
-        }
-
-        function exitApp() {
-            window.location.href = "index.html";
-        }
-
-        function showDuas() {
-            showModal('duaModal');
-        }
-        
-        function resumeLastRead() {
-            alert("আপনার পঠিত শেষ অবস্থান ট্র্যাকার থেকে আপডেট করা হচ্ছে!");
-        }
+        setInterval(showQuranToast, 180000);
     </script>
-    <script>
-    const quranMessages = [
-        "📖 আল-কুরআনের তিলাওয়াত আপনার মস্তিষ্কের আলফা ওয়েভ বৃদ্ধি করে মনকে শান্ত করে।",
-        "🤍 'অতএব, তোমরা আমাকে স্মরণ করো, আমিও তোমাদের স্মরণ করব।' — সূরা আল-বাকারা",
-        "🌿 কালামে পাকের ছায়ায় একটু সময় কাটান, এটি হৃদয়ের সব গ্লানি ধুয়ে দেয়।"
-    ];
-
-    function showQuranToast() {
-        const randomMsg = quranMessages[Math.floor(Math.random() * quranMessages.length)];
-        const toast = document.createElement('div');
-        toast.innerHTML = `<span>${randomMsg}</span>`;
-        Object.assign(toast.style, {
-            position: 'fixed', bottom: '20px', right: '20px',
-            background: '#263238', color: '#ffffff', padding: '12px 18px',
-            borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-            zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #ff9933',
-            transition: 'opacity 0.5s ease', opacity: '0'
-        });
-        document.body.appendChild(toast);
-        setTimeout(() => toast.style.opacity = '1', 100);
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 500);
-        }, 5000);
-    }
-
-    setInterval(showQuranToast, 180000);
-</script>
-  </body>
+</body>
 </html>
