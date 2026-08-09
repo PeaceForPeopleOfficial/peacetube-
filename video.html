@@ -113,8 +113,22 @@
     <a href="video.html" class="active">📺 পিস টিউব</a>
     <a href="podcast.html">🎙️ পডকাস্ট</a>
     <a href="library.html">📚 লাইব্রেরি</a>
-    <button class="theme-toggle-btn" onclick="toggleTheme()" style="margin-left: auto;">🌙 মোড</button>
+    <button onclick="shareCurrentPage()" style="background: #ff9933; color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;">🔗 শেয়ার</button>
+    <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
 </nav>
+
+<script>
+    function shareCurrentPage() {
+        const pageUrl = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(pageUrl).then(() => {
+                alert('✨ পিস টিউব পেজের লিঙ্কটি কপি হয়েছে!');
+            });
+        }
+    }
+</script>
 
 <header>
     <a href="index.html" class="theme-toggle-btn" style="text-decoration:none;">⬅️ হোমপেজে ফিরুন</a>
