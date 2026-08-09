@@ -149,14 +149,28 @@
     <div class="logo-area">
       <h1>🕊️ Peace <span>Library</span></h1>
     </div>
-    <nav>
-      <!-- হোম পেজে ফিরে যাওয়ার বাটন -->
-      <a href="index.html" class="btn-home">🏠 হোম পেজে ফিরুন</a>
-      <a href="quran.html">📖 আল-কুরআন</a>
-      <a href="video.html">📺 পিস টিউব</a>
-      <a href="library.html" class="active">📚 লাইব্রেরি</a>
-      <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
-    </nav>
+   <nav>
+    <a href="index.html">🏠 হোম</a>
+    <a href="quran.html">📖 আল-কুরআন</a>
+    <a href="video.html">📺 পিস টিউব</a>
+    <a href="podcast.html">🎙️ পডকাস্ট</a>
+    <a href="library.html" class="active">📚 লাইব্রেরি</a>
+    <button onclick="shareCurrentPage()" style="background: #ff9933; color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;">🔗 শেয়ার</button>
+    <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+</nav>
+
+<script>
+    function shareCurrentPage() {
+        const pageUrl = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(pageUrl).then(() => {
+                alert('✨ লাইব্রেরি পেজের লিঙ্কটি কপি হয়েছে!');
+            });
+        }
+    }
+</script>
   </header>
 
   <div class="container">
@@ -401,24 +415,6 @@
     }
 
     setInterval(showLibraryToast, 180000);
-</script>
-  <div style="text-align: center; margin: 30px 0;">
-    <button onclick="shareCurrentPage()" style="background: linear-gradient(135deg, #ff9933, #138808); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-        🔗 লাইব্রেরি পেজটি শেয়ার করুন
-    </button>
-</div>
-
-<script>
-    function shareCurrentPage() {
-        const pageUrl = window.location.href;
-        if (navigator.share) {
-            navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
-        } else {
-            navigator.clipboard.writeText(pageUrl).then(() => {
-                alert('✨ লাইব্রেরি পেজের লিঙ্ক কপি হয়েছে!');
-            });
-        }
-    }
 </script>
 </body>
 </html>
