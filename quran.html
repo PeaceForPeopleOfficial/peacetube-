@@ -878,36 +878,6 @@
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
         }
-<!-- 🔍 সংক্ষিপ্ত তাফসির বা শানে নুযুল মডাল বক্স -->
-<div class="modal" id="tafsirModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 9999;">
-    <div class="modal-content" style="background: var(--card-bg, #1e1e1e); padding: 25px; border-radius: 12px; max-width: 550px; width: 90%; color: var(--text-color, #fff); box-shadow: 0 5px 15px rgba(0,0,0,0.5);">
-        <h3 style="margin-top: 0; color: #ff9933; border-bottom: 1px solid #444; padding-bottom: 10px;">🔍 সংক্ষিপ্ত তাফসির / শানে নুযুল</h3>
-        <p id="tafsirTextContent" style="text-align: right; direction: rtl; font-size: 16px; margin-top: 15px; line-height: 1.8; max-height: 300px; overflow-y: auto;">লোড হচ্ছে...</p>
-        <button class="close-modal" onclick="closeTafsirModal()" style="margin-top: 20px; background: #ff9933; color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">বন্ধ করুন</button>
-    </div>
-</div>
-        
-        // তাফসির মডাল ওপেন করার ফাংশন
-function showTafsir(surahNo, ayahNum, arabicText) {
-    const modal = document.getElementById("tafsirModal");
-    const textEl = document.getElementById("tafsirTextContent");
-    
-    modal.style.display = "flex";
-    textEl.innerHTML = `সূরা নং: ${surahNo}, আয়াত নং: ${ayahNum} এর সংক্ষিপ্ত তাফসির লোড হচ্ছে...`;
-
-    setTimeout(() => {
-        textEl.innerHTML = `
-            <div style="margin-bottom: 10px; font-weight: bold; color: #ff9933;">মূল আরবি: ${arabicText}</div>
-            <hr style="border-color: #444; margin: 10px 0;">
-            <p>এই আয়াতের সংক্ষিপ্ত ব্যাখ্যা: মহান আল্লাহ তাআলা এই আয়াতে বিশেষ নির্দেশনা ও হিকমতের কথা বর্ণনা করেছেন। এটি বান্দার জীবনের জন্য অত্যন্ত তাৎপর্যপূর্ণ একটি উপদেশ।</p>
-        `;
-    }, 300);
-}
-
-// তাফসির মডাল বন্ধ করার ফাংশন
-function closeTafsirModal() {
-    document.getElementById("tafsirModal").style.display = "none";
-}
     </script>
 </body>
 </html>
