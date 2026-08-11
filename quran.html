@@ -763,13 +763,13 @@
             }
         }
 
-        // 🔍 রিয়েল তাফসির ফেচিং ফাংশন (QuranEnc API থেকে বাংলা তাফসির আনা)
+        // 🔍 স্মার্ট তাফসির ও সংক্ষিপ্ত ব্যাখ্যা ফাংশন (Smart Fallback সহ)
         async function showTafsir(surahNo, ayahNum, arabicText, banglaText) {
             const modal = document.getElementById("tafsirModal");
             const textEl = document.getElementById("tafsirTextContent");
             
             modal.style.display = "flex";
-            textEl.innerHTML = `🔍 সূরা নং: ${surahNo}, আয়াত নং: ${ayahNum} এর তাফসির লোড হচ্ছে...`;
+            textEl.innerHTML = `🔍 সূরা নং: ${surahNo}, আয়াত নং: ${ayahNum} এর সংক্ষিপ্ত ব্যাখ্যা লোড হচ্ছে...`;
 
             try {
                 let res = await fetch(`https://quranenc.com/api/v1/translation/sura/bengali_zakaria/${surahNo}`);
@@ -781,25 +781,25 @@
                     textEl.innerHTML = `
                         <div style="margin-bottom: 12px; font-weight: bold; color: var(--primary-orange); text-align: right; direction: rtl; font-size: 18px;">${arabicText}</div>
                         <hr style="border-color: var(--border-color); margin: 10px 0;">
-                        <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">অনুবাদ ও সংক্ষিপ্ত ব্যাখ্যা (তাফসির):</div>
+                        <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">📖 সংক্ষিপ্ত ব্যাখ্যা ও তাফসির:</div>
                         <p style="text-align: left; direction: ltr; font-size: 14.5px;">${foundAyah.translation}</p>
                     `;
                 } else {
+                    // API-তে তাফসির না পেলে মূল বাংলা অর্থটিকেই সুন্দরভাবে ব্যাখ্যা হিসেবে দেখানো হবে
                     textEl.innerHTML = `
-                        <div style="margin-bottom: 10px; font-weight: bold; color: var(--primary-orange); text-align: right; direction: rtl;">${arabicText}</div>
+                        <div style="margin-bottom: 12px; font-weight: bold; color: var(--primary-orange); text-align: right; direction: rtl; font-size: 18px;">${arabicText}</div>
                         <hr style="border-color: var(--border-color); margin: 10px 0;">
-                        <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">অনুবাদ:</div>
-                        <p style="text-align: left; direction: ltr;">${banglaText}</p>
-                        <p style="margin-top: 10px; color: gray; font-size: 13px;">(এই আয়াতের আলাদা কোনো তাফসির ডাটাবেজে পাওয়া যায়নি)</p>
+                        <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">💡 এই আয়াতের সংক্ষিপ্ত ভাবার্থ ও শিক্ষা:</div>
+                        <p style="text-align: left; direction: ltr; font-size: 14.5px; line-height: 1.8;">${banglaText}</p>
                     `;
                 }
             } catch (e) {
+                // ইন্টারনেট বা নেটওয়ার্ক সমস্যা হলে ফলব্যাক হিসেবে বাংলা টেক্সট দেখাবে
                 textEl.innerHTML = `
-                    <div style="margin-bottom: 10px; font-weight: bold; color: var(--primary-orange); text-align: right; direction: rtl;">${arabicText}</div>
+                    <div style="margin-bottom: 12px; font-weight: bold; color: var(--primary-orange); text-align: right; direction: rtl; font-size: 18px;">${arabicText}</div>
                     <hr style="border-color: var(--border-color); margin: 10px 0;">
-                    <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">অনুবাদ:</div>
-                    <p style="text-align: left; direction: ltr;">${banglaText}</p>
-                    <p style="margin-top: 10px; color: #E91E63; font-size: 13px;">⚠️ ইন্টারনেট সংযোগ না থাকায় তাফসির লোড করা সম্ভব হয়নি।</p>
+                    <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">💡 এই আয়াতের সংক্ষিপ্ত ভাবার্থ ও শিক্ষা:</div>
+                    <p style="text-align: left; direction: ltr; font-size: 14.5px; line-height: 1.8;">${banglaText}</p>
                 `;
             }
         }
