@@ -61,7 +61,7 @@
             position: relative;
         }
 
-        /* 🟠 🟢 হেডার */
+        /* হেডার */
         .app-header {
             background: linear-gradient(135deg, var(--primary-orange), var(--primary-green));
             color: white;
@@ -99,7 +99,7 @@
             overflow-y: auto;
         }
 
-        /* 🟠 ডাউনলোডার ব্যানার */
+        /* ডাউনলোডার ব্যানার */
         .sync-banner {
             background: var(--light-orange);
             border: 1px solid var(--primary-orange);
@@ -194,7 +194,7 @@
             border: 1px solid var(--primary-orange);
         }
 
-        /* 🟢 বিসমিল্লাহ কার্ড */
+        /* বিসমিল্লাহ কার্ড */
         .bismillah-card {
             background: var(--light-green);
             border: 1px solid var(--primary-green);
@@ -207,7 +207,7 @@
         .bismillah-arabic { font-size: 28px; font-weight: bold; color: var(--primary-green); margin-bottom: 6px; }
         .bismillah-bangla { font-size: 14px; opacity: 0.9; font-weight: 500; }
 
-        /* ⚪ আয়াত কার্ড */
+        /* আয়াত কার্ড */
         .ayah-card {
             background: var(--bg-white);
             padding: 20px;
@@ -303,7 +303,7 @@
             outline: none;
         }
 
-        /* 🪟 পপআপ ডায়ালগ বক্স */
+        /* পপআপ ডায়ালগ বক্স */
         .modal {
             display: none;
             position: absolute;
@@ -319,7 +319,7 @@
             background: var(--bg-white);
             padding: 24px;
             border-radius: 16px;
-            max-width: 520px;
+            max-width: 550px;
             width: 100%;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
@@ -329,6 +329,33 @@
         .modal-content h3 { color: var(--primary-orange); margin-bottom: 8px; font-size: 22px; }
         .modal-content h4 { color: var(--primary-green); margin-bottom: 14px; font-weight: 600; font-size: 15px; }
         .modal-content p { line-height: 1.7; color: var(--text-dark); font-size: 14.5px; margin-bottom: 12px; }
+
+        /* Do & Don't বক্স স্টাইল */
+        .lesson-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 14px;
+            text-align: left;
+        }
+
+        .do-item {
+            background: #E8F5E9;
+            border-left: 4px solid #2E7D32;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1B5E20;
+        }
+
+        .dont-item {
+            background: #FFEBEE;
+            border-left: 4px solid #C62828;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #B71C1C;
+        }
 
         .highlight-box {
             background: var(--light-orange);
@@ -434,7 +461,7 @@
 
         </div>
 
-        <!-- 🎯 উদ্দেশ্য ডায়ালগ -->
+        <!-- উদ্দেশ্য ডায়ালগ -->
         <div class="modal" id="aboutModal">
             <div class="modal-content">
                 <h3>🕊️ PeaceForPeople</h3>
@@ -449,7 +476,7 @@
             </div>
         </div>
 
-        <!-- ⭐ রেটিং ডায়ালগ -->
+        <!-- রেটিং ডায়ালগ -->
         <div class="modal" id="rateModal">
             <div class="modal-content">
                 <h3>⭐ অ্যাপটি আপনার কেমন লেগেছে?</h3>
@@ -459,7 +486,7 @@
             </div>
         </div>
 
-        <!-- 🔖 বুকমার্ক ডায়ালগ -->
+        <!-- বুকমার্ক ডায়ালগ -->
         <div class="modal" id="bookmarkModal">
             <div class="modal-content" style="max-height:80vh; overflow-y:auto;">
                 <h3>🔖 সেভ করা আয়াতসমূহ</h3>
@@ -468,11 +495,11 @@
             </div>
         </div>
 
-        <!-- 🔍 রিয়েল তাফসির মডাল ডায়ালগ -->
+        <!-- তাফসির ও Do/Don't মডাল ডায়ালগ -->
         <div class="modal" id="tafsirModal">
-            <div class="modal-content" style="max-width: 550px;">
-                <h3>🔍 সংক্ষিপ্ত তাফসির / ব্যাখ্যা</h3>
-                <div id="tafsirTextContent" style="text-align: left; direction: ltr; font-size: 15px; margin-top: 15px; line-height: 1.8; max-height: 320px; overflow-y: auto; padding: 5px;">লোড হচ্ছে...</div>
+            <div class="modal-content" style="max-width: 580px;">
+                <h3>🔍 সংক্ষিপ্ত ব্যাখ্যা ও শিক্ষার সারসংক্ষেপ</h3>
+                <div id="tafsirTextContent" style="text-align: left; direction: ltr; font-size: 15px; margin-top: 15px; line-height: 1.8; max-height: 380px; overflow-y: auto; padding: 5px;">লোড হচ্ছে...</div>
                 <button class="close-modal" onclick="closeModal('tafsirModal')">বন্ধ করুন</button>
             </div>
         </div>
@@ -763,43 +790,65 @@
             }
         }
 
-        // 🔍 স্মার্ট তাফসির ও সংক্ষিপ্ত ব্যাখ্যা ফাংশন (Smart Fallback সহ)
+        // স্মার্ট Do's & Don'ts জেনারেটর ফাংশন
+        function generateDosAndDonts(text) {
+            let lowerText = text.toLowerCase();
+            let doList = [];
+            let dontList = [];
+
+            // কিছু কমন নির্দেশমূলক কিওয়ার্ড বা শর্ত চেক করা
+            if (lowerText.includes("কর") || lowerText.includes("মান") || lowerText.includes("বিশ্বাস") || lowerText.includes("দান") || lowerText.includes("সালাত") || lowerText.includes("ধৈর্য")) {
+                doList.push("✓ আল্লাহর নির্দেশ মেনে চলুন, সৎকর্ম করুন ও নেক আমল করুন।");
+            } else {
+                doList.push("✓ এই আয়াতের শিক্ষা আপনার দৈনন্দিন জীবনে বাস্তবায়নের চেষ্টা করুন।");
+            }
+
+            if (lowerText.includes("অবিশ্বাস") || lowerText.includes("পাপ") || lowerText.includes("লঙ্ঘন") || lowerText.includes("অহংকার") || lowerText.includes("সীমা") || lowerText.includes("মিথ্যা") || lowerText.includes("অন্যায়")) {
+                dontList.push("✗ অন্যায়, সীমা লঙ্ঘন ও পাপাচার থেকে দূরে থাকুন।");
+            } else {
+                dontList.push("✗ রবের অসন্তুষ্টি হয় এমন সকল কাজকর্ম বর্জন করুন।");
+            }
+
+            return `
+                <div class="lesson-box">
+                    <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 4px;">💡 আয়াতের মূল শিক্ষা (Do's & Don'ts):</div>
+                    <div class="do-item"><strong>কর্তব্য (Do):</strong> ${doList[0]}</div>
+                    <div class="dont-item"><strong>বর্জনীয় (Don't):</strong> ${dontList[0]}</div>
+                </div>
+            `;
+        }
+
+        // তাফসির ও Do/Don'ts লোড করার ফাংশন
         async function showTafsir(surahNo, ayahNum, arabicText, banglaText) {
             const modal = document.getElementById("tafsirModal");
             const textEl = document.getElementById("tafsirTextContent");
             
             modal.style.display = "flex";
-            textEl.innerHTML = `🔍 সূরা নং: ${surahNo}, আয়াত নং: ${ayahNum} এর সংক্ষিপ্ত ব্যাখ্যা লোড হচ্ছে...`;
+            textEl.innerHTML = `🔍 সূরা নং: ${surahNo}, আয়াত নং: ${ayahNum} এর ব্যাখ্যা ও শিক্ষা লোড হচ্ছে...`;
 
             try {
                 let res = await fetch(`https://quranenc.com/api/v1/translation/sura/bengali_zakaria/${surahNo}`);
                 let data = await res.json();
                 
                 let foundAyah = data.result.find(item => item.aya === ayahNum);
-                
-                if (foundAyah && foundAyah.translation) {
-                    textEl.innerHTML = `
-                        <div style="margin-bottom: 12px; font-weight: bold; color: var(--primary-orange); text-align: right; direction: rtl; font-size: 18px;">${arabicText}</div>
-                        <hr style="border-color: var(--border-color); margin: 10px 0;">
-                        <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">📖 সংক্ষিপ্ত ব্যাখ্যা ও তাফসির:</div>
-                        <p style="text-align: left; direction: ltr; font-size: 14.5px;">${foundAyah.translation}</p>
-                    `;
-                } else {
-                    // API-তে তাফসির না পেলে মূল বাংলা অর্থটিকেই সুন্দরভাবে ব্যাখ্যা হিসেবে দেখানো হবে
-                    textEl.innerHTML = `
-                        <div style="margin-bottom: 12px; font-weight: bold; color: var(--primary-orange); text-align: right; direction: rtl; font-size: 18px;">${arabicText}</div>
-                        <hr style="border-color: var(--border-color); margin: 10px 0;">
-                        <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">💡 এই আয়াতের সংক্ষিপ্ত ভাবার্থ ও শিক্ষা:</div>
-                        <p style="text-align: left; direction: ltr; font-size: 14.5px; line-height: 1.8;">${banglaText}</p>
-                    `;
-                }
-            } catch (e) {
-                // ইন্টারনেট বা নেটওয়ার্ক সমস্যা হলে ফলব্যাক হিসেবে বাংলা টেক্সট দেখাবে
+                let mainExplanation = (foundAyah && foundAyah.translation) ? foundAyah.translation : banglaText;
+                let instructionHTML = generateDosAndDonts(mainExplanation);
+
                 textEl.innerHTML = `
                     <div style="margin-bottom: 12px; font-weight: bold; color: var(--primary-orange); text-align: right; direction: rtl; font-size: 18px;">${arabicText}</div>
                     <hr style="border-color: var(--border-color); margin: 10px 0;">
-                    <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">💡 এই আয়াতের সংক্ষিপ্ত ভাবার্থ ও শিক্ষা:</div>
-                    <p style="text-align: left; direction: ltr; font-size: 14.5px; line-height: 1.8;">${banglaText}</p>
+                    <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">📖 সংক্ষিপ্ত ব্যাখ্যা / তাফসির:</div>
+                    <p style="text-align: left; direction: ltr; font-size: 14.5px; line-height: 1.7;">${mainExplanation}</p>
+                    ${instructionHTML}
+                `;
+            } catch (e) {
+                let instructionHTML = generateDosAndDonts(banglaText);
+                textEl.innerHTML = `
+                    <div style="margin-bottom: 12px; font-weight: bold; color: var(--primary-orange); text-align: right; direction: rtl; font-size: 18px;">${arabicText}</div>
+                    <hr style="border-color: var(--border-color); margin: 10px 0;">
+                    <div style="font-weight: 600; color: var(--primary-green); margin-bottom: 6px;">💡 আয়াতের ভাবার্থ:</div>
+                    <p style="text-align: left; direction: ltr; font-size: 14.5px; line-height: 1.7;">${banglaText}</p>
+                    ${instructionHTML}
                 `;
             }
         }
@@ -827,7 +876,7 @@
         async function shareApp() {
             let shareData = {
                 title: 'কুরআন পড়ে দ্যাখো একবার',
-                text: '🕌 অফলাইন আল-কুরআন স্মার্ট অ্যাপ! ১লাইট-কুরআন বাংলা অনুবাদ ও অফলাইন তিলওয়াত সহ শিখুন ও পড়ুন।'
+                text: '🕌 অফলাইন আল-কুরআন স্মার্ট অ্যাপ! বাংলা অনুবাদ, তাফসির ও অফলাইন তিলওয়াত সহ শিখুন ও পড়ুন।'
             };
             if (location.protocol.startsWith('http')) shareData.url = window.location.href;
 
@@ -885,7 +934,7 @@
         function showModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // ৮. সূরা খোলা
+        // সূরা খোলা
         function openSurah(num) {
             const tx = db.transaction("surahs", "readonly");
             const store = tx.objectStore("surahs");
