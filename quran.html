@@ -439,7 +439,7 @@
             <div class="modal-content">
                 <h3>🕊️ PeaceForPeople</h3>
                 <h4>হৃদয়ের পবিত্রতা থেকে বিশ্বমানবকল্যাণ!</h4>
-                <p>রবের দয়া ও শান্তির এক বিনীত শান্তিদূত হিসেবে আপনাকে এই আলোর কাফেলায় স্বাগত জানাই। এটি আপনার মনের কথা বলার, প্রশান্তি খোঁজার এবং নিজেকে নতুন করে আবিষ্কার করার একটি নিরাপদ আশ্রয়।</p>
+                <p>রবের দয়া ও শান্তির এক বিনীত শান্তিদূত হিসেবে আপনাকে এই আলোর কাফেলায় স্বাগত জানাই। এটি আপনার মনের কথা বলার, প্রশান্তি খোঁজার এবং নিজেকে নতুন করে আবিষ্কার করার একটি নিরাপদ আশ্রয়।</p>
                 
                 <div class="highlight-box">
                     📖 অতএব আপনি অন্তত একবার পুরো কুরআন পড়ে দ্যাখো! ✨
@@ -498,10 +498,9 @@
 
         const BISMILLAH_ARABIC_1 = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ";
         const BISMILLAH_ARABIC_2 = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
-        const BISMILLAH_BANGLA = "পরম করুণাময় অসীম দয়ালু আল্লাহর নামে শুরু করছি";
 
         // ১. IndexedDB ইনিশিয়ালাইজেশন
-        const request = indexedDB.open("QuranAppDB_V7", 1);
+        const request = indexedDB.open("QuranAppDB_V8", 1);
 
         request.onupgradeneeded = (e) => {
             db = e.target.result;
@@ -524,14 +523,14 @@
                 if (getAll.result.length >= 114) {
                     document.getElementById("syncBanner").style.background = "var(--light-green)";
                     document.getElementById("syncBanner").style.borderColor = "var(--primary-green)";
-                    document.getElementById("syncStatus").innerText = "✅ ১লাইট সূরা অফলাইনে সেভ আছে!";
+                    document.getElementById("syncStatus").innerText = "✅ ১১৪টি সূরা অফলাইনে সেভ আছে!";
                     document.getElementById("downloadBtn").style.display = "none";
                 }
                 loadSurahList();
             };
         }
 
-        // ২. ডাটা সেভ ও ফিল্টারিং সার্ভিস (বিসমিল্লাহ নিখুঁতভাবে রিমুভ করার লজিক)
+        // ২. ডাটা সেভ ও নিখুঁত বিসমিল্লাহ রিমুভ করার লজিক
         async function downloadAllSurahs() {
             const statusText = document.getElementById("syncStatus");
             const btn = document.getElementById("downloadBtn");
@@ -566,9 +565,9 @@
                             // সূরা ফাতিহা (১) ও সূরা তাওবা (৯) বাদে যেকোনো সূরার প্রথম আয়াত থেকে বিসমিল্লাহ রিমুভ করা
                             if (surahAr.number !== 1 && surahAr.number !== 9 && index === 0) {
                                 arText = arText.replace(BISMILLAH_ARABIC_1, "").replace(BISMILLAH_ARABIC_2, "").trim();
-                                if (bnText.includes("পরম করুণাময়")) {
-                                    bnText = bnText.replace(/পরম করুণাময় অসীম দয়ালু আল্লাহর নামে[^\.\(\)]*[\.\)]?/g, "").trim();
-                                }
+                                // বাংলায় বিসমিল্লাহর অংশ থাকলে তা রিমুভ করা
+                                bnText = bnText.replace(/^শুরু করছি আল্লাহর নামে যিনি পরম করুণাময় অত্যন্ত দয়ালু[,\.\s]*/i, "")
+                                               .replace(/^পরম করুণাময় অসীম দয়ালু আল্লাহর নামে[,\.\s]*/i, "").trim();
                             }
 
                             return {
