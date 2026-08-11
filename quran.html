@@ -434,7 +434,7 @@
 
         </div>
 
-        <!-- 🎯 উদ্দেশ্য ডায়ালগ (সুন্দরভাবে সাজানো বার্তা) -->
+        <!-- 🎯 উদ্দেশ্য ডায়ালগ -->
         <div class="modal" id="aboutModal">
             <div class="modal-content">
                 <h3>🕊️ PeaceForPeople</h3>
@@ -496,10 +496,12 @@
         let currentArabicFontSize = 26;
         let currentBanglaFontSize = 16;
 
-        const BISMILLAH_TEXT = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ";
+        const BISMILLAH_ARABIC_1 = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ";
+        const BISMILLAH_ARABIC_2 = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+        const BISMILLAH_BANGLA = "পরম করুণাময় অসীম দয়ালু আল্লাহর নামে শুরু করছি";
 
         // ১. IndexedDB ইনিশিয়ালাইজেশন
-        const request = indexedDB.open("QuranAppDB_V6", 1);
+        const request = indexedDB.open("QuranAppDB_V7", 1);
 
         request.onupgradeneeded = (e) => {
             db = e.target.result;
@@ -522,14 +524,14 @@
                 if (getAll.result.length >= 114) {
                     document.getElementById("syncBanner").style.background = "var(--light-green)";
                     document.getElementById("syncBanner").style.borderColor = "var(--primary-green)";
-                    document.getElementById("syncStatus").innerText = "✅ ১১৪টি সূরা অফলাইনে সেভ আছে!";
+                    document.getElementById("syncStatus").innerText = "✅ ১লাইট সূরা অফলাইনে সেভ আছে!";
                     document.getElementById("downloadBtn").style.display = "none";
                 }
                 loadSurahList();
             };
         }
 
-        // ২. ডাটা সেভ সার্ভিস
+        // ২. ডাটা সেভ ও ফিল্টারিং সার্ভিস (বিসমিল্লাহ নিখুঁতভাবে রিমুভ করার লজিক)
         async function downloadAllSurahs() {
             const statusText = document.getElementById("syncStatus");
             const btn = document.getElementById("downloadBtn");
@@ -558,16 +560,21 @@
                         translatedName: surahBn.englishNameTranslation,
                         ayahCount: surahAr.ayahs.length,
                         ayahs: surahAr.ayahs.map((ayah, index) => {
-                            let text = ayah.text;
+                            let arText = ayah.text;
+                            let bnText = surahBn.ayahs[index].text;
+
+                            // সূরা ফাতিহা (১) ও সূরা তাওবা (৯) বাদে যেকোনো সূরার প্রথম আয়াত থেকে বিসমিল্লাহ রিমুভ করা
                             if (surahAr.number !== 1 && surahAr.number !== 9 && index === 0) {
-                                if (text.startsWith(BISMILLAH_TEXT)) {
-                                    text = text.replace(BISMILLAH_TEXT, "").trim();
+                                arText = arText.replace(BISMILLAH_ARABIC_1, "").replace(BISMILLAH_ARABIC_2, "").trim();
+                                if (bnText.includes("পরম করুণাময়")) {
+                                    bnText = bnText.replace(/পরম করুণাময় অসীম দয়ালু আল্লাহর নামে[^\.\(\)]*[\.\)]?/g, "").trim();
                                 }
                             }
+
                             return {
                                 numberInSurah: ayah.numberInSurah,
-                                arabic: text,
-                                bangla: surahBn.ayahs[index].text,
+                                arabic: arText,
+                                bangla: bnText,
                                 audioUrl: ayah.audio,
                                 globalNumber: ayah.number
                             };
@@ -590,13 +597,13 @@
 
         // 🔄 ক্যাশ রিফ্রেশ বা আপডেট ফাংশন
         async function refreshCacheData() {
-            if (confirm("আপনি কি সমস্ত ক্যাশ ডাটা মুছে নতুন করে আপডেট করতে চান?")) {
+            if (confirm("পুরোনো ক্যাশ মুছে নতুন করে আপডেট করতে চান?")) {
                 const dbs = await window.indexedDB.databases();
                 for (let dbInfo of dbs) {
                     await window.indexedDB.deleteDatabase(dbInfo.name);
                 }
                 localStorage.clear();
-                alert("✨ ক্যাশ সফলভাবে রিসেট করা হয়েছে! পেজটি রিলোড হচ্ছে...");
+                alert("✨ ক্যাশ রিসেট করা হয়েছে! পেজটি রিলোড হচ্ছে...");
                 location.reload();
             }
         }
@@ -743,7 +750,6 @@
             });
         }
 
-        // 📌 ৬. লাস্ট রিড ও ফন্ট সাইজ
         function changeFontSize(delta) {
             currentArabicFontSize += delta;
             currentBanglaFontSize += (delta * 0.6);
@@ -768,7 +774,7 @@
             }
         }
 
-        // 🔍 তাফসির পপআপ ফাংশন
+        // তাফসির পপআপ
         function showTafsir(surahNo, ayahNum, arabicText) {
             const modal = document.getElementById("tafsirModal");
             const textEl = document.getElementById("tafsirTextContent");
@@ -780,12 +786,11 @@
                 textEl.innerHTML = `
                     <div style="margin-bottom: 10px; font-weight: bold; color: var(--primary-orange);">মূল আরবি: ${arabicText}</div>
                     <hr style="border-color: var(--border-color); margin: 10px 0;">
-                    <p>এই আয়াতের সংক্ষিপ্ত ব্যাখ্যা: মহান আল্লাহ তাআলা এই আয়াতে বিশেষ নির্দেশনা ও হিকমতের কথা বর্ণনা করেছেন। এটি বান্দার জীবনের জন্য অত্যন্ত তাৎপর্যপূর্ণ একটি উপদেশ ও শিক্ষা বহন করে।</p>
+                    <p>এই আয়াতের সংক্ষিপ্ত ব্যাখ্যা: মহান আল্লাহ তাআলা এই আয়াতে বিশেষ নির্দেশনা ও হিকমতের কথা বর্ণনা করেছেন। এটি বান্দার জীবনের জন্য অত্যন্ত তাৎপর্যপূর্ণ একটি উপদেশ বহন করে।</p>
                 `;
             }, 300);
         }
 
-        // 📋 🔗 ৭. ফেইল-সেফ শেয়ারিং ও ক্লিপবোর্ড সার্ভিস
         function copyAyah(ar, bn) {
             navigator.clipboard.writeText(`${ar}\n\nঅর্থ: ${bn}`);
             alert("📋 আয়াত ও অর্থ কপি করা হয়েছে!");
@@ -798,11 +803,11 @@
                     await navigator.share({ title: 'পবিত্র কুরআন', text: text });
                 } catch (err) {
                     navigator.clipboard.writeText(text);
-                    alert("📋 আয়াত টেক্সট ক্লিপবোর্ডে কপি করা হয়েছে!");
+                    alert("📋 কপি করা হয়েছে!");
                 }
             } else {
                 navigator.clipboard.writeText(text);
-                alert("📋 কপি করা হয়েছে! বন্ধুদের শেয়ার করুন।");
+                alert("📋 কপি করা হয়েছে!");
             }
         }
 
@@ -811,21 +816,16 @@
                 title: 'কুরআন পড়ে দ্যাখো একবার',
                 text: '🕌 অফলাইন আল-কুরআন স্মার্ট অ্যাপ! ১১৪টি সূরা বাংলা অনুবাদ ও অফলাইন তিলওয়াত সহ শিখুন ও পড়ুন।'
             };
-
-            if (location.protocol.startsWith('http')) {
-                shareData.url = window.location.href;
-            }
+            if (location.protocol.startsWith('http')) shareData.url = window.location.href;
 
             if (navigator.share) {
-                try {
-                    await navigator.share(shareData);
-                } catch (err) {
-                    navigator.clipboard.writeText(shareData.text + (shareData.url ? "\n" + shareData.url : ""));
-                    alert("🔗 অ্যাপ তথ্য ক্লিপবোর্ডে কপি করা হয়েছে!");
+                try { await navigator.share(shareData); } catch (e) {
+                    navigator.clipboard.writeText(shareData.text);
+                    alert("🔗 লিংক কপি করা হয়েছে!");
                 }
             } else {
-                navigator.clipboard.writeText(shareData.text + (shareData.url ? "\n" + shareData.url : ""));
-                alert("🔗 লিংক ও বিবরণ কপি করা হয়েছে!");
+                navigator.clipboard.writeText(shareData.text);
+                alert("🔗 লিংক কপি করা হয়েছে!");
             }
         }
 
@@ -866,15 +866,13 @@
         }
 
         function exitApp() {
-            if (confirm("অ্যাপ থেকে বের হতে চান?")) {
-                window.close();
-            }
+            if (confirm("অ্যাপ থেকে বের হতে চান?")) window.close();
         }
 
         function showModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // ৮. সূরা পড়া
+        // ৮. সূরা খোলা
         function openSurah(num) {
             const tx = db.transaction("surahs", "readonly");
             const store = tx.objectStore("surahs");
