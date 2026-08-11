@@ -383,7 +383,7 @@
                     <span id="syncStatus">📲 ১১৪টি সূরা অফলাইনে পড়তে এবং অডিও চালাতে ডাউনলোড বাটনে চাপ দিন।</span>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
                         <button class="sync-btn" id="downloadBtn" onclick="downloadAllSurahs()">ডাউনলোড করুন (১১৪ সূরা)</button>
-                        <button class="sync-btn" onclick="refreshCacheData()" style="background: #2E7D32;">🔄 ডাটা রিফ্রেশ</button>
+                        <button class="sync-btn" onclick="refreshCacheData()" style="background: #2E7D32;">🔄 ডাটা রিফ্রেশ (খুব জরুরি)</button>
                     </div>
                 </div>
 
@@ -496,17 +496,15 @@
         let currentArabicFontSize = 26;
         let currentBanglaFontSize = 16;
 
-        const BISMILLAH_ARABIC_1 = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ";
-        const BISMILLAH_ARABIC_2 = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
-
-        // ১. IndexedDB ইনিশিয়ালাইজেশন
-        const request = indexedDB.open("QuranAppDB_V8", 1);
+        // ১. IndexedDB ইনিশিয়ালাইজেশন (ভার্সন আপডেট করা হয়েছে যাতে পুরোনো ক্যাশ ক্লিয়ার হয়)
+        const request = indexedDB.open("QuranAppDB_V9", 1);
 
         request.onupgradeneeded = (e) => {
             db = e.target.result;
-            if (!db.objectStoreNames.contains("surahs")) {
-                db.createObjectStore("surahs", { keyPath: "number" });
+            if (db.objectStoreNames.contains("surahs")) {
+                db.deleteObjectStore("surahs");
             }
+            db.createObjectStore("surahs", { keyPath: "number" });
         };
 
         request.onsuccess = (e) => {
@@ -523,19 +521,19 @@
                 if (getAll.result.length >= 114) {
                     document.getElementById("syncBanner").style.background = "var(--light-green)";
                     document.getElementById("syncBanner").style.borderColor = "var(--primary-green)";
-                    document.getElementById("syncStatus").innerText = "✅ ১১৪টি সূরা অফলাইনে সেভ আছে!";
+                    document.getElementById("syncStatus").innerText = "✅ ১লাইট-কুরআন অফলাইনে সেভ আছে!";
                     document.getElementById("downloadBtn").style.display = "none";
                 }
                 loadSurahList();
             };
         }
 
-        // ২. ডাটা সেভ ও নিখুঁত বিসমিল্লাহ রিমুভ করার লজিক
+        // ২. আল্ট্রা-স্ট্রং বিসমিল্লাহ রিমুভাল লজিক
         async function downloadAllSurahs() {
             const statusText = document.getElementById("syncStatus");
             const btn = document.getElementById("downloadBtn");
             btn.disabled = true;
-            statusText.innerText = "⏳ ডাটা সেভ হচ্ছে... কিছুক্ষণ অপেক্ষা করুন।";
+            statusText.innerText = "⏳ ডাটা ডাউনলোড ও বিসমিল্লাহ ফিল্টার করা হচ্ছে...";
 
             try {
                 const [arRes, bnRes] = await Promise.all([
@@ -562,12 +560,16 @@
                             let arText = ayah.text;
                             let bnText = surahBn.ayahs[index].text;
 
-                            // সূরা ফাতিহা (১) ও সূরা তাওবা (৯) বাদে যেকোনো সূরার প্রথম আয়াত থেকে বিসমিল্লাহ রিমুভ করা
+                            // সূরা ফাতিহা (১) এবং সূরা তাওবা (৯) বাদে যেকোনো সূরার প্রথম আয়াত থেকে পারফেক্টলি বিসমিল্লাহ রিমুভ করা
                             if (surahAr.number !== 1 && surahAr.number !== 9 && index === 0) {
-                                arText = arText.replace(BISMILLAH_ARABIC_1, "").replace(BISMILLAH_ARABIC_2, "").trim();
-                                // বাংলায় বিসমিল্লাহর অংশ থাকলে তা রিমুভ করা
-                                bnText = bnText.replace(/^শুরু করছি আল্লাহর নামে যিনি পরম করুণাময় অত্যন্ত দয়ালু[,\.\s]*/i, "")
-                                               .replace(/^পরম করুণাময় অসীম দয়ালু আল্লাহর নামে[,\.\s]*/i, "").trim();
+                                // সব ধরণের আরাবি হরকত ও স্পেসসহ বিসমিল্লাহ প্যাটার্ন রিমুভ করতে রেগুলার এক্সপ্রেশন
+                                arText = arText.replace(/^[\u0640-\u064A\s\u0671-\u06D3]*بِسْمِ\s+ٱللَّهِ\s+ٱلرَّحْمَ[ـٰ]*نِ\s+ٱلرَّحِيمِ[\s\-—]*/i, "")
+                                               .replace(/بِسْمِ\s+اللَّهِ\s+الرَّحْمَٰنِ\s+الرَّحِيمِ/g, "").trim();
+                                
+                                // বাংলা অনুবাদ থেকেও শুরুর বিসমিল্লাহ অংশ রিমুভ করা
+                                bnText = bnText.replace(/^শুরু করছি আল্লাহর নামে যিনি পরম করুণাময় অত্যন্ত দয়ালু[,\.\s\-—]*/i, "")
+                                               .replace(/^পরম করুণাময় অসীম দয়ালু আল্লাহর নামে[,\.\s\-—]*/i, "")
+                                               .replace(/^আল্লাহর নামে শুরু যিনি পরম করুণাময়[,\.\s\-—]*/i, "").trim();
                             }
 
                             return {
@@ -583,31 +585,29 @@
                 }
 
                 tx.oncomplete = () => {
-                    alert("🎉 ১১৪টি সূরা সফলভাবে সেভ হয়েছে!");
+                    alert("🎉 সফলভাবে বিসমিল্লাহ আলাদা করা হয়েছে!");
                     checkOfflineData();
                 };
 
             } catch (err) {
-                alert("❌ ডাউনলোড ব্যর্থ হয়েছে। ইন্টারনেট সংযোগ চেক করুন।");
+                alert("❌ ডাটা ডাউনলোড ব্যর্থ হয়েছে। ইন্টারনেট কানেকশন চেক করুন।");
                 btn.disabled = false;
                 statusText.innerText = "📲 আবার চেষ্টা করুন।";
             }
         }
 
-        // 🔄 ক্যাশ রিফ্রেশ বা আপডেট ফাংশন
+        // 🔄 ক্যাশ রিফ্রেশ ফাংশন (অবশ্যই এটি একবার চাপবেন নতুন ডাটা পেতে)
         async function refreshCacheData() {
-            if (confirm("পুরোনো ক্যাশ মুছে নতুন করে আপডেট করতে চান?")) {
-                const dbs = await window.indexedDB.databases();
-                for (let dbInfo of dbs) {
-                    await window.indexedDB.deleteDatabase(dbInfo.name);
-                }
-                localStorage.clear();
-                alert("✨ ক্যাশ রিসেট করা হয়েছে! পেজটি রিলোড হচ্ছে...");
-                location.reload();
+            const dbs = await window.indexedDB.databases();
+            for (let dbInfo of dbs) {
+                await window.indexedDB.deleteDatabase(dbInfo.name);
             }
+            localStorage.clear();
+            alert("✨ পুরোনো ক্যাশ সম্পূর্ণ মুছে ফেলা হয়েছে! এখন 'ডাউনলোড করুন' বাটনে চাপ দিন।");
+            location.reload();
         }
 
-        // 🌙 অটো ডার্ক মোড (সন্ধ্যা ৬টা থেকে সকাল ৬টা)
+        // 🌙 অটো ডার্ক মোড
         function checkAutoDarkMode() {
             const currentHour = new Date().getHours();
             if (currentHour >= 18 || currentHour < 6) {
@@ -627,9 +627,7 @@
             getAll.onsuccess = () => {
                 allSurahsList = getAll.result;
                 if (allSurahsList.length === 0) {
-                    fetch("https://api.alquran.cloud/v1/surah")
-                        .then(res => res.json())
-                        .then(data => renderList(data.data.map(s => ({ number: s.number, name: s.englishName, ayahCount: s.numberOfAyahs }))));
+                    container.innerHTML = `<p style="text-align: center; color: var(--primary-orange);">উপরে দেওয়া **"ডাউনলোড করুন"** অথবা **"ডাটা রিফ্রেশ"** বাটনে ক্লিক করুন।</p>`;
                 } else {
                     renderList(allSurahsList);
                 }
@@ -664,7 +662,7 @@
         // 🔊 ৪. অডিও প্লেয়ার
         function playAudio(url, btn, globalNum, onEndCallback = null) {
             if (!navigator.onLine) {
-                alert("🌐 অডিও প্লে করার জন্য ইন্টারনেট প্রয়োজন।");
+                alert("🌐 অডিও প্লে করার জন্য ইন্টারনেট সংযোগ প্রয়োজন।");
                 return;
             }
 
@@ -773,7 +771,6 @@
             }
         }
 
-        // তাফসির পপআপ
         function showTafsir(surahNo, ayahNum, arabicText) {
             const modal = document.getElementById("tafsirModal");
             const textEl = document.getElementById("tafsirTextContent");
@@ -880,7 +877,7 @@
             getSurah.onsuccess = () => {
                 const surah = getSurah.result;
                 if (!surah) {
-                    alert("⚠️ ডাটা ডাউনলোড করা নেই! 'ডাউনলোড করুন' বাটনে চাপ দিন।");
+                    alert("⚠️ ডাটা ডাউনলোড করা নেই! ড্যাশবোর্ড থেকে 'ডাউনলোড করুন' বাটনে চাপ দিন।");
                     return;
                 }
 
