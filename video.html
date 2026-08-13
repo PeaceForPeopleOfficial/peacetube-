@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PeaceTube - প্রফেশনাল ইউটিউব স্টাইল ভিডিও প্ল্যাটফর্ম</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <style>
         :root {
             --orange: #ff9933;
@@ -31,7 +30,7 @@
             color: var(--text-color);
             transition: background 0.3s, color 0.3s;
         }
-        /* YouTube Style Top Navbar */
+        /* Top Navbar */
         nav {
             background: var(--card-bg);
             padding: 10px 25px;
@@ -46,21 +45,22 @@
         }
         .logo { font-weight: bold; font-size: 18px; color: var(--orange); display: flex; align-items: center; gap: 6px; }
         .nav-links { display: flex; gap: 10px; align-items: center; overflow-x: auto; }
-        nav a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 13px; padding: 6px 12px; border-radius: 20px; transition: background 0.2s; white-space: nowrap; }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 13px; padding: 6px 12px; border-radius: 20px; transition: background 0.2s; white-space: nowrap; cursor: pointer; }
         nav a:hover, nav a.active { background: var(--hover-bg); color: var(--orange); }
         .nav-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
         
+        .btn-upload-nav { background: var(--orange); color: white; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
         .theme-toggle-btn { background: var(--green); color: white; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
 
         .container { max-width: 1300px; margin: 25px auto; padding: 0 20px; }
         
-        /* YouTube Style Category Chips Bar */
+        /* Category Chips Bar */
         .chips-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; white-space: nowrap; scrollbar-width: none; }
         .chips-bar::-webkit-scrollbar { display: none; }
         .chip { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; }
         .chip.active, .chip:hover { background: var(--text-color); color: var(--card-bg); border-color: var(--text-color); }
 
-        /* Search & Filter */
+        /* Search Bar */
         .search-box-container { margin-bottom: 25px; display: flex; justify-content: center; }
         .search-bar { width: 100%; max-width: 600px; padding: 12px 20px; border: 2px solid var(--border-color); border-radius: 25px; font-size: 15px; outline: none; background: var(--card-bg); color: var(--text-color); transition: border-color 0.2s; }
         .search-bar:focus { border-color: var(--orange); }
@@ -77,24 +77,18 @@
         .video-info h3 { margin: 0 0 6px 0; font-size: 15px; font-weight: 700; line-height: 1.4; }
         .video-info p { margin: 0 0 12px 0; font-size: 13px; color: #6c757d; line-height: 1.4; flex-grow: 1; }
 
-        .action-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 10px; margin-bottom: 10px; }
-        .reaction-container { display: flex; gap: 6px; }
+        .action-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 10px; margin-bottom: 10px; flex-wrap: wrap; gap: 5px; }
         .btn-action { background: var(--hover-bg); border: none; padding: 6px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold; color: var(--text-color); display: flex; align-items: center; gap: 4px; text-decoration: none; }
         .btn-action:hover { background: var(--border-color); }
 
-        /* Comment Section */
-        .comment-section { border-top: 1px solid var(--border-color); padding-top: 10px; }
-        .comment-input-box { display: flex; gap: 8px; margin-bottom: 8px; }
-        .comment-input { flex-grow: 1; padding: 7px 12px; border: 1px solid var(--border-color); border-radius: 20px; outline: none; font-size: 12px; background: var(--card-bg); color: var(--text-color); }
-        .comment-submit { background: var(--green); color: white; border: none; padding: 7px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .comments-list { max-height: 90px; overflow-y: auto; font-size: 12px; }
-        .single-comment { background: var(--hover-bg); padding: 5px 10px; border-radius: 6px; margin-bottom: 4px; border-left: 3px solid var(--orange); }
-
-        /* Shorts Grid View */
-        .shorts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .short-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); text-align: center; padding-bottom: 10px; }
-        .short-frame { height: 350px; background: #000; position: relative; }
-        .short-frame iframe { width: 100%; height: 100%; border: none; }
+        /* Modal for Upload */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 12px; width: 90%; max-width: 450px; border: 1px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-content h3 { margin-top: 0; color: var(--orange); }
+        .form-input { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-color); outline: none; }
+        .modal-btns { display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-submit { background: var(--green); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-close { background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
         .hidden { display: none !important; }
     </style>
@@ -104,154 +98,241 @@
 <nav>
     <div class="logo">📺 PeaceTube</div>
     <div class="nav-links">
-        <a href="#" onclick="switchTab('home', this)" class="active">🏠 হোম</a>
-        <a href="#" onclick="switchTab('shorts', this)">⚡ শর্টস</a>
-        <a href="#" onclick="switchTab('subscriptions', this)">🔔 সাবস্ক্রিপশন</a>
-        <a href="#" onclick="switchTab('you', this)">👤 ইউ (You)</a>
+        <a onclick="switchTab('home', this)" class="active">🏠 হোম</a>
+        <a onclick="switchTab('subscriptions', this)">🔔 সাবস্ক্রিপশন</a>
+        <a onclick="switchTab('history', this)">🕒 হিস্ট্রি</a>
+        <a onclick="switchTab('you', this)">👤 লাইব্রেরি</a>
     </div>
     <div class="nav-right">
+        <button class="btn-upload-nav" onclick="openModal()">➕ ভিডিও আপলোড</button>
         <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
     </div>
 </nav>
 
 <div class="container">
 
-    <!-- SEARCH & CHIPS (Home View) -->
+    <!-- HOME VIEW -->
     <div id="homeView">
         <div class="search-box-container">
-            <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 শান্তি, মিউজিক, মোটিভেশন বা কুরআন খুঁজুন..." onkeyup="filterVideos()">
+            <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 যে কোনো কন্টেন্ট বা ভিডিও খুঁজুন..." onkeyup="filterVideos()">
         </div>
 
         <div class="chips-bar">
             <div class="chip active" onclick="filterByChip('all', this)">সব কন্টেন্ট</div>
             <div class="chip" onclick="filterByChip('islamic', this)">✨ ইসলামিক প্রশান্তি</div>
             <div class="chip" onclick="filterByChip('motivational', this)">🔥 মোটিভেশন</div>
-            <div class="chip" onclick="filterByChip('music', this)">🎧 রিল্যাক্সিং মিউজিক</div>
-            <div class="chip" onclick="filterByChip('visual', this)">🌿 ভিজ্যুয়াল ও প্রকৃতি</div>
+            <div class="chip" onclick="filterByChip('tech', this)">💻 টেকনোলজি</div>
+            <div class="chip" onclick="filterByChip('vlog', this)">🌍 ব্লগ ও ভ্রমণ</div>
         </div>
 
         <div id="videoGrid" class="video-grid">
-            <!-- Video Card 1 -->
-            <div class="video-card" data-category="islamic">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/5qap5aO4i9A" title="Peaceful Video" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>✨ মানসিক প্রশান্তি ও আত্মিক শান্তি</h3>
-                    <p>কুরআনের আলো ও সুন্নাহর আলোকে মন জুড়ানো আলোচনা।</p>
-                    <div class="action-bar">
-                        <div class="reaction-container">
-                            <button class="btn-action" onclick="addReaction(this, 'v1_rel')">😌 Relaxed (<span class="count">১২</span>)</button>
-                            <button class="btn-action" onclick="addReaction(this, 'v1_ins')">✨ Inspired (<span class="count">৮</span>)</button>
-                        </div>
-                        <button class="btn-action" onclick="toggleSave(this, 'Peaceful Video')">🔖 সেভ</button>
-                    </div>
-                    <div class="comment-section">
-                        <div class="comment-input-box">
-                            <input type="text" class="comment-input" placeholder="মন্তব্য লিখুন...">
-                            <button class="comment-submit" onclick="postComment(this, 'v1')">পোস্ট</button>
-                        </div>
-                        <div class="comments-list" id="comments_v1">
-                            <div class="single-comment">মাশাআল্লাহ, অত্যন্ত সুন্দর আলোচনা।</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Video Card 2 -->
-            <div class="video-card" data-category="music">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/L_LUpnjgPso" title="Relaxing Music" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>🎧 কপিরাইট ফ্রি রিল্যাক্সিং পিয়ানো মিউজিক</h3>
-                    <p>কাজের ফাঁকে বা ঘুমের আগে মন শান্ত করার সুর।</p>
-                    <div class="action-bar">
-                        <div class="reaction-container">
-                            <button class="btn-action" onclick="addReaction(this, 'v2_rel')">😌 Relaxed (<span class="count">২৫</span>)</button>
-                            <button class="btn-action" onclick="addReaction(this, 'v2_ins')">✨ Inspired (<span class="count">১৪</span>)</button>
-                        </div>
-                        <button class="btn-action" onclick="toggleSave(this, 'Relaxing Music')">🔖 সেভ</button>
-                    </div>
-                    <div class="comment-section">
-                        <div class="comment-input-box">
-                            <input type="text" class="comment-input" placeholder="মন্তব্য লিখুন...">
-                            <button class="comment-submit" onclick="postComment(this, 'v2')">পোস্ট</button>
-                        </div>
-                        <div class="comments-list" id="comments_v2">
-                            <div class="single-comment">মিউজিকটি শোনার পর ভীষণ শান্তি লাগছে!</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Initial Dynamic Content will load here -->
         </div>
     </div>
 
-    <!-- SHORTS VIEW -->
-    <div id="shortsView" class="hidden">
-        <h2>⚡ পিস টিউব শর্টস (Shorts)</h2>
-        <p style="color: #666; margin-bottom: 20px;">ছোট ও আকর্ষণীয় রিলস ভিডিও উপভোগ করুন।</p>
-        <div class="shorts-grid">
-            <div class="short-card">
-                <div class="short-frame">
-                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Shorts" allowfullscreen></iframe>
-                </div>
-                <h4 style="font-size: 14px; margin: 10px 5px;">পিস শর্টস #১</h4>
-            </div>
-            <div class="short-card">
-                <div class="short-frame">
-                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Shorts" allowfullscreen></iframe>
-                </div>
-                <h4 style="font-size: 14px; margin: 10px 5px;">পিস শর্টস #২</h4>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUBSCRIPTIONS VIEW (Updated with Official Link) -->
+    <!-- SUBSCRIPTIONS VIEW -->
     <div id="subscriptionsView" class="hidden">
-        <h2>🔔 আপনার সাবস্ক্রাইবকৃত চ্যানেলসমূহ</h2>
-        <p>আপনার পছন্দের অফিশিয়াল চ্যানেলগুলোর লেটেস্ট আপডেট এখানে দেখতে পাবেন।</p>
-        <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+        <h2>🔔 সাবস্ক্রাইবড চ্যানেলসমূহ</h2>
+        <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 15px;">
             <div>
                 <h3>🌿 Peace For People Official</h3>
-                <p style="font-size: 13px; color: #666; margin: 5px 0 0 0;">আমাদের অফিশিয়াল ইউটিউব চ্যানেল থেকে নিয়মিত আপডেট পেতে যুক্ত থাকুন।</p>
+                <p style="font-size: 13px; color: #6c757d; margin: 5px 0 0 0;">আমাদের অফিশিয়াল ইউটিউব চ্যানেল থেকে নিয়মিত আপডেট পেতে যুক্ত থাকুন।</p>
             </div>
             <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" style="background: var(--orange); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 13px; white-space: nowrap;">চ্যানেল ভিজিট করুন &rarr;</a>
         </div>
     </div>
 
-    <!-- YOU (LIBRARY) VIEW -->
+    <!-- WATCH HISTORY VIEW -->
+    <div id="historyView" class="hidden">
+        <h2>🕒 ওয়াচ হিস্ট্রি (Watch History)</h2>
+        <p style="color: #6c757d;">আপনি সম্প্রতি যে ভিডিওগুলো দেখেছেন:</p>
+        <div id="historyList" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;"></div>
+    </div>
+
+    <!-- YOU / LIBRARY VIEW -->
     <div id="youView" class="hidden">
-        <h2>👤 আপনার লাইব্রেরি (Saved & History)</h2>
-        <p>আপনার সেভ করা ভিডিওগুলোর তালিকা:</p>
-        <div id="savedVideosList" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-            <!-- Saved items rendered dynamically -->
-        </div>
+        <h2>👤 সেভ করা ভিডিও লাইব্রেরি</h2>
+        <div id="savedVideosList" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;"></div>
     </div>
 
 </div>
 
+<!-- UPLOAD MODAL -->
+<div id="uploadModal" class="modal">
+    <div class="modal-content">
+        <h3> নতুন ভিডিও যুক্ত করুন</h3>
+        <input type="text" id="upTitle" class="form-input" placeholder="ভিডিওর শিরোনাম (Title)">
+        <input type="text" id="upCategory" class="form-input" placeholder="ক্যাটাগরি (islamic, motivational, tech, vlog)">
+        <input type="text" id="upUrl" class="form-input" placeholder="ইউটিউব এমবেড বা ভিডিও লিংক (যেমন: https://www.youtube.com/embed/...)">
+        <textarea id="upDesc" class="form-input" placeholder="ভিডিও বিবরণ..." rows="3"></textarea>
+        <div class="modal-btns">
+            <button class="btn-close" onclick="closeModal()">বাতিল</button>
+            <button class="btn-submit" onclick="handleUpload()">আপলোড করুন</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    // Tab Switcher Logic
-    function switchTab(tabName, element) {
-        document.querySelectorAll('nav .nav-links a').forEach(a => a.classList.remove('active'));
-        if(element) element.classList.add('active');
+    // Default Videos Data (All types can be added)
+    let videosData = [
+        {
+            id: 'v1',
+            title: '✨ মানসিক প্রশান্তি ও আত্মিক শান্তি',
+            category: 'islamic',
+            url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+            desc: 'কুরআনের আলো ও সুন্নাহর আলোকে মন জুড়ানো আলোচনা।'
+        },
+        {
+            id: 'v2',
+            title: '💻 আধুনিক ওয়েব ডেভেলপমেন্ট গাইডলাইন',
+            category: 'tech',
+            url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+            desc: 'কোডিং শিখে প্রফেশনাল ডেভেলপার হওয়ার সহজ উপায়।'
+        }
+    ];
 
-        document.getElementById('homeView').classList.add('hidden');
-        document.getElementById('shortsView').classList.add('hidden');
-        document.getElementById('subscriptionsView').classList.add('hidden');
-        document.getElementById('youView').classList.add('hidden');
+    // Load initial or saved custom videos
+    function loadVideos() {
+        let savedCustomVideos = JSON.parse(localStorage.getItem('custom_videos') || '[]');
+        let allVideos = [...savedCustomVideos, ...videosData];
+        const grid = document.getElementById('videoGrid');
+        grid.innerHTML = '';
 
-        if(tabName === 'home') document.getElementById('homeView').classList.remove('hidden');
-        if(tabName === 'shorts') document.getElementById('shortsView').classList.remove('hidden');
-        if(tabName === 'subscriptions') document.getElementById('subscriptionsView').classList.remove('hidden');
-        if(tabName === 'you') {
-            document.getElementById('youView').classList.remove('hidden');
-            renderSavedVideos();
+        allVideos.forEach(v => {
+            grid.innerHTML += `
+                <div class="video-card" data-category="${v.category}">
+                    <div class="video-container">
+                        <iframe src="${v.url}" title="${v.title}" allowfullscreen onclick="addToHistory('${v.title}')"></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 onclick="addToHistory('${v.title}')" style="cursor: pointer;">${v.title}</h3>
+                        <p>${v.desc}</p>
+                        <div class="action-bar">
+                            <button class="btn-action" onclick="shareVideo('${v.title}', '${v.url}')">🔗 শেয়ার</button>
+                            <button class="btn-action" onclick="copyLink('${v.url}')">📋 কপি লিংক</button>
+                            <button class="btn-action" onclick="toggleSave(this, '${v.title}')">🔖 সেভ</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Modal Control
+    function openModal() { document.getElementById('uploadModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('uploadModal').style.display = 'none'; }
+
+    // Handle Upload
+    function handleUpload() {
+        const title = document.getElementById('upTitle').value.trim();
+        const category = document.getElementById('upCategory').value.trim().toLowerCase() || 'general';
+        let url = document.getElementById('upUrl').value.trim();
+        const desc = document.getElementById('upDesc').value.trim();
+
+        if(!title || !url) {
+            alert('দয়া করে শিরোনাম এবং লিংক দিন!');
+            return;
+        }
+
+        // Convert standard youtube link to embed if necessary
+        if(url.includes('watch?v=')) {
+            url = url.replace('watch?v=', 'embed/');
+        }
+
+        const newVideo = { id: 'custom_' + Date.now(), title, category, url, desc };
+        let savedCustomVideos = JSON.parse(localStorage.getItem('custom_videos') || '[]');
+        savedCustomVideos.unshift(newVideo);
+        localStorage.setItem('custom_videos', JSON.stringify(savedCustomVideos));
+
+        closeModal();
+        loadVideos();
+        alert('সফলভাবে ভিডিও আপলোড হয়েছে!');
+    }
+
+    // Share & Copy
+    function shareVideo(title, url) {
+        if (navigator.share) {
+            navigator.share({ title: title, url: url }).catch(console.error);
+        } else {
+            copyLink(url);
+        }
+    }
+    function copyLink(url) {
+        navigator.clipboard.writeText(url);
+        alert('ভিডিও লিংক কপি করা হয়েছে!');
+    }
+
+    // Watch History Tracker
+    function addToHistory(title) {
+        let history = JSON.parse(localStorage.getItem('watch_history') || '[]');
+        if(!history.includes(title)) {
+            history.unshift(title);
+            if(history.length > 20) history.pop(); // keep last 20
+            localStorage.setItem('watch_history', JSON.stringify(history));
         }
     }
 
-    // Theme Toggle
+    function renderHistory() {
+        const list = document.getElementById('historyList');
+        let history = JSON.parse(localStorage.getItem('watch_history') || '[]');
+        list.innerHTML = '';
+        if(history.length === 0) {
+            list.innerHTML = '<p style="color: #777;">কোনো হিস্ট্রি পাওয়া যায়নি।</p>';
+            return;
+        }
+        history.forEach(title => {
+            list.innerHTML += `<div style="background: var(--hover-bg); padding: 10px 15px; border-radius: 8px; border-left: 4px solid var(--green); font-weight: bold;">📺 ${title}</div>`;
+        });
+    }
+
+    // Save/Bookmark
+    function toggleSave(btn, title) {
+        let saved = JSON.parse(localStorage.getItem('saved_videos') || '[]');
+        if(!saved.includes(title)) {
+            saved.push(title);
+            localStorage.setItem('saved_videos', JSON.stringify(saved));
+            btn.innerText = '✅ সেভড';
+            btn.style.background = 'var(--green)';
+            btn.style.color = '#fff';
+        } else {
+            saved = saved.filter(i => i !== title);
+            localStorage.setItem('saved_videos', JSON.stringify(saved));
+            btn.innerText = '🔖 সেভ';
+            btn.style.background = '';
+            btn.style.color = '';
+        }
+    }
+
+    function renderSaved() {
+        const list = document.getElementById('savedVideosList');
+        let saved = JSON.parse(localStorage.getItem('saved_videos') || '[]');
+        list.innerHTML = '';
+        if(saved.length === 0) {
+            list.innerHTML = '<p style="color: #777;">কোনো ভিডিও সেভ করা নেই।</p>';
+            return;
+        }
+        saved.forEach(title => {
+            list.innerHTML += `<div style="background: var(--hover-bg); padding: 10px 15px; border-radius: 8px; border-left: 4px solid var(--orange); font-weight: bold;">📌 ${title}</div>`;
+        });
+    }
+
+    // Tab Switcher
+    function switchTab(tab, el) {
+        document.querySelectorAll('nav .nav-links a').forEach(a => a.classList.remove('active'));
+        if(el) el.classList.add('active');
+
+        document.getElementById('homeView').classList.add('hidden');
+        document.getElementById('subscriptionsView').classList.add('hidden');
+        document.getElementById('historyView').classList.add('hidden');
+        document.getElementById('youView').classList.add('hidden');
+
+        if(tab === 'home') document.getElementById('homeView').classList.remove('hidden');
+        if(tab === 'subscriptions') document.getElementById('subscriptionsView').classList.remove('hidden');
+        if(tab === 'history') { document.getElementById('historyView').classList.remove('hidden'); renderHistory(); }
+        if(tab === 'you') { document.getElementById('youView').classList.remove('hidden'); renderSaved(); }
+    }
+
+    // Theme Permanent Save
     function toggleTheme() {
         if (document.documentElement.getAttribute('data-theme') === 'dark') {
             document.documentElement.removeAttribute('data-theme');
@@ -265,97 +346,25 @@
         document.documentElement.setAttribute('data-theme', 'dark');
     }
 
-    // Search and Chip Filtering
+    // Search and Filter Chips
     function filterVideos() {
         const query = document.getElementById('videoSearch').value.toLowerCase();
-        const cards = document.querySelectorAll('.video-grid .video-card');
-        cards.forEach(card => {
-            const text = card.innerText.toLowerCase();
-            card.style.display = text.includes(query) ? 'flex' : 'none';
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.style.display = card.innerText.toLowerCase().includes(query) ? 'flex' : 'none';
         });
     }
 
-    function filterByChip(category, chipElement) {
+    function filterByChip(cat, el) {
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        chipElement.classList.add('active');
-
-        const cards = document.querySelectorAll('.video-grid .video-card');
-        cards.forEach(card => {
-            const cat = card.getAttribute('data-category') || '';
-            if (category === 'all' || cat === category) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
+        el.classList.add('active');
+        document.querySelectorAll('.video-card').forEach(card => {
+            const cardCat = card.getAttribute('data-category');
+            card.style.display = (cat === 'all' || cardCat === cat) ? 'flex' : 'none';
         });
     }
 
-    // Reactions with LocalStorage Persistence
-    function addReaction(btn, key) {
-        let countSpan = btn.querySelector('.count');
-        let count = parseInt(localStorage.getItem(key) || countSpan.innerText);
-        if(!localStorage.getItem(key + '_clicked')) {
-            count += 1;
-            localStorage.setItem(key, count);
-            localStorage.setItem(key + '_clicked', 'true');
-            btn.style.background = 'var(--orange)';
-            btn.style.color = '#fff';
-        }
-        countSpan.innerText = count;
-    }
-
-    // Comments System
-    function postComment(btn, videoId) {
-        const input = btn.previousElementSibling;
-        const text = input.value.trim();
-        if(!text) return;
-
-        const commentsContainer = document.getElementById('comments_' + videoId);
-        const newDiv = document.createElement('div');
-        newDiv.className = 'single-comment';
-        newDiv.innerText = text;
-        commentsContainer.prepend(newDiv);
-
-        let savedComments = JSON.parse(localStorage.getItem('comments_' + videoId) || '[]');
-        savedComments.unshift(text);
-        localStorage.setItem('comments_' + videoId, JSON.stringify(savedComments));
-
-        input.value = '';
-    }
-
-    // Save/Bookmark Video to 'You' Library
-    function toggleSave(btn, videoTitle) {
-        let saved = JSON.parse(localStorage.getItem('saved_videos') || '[]');
-        if(!saved.includes(videoTitle)) {
-            saved.push(videoTitle);
-            localStorage.setItem('saved_videos', JSON.stringify(saved));
-            btn.innerText = '✅ সেভড';
-            btn.style.background = 'var(--green)';
-            btn.style.color = '#fff';
-        } else {
-            saved = saved.filter(item => item !== videoTitle);
-            localStorage.setItem('saved_videos', JSON.stringify(saved));
-            btn.innerText = '🔖 সেভ';
-            btn.style.background = '';
-            btn.style.color = '';
-        }
-    }
-
-    function renderSavedVideos() {
-        const listContainer = document.getElementById('savedVideosList');
-        let saved = JSON.parse(localStorage.getItem('saved_videos') || '[]');
-        listContainer.innerHTML = '';
-        if(saved.length === 0) {
-            listContainer.innerHTML = '<p style="color: #777;">আপনার কোনো ভিডিও সেভ করা নেই।</p>';
-            return;
-        }
-        saved.forEach(title => {
-            const item = document.createElement('div');
-            item.style.cssText = 'background: var(--hover-bg); padding: 12px; border-radius: 8px; border-left: 4px solid var(--orange); font-weight: bold; font-size: 14px;';
-            item.innerText = '📌 ' + title;
-            listContainer.appendChild(item);
-        });
-    }
+    // Initialize Page
+    window.onload = loadVideos;
 </script>
 </body>
 </html>
