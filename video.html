@@ -81,6 +81,12 @@
         .btn-action { background: var(--hover-bg); border: none; padding: 6px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold; color: var(--text-color); display: flex; align-items: center; gap: 4px; text-decoration: none; }
         .btn-action:hover { background: var(--border-color); }
 
+        /* Shorts Grid View Style */
+        .shorts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .short-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
+        .short-container { position: relative; padding-bottom: 177.77%; height: 0; background: #000; } /* 9:16 aspect ratio for shorts */
+        .short-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
         /* Modal for Upload */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; }
         .modal-content { background: var(--card-bg); padding: 25px; border-radius: 12px; width: 90%; max-width: 450px; border: 1px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
@@ -99,6 +105,7 @@
     <div class="logo">📺 PeaceTube</div>
     <div class="nav-links">
         <a onclick="switchTab('home', this)" class="active">🏠 হোম</a>
+        <a onclick="switchTab('shorts', this)">⚡ শর্টস</a>
         <a onclick="switchTab('subscriptions', this)">🔔 সাবস্ক্রিপশন</a>
         <a onclick="switchTab('history', this)">🕒 হিস্ট্রি</a>
         <a onclick="switchTab('you', this)">👤 লাইব্রেরি</a>
@@ -119,6 +126,7 @@
 
         <div class="chips-bar">
             <div class="chip active" onclick="filterByChip('all', this)">সব কন্টেন্ট</div>
+            <div class="chip" onclick="filterByChip('peace-words', this)">📜 শান্তির বাণী</div>
             <div class="chip" onclick="filterByChip('islamic', this)">✨ ইসলামিক প্রশান্তি</div>
             <div class="chip" onclick="filterByChip('motivational', this)">🔥 মোটিভেশন</div>
             <div class="chip" onclick="filterByChip('tech', this)">💻 টেকনোলজি</div>
@@ -126,14 +134,23 @@
         </div>
 
         <div id="videoGrid" class="video-grid">
-            <!-- Initial Dynamic Content will load here -->
+            <!-- Dynamic Videos Rendered Here -->
+        </div>
+    </div>
+
+    <!-- SHORTS VIEW -->
+    <div id="shortsView" class="hidden">
+        <h2>⚡ পিস শর্টস (Shorts)</h2>
+        <p style="color: #6c757d; margin-bottom: 20px;">ছোট এবং আকর্ষণীয় রিলস ভিডিওসমূহ:</p>
+        <div id="shortsGrid" class="shorts-grid">
+            <!-- Dynamic Shorts Rendered Here -->
         </div>
     </div>
 
     <!-- SUBSCRIPTIONS VIEW -->
     <div id="subscriptionsView" class="hidden">
         <h2>🔔 সাবস্ক্রাইবড চ্যানেলসমূহ</h2>
-        <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 15px;">
+        <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
             <div>
                 <h3>🌿 Peace For People Official</h3>
                 <p style="font-size: 13px; color: #6c757d; margin: 5px 0 0 0;">আমাদের অফিশিয়াল ইউটিউব চ্যানেল থেকে নিয়মিত আপডেট পেতে যুক্ত থাকুন।</p>
@@ -160,11 +177,21 @@
 <!-- UPLOAD MODAL -->
 <div id="uploadModal" class="modal">
     <div class="modal-content">
-        <h3> নতুন ভিডিও যুক্ত করুন</h3>
+        <h3>➕ নতুন ভিডিও বা শর্টস যুক্ত করুন</h3>
         <input type="text" id="upTitle" class="form-input" placeholder="ভিডিওর শিরোনাম (Title)">
-        <input type="text" id="upCategory" class="form-input" placeholder="ক্যাটাগরি (islamic, motivational, tech, vlog)">
-        <input type="text" id="upUrl" class="form-input" placeholder="ইউটিউব এমবেড বা ভিডিও লিংক (যেমন: https://www.youtube.com/embed/...)">
-        <textarea id="upDesc" class="form-input" placeholder="ভিডিও বিবরণ..." rows="3"></textarea>
+        <select id="upType" class="form-input">
+            <option value="video">সাধারণ ভিডিও (Video)</option>
+            <option value="short">শর্টস ভিডিও (Shorts)</option>
+        </select>
+        <select id="upCategory" class="form-input">
+            <option value="peace-words">📜 শান্তির বাণী</option>
+            <option value="islamic">✨ ইসলামিক প্রশান্তি</option>
+            <option value="motivational">🔥 মোটিভেশন</option>
+            <option value="tech">💻 টেকনোলজি</option>
+            <option value="vlog">🌍 ব্লগ ও ভ্রমণ</option>
+        </select>
+        <input type="text" id="upUrl" class="form-input" placeholder="ইউটিউব এমবেড বা ভিডিও লিংক">
+        <textarea id="upDesc" class="form-input" placeholder="ভিডিও বিবরণ..." rows="2"></textarea>
         <div class="modal-btns">
             <button class="btn-close" onclick="closeModal()">বাতিল</button>
             <button class="btn-submit" onclick="handleUpload()">আপলোড করুন</button>
@@ -173,48 +200,78 @@
 </div>
 
 <script>
-    // Default Videos Data (All types can be added)
+    // Initial Default Data (Videos & Shorts)
     let videosData = [
         {
             id: 'v1',
-            title: '✨ মানসিক প্রশান্তি ও আত্মিক শান্তি',
-            category: 'islamic',
-            url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-            desc: 'কুরআনের আলো ও সুন্নাহর আলোকে মন জুড়ানো আলোচনা।'
+            title: '📜 পবিত্র কোরআনের আলোকে শান্তির বাণী',
+            category: 'peace-words',
+            type: 'video',
+            url: 'https://www.youtube.com/embed/5qap5aO4i9A',
+            desc: 'মন জুড়ানো এবং হৃদয় শীতল করা শান্তির বাণী।'
         },
         {
             id: 'v2',
-            title: '💻 আধুনিক ওয়েব ডেভেলপমেন্ট গাইডলাইন',
-            category: 'tech',
+            title: '✨ মানসিক প্রশান্তি ও আত্মিক শান্তি',
+            category: 'islamic',
+            type: 'video',
+            url: 'https://www.youtube.com/embed/L_LUpnjgPso',
+            desc: 'কুরআনের আলো ও সুন্নাহর আলোকে মন জুড়ানো আলোচনা।'
+        },
+        {
+            id: 's1',
+            title: '⚡ প্রতিদিনের মোটিভেশনাল শর্টস',
+            category: 'motivational',
+            type: 'short',
             url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-            desc: 'কোডিং শিখে প্রফেশনাল ডেভেলপার হওয়ার সহজ উপায়।'
+            desc: 'ছোট শর্টস ভিডিও।'
         }
     ];
 
-    // Load initial or saved custom videos
-    function loadVideos() {
-        let savedCustomVideos = JSON.parse(localStorage.getItem('custom_videos') || '[]');
-        let allVideos = [...savedCustomVideos, ...videosData];
+    function loadContent() {
+        let savedCustom = JSON.parse(localStorage.getItem('custom_videos') || '[]');
+        let allData = [...savedCustom, ...videosData];
+        
         const grid = document.getElementById('videoGrid');
+        const shortsGrid = document.getElementById('shortsGrid');
+        
         grid.innerHTML = '';
+        shortsGrid.innerHTML = '';
 
-        allVideos.forEach(v => {
-            grid.innerHTML += `
-                <div class="video-card" data-category="${v.category}">
-                    <div class="video-container">
-                        <iframe src="${v.url}" title="${v.title}" allowfullscreen onclick="addToHistory('${v.title}')"></iframe>
-                    </div>
-                    <div class="video-info">
-                        <h3 onclick="addToHistory('${v.title}')" style="cursor: pointer;">${v.title}</h3>
-                        <p>${v.desc}</p>
-                        <div class="action-bar">
-                            <button class="btn-action" onclick="shareVideo('${v.title}', '${v.url}')">🔗 শেয়ার</button>
-                            <button class="btn-action" onclick="copyLink('${v.url}')">📋 কপি লিংক</button>
-                            <button class="btn-action" onclick="toggleSave(this, '${v.title}')">🔖 সেভ</button>
+        allData.forEach(item => {
+            if(item.type === 'short') {
+                shortsGrid.innerHTML += `
+                    <div class="short-card" data-category="${item.category}">
+                        <div class="short-container">
+                            <iframe src="${item.url}" title="${item.title}" allowfullscreen onclick="addToHistory('${item.title}')"></iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer; font-size: 13px;">${item.title}</h3>
+                            <div class="action-bar" style="border:none; padding-top:5px; margin:0;">
+                                <button class="btn-action" onclick="shareVideo('${item.title}', '${item.url}')">🔗 শেয়ার</button>
+                                <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            } else {
+                grid.innerHTML += `
+                    <div class="video-card" data-category="${item.category}">
+                        <div class="video-container">
+                            <iframe src="${item.url}" title="${item.title}" allowfullscreen onclick="addToHistory('${item.title}')"></iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer;">${item.title}</h3>
+                            <p>${item.desc || ''}</p>
+                            <div class="action-bar">
+                                <button class="btn-action" onclick="shareVideo('${item.title}', '${item.url}')">🔗 শেয়ার</button>
+                                <button class="btn-action" onclick="copyLink('${item.url}')">📋 কপি লিংক</button>
+                                <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
         });
     }
 
@@ -222,10 +279,11 @@
     function openModal() { document.getElementById('uploadModal').style.display = 'flex'; }
     function closeModal() { document.getElementById('uploadModal').style.display = 'none'; }
 
-    // Handle Upload
+    // Upload Handler
     function handleUpload() {
         const title = document.getElementById('upTitle').value.trim();
-        const category = document.getElementById('upCategory').value.trim().toLowerCase() || 'general';
+        const type = document.getElementById('upType').value;
+        const category = document.getElementById('upCategory').value;
         let url = document.getElementById('upUrl').value.trim();
         const desc = document.getElementById('upDesc').value.trim();
 
@@ -234,19 +292,18 @@
             return;
         }
 
-        // Convert standard youtube link to embed if necessary
         if(url.includes('watch?v=')) {
             url = url.replace('watch?v=', 'embed/');
         }
 
-        const newVideo = { id: 'custom_' + Date.now(), title, category, url, desc };
-        let savedCustomVideos = JSON.parse(localStorage.getItem('custom_videos') || '[]');
-        savedCustomVideos.unshift(newVideo);
-        localStorage.setItem('custom_videos', JSON.stringify(savedCustomVideos));
+        const newItem = { id: 'custom_' + Date.now(), title, type, category, url, desc };
+        let savedCustom = JSON.parse(localStorage.getItem('custom_videos') || '[]');
+        savedCustom.unshift(newItem);
+        localStorage.setItem('custom_videos', JSON.stringify(savedCustom));
 
         closeModal();
-        loadVideos();
-        alert('সফলভাবে ভিডিও আপলোড হয়েছে!');
+        loadContent();
+        alert('সফলভাবে কন্টেন্ট আপলোড হয়েছে!');
     }
 
     // Share & Copy
@@ -259,15 +316,15 @@
     }
     function copyLink(url) {
         navigator.clipboard.writeText(url);
-        alert('ভিডিও লিংক কপি করা হয়েছে!');
+        alert('লিংক কপি করা হয়েছে!');
     }
 
-    // Watch History Tracker
+    // History Tracker
     function addToHistory(title) {
         let history = JSON.parse(localStorage.getItem('watch_history') || '[]');
         if(!history.includes(title)) {
             history.unshift(title);
-            if(history.length > 20) history.pop(); // keep last 20
+            if(history.length > 20) history.pop();
             localStorage.setItem('watch_history', JSON.stringify(history));
         }
     }
@@ -308,7 +365,7 @@
         let saved = JSON.parse(localStorage.getItem('saved_videos') || '[]');
         list.innerHTML = '';
         if(saved.length === 0) {
-            list.innerHTML = '<p style="color: #777;">কোনো ভিডিও সেভ করা নেই।</p>';
+            list.innerHTML = '<p style="color: #777;">আপনার কোনো ভিডিও সেভ করা নেই।</p>';
             return;
         }
         saved.forEach(title => {
@@ -322,11 +379,13 @@
         if(el) el.classList.add('active');
 
         document.getElementById('homeView').classList.add('hidden');
+        document.getElementById('shortsView').classList.add('hidden');
         document.getElementById('subscriptionsView').classList.add('hidden');
         document.getElementById('historyView').classList.add('hidden');
         document.getElementById('youView').classList.add('hidden');
 
         if(tab === 'home') document.getElementById('homeView').classList.remove('hidden');
+        if(tab === 'shorts') document.getElementById('shortsView').classList.remove('hidden');
         if(tab === 'subscriptions') document.getElementById('subscriptionsView').classList.remove('hidden');
         if(tab === 'history') { document.getElementById('historyView').classList.remove('hidden'); renderHistory(); }
         if(tab === 'you') { document.getElementById('youView').classList.remove('hidden'); renderSaved(); }
@@ -363,8 +422,7 @@
         });
     }
 
-    // Initialize Page
-    window.onload = loadVideos;
+    window.onload = loadContent;
 </script>
 </body>
 </html>
