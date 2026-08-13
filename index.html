@@ -315,8 +315,7 @@ quran_bangla: "\"জেনে রেখো, আল্লাহর জিকি�
             <p>&copy; ২০২৬ Peace for People. সর্বস্বত্ব সংরক্ষিত।</p>
         </div>
     </footer>
-
-    <!-- সমস্ত ফাংশনাল জাভাস্ক্রিপ্ট -->
+<!-- সমস্ত ফাংশনাল জাভাস্ক্রিপ্ট -->
     <script>
         // ১. ডার্ক মোড টগল লজিক
         function toggleTheme() {
@@ -329,7 +328,6 @@ quran_bangla: "\"জেনে রেখো, আল্লাহর জিকি�
                 localStorage.setItem('theme', 'dark');
             }
         }
-        // পেজ লোড হলে আগের থিম চেক করা
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
@@ -426,10 +424,11 @@ quran_bangla: "\"জেনে রেখো, আল্লাহর জিকি�
         }
         loadShantirBani();
 
-        // ৭. আজকের কুরআনের বাণী ফ্রন্টমেটার থেকে রেন্ডার করার ফাংশন
+        // ৭. আজকের কুরআনের বাণী রেন্ডার করার ফাংশন
         function loadQuranBani() {
-            const arabicText = "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا";
-            const banglaText = '"নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি। হ্যাঁ, নিশ্চয়ই কষ্টের সাথেই রয়েছে স্বস্তি।" (সূরা আল-ইনশিরাহ: ৫-৬)';
+            // ফাইলের একদম উপরে থাকা ফ্রন্টমেটার থেকে সরাসরি মানগুলো এখানে ব্যবহার করা হয়েছে
+            const arabicText = "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ";
+            const banglaText = '"জেনে রেখো, আল্লাহর জিকির ও স্মরণের মাধ্যমেই কেবল অন্তরে প্রশান্তি আসে।" (সূরা আর-রা\'দ, আয়াত ২৮)';
             
             const quranBox = document.getElementById('latest-quran-content');
             if (quranBox) {
@@ -457,17 +456,9 @@ quran_bangla: "\"জেনে রেখো, আল্লাহর জিকি�
             // বেসিক সার্চ হ্যান্ডলার
         }
     </script>
+
     <script>
-    // Decap CMS ফ্রন্টমেটার বা হেডার ক্লিন করার জন্য স্ক্রিপ্ট
-    document.addEventListener("DOMContentLoaded", function() {
-        // যদি বডির শুরুতে কোনো ফ্রন্টমেটার টেক্সট বা ড্যাশ থাকে তা লুকিয়ে ফেলা
-        const bodyText = document.body.innerHTML;
-        if(bodyText.includes("quran_arabic")) {
-            document.body.innerHTML = bodyText.replace(/---[\s\S]*?---/, '');
-        }
-    });
-</script>
-<script>
+    // টোস্ট নোটিফিকেশন সিস্টেম
     const homeMessages = [
         "🕊️ মনে রাখবেন, প্রতিটি কষ্টের সাথেই স্বস্তি রয়েছে। একটু গভীর দীর্ঘ শ্বাস নিন।",
         "✨ আজকের শান্তির চ্যালেঞ্জটি কি সম্পন্ন করেছেন? পরিচিত কাউকে আজ মুচকি হাসি দিন।",
@@ -501,8 +492,7 @@ quran_bangla: "\"জেনে রেখো, আল্লাহর জিকি�
         }, 5000);
     }
 
-    // প্রতি ৩ মিনিট (১৮০০০০ মিলি সেকেন্ড) পর পর টোস্ট দেখাবে
     setInterval(showToast, 180000);
-</script>
+    </script>
 </body>
 </html>
