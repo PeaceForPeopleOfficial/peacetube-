@@ -82,7 +82,7 @@
         .btn-action { background: var(--hover-bg); border: none; padding: 6px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold; color: var(--text-color); display: flex; align-items: center; gap: 4px; text-decoration: none; }
         .btn-action:hover { background: var(--border-color); }
 
-        /* Comment Section (Realtime Ready via LocalStorage) */
+        /* Comment Section */
         .comment-section { border-top: 1px solid var(--border-color); padding-top: 10px; }
         .comment-input-box { display: flex; gap: 8px; margin-bottom: 8px; }
         .comment-input { flex-grow: 1; padding: 7px 12px; border: 1px solid var(--border-color); border-radius: 20px; outline: none; font-size: 12px; background: var(--card-bg); color: var(--text-color); }
@@ -207,14 +207,16 @@
         </div>
     </div>
 
-    <!-- SUBSCRIPTIONS VIEW -->
+    <!-- SUBSCRIPTIONS VIEW (Updated with Official Link) -->
     <div id="subscriptionsView" class="hidden">
         <h2>🔔 আপনার সাবস্ক্রাইবকৃত চ্যানেলসমূহ</h2>
-        <p>আপনার পছন্দের চ্যানেলগুলোর লেটেস্ট আপডেট এখানে দেখতে পাবেন।</p>
-        <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 15px;">
-            <h3>🌿 PeaceTube Official Channel</h3>
-            <p style="font-size: 13px; color: #666;">সর্বশেষ প্রকাশিত ভিডিও: মানসিক প্রশান্তির নতুন লেকচার।</p>
-            <a href="https://youtube.com" target="_blank" style="color: var(--orange); font-weight: bold; text-decoration: none;">চ্যানেল ভিজিট করুন &rarr;</a>
+        <p>আপনার পছন্দের অফিশিয়াল চ্যানেলগুলোর লেটেস্ট আপডেট এখানে দেখতে পাবেন।</p>
+        <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3>🌿 Peace For People Official</h3>
+                <p style="font-size: 13px; color: #666; margin: 5px 0 0 0;">আমাদের অফিশিয়াল ইউটিউব চ্যানেল থেকে নিয়মিত আপডেট পেতে যুক্ত থাকুন।</p>
+            </div>
+            <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" style="background: var(--orange); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 13px; white-space: nowrap;">চ্যানেল ভিজিট করুন &rarr;</a>
         </div>
     </div>
 
@@ -302,7 +304,7 @@
         countSpan.innerText = count;
     }
 
-    // Comments System (Ready for Firebase Integration later)
+    // Comments System
     function postComment(btn, videoId) {
         const input = btn.previousElementSibling;
         const text = input.value.trim();
@@ -314,30 +316,12 @@
         newDiv.innerText = text;
         commentsContainer.prepend(newDiv);
 
-        // Save to localStorage temporarily
         let savedComments = JSON.parse(localStorage.getItem('comments_' + videoId) || '[]');
         savedComments.unshift(text);
         localStorage.setItem('comments_' + videoId, JSON.stringify(savedComments));
 
         input.value = '';
     }
-
-    // Load saved comments on startup
-    window.addEventListener('DOMContentLoaded', () => {
-        ['v1', 'v2'].forEach(videoId => {
-            let savedComments = JSON.parse(localStorage.getItem('comments_' + videoId) || '[]');
-            const container = document.getElementById('comments_' + videoId);
-            if(container && savedComments.length > 0) {
-                // Keep default and prepend saved ones if needed
-                savedComments.forEach(comm => {
-                    const div = document.createElement('div');
-                    div.className = 'single-comment';
-                    div.innerText = comm;
-                    // container.appendChild(div);
-                });
-            }
-        });
-    });
 
     // Save/Bookmark Video to 'You' Library
     function toggleSave(btn, videoTitle) {
