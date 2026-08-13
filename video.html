@@ -4,6 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PeaceTube - প্রফেশনাল ইউটিউব স্টাইল ভিডিও প্ল্যাটফর্ম</title>
+    
+    <!-- Firebase SDK (Modular v10) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDn5V2Lbqk_6KeP-OwL7dXV84yondDJ800",
+            authDomain: "peacetube-5b223.firebaseapp.com",
+            projectId: "peacetube-5b223",
+            storageBucket: "peacetube-5b223.appspot.com",
+            messagingSenderId: "382909657592",
+            appId: "1:382909657592:web:1cd506e1df06deb119e60d",
+            measurementId: "G-08W1X056JP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Make functions globally available
+        window.db = db;
+        window.collection = collection;
+        window.addDoc = addDoc;
+        window.getDocs = getDocs;
+        window.query = query;
+        window.orderBy = orderBy;
+
+        // Auto load videos when page opens
+        window.addEventListener('DOMContentLoaded', () => {
+            loadVideosFromCloud();
+        });
+    </script>
+
     <style>
         :root {
             --orange: #ff9933;
@@ -84,7 +117,7 @@
         /* Shorts Grid View Style */
         .shorts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .short-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
-        .short-container { position: relative; padding-bottom: 177.77%; height: 0; background: #000; } /* 9:16 aspect ratio for shorts */
+        .short-container { position: relative; padding-bottom: 177.77%; height: 0; background: #000; }
         .short-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         /* Modal for Upload */
@@ -134,7 +167,7 @@
         </div>
 
         <div id="videoGrid" class="video-grid">
-            <!-- Dynamic Videos Rendered Here -->
+            <p style="text-align: center; color: #666; grid-column: 1/-1;">ক্লাউড থেকে ভিডিও লোড হচ্ছে...</p>
         </div>
     </div>
 
@@ -143,7 +176,7 @@
         <h2>⚡ পিস শর্টস (Shorts)</h2>
         <p style="color: #6c757d; margin-bottom: 20px;">ছোট এবং আকর্ষণীয় রিলস ভিডিওসমূহ:</p>
         <div id="shortsGrid" class="shorts-grid">
-            <!-- Dynamic Shorts Rendered Here -->
+            <!-- Shorts Rendered Here -->
         </div>
     </div>
 
@@ -177,7 +210,7 @@
 <!-- UPLOAD MODAL -->
 <div id="uploadModal" class="modal">
     <div class="modal-content">
-        <h3>➕ নতুন ভিডিও বা শর্টস যুক্ত করুন</h3>
+        <h3>➕ ক্লাউডে নতুন ভিডিও বা শর্টস যুক্ত করুন</h3>
         <input type="text" id="upTitle" class="form-input" placeholder="ভিডিওর শিরোনাম (Title)">
         <select id="upType" class="form-input">
             <option value="video">সাধারণ ভিডিও (Video)</option>
@@ -194,93 +227,82 @@
         <textarea id="upDesc" class="form-input" placeholder="ভিডিও বিবরণ..." rows="2"></textarea>
         <div class="modal-btns">
             <button class="btn-close" onclick="closeModal()">বাতিল</button>
-            <button class="btn-submit" onclick="handleUpload()">আপলোড করুন</button>
+            <button class="btn-submit" onclick="handleCloudUpload()">আপলোড করুন</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Initial Default Data (Videos & Shorts)
-    let videosData = [
-        {
-            id: 'v1',
-            title: '📜 পবিত্র কোরআনের আলোকে শান্তির বাণী',
-            category: 'peace-words',
-            type: 'video',
-            url: 'https://www.youtube.com/embed/5qap5aO4i9A',
-            desc: 'মন জুড়ানো এবং হৃদয় শীতল করা শান্তির বাণী।'
-        },
-        {
-            id: 'v2',
-            title: '✨ মানসিক প্রশান্তি ও আত্মিক শান্তি',
-            category: 'islamic',
-            type: 'video',
-            url: 'https://www.youtube.com/embed/L_LUpnjgPso',
-            desc: 'কুরআনের আলো ও সুন্নাহর আলোকে মন জুড়ানো আলোচনা।'
-        },
-        {
-            id: 's1',
-            title: '⚡ প্রতিদিনের মোটিভেশনাল শর্টস',
-            category: 'motivational',
-            type: 'short',
-            url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-            desc: 'ছোট শর্টস ভিডিও।'
-        }
-    ];
-
-    function loadContent() {
-        let savedCustom = JSON.parse(localStorage.getItem('custom_videos') || '[]');
-        let allData = [...savedCustom, ...videosData];
-        
+    // Load Videos from Firebase Firestore
+    async function loadVideosFromCloud() {
         const grid = document.getElementById('videoGrid');
         const shortsGrid = document.getElementById('shortsGrid');
         
-        grid.innerHTML = '';
-        shortsGrid.innerHTML = '';
+        try {
+            const q = window.query(window.collection(window.db, "videos"), window.orderBy("timestamp", "desc"));
+            const querySnapshot = await window.getDocs(q);
+            
+            grid.innerHTML = '';
+            shortsGrid.innerHTML = '';
 
-        allData.forEach(item => {
-            if(item.type === 'short') {
-                shortsGrid.innerHTML += `
-                    <div class="short-card" data-category="${item.category}">
-                        <div class="short-container">
-                            <iframe src="${item.url}" title="${item.title}" allowfullscreen onclick="addToHistory('${item.title}')"></iframe>
-                        </div>
-                        <div class="video-info">
-                            <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer; font-size: 13px;">${item.title}</h3>
-                            <div class="action-bar" style="border:none; padding-top:5px; margin:0;">
-                                <button class="btn-action" onclick="shareVideo('${item.title}', '${item.url}')">🔗 শেয়ার</button>
-                                <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                grid.innerHTML += `
-                    <div class="video-card" data-category="${item.category}">
-                        <div class="video-container">
-                            <iframe src="${item.url}" title="${item.title}" allowfullscreen onclick="addToHistory('${item.title}')"></iframe>
-                        </div>
-                        <div class="video-info">
-                            <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer;">${item.title}</h3>
-                            <p>${item.desc || ''}</p>
-                            <div class="action-bar">
-                                <button class="btn-action" onclick="shareVideo('${item.title}', '${item.url}')">🔗 শেয়ার</button>
-                                <button class="btn-action" onclick="copyLink('${item.url}')">📋 কপি লিংক</button>
-                                <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+            if (querySnapshot.empty) {
+                grid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">কোনো ভিডিও পাওয়া যায়নি। আপলোড করুন!</p>';
+                return;
             }
-        });
+
+            querySnapshot.forEach((docSnap) => {
+                const item = docSnap.data();
+                let embedUrl = item.url;
+                if(embedUrl.includes('watch?v=')) {
+                    embedUrl = embedUrl.replace('watch?v=', 'embed/');
+                }
+
+                if(item.type === 'short') {
+                    shortsGrid.innerHTML += `
+                        <div class="short-card" data-category="${item.category}">
+                            <div class="short-container">
+                                <iframe src="${embedUrl}" title="${item.title}" allowfullscreen onclick="addToHistory('${item.title}')"></iframe>
+                            </div>
+                            <div class="video-info">
+                                <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer; font-size: 13px;">${item.title}</h3>
+                                <div class="action-bar" style="border:none; padding-top:5px; margin:0;">
+                                    <button class="btn-action" onclick="shareVideo('${item.title}', '${embedUrl}')">🔗 শেয়ার</button>
+                                    <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    grid.innerHTML += `
+                        <div class="video-card" data-category="${item.category}">
+                            <div class="video-container">
+                                <iframe src="${embedUrl}" title="${item.title}" allowfullscreen onclick="addToHistory('${item.title}')"></iframe>
+                            </div>
+                            <div class="video-info">
+                                <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer;">${item.title}</h3>
+                                <p>${item.desc || ''}</p>
+                                <div class="action-bar">
+                                    <button class="btn-action" onclick="shareVideo('${item.title}', '${embedUrl}')">🔗 শেয়ার</button>
+                                    <button class="btn-action" onclick="copyLink('${embedUrl}')">📋 কপি লিংক</button>
+                                    <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        } catch (error) {
+            console.error("Error loading videos: ", error);
+            grid.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">ভিডিও লোড করতে সমস্যা হয়েছে।</p>';
+        }
     }
 
     // Modal Control
     function openModal() { document.getElementById('uploadModal').style.display = 'flex'; }
     function closeModal() { document.getElementById('uploadModal').style.display = 'none'; }
 
-    // Upload Handler
-    function handleUpload() {
+    // Upload to Firebase Cloud Firestore
+    async function handleCloudUpload() {
         const title = document.getElementById('upTitle').value.trim();
         const type = document.getElementById('upType').value;
         const category = document.getElementById('upCategory').value;
@@ -296,14 +318,27 @@
             url = url.replace('watch?v=', 'embed/');
         }
 
-        const newItem = { id: 'custom_' + Date.now(), title, type, category, url, desc };
-        let savedCustom = JSON.parse(localStorage.getItem('custom_videos') || '[]');
-        savedCustom.unshift(newItem);
-        localStorage.setItem('custom_videos', JSON.stringify(savedCustom));
+        try {
+            await window.addDoc(window.collection(window.db, "videos"), {
+                title: title,
+                type: type,
+                category: category,
+                url: url,
+                desc: desc,
+                timestamp: new Date()
+            });
 
-        closeModal();
-        loadContent();
-        alert('সফলভাবে কন্টেন্ট আপলোড হয়েছে!');
+            closeModal();
+            document.getElementById('upTitle').value = '';
+            document.getElementById('upUrl').value = '';
+            document.getElementById('upDesc').value = '';
+            
+            alert('সফলভাবে ক্লাউডে ভিডিও আপলোড হয়েছে! এখন সবাই দেখতে পাবে।');
+            loadVideosFromCloud();
+        } catch (error) {
+            console.error("Error adding document: ", error);
+            alert('আপলোড করতে সমস্যা হয়েছে!');
+        }
     }
 
     // Share & Copy
@@ -421,8 +456,6 @@
             card.style.display = (cat === 'all' || cardCat === cat) ? 'flex' : 'none';
         });
     }
-
-    window.onload = loadContent;
 </script>
 </body>
 </html>
