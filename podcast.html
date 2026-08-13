@@ -81,29 +81,15 @@
         <div class="logo-area">
             <h1>🎙️ Peace <span>Podcast</span></h1>
         </div>
-       <nav>
-    <a href="index.html">🏠 হোম</a>
-    <a href="quran.html">📖 আল-কুরআন</a>
-    <a href="video.html">📺 পিস টিউব</a>
-    <a href="podcast.html" class="active">🎙️ পডকাস্ট</a>
-    <a href="library.html">📚 লাইব্রেরি</a>
-    <button onclick="shareCurrentPage()" style="background: #ff9933; color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;">🔗 শেয়ার</button>
-    <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
-</nav>
- </div>
-        </div>
-<script>
-    function shareCurrentPage() {
-        const pageUrl = window.location.href;
-        if (navigator.share) {
-            navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
-        } else {
-            navigator.clipboard.writeText(pageUrl).then(() => {
-                alert('✨ পডকাস্ট পেজের লিঙ্কটি কপি হয়েছে!');
-            });
-        }
-    }
-</script>
+        <nav>
+            <a href="index.html">🏠 হোম</a>
+            <a href="quran.html">📖 আল-কুরআন</a>
+            <a href="video.html">📺 পিস টিউব</a>
+            <a href="podcast.html" class="active">🎙️ পডকাস্ট</a>
+            <a href="library.html">📚 লাইব্রেরি</a>
+            <button onclick="shareCurrentPage()" style="background: #ff9933; color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;">🔗 শেয়ার</button>
+            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
+        </nav>
     </header>
 
     <div class="container">
@@ -131,8 +117,25 @@
             const currentTheme = document.body.getAttribute('data-theme');
             if (currentTheme === 'dark') {
                 document.body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
             } else {
                 document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        if(localStorage.getItem('theme') === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+        }
+
+        function shareCurrentPage() {
+            const pageUrl = window.location.href;
+            if (navigator.share) {
+                navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(pageUrl).then(() => {
+                    alert('✨ পডকাস্ট পেজের লিঙ্কটি কপি হয়েছে!');
+                });
             }
         }
 
@@ -153,10 +156,9 @@
                 if (!response.ok) throw new Error('Failed to fetch podcast files');
                 
                 const files = await response.json();
-                container.innerHTML = ''; // লোডিং টেক্সট মুছে ফেলা
+                container.innerHTML = '';
 
-                // Markdown ফাইলগুলো ফিল্টার করা
-                const mdFiles = files.filter(file => file.name.endsWith('.md'));
+                const mdFiles = files.filter(file => file.name.endsWith('.md') || file.name.endsWith('.json'));
 
                 if (mdFiles.length === 0) {
                     container.innerHTML = '<p style="text-align: center;">কোনো পডকাস্ট পাওয়া যায়নি।</p>';
@@ -167,35 +169,25 @@
                     const fileRes = await fetch(file.download_url);
                     const content = await fileRes.text();
 
-                    // ফ্রন্টমেটার থেকে ডেটা পার্স করা
-                    const parts = content.split('---');
-                    if (parts.length >= 3) {
-                        const yamlMeta = parts[1];
-                        const titleMatch = yamlMeta.match(/title:\s*"?(.*?)"?$/m) || yamlMeta.match(/title:\s*(.*)$/m);
-                        const speakerMatch = yamlMeta.match(/speaker:\s*"?(.*?)"?$/m) || yamlMeta.match(/speaker:\s*(.*)$/m);
-                        const audioMatch = yamlMeta.match(/audio:\s*"?(.*?)"?$/m) || yamlMeta.match(/audio:\s*(.*)$/m);
-                        const descMatch = yamlMeta.match(/description:\s*"?(.*?)"?$/m) || yamlMeta.match(/description:\s*(.*)$/m);
+                    if (file.name.endsWith('.md')) {
+                        const parts = content.split('---');
+                        if (parts.length >= 3) {
+                            const yamlMeta = parts[1];
+                            const titleMatch = yamlMeta.match(/title:\s*"?(.*?)"?$/m) || yamlMeta.match(/title:\s*(.*)$/m);
+                            const speakerMatch = yamlMeta.match(/speaker:\s*"?(.*?)"?$/m) || yamlMeta.match(/speaker:\s*(.*)$/m);
+                            const audioMatch = yamlMeta.match(/audio:\s*"?(.*?)"?$/m) || yamlMeta.match(/audio:\s*(.*)$/m) || yamlMeta.match(/url:\s*"?(.*?)"?$/m);
+                            const descMatch = yamlMeta.match(/description:\s*"?(.*?)"?$/m) || yamlMeta.match(/description:\s*(.*)$/m);
 
-                        const title = titleMatch ? titleMatch[1].replace(/["']/g, '') : 'শিরোনামহীন পডকাস্ট';
-                        const speaker = speakerMatch ? speakerMatch[1].replace(/["']/g, '') : 'বক্তা উল্লেখ নেই';
-                        const audioSrc = audioMatch ? audioMatch[1].replace(/["']/g, '') : '';
-                        const description = descMatch ? descMatch[1].replace(/["']/g, '') : '';
+                            const title = titleMatch ? titleMatch[1].replace(/["']/g, '') : 'শিরোনামহীন পডকাস্ট';
+                            const speaker = speakerMatch ? speakerMatch[1].replace(/["']/g, '') : 'বক্তা উল্লেখ নেই';
+                            const audioSrc = audioMatch ? audioMatch[1].replace(/["']/g, '') : '';
+                            const description = descMatch ? descMatch[1].replace(/["']/g, '') : '';
 
-                        // পডকাস্ট কার্ড তৈরি করা
-                        const card = document.createElement('div');
-                        card.className = 'podcast-card';
-                        card.innerHTML = `
-                            <div class="podcast-header">
-                                <h3 class="podcast-title">${title}</h3>
-                                <span class="speaker-tag">🎙️ বক্তা: ${speaker}</span>
-                            </div>
-                            <p class="podcast-desc">${description}</p>
-                            <audio controls>
-                                <source src="${audioSrc}" type="audio/mpeg">
-                                আপনার ব্রাউজার অডিও সাপোর্ট করে না।
-                            </audio>
-                        `;
-                        container.appendChild(card);
+                            appendPodcastCard(container, title, speaker, description, audioSrc);
+                        }
+                    } else if (file.name.endsWith('.json')) {
+                        const data = JSON.parse(content);
+                        appendPodcastCard(container, data.title || 'শিরোনামহীন পডকাস্ট', data.speaker || 'বক্তা উল্লেখ নেই', data.description || '', data.audio || data.url || '');
                     }
                 }
             } catch (error) {
@@ -204,37 +196,24 @@
             }
         }
 
-        // পেজ লোড হওয়ার সাথে সাথে পডকাস্ট ফেচ করা কল হবে
+        function appendPodcastCard(container, title, speaker, description, audioSrc) {
+            const card = document.createElement('div');
+            card.className = 'podcast-card';
+            card.innerHTML = `
+                <div class="podcast-header">
+                    <h3 class="podcast-title">${title}</h3>
+                    <span class="speaker-tag">🎙️ বক্তা: ${speaker}</span>
+                </div>
+                <p class="podcast-desc">${description}</p>
+                <audio controls>
+                    <source src="${audioSrc}" type="audio/mpeg">
+                    আপনার ব্রাউজার অডিও সাপোর্ট করে না।
+                </audio>
+            `;
+            container.appendChild(card);
+        }
+
         document.addEventListener('DOMContentLoaded', loadPodcasts);
     </script>
-    <script>
-    const podcastMessages = [
-        "🎙️ পডকাস্টের এই অডিও বার্তাগুলো আপনার মনের অস্থিরতা কমাতে দারুণ কার্যকরী।",
-        "🎧 চোখ বন্ধ করে হেডফোনে শান্তির বাণীগুলো মনোযোগ দিয়ে শুনতে থাকুন।",
-        "🌿 প্রশান্তির সুর ও কথা মনকে সতেজ করে তোলে।"
-    ];
-
-    function showPodcastToast() {
-        const randomMsg = podcastMessages[Math.floor(Math.random() * podcastMessages.length)];
-        const toast = document.createElement('div');
-        toast.innerHTML = `<span>${randomMsg}</span>`;
-        Object.assign(toast.style, {
-            position: 'fixed', bottom: '20px', right: '20px',
-            background: '#263238', color: '#ffffff', padding: '12px 18px',
-            borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-            zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #ff9933',
-            transition: 'opacity 0.5s ease', opacity: '0'
-        });
-        document.body.appendChild(toast);
-        setTimeout(() => toast.style.opacity = '1', 100);
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 500);
-        }, 5000);
-    }
-
-    // প্রতি ৩ মিনিট পর পর পডকাস্ট পেজে নোটিফিকেশন দেখাবে
-    setInterval(showPodcastToast, 180000);
-</script>
 </body>
 </html>
