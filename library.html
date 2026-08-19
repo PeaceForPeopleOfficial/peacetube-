@@ -332,14 +332,7 @@
         badgeClass = 'badge';
         cardClass = 'library-card';
         actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
- } else {
-        // ড্রাইভের লিংকটিকে প্রিভিউ মোডে রূপান্তর করার লজিক
-      let embedUrl = url;
-        if (url && url.includes('drive.google.com')) {
-            embedUrl = url.split('/view')[0] + '/preview';
-        }
-        actionHtml = `<button class="btn-read" onclick="openPdf('${embedUrl}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
-    }
+ actionHtml = `<button class="btn-read" onclick="openPdf('${embedUrl}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
     card.className = cardClass;
     card.setAttribute('data-category', category);
     card.innerHTML = `
