@@ -332,9 +332,16 @@
         badgeClass = 'badge';
         cardClass = 'library-card';
         actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
-  } else {
-        const finalUrl = (url && url.trim() !== '') ? url : 'https://drive.google.com/file/d/1LzeV1BozpwOyGs5uaJASBJWDsa4kBr-h/view';
-        actionHtml = `<a href="${finalUrl}" target="_blank" class="btn-read" style="text-decoration: none; display: inline-block;">📖 অনলাইনে পড়ুন</a>`;
+ } else {
+        // ড্রাইভের লিংকটিকে প্রিভিউ মোডে রূপান্তর করার লজিক
+        let embedUrl = url;
+        if (url && url.includes('drive.google.com')) {
+            const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (fileIdMatch && fileIdMatch[1]) {
+                embedUrl = `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+            }
+        }
+        actionHtml = `<button class="btn-read" onclick="openPdf('${embedUrl}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
     }
     card.className = cardClass;
     card.setAttribute('data-category', category);
