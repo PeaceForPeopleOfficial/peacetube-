@@ -312,7 +312,7 @@
             console.error('লাইব্রেরি ডেটা লোড করতে সমস্যা:', error);
         }
     }
-  function appendLibraryCard(category, title, author, description, url) {
+function appendLibraryCard(category, title, author, description, url) {
     const gridContainer = document.getElementById('libraryGrid');
     const card = document.createElement('div');
     
@@ -321,7 +321,7 @@
     let cardClass = 'library-card ebook-card';
     let actionHtml = ''; 
 
-    // ক্যাটাগরি চেক করে বাটন বা অডিও সেট করা
+    // ক্যাটাগরি চেক করে বাটন বা অডিও সেট করা (আগের মতোই থাকবে)
     if (category.includes('nasheed') || category.includes('song')) {
         badgeText = '🎵 গজল ও গান';
         badgeClass = 'badge';
@@ -331,8 +331,12 @@
         badgeText = '✍️ কবিতা আবৃত্তি';
         badgeClass = 'badge';
         cardClass = 'library-card';
-        actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
- actionHtml = `<button class="btn-read" onclick="openPdf('${embedUrl}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
+        actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অادیو সাপোর্ট করে না।</audio>`;
+    } else {
+        // শুধু এই অংশটি পরিবর্তন করে সিকিউরড openPdf ফাংশন দেওয়া হলো
+        actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
+    }
+
     card.className = cardClass;
     card.setAttribute('data-category', category);
     card.innerHTML = `
