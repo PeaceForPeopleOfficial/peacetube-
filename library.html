@@ -322,44 +322,45 @@
             console.error('লাইব্রেরি ডেটা লোড করতে সমস্যা:', error);
         }
     }
+function appendLibraryCard(category, title, author, description, url) {
+    const gridContainer = document.getElementById('libraryGrid');
+    const card = document.createElement('div');
+    
+    let badgeText = '📚 ই-বুক';
+    let badgeClass = 'badge green';
+    let cardClass = 'library-card ebook-card';
+    let actionHtml = ''; 
 
-    function appendLibraryCard(category, title, author, description, url) {
-        const gridContainer = document.getElementById('libraryGrid');
-        const card = document.createElement('div');
-        
-        let badgeText = '📚 ই-বুক';
-        let badgeClass = 'badge green';
-        let cardClass = 'library-card ebook-card';
-        let actionHtml = '';
-
-        if (category.includes('nasheed') || category.includes('song')) {
-            badgeText = '🎵 গজল ও গান';
-            badgeClass = 'badge';
-            cardClass = 'library-card';
-            actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
-        } else if (category.includes('poetry') || category.includes('poem')) {
-            badgeText = '✍️ কবিতা আবৃত্তি';
-            badgeClass = 'badge';
-            cardClass = 'library-card';
-            actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
-             } else {
-         actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')">📖 অনলাইনে পড়ুন</button>`; 
-}
-
-        card.className = cardClass;
-        card.setAttribute('data-category', category);
-        card.innerHTML = `
-            <div>
-                <span class="${badgeClass}">${badgeText}</span>
-                <h3>${title}</h3>
-                ${author ? `<div class="author-name">লেখক/শিল্পী: ${author}</div>` : ''}
-                <p style="font-size: 13px;">${description}</p>
-            </div>
-            ${actionHtml}
-        `;
-        gridContainer.appendChild(card);
+    // ক্যাটাগরি চেক করে বাটন বা অডিও সেট করা
+    if (category.includes('nasheed') || category.includes('song')) {
+        badgeText = '🎵 গজল ও গান';
+        badgeClass = 'badge';
+        cardClass = 'library-card';
+        actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
+    } else if (category.includes('poetry') || category.includes('poem')) {
+        badgeText = '✍️ কবিতা আবৃত্তি';
+        badgeClass = 'badge';
+        cardClass = 'library-card';
+        actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
+    } else {
+        const finalUrl = (url && url.trim() !== '') ? url : 'https://drive.google.com/file/d/1LzeV1BozpwOyGs5uaJASBJWDsa4kBr-h/view';
+        actionHtml = `<a href="${finalUrl}" target="_blank" class="btn-read" style="text-decoration: none; display: inline-block;">📖 অনলাইনে পড়ুন</a>`;
     }
 
+    card.className = cardClass;
+    card.setAttribute('data-category', category);
+    card.innerHTML = `
+        <div>
+            <span class="${badgeClass}">${badgeText}</span>
+            <h3>${title}</h3>
+            ${author ? `<div class="author-name">লেখক/শিল্পী: ${author}</div>` : ''}
+            <p style="font-size: 13px;">${description}</p>
+        </div>
+        ${actionHtml}
+    `;
+    gridContainer.appendChild(card);
+}
+  
     document.addEventListener('DOMContentLoaded', loadDynamicLibrary);
   </script>
 </body>
