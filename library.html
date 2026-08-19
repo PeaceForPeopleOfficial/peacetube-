@@ -164,16 +164,6 @@
         </div>
         <button class="btn-read" onclick="openPdf('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', 'প্রশান্তির খোঁজে মন')">📖 অনলাইনে পড়ুন</button>
       </div>
- <div class="library-card ebook-card" data-category="ebook">
-  <div>
-    <span class="badge green">📚 ই-বুক</span>
-    <h3>কুরআনের উদ্দেশ্য "আধুনিক জীবনের সমস্যা ও কুরআনী সমাধান"</h3>
-    <div class="author-name">লেখক: Muhammad Saidur Rahman</div>
-    <p style="font-size: 13px;">কুরআনের উদ্দেশ্য আধুনিক জীবনের সমস্যা ও কুরআনী সমাধান...</p>
-  </div>
-  <a href="https://drive.google.com/uc?export=download&id=1LzeV1BozpwOyGs5uaJASBJWDsa4kBr-h" target="_blank" class="btn-read" style="text-decoration: none; display: inline-block;">📖 অনলাইনে পড়ুন</a>
-</div>
-
       <div class="library-card" data-category="nasheed">
         <div>
           <span class="badge">🎵 ইসলামিক গজল</span>
@@ -361,6 +351,31 @@
     gridContainer.appendChild(card);
 }
     document.addEventListener('DOMContentLoaded', loadDynamicLibrary);
+    function openPdf(url, title) {
+    document.getElementById('pdfTitle').innerText = '📖 ' + title + ' (সিকিউরড মোড)';
+    document.getElementById('pdfFrame').src = url;
+    document.getElementById('pdfViewer').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('pdfViewer').offsetTop - 50, behavior: 'smooth' });
+}
+
+function closePdf() {
+    document.getElementById('pdfViewer').style.display = 'none';
+    document.getElementById('pdfFrame').src = '';
+}
+
+// নিরাপত্তা নিশ্চিত করার জন্য এক্সট্রা প্রটেকশন কোড
+document.addEventListener('DOMContentLoaded', () => {
+    // ১. রাইট-ক্লিক বা মেনু আসা বন্ধ করা
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    // ২. কিবোর্ড শর্টকাট (ডাউনলোড বা প্রিন্ট করা) ব্লক করা
+    document.addEventListener('keydown', e => {
+        if (e.ctrlKey && (e.key === 's' || e.key === 'p' || e.key === 'u' || e.key === 'shift' && e.key === 'I')) {
+            e.preventDefault();
+            alert('⚠️ দুঃখিত! নিরাপত্তার কারণে এই ই-বুকটি ডাউনলোড, প্রিন্ট বা কপি করা নিষেধ। আপনি শুধু অনলাইনে পড়তে পারবেন।');
+        }
+    });
+});
   </script>
 </body>
 </html>
