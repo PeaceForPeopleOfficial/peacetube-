@@ -343,7 +343,7 @@
             cardClass = 'library-card';
             actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
              } else {
-    actionHtml = `<a href="${url}" target="_blank" class="btn-read" style="text-decoration: none; display: inline-block;">📖 অনলাইনে পড়ুন</a>`;
+         actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')">📖 অনলাইনে পড়ুন</button>`; 
 }
 
         card.className = cardClass;
