@@ -252,12 +252,20 @@
       });
     }
 
-    function openPdf(url, title) {
-        document.getElementById('pdfTitle').innerText = '📖 ' + title;
-        document.getElementById('pdfFrame').src = url;
-        document.getElementById('pdfViewer').style.display = 'block';
-        window.scrollTo({ top: document.getElementById('pdfViewer').offsetTop - 50, behavior: 'smooth' });
+  function openPdf(url, title) {
+    let embedUrl = url;
+    if (url && url.includes('drive.google.com')) {
+        if (url.includes('/view')) {
+            embedUrl = url.split('/view')[0] + '/preview';
+        } else if (!url.includes('/preview')) {
+            embedUrl = url + (url.endsWith('/') ? '' : '/') + 'preview';
+        }
     }
+    document.getElementById('pdfTitle').innerText = '📖 ' + title;
+    document.getElementById('pdfFrame').src = embedUrl;
+    document.getElementById('pdfViewer').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('pdfViewer').offsetTop - 50, behavior: 'smooth' });
+}
 
     function closePdf() {
         document.getElementById('pdfViewer').style.display = 'none';
