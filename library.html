@@ -237,11 +237,47 @@
             viewerBox.style.display = 'block';
             window.scrollTo({ top: viewerBox.offsetTop - 50, behavior: 'smooth' });
         }
-
-        function closePdf() {
+    function closePdf() {
             document.getElementById('pdfViewer').style.display = 'none';
             document.getElementById('pdfFrame').src = '';
         }
-    </script>
+
+        // অ্যাডমিন প্যানেলের ক্যাটাগরি এবং কার্ড তৈরির লজিক
+        function appendLibraryCard(category, title, author, description, url) {
+            const gridContainer = document.getElementById('libraryGrid');
+            const card = document.createElement('div');
+            
+            let badgeText = '📚 ই-বুক';
+            let badgeClass = 'badge';
+            let actionHtml = '';
+
+            if (category.includes('gojol') || category.includes('nasheed') || category.includes('song')) {
+                badgeText = '🎵 গজল ও গান';
+                badgeClass = 'badge orange';
+                actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
+            } else if (category.includes('poetry') || category.includes('poem') || category.includes('shairi')) {
+                badgeText = '✍️ কবিতা ও শায়েরী';
+                badgeClass = 'badge orange';
+                actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
+            } else {
+                badgeText = '📚 ই-বুক';
+                badgeClass = 'badge';
+                actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
+            }
+
+            card.className = 'library-card';
+            card.setAttribute('data-category', category);
+            card.innerHTML = `
+                <div>
+                    <span class="${badgeClass}">${badgeText}</span>
+                    <h3>${title}</h3>
+                    ${author ? `<div class="author-name">লেখক/শিল্পী: ${author}</div>` : ''}
+                    <p style="font-size: 13px;">${description}</p>
+                </div>
+                ${actionHtml}
+            `;
+            gridContainer.appendChild(card);
+        }
+    </script>         
 </body>
 </html>
