@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peace Library - ই-বুক, গজল ও সাহিত্য সংকলন</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <style>
         :root {
             --orange: #ff9933;
@@ -13,32 +14,57 @@
             --text-color: #2c3e50;
             --light-border: #e2ece2;
         }
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #1e272c 0%, #0f1416 100%);
+            --card-bg: #263238;
+            --text-color: #eceff1;
+            --light-border: #37474f;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg-gradient);
             background-attachment: fixed;
             margin: 0; padding: 0;
             color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
         }
         header {
             background: var(--card-bg);
             border-top: 5px solid var(--orange);
             border-bottom: 3px solid var(--green);
             padding: 15px 20px;
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
             display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
         }
         .logo-area h1 { color: var(--green); margin: 0; font-size: 24px; }
         .logo-area h1 span { color: var(--orange); }
         nav { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        nav a { text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 14px; }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 14px; transition: 0.2s; }
         nav a:hover, nav a.active { color: var(--green); }
+        .theme-toggle-btn { background: var(--green); color: white; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
         .container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
         .hero-banner {
             background: var(--card-bg); padding: 25px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             border-left: 6px solid var(--orange); border-right: 6px solid var(--green);
-            text-align: center; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center; margin-bottom: 25px;
         }
         .hero-banner h2 { color: var(--green); margin-top: 0; }
+        .search-box { margin-bottom: 20px; display: flex; justify-content: center; }
+        .search-box input {
+            width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px;
+            border: 2px solid var(--green); outline: none; font-size: 15px;
+            background: var(--card-bg); color: var(--text-color);
+        }
+        .filter-tabs { display: flex; gap: 10px; justify-content: center; margin-bottom: 25px; flex-wrap: wrap; }
+        .tab-btn {
+            background: var(--card-bg); border: 1px solid var(--green); color: var(--green);
+            padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s;
+        }
+        .tab-btn.active, .tab-btn:hover { background: var(--green); color: white; }
+        .tab-btn.orange-tab { border-color: var(--orange); color: var(--orange); }
+        .tab-btn.orange-tab.active, .tab-btn.orange-tab:hover { background: var(--orange); color: white; }
         .library-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .library-card {
             background: var(--card-bg); border-radius: 12px; padding: 20px;
@@ -52,6 +78,7 @@
             font-size: 11px; font-weight: bold; color: white; background: var(--green); width: fit-content;
         }
         .author-name { font-size: 13px; color: #7f8c8d; margin-bottom: 12px; }
+        audio { width: 100%; margin-top: 10px; }
         .btn-read {
             display: inline-block; width: 100%; text-align: center; padding: 10px 0;
             background: var(--green); color: white; text-decoration: none; font-weight: bold;
@@ -76,18 +103,30 @@
             <a href="video.html">📺 পিস টিউব</a>
             <a href="podcast.html">🎙️ পডকাস্ট</a>
             <a href="library.html" class="active">📚 লাইব্রেরি</a>
+            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
         </nav>
     </header>
 
     <div class="container">
         <div class="hero-banner">
             <h2>📚🕊️ পিস প্রশান্তি ও মননশীল লাইব্রেরি</h2>
-            <p>মানসিক প্রশান্তি, সাহিত্য ও আত্মউন্নয়নমূলক ই-বুকের ডিজিটাল সংকলন।</p>
+            <p>মানসিক প্রশান্তি, সাহিত্য, আত্মউন্নয়নমূলক ই-বুক, গজল, কবিতা ও মন ছুঁয়ে যাওয়া শায়েরীর ডিজিটাল সংকলন।</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="🔍 বই, গজল বা কবিতার নাম দিয়ে খুঁজুন...">
+        </div>
+
+        <div class="filter-tabs">
+            <button class="tab-btn active" onclick="filterCategory('all', this)">সব সংকলন</button>
+            <button class="tab-btn ebook-tab" onclick="filterCategory('ebook', this)">📚 ই-বুক / PDF</button>
+            <button class="tab-btn orange-tab" onclick="filterCategory('nasheed', this)">🎵 গজল ও গান</button>
+            <button class="tab-btn orange-tab" onclick="filterCategory('poetry', this)">✍️ কবিতা ও শায়েরী</button>
         </div>
 
         <div class="library-grid" id="libraryGrid">
-            <!-- বই ১ -->
-            <div class="library-card">
+            <!-- ডাইনামিক ডেটা লোড হওয়ার আগে ফলব্যাক হিসেবে আপনার বর্তমান বই দুটি এখানে শো করবে -->
+            <div class="library-card" data-category="ebook">
                 <div>
                     <span class="badge">📚 ই-বুক</span>
                     <h3>কুরআনের উদ্দেশ্য আধুনিক জীবনের সমস্যা ও কুরআনী সমাধান</h3>
@@ -97,8 +136,7 @@
                 <button class="btn-read" onclick="openPdf('https://drive.google.com/file/d/1LzeV1BozpwOyGs5uaJASBJWDsa4kBr-h/view', 'কুরআনের উদ্দেশ্য আধুনিক জীবনের সমস্যা ও কুরআনী সমাধান')">📖 অনলাইনে পড়ুন</button>
             </div>
 
-            <!-- বই ২ (মানুষের জন্য শান্তি) -->
-            <div class="library-card">
+            <div class="library-card" data-category="ebook">
                 <div>
                     <span class="badge">📚 ই-বুক</span>
                     <h3>মানুষের জন্য শান্তি</h3>
@@ -124,6 +162,46 @@
     </footer>
 
     <script>
+        // ডার্ক মোড লজিক
+        function toggleTheme() {
+            if (document.body.getAttribute('data-theme') === 'dark') {
+                document.body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        if(localStorage.getItem('theme') === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+        }
+
+        // ক্যাটাগরি ফিল্টার
+        function filterCategory(category, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const cards = document.querySelectorAll('.library-card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category') || 'ebook';
+                if (category === 'all' || cardCat.includes(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // সার্চ বক্স লজিক
+        function searchItems() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.library-card');
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                card.style.display = text.includes(input) ? 'flex' : 'none';
+            });
+        }
+
+        // নিরাপদ পিডিএফ প্রিভিউ ফাংশন
         function openPdf(url, title) {
             let embedUrl = url;
             if (url && url.includes('drive.google.com')) {
@@ -145,6 +223,82 @@
             document.getElementById('pdfViewer').style.display = 'none';
             document.getElementById('pdfFrame').src = '';
         }
+
+        // অ্যাডমিন প্যানেল / গিটহাব থেকে ফাইল ডাইনামিক লোড করার লজিক
+        async function loadDynamicLibrary() {
+            try {
+                const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/library');
+                if (!response.ok) return;
+                const files = await response.json();
+                
+                const mdFiles = files.filter(file => (file.name.endsWith('.md') || file.name.endsWith('.json')));
+                if (mdFiles.length === 0) return;
+
+                const gridContainer = document.getElementById('libraryGrid');
+                gridContainer.innerHTML = ''; // পুরোনো স্ট্যাটিক কার্ড মুছে ডাইনামিক কার্ড বসাবে
+
+                for (const file of mdFiles) {
+                    const fileRes = await fetch(file.download_url);
+                    const content = await fileRes.text();
+
+                    if (file.name.endsWith('.md')) {
+                        const parts = content.split('---');
+                        if (parts.length >= 3) {
+                            const yamlMeta = parts[1];
+                            const titleMatch = yamlMeta.match(/title:\s*"?(.*?)"?$/m);
+                            const authorMatch = yamlMeta.match(/author:\s*"?(.*?)"?$/m);
+                            const catMatch = yamlMeta.match(/category:\s*"?(.*?)"?$/m);
+                            const descMatch = yamlMeta.match(/description:\s*"?(.*?)"?$/m);
+                            const fileUrlMatch = yamlMeta.match(/file_url:\s*"?(.*?)"?$/m) || yamlMeta.match(/audio:\s*"?(.*?)"?$/m) || yamlMeta.match(/url:\s*"?(.*?)"?$/m);
+
+                            const title = titleMatch ? titleMatch[1].replace(/["']/g, '') : 'শিরোনামহীন';
+                            const author = authorMatch ? authorMatch[1].replace(/["']/g, '') : '';
+                            const category = catMatch ? catMatch[1].replace(/["']/g, '') : 'ebook';
+                            const description = descMatch ? descMatch[1].replace(/["']/g, '') : '';
+                            const itemUrl = fileUrlMatch ? fileUrlMatch[1].replace(/["']/g, '') : '';
+
+                            appendLibraryCard(category, title, author, description, itemUrl);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log('ডাইনামিক লাইব্রেরি লোড হচ্ছে...');
+            }
+        }
+
+        function appendLibraryCard(category, title, author, description, url) {
+            const gridContainer = document.getElementById('libraryGrid');
+            const card = document.createElement('div');
+            
+            let badgeText = '📚 ই-বুক';
+            let badgeClass = 'badge';
+            let actionHtml = '';
+
+            if (category.includes('nasheed') || category.includes('song')) {
+                badgeText = '🎵 গজল ও গান';
+                actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
+            } else if (category.includes('poetry') || category.includes('poem')) {
+                badgeText = '✍️ কবিতা আবৃত্তি';
+                actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
+            } else {
+                actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
+            }
+
+            card.className = 'library-card';
+            card.setAttribute('data-category', category);
+            card.innerHTML = `
+                <div>
+                    <span class="${badgeClass}">${badgeText}</span>
+                    <h3>${title}</h3>
+                    ${author ? `<div class="author-name">লেখক/শিল্পী: ${author}</div>` : ''}
+                    <p style="font-size: 13px;">${description}</p>
+                </div>
+                ${actionHtml}
+            `;
+            gridContainer.appendChild(card);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadDynamicLibrary);
     </script>
 </body>
 </html>
