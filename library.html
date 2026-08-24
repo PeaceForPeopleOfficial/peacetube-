@@ -327,7 +327,7 @@ function appendLibraryCard(category, title, author, description, url) {
     let badgeText = '📚 ই-বুক';
     let badgeClass = 'badge green';
     let cardClass = 'library-card ebook-card';
-    let actionHtml = ''; 
+    let actionHtml = '';
 
     // ক্যাটাগরি চেক করে বাটন বা অডিও সেট করা
     if (category.includes('nasheed') || category.includes('song')) {
@@ -340,9 +340,11 @@ function appendLibraryCard(category, title, author, description, url) {
         badgeClass = 'badge';
         cardClass = 'library-card';
         actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
-  } else {
-    actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')" style="cursor: pointer;">📖 অনলাইনে পড়ুন</button>`;
-}
+    } else {
+        // ই-বুক বা অন্যান্য ফাইলের জন্য নিরাপদ openPdf ফাংশন কল
+        actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')" style="cursor: pointer;">📖 অনলাইনে পড়ুন</button>`;
+    }
+
     card.className = cardClass;
     card.setAttribute('data-category', category);
     card.innerHTML = `
