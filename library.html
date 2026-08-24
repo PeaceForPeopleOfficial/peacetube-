@@ -124,8 +124,9 @@
             <button class="tab-btn orange-tab" onclick="filterCategory('poetry', this)">✍️ কবিতা ও শায়েরী</button>
         </div>
 
+        <!-- লাইব্রেরি গ্রিড যেখানে বইগুলো সরাসরি রেন্ডার হবে -->
         <div class="library-grid" id="libraryGrid">
-            <!-- ডাইনামিক ডেটা লোড হওয়ার আগে ফলব্যাক হিসেবে আপনার বর্তমান বই দুটি এখানে শো করবে -->
+            <!-- বই ১ -->
             <div class="library-card" data-category="ebook">
                 <div>
                     <span class="badge">📚 ই-বুক</span>
@@ -136,6 +137,7 @@
                 <button class="btn-read" onclick="openPdf('https://drive.google.com/file/d/1LzeV1BozpwOyGs5uaJASBJWDsa4kBr-h/view', 'কুরআনের উদ্দেশ্য আধুনিক জীবনের সমস্যা ও কুরআনী সমাধান')">📖 অনলাইনে পড়ুন</button>
             </div>
 
+            <!-- বই ২ -->
             <div class="library-card" data-category="ebook">
                 <div>
                     <span class="badge">📚 ই-বুক</span>
@@ -201,7 +203,7 @@
             });
         }
 
-        // নিরাপদ পিডিএফ প্রিভিউ ফাংশন
+        // নিরাপদ পিডিএফ প্রিভিউ ফাংশন (গুগল ড্রাইভ লিংক প্রিভিউ মোডে রূপান্তর করবে)
         function openPdf(url, title) {
             let embedUrl = url;
             if (url && url.includes('drive.google.com')) {
@@ -223,82 +225,6 @@
             document.getElementById('pdfViewer').style.display = 'none';
             document.getElementById('pdfFrame').src = '';
         }
-
-        // অ্যাডমিন প্যানেল / গিটহাব থেকে ফাইল ডাইনামিক লোড করার লজিক
-        async function loadDynamicLibrary() {
-            try {
-                const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/library');
-                if (!response.ok) return;
-                const files = await response.json();
-                
-                const mdFiles = files.filter(file => (file.name.endsWith('.md') || file.name.endsWith('.json')));
-                if (mdFiles.length === 0) return;
-
-                const gridContainer = document.getElementById('libraryGrid');
-                gridContainer.innerHTML = ''; // পুরোনো স্ট্যাটিক কার্ড মুছে ডাইনামিক কার্ড বসাবে
-
-                for (const file of mdFiles) {
-                    const fileRes = await fetch(file.download_url);
-                    const content = await fileRes.text();
-
-                    if (file.name.endsWith('.md')) {
-                        const parts = content.split('---');
-                        if (parts.length >= 3) {
-                            const yamlMeta = parts[1];
-                            const titleMatch = yamlMeta.match(/title:\s*"?(.*?)"?$/m);
-                            const authorMatch = yamlMeta.match(/author:\s*"?(.*?)"?$/m);
-                            const catMatch = yamlMeta.match(/category:\s*"?(.*?)"?$/m);
-                            const descMatch = yamlMeta.match(/description:\s*"?(.*?)"?$/m);
-                            const fileUrlMatch = yamlMeta.match(/file_url:\s*"?(.*?)"?$/m) || yamlMeta.match(/audio:\s*"?(.*?)"?$/m) || yamlMeta.match(/url:\s*"?(.*?)"?$/m);
-
-                            const title = titleMatch ? titleMatch[1].replace(/["']/g, '') : 'শিরোনামহীন';
-                            const author = authorMatch ? authorMatch[1].replace(/["']/g, '') : '';
-                            const category = catMatch ? catMatch[1].replace(/["']/g, '') : 'ebook';
-                            const description = descMatch ? descMatch[1].replace(/["']/g, '') : '';
-                            const itemUrl = fileUrlMatch ? fileUrlMatch[1].replace(/["']/g, '') : '';
-
-                            appendLibraryCard(category, title, author, description, itemUrl);
-                        }
-                    }
-                }
-            } catch (error) {
-                console.log('ডাইনামিক লাইব্রেরি লোড হচ্ছে...');
-            }
-        }
-
-        function appendLibraryCard(category, title, author, description, url) {
-            const gridContainer = document.getElementById('libraryGrid');
-            const card = document.createElement('div');
-            
-            let badgeText = '📚 ই-বুক';
-            let badgeClass = 'badge';
-            let actionHtml = '';
-
-            if (category.includes('nasheed') || category.includes('song')) {
-                badgeText = '🎵 গজল ও গান';
-                actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
-            } else if (category.includes('poetry') || category.includes('poem')) {
-                badgeText = '✍️ কবিতা আবৃত্তি';
-                actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
-            } else {
-                actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
-            }
-
-            card.className = 'library-card';
-            card.setAttribute('data-category', category);
-            card.innerHTML = `
-                <div>
-                    <span class="${badgeClass}">${badgeText}</span>
-                    <h3>${title}</h3>
-                    ${author ? `<div class="author-name">লেখক/শিল্পী: ${author}</div>` : ''}
-                    <p style="font-size: 13px;">${description}</p>
-                </div>
-                ${actionHtml}
-            `;
-            gridContainer.appendChild(card);
-        }
-
-        document.addEventListener('DOMContentLoaded', loadDynamicLibrary);
     </script>
 </body>
 </html>
