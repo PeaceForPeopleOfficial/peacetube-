@@ -77,6 +77,7 @@
             display: inline-block; padding: 3px 10px; border-radius: 12px;
             font-size: 11px; font-weight: bold; color: white; background: var(--green); width: fit-content;
         }
+        .badge.orange { background: var(--orange); }
         .author-name { font-size: 13px; color: #7f8c8d; margin-bottom: 12px; }
         audio { width: 100%; margin-top: 10px; }
         .btn-read {
@@ -87,11 +88,17 @@
         .pdf-viewer-box {
             background: var(--card-bg); border-radius: 12px; padding: 20px; margin-top: 20px;
             border-left: 5px solid var(--orange); box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: none;
+            position: relative;
+        }
+        /* প্রিন্ট ও ডাউনলোড রোধ করার জন্য সিকিউরিটি ওভারলে লেয়ার */
+        .secure-overlay {
+            position: absolute; top: 60px; left: 20px; right: 20px; bottom: 20px;
+            background: transparent; z-index: 10; pointer-events: none;
         }
         footer { background: var(--card-bg); padding: 20px; margin-top: 50px; border-top: 3px solid var(--green); text-align: center; font-size: 13px; color: #7f8c8d; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false"> <!-- মাউস রাইট-ক্লিক ব্লক করা -->
 
     <header>
         <div class="logo-area">
@@ -124,7 +131,6 @@
             <button class="tab-btn orange-tab" onclick="filterCategory('poetry', this)">✍️ কবিতা ও শায়েরী</button>
         </div>
 
-        <!-- লাইব্রেরি গ্রিড যেখানে বইগুলো সরাসরি রেন্ডার হবে -->
         <div class="library-grid" id="libraryGrid">
             <!-- বই ১ -->
             <div class="library-card" data-category="ebook">
@@ -152,10 +158,13 @@
         <!-- সিকিউরড পিডিএফ প্রিভিউ ভিউয়ার বক্স -->
         <div class="pdf-viewer-box" id="pdfViewer">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 id="pdfTitle" style="margin: 0; color: var(--green);">📖 বই প্রিভিউ</h3>
+                <h3 id="pdfTitle" style="margin: 0; color: var(--green);">📖 বই প্রিভিউ (নিরাপদ পঠন মোড)</h3>
                 <button onclick="closePdf()" style="background: var(--orange); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold;">✕ বন্ধ করুন</button>
             </div>
-            <iframe id="pdfFrame" width="100%" height="600px" style="border: 1px solid var(--light-border); border-radius: 8px;"></iframe>
+            <div style="position: relative;">
+                <iframe id="pdfFrame" width="100%" height="600px" style="border: 1px solid var(--light-border); border-radius: 8px;"></iframe>
+                <div class="secure-overlay"></div>
+            </div>
         </div>
     </div>
 
@@ -164,6 +173,14 @@
     </footer>
 
     <script>
+        // কিবোর্ড শর্টকাট (Print / Save) ব্লক করা সিকিউরিটি
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u')) {
+                e.preventDefault();
+                alert('⚠️ দুঃখিত! এই সাইটের কন্টেন্ট ডাউনলোড বা প্রিন্ট করা সংরক্ষিত।');
+            }
+        });
+
         // ডার্ক মোড লজিক
         function toggleTheme() {
             if (document.body.getAttribute('data-theme') === 'dark') {
@@ -203,7 +220,7 @@
             });
         }
 
-        // নিরাপদ পিডিএফ প্রিভিউ ফাংশন (গুগল ড্রাইভ লিংক প্রিভিউ মোডে রূপান্তর করবে)
+        // নিরাপদ পিডিএফ প্রিভিউ ফাংশন
         function openPdf(url, title) {
             let embedUrl = url;
             if (url && url.includes('drive.google.com')) {
@@ -213,7 +230,7 @@
                     embedUrl = url + (url.endsWith('/') ? '' : '/') + 'preview';
                 }
             }
-            document.getElementById('pdfTitle').innerText = '📖 ' + title + ' (সিকিউরড মোড)';
+            document.getElementById('pdfTitle').innerText = '📖 ' + title + ' (সিকিউরড পঠন মোড)';
             document.getElementById('pdfFrame').src = embedUrl;
             
             const viewerBox = document.getElementById('pdfViewer');
