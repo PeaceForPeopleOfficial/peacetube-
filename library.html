@@ -340,10 +340,9 @@ function appendLibraryCard(category, title, author, description, url) {
         badgeClass = 'badge';
         cardClass = 'library-card';
         actionHtml = `<audio controls><source src="${url}" type="audio/mp3">আপনার ব্রাউজার অডিও সাপোর্ট করে না।</audio>`;
-    } else {
-   // সরাসরি আপনার দেওয়া লিংকটি ব্যবহার করার জন্য এখানে পরিবর্তন করুন
-actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')">📖 অনলাইনে পড়ুন</button>`;
-
+  } else {
+    actionHtml = `<button class="btn-read" onclick="openPdf('${url}', '${title}')" style="cursor: pointer;">📖 অনলাইনে পড়ুন</button>`;
+}
     card.className = cardClass;
     card.setAttribute('data-category', category);
     card.innerHTML = `
