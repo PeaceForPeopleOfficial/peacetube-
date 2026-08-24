@@ -358,25 +358,37 @@ function appendLibraryCard(category, title, author, description, url) {
     `;
     gridContainer.appendChild(card);
 }
-    document.addEventListener('DOMContentLoaded', loadDynamicLibrary);
+   document.addEventListener('DOMContentLoaded', loadDynamicLibrary);
+
 function openPdf(url, title) {
     let embedUrl = url;
     if (url && url.includes('drive.google.com')) {
-        embedUrl = url.split('/view')[0] + '/preview';
+        if (url.includes('/view')) {
+            embedUrl = url.split('/view')[0] + '/preview';
+        } else if (!url.includes('/preview')) {
+            embedUrl = url + (url.endsWith('/') ? '' : '/') + 'preview';
+        }
     }
     
-    document.getElementById('pdfTitle').innerText = '📖 ' + title + ' (সিকিউরড মোড)';
+    document.getElementById('pdfTitle').innerText = '📖 ' + (title || 'বই প্রিভিউ') + ' (সিকিউরড মোড)';
     document.getElementById('pdfFrame').src = embedUrl;
-    document.getElementById('pdfViewer').style.display = 'block';
-    window.scrollTo({ top: document.getElementById('pdfViewer').offsetTop - 50, behavior: 'smooth' });
+    
+    // ভিউয়ার বক্সটি নিশ্চিতভাবে দেখানোর জন্য আইডি চেক করা
+    const viewerBox = document.getElementById('pdfViewer') || document.querySelector('.pdf-viewer-box');
+    if (viewerBox) {
+        viewerBox.style.display = 'block';
+        window.scrollTo({ top: viewerBox.offsetTop - 50, behavior: 'smooth' });
+    }
 }
 
 function closePdf() {
-    document.getElementById('pdfViewer').style.display = 'none';
-    document.getElementById('pdfFrame').src = '';
-}
-  </script>
-  
+    const viewerBox = document.getElementById('pdfViewer') || document.querySelector('.pdf-viewer-box');
+    if (viewerBox) {
+        viewerBox.style.display = 'none';
+    }
+    const frame = document.getElementById('pdfFrame');
+    if (frame) frame.src = '';
+} 
   <!-- সিকিউরড পিডিএফ ভিউয়ার বক্স -->
 <div id="pdfViewer" style="display: none; margin-top: 30px; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
