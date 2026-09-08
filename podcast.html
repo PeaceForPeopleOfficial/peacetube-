@@ -111,7 +111,6 @@
             const container = document.getElementById('podcastContainer');
             const repoOwner = 'PeaceForPeopleOfficial';
             const repoName = 'peacetube-';
-            // অ্যাডমিন প্যানেলের সঠিক ফোল্ডার পাথ 'content/audio' চেক করা হচ্ছে
             const folderPath = 'content/audio'; 
             const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
 
@@ -123,10 +122,20 @@
                 allPodcasts = [];
 
                 for (const file of files) {
-                    if (file.name.endsWith('.md')) {
+                    if (file.name.endsWith('.md') || file.name.endsWith('.json')) {
                         const fileResponse = await fetch(file.download_url);
-                        const mdText = await fileResponse.text();
-                        parseMarkdownPodcast(mdText);
+                        
+                        if (file.name.endsWith('.json')) {
+                            const jsonData = await fileResponse.json();
+                            allPodcasts.push({
+                                title: jsonData.title || 'শিরোনামহীন পডকাস্ট',
+                                speaker: jsonData.speaker || jsonData.author || 'বক্তা উল্লেখ নেই',
+                                audioUrl: jsonData.audio_url || jsonData.audio_file || jsonData.audio || jsonData.url || ''
+                            });
+                        } else {
+                            const mdText = await fileResponse.text();
+                            parseMarkdownPodcast(mdText);
+                        }
                     }
                 }
                 renderPodcasts(allPodcasts);
@@ -148,7 +157,6 @@
 
             const title = getVal('title') || 'শিরোনামহীন পডকাস্ট';
             const speaker = getVal('speaker') || getVal('author') || 'বক্তা উল্লেখ নেই';
-            // অ্যাডমিন প্যানেলের সব সম্ভাব্য অডিও ফিল্ডের নাম এখানে যুক্ত করা হলো
             const audioUrl = getVal('audio_url') || getVal('audio_file') || getVal('audio') || getVal('url') || '';
 
             if (audioUrl) {
@@ -160,22 +168,52 @@
             const container = document.getElementById('podcastContainer');
             container.innerHTML = '';
 
-            if (list.length === 0) {
+            const validList = list.filter(item => item.audioUrl && item.audioUrl.trim() !== '');
+
+            if (validList.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #777;">কোনো পডকাস্ট পাওয়া যায়নি।</p>';
                 return;
             }
 
-            list.forEach(item => {
+            validList.forEach(item => {
+                let url = item.audioUrl;
+                let mediaElement = '';
+
+                // ইউটিউব ভিডিও লিংক চেক করা
+                if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                    let videoId = '';
+                    if (url.includes('youtu.be/')) {
+                        videoId = url.split('youtu.be/')[1]?.split('?')[0];
+                    } else if (url.includes('watch?v=')) {
+                        videoId = url.split('watch?v=')[1]?.split('&')[0];
+                    }
+                    if (videoId) {
+                        mediaElement = `<iframe width="100%" height="180" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>`;
+                    }
+                } 
+                // গুগল ড্রাইভ লিংক চেক করা
+                else if (url.includes('drive.google.com')) {
+                    const fileIdMatch = url.match(/\/d\/(.*?)\/|id=(.*?)(&|$)/);
+                    if (fileIdMatch) {
+                        const fileId = fileIdMatch[1] || fileIdMatch[2];
+                        if (fileId) {
+                            url = `https://docs.google.com/uc?export=download&id=${fileId}`;
+                        }
+                    }
+                    mediaElement = `<audio controls><source src="${url}" type="audio/mpeg">আপনার ব্রাউজার অডিও সমর্থন করে না।</audio>`;
+                } 
+                // সাধারণ এমপিথ্রি ও Archive.org লিংক
+                else {
+                    mediaElement = `<audio controls><source src="${url}" type="audio/mpeg">আপনার ব্রাউজার অডিও সমর্থন করে না।</audio>`;
+                }
+
                 container.innerHTML += `
                     <div class="podcast-card">
                         <div class="podcast-header">
                             <h3 class="podcast-title">🎧 ${item.title}</h3>
                             <span class="podcast-speaker">👤 ${item.speaker}</span>
                         </div>
-                        <audio controls>
-                            <source src="${item.audioUrl}" type="audio/mpeg">
-                            আপনার ব্রাউজার অডিও ট্যাগ সমর্থন করে না।
-                        </audio>
+                        ${mediaElement}
                     </div>
                 `;
             });
