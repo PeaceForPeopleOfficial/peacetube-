@@ -190,11 +190,10 @@
             };
 
             const title = getVal('title') || 'শিরোনামহীন ভিডিও';
-            const category = getVal('category') || 'official';
+            const category = getVal('category') ? getVal('category').toLowerCase() : 'other';
             let url = getVal('video_file') || getVal('video_link') || getVal('video') || getVal('url') || '#';
             const description = getVal('description') || '';
 
-            // ইউটিউব লিংক বা শর্টস লিংক এমবেড ফরম্যাটে রূপান্তর
             if (url.includes('youtu.be/')) {
                 const videoId = url.split('youtu.be/')[1].split('?')[0];
                 url = `https://www.youtube.com/embed/${videoId}`;
@@ -212,6 +211,7 @@
             grid.innerHTML = '';
 
             const filtered = allVideos.filter(item => {
+                // যদি 'all' সিলেক্ট থাকে, তবে ক্যাটাগরি যাই হোক না কেন সব ভিডিও শো করবে!
                 const matchCat = (currentCategory === 'all' || item.category === currentCategory);
                 const matchSearch = item.title.toLowerCase().includes(searchVal) || item.description.toLowerCase().includes(searchVal);
                 return matchCat && matchSearch;
