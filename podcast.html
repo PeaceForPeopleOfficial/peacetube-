@@ -103,8 +103,7 @@
             <p style="text-align: center; color: var(--green);">🔄 গিটহাব থেকে পডকাস্ট লোড হচ্ছে...</p>
         </div>
     </div>
-
-    <script>
+<script>
         let allPodcasts = [];
 
         async function loadPodcastsFromGitHub() {
@@ -122,10 +121,20 @@
                 allPodcasts = [];
 
                 for (const file of files) {
-                    if (file.name.endsWith('.md')) {
+                    if (file.name.endsWith('.md') || file.name.endsWith('.json')) {
                         const fileResponse = await fetch(file.download_url);
-                        const mdText = await fileResponse.text();
-                        parseMarkdownPodcast(mdText);
+                        
+                        if (file.name.endsWith('.json')) {
+                            const jsonData = await fileResponse.json();
+                            allPodcasts.push({
+                                title: jsonData.title || 'শিরোনামহীন পডকাস্ট',
+                                speaker: jsonData.speaker || jsonData.author || 'বক্তা উল্লেখ নেই',
+                                audioUrl: jsonData.audio_url || jsonData.audio_file || jsonData.audio || jsonData.url || ''
+                            });
+                        } else {
+                            const mdText = await fileResponse.text();
+                            parseMarkdownPodcast(mdText);
+                        }
                     }
                 }
                 renderPodcasts(allPodcasts);
@@ -158,12 +167,15 @@
             const container = document.getElementById('podcastContainer');
             container.innerHTML = '';
 
-            if (list.length === 0) {
+            // ফিল্টার করে ডুপ্লিকেট বা ফাঁকা রিমুভ করা
+            const validList = list.filter(item => item.audioUrl && item.audioUrl.trim() !== '');
+
+            if (validList.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #777;">কোনো পডকাস্ট পাওয়া যায়নি।</p>';
                 return;
             }
 
-            list.forEach(item => {
+            validList.forEach(item => {
                 container.innerHTML += `
                     <div class="podcast-card">
                         <div class="podcast-header">
