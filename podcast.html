@@ -111,7 +111,8 @@
             const container = document.getElementById('podcastContainer');
             const repoOwner = 'PeaceForPeopleOfficial';
             const repoName = 'peacetube-';
-            const folderPath = 'content/podcasts'; // আপনার অ্যাডমিন প্যানেলের পডকাস্ট ফোল্ডার পাথ
+            // অ্যাডমিন প্যানেলের সঠিক ফোল্ডার পাথ 'content/audio' চেক করা হচ্ছে
+            const folderPath = 'content/audio'; 
             const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
 
             try {
@@ -147,7 +148,8 @@
 
             const title = getVal('title') || 'শিরোনামহীন পডকাস্ট';
             const speaker = getVal('speaker') || getVal('author') || 'বক্তা উল্লেখ নেই';
-            const audioUrl = getVal('audio_file') || getVal('audio_link') || getVal('audio') || getVal('url') || '';
+            // অ্যাডমিন প্যানেলের সব সম্ভাব্য অডিও ফিল্ডের নাম এখানে যুক্ত করা হলো
+            const audioUrl = getVal('audio_url') || getVal('audio_file') || getVal('audio') || getVal('url') || '';
 
             if (audioUrl) {
                 allPodcasts.push({ title, speaker, audioUrl });
