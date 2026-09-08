@@ -3,751 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PeaceTube - প্রফেশনাল ইউটিউব স্টাইল ভিডিও প্ল্যাটফর্ম</title>
-    <!-- Firebase SDK (Modular v10) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyDn5V2Lbqk_6KeP-OwL7dXV84yondDJ800",
-            authDomain: "peacetube-5b223.firebaseapp.com",
-            projectId: "peacetube-5b223",
-            storageBucket: "peacetube-5b223.appspot.com",
-            messagingSenderId: "382909657592",
-            appId: "1:382909657592:web:1cd506e1df06deb119e60d",
-            measurementId: "G-08W1X056JP"
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        
-        window.db = db;
-        window.collection = collection;
-        window.addDoc = addDoc;
-        window.getDocs = getDocs;
-        window.query = query;
-        window.orderBy = orderBy;
-        
-        window.addEventListener('DOMContentLoaded', () => {
-            loadVideosFromCloud();
-        });
-    </script>
+    <title>পিসটিউব ভিডিও - PeaceTube</title>
     <style>
         :root {
-            --orange: #ff9933;
-            --green: #138808;
-            --bg-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            --green: #0a5c36;
+            --orange: #f39c12;
+            --bg-color: #f9f9f9;
             --card-bg: #ffffff;
-            --text-color: #212529;
-            --border-color: #dee2e6;
-            --hover-bg: #f1f3f5;
+            --text-color: #333333;
         }
-        [data-theme="dark"] {
-            --bg-gradient: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
-            --card-bg: #1f1f1f;
-            --text-color: #f1f1f1;
-            --border-color: #333333;
-            --hover-bg: #2a2a2a;
-        }
-        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            margin: 0; padding: 0;
+            background-color: var(--bg-color);
             color: var(--text-color);
-            transition: background 0.3s, color 0.3s;
+            margin: 0;
+            padding: 0;
         }
-        nav {
-            background: var(--card-bg);
-            padding: 10px 25px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-        .logo {
-            font-weight: bold;
-            font-size: 18px;
-            color: var(--orange);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .nav-links {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            overflow-x: auto;
-            flex-wrap: nowrap;
-            scrollbar-width: none;
-        }
-        .nav-links::-webkit-scrollbar { display: none; }
-        nav a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 600;
-            font-size: 13px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            transition: background 0.2s;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-        nav a:hover, nav a.active {
-            background: var(--hover-bg);
-            color: var(--orange);
-        }
-        .nav-right {
-            margin-left: auto;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .btn-upload-nav {
-            background: var(--orange);
+        header {
+            background-color: var(--green);
             color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-        .theme-toggle-btn {
-            background: var(--green);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            white-space: nowrap;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .container {
-            max-width: 1300px;
-            margin: 25px auto;
-            padding: 0 20px;
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 15px;
         }
-        .chips-bar {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 15px;
+        .section-title {
+            color: var(--green);
+            border-bottom: 2px solid var(--orange);
+            padding-bottom: 5px;
             margin-bottom: 20px;
-            white-space: nowrap;
-            scrollbar-width: none;
+            font-size: 22px;
         }
-        .chips-bar::-webkit-scrollbar { display: none; }
-        .chip {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-        .chip.active, .chip:hover {
-            background: var(--orange);
-            color: #ffffff;
-            border-color: var(--orange);
-        }
-        .search-box-container {
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-        }
-        .search-bar {
-            width: 100%;
-            max-width: 600px;
-            padding: 12px 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 25px;
-            font-size: 15px;
-            outline: none;
-            background: var(--card-bg);
-            color: var(--text-color);
-            transition: border-color 0.2s;
-        }
-        .search-bar:focus { border-color: var(--orange); }
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
         .video-card {
             background: var(--card-bg);
             border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border-top: 4px solid var(--orange);
             transition: transform 0.2s;
         }
         .video-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            background: #000;
+        .badge {
+            background: var(--orange);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
         }
-        .video-container iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border: none;
-        }
-        .video-info {
-            padding: 15px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .video-info h3 {
-            margin: 0 0 6px 0;
-            font-size: 15px;
-            font-weight: 700;
-            line-height: 1.4;
-        }
-        .video-info p {
-            margin: 0 0 12px 0;
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #777;
             font-size: 13px;
-            color: #6c757d;
-            line-height: 1.4;
-            flex-grow: 1;
+            border-top: 1px solid #ddd;
         }
-        .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border-color);
-            padding-top: 10px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-        .btn-action {
-            background: var(--hover-bg);
-            border: none;
-            padding: 6px 10px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-            color: var(--text-color);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            text-decoration: none;
-        }
-        .btn-action:hover { background: var(--border-color); }
-        .shorts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-        }
-        .short-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-        }
-        .short-container {
-            position: relative;
-            padding-bottom: 177.77%;
-            height: 0;
-            background: #000;
-        }
-        .short-container iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border: none;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            width: 90%; max-width: 450px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        .modal-content h3 { margin-top: 0; color: var(--orange); }
-        .form-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--card-bg);
-            color: var(--text-color);
-            outline: none;
-        }
-        .modal-btns {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        .btn-submit {
-            background: var(--green);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-close {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">📺 PeaceTube</div>
-        <div class="nav-links">
-            <a onclick="switchTab('home', this)" class="active">🏠 হোম</a>
-            <a onclick="switchTab('shorts', this)">⚡ শর্টস</a>
-            <a onclick="switchTab('subscriptions', this)">🔔 সাবস্ক্রিপশন</a>
-            <a onclick="switchTab('history', this)">🕒 হিস্ট্রি</a>
-            <a onclick="switchTab('you', this)">👤 লাইব্রেরি</a>
-        </div>
-        <div class="nav-right">
-            <button class="btn-upload-nav" onclick="openModal()">➕ ভিডিও আপলোড</button>
-            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
-        </div>
-    </nav>
+
+    <header>
+        <h1>PeaceTube Video Sanctuary</h1>
+        <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.9;">আত্মিক প্রশান্তি ও শান্তির বাণীর ভিডিও কালেকশন</p>
+    </header>
 
     <div class="container">
-        <!-- HOME VIEW -->
-        <div id="homeView">
-            <div class="search-box-container">
-                <input type="text" id="videoSearch" class="search-bar" placeholder="🔍 যে কোনো কন্টেন্ট বা ভিডিও খুঁজুন..." onkeyup="filterVideos()">
-            </div>
-            <div class="chips-bar">
-                <div class="chip active" onclick="filterByChip('all', this)">সব কন্টেন্ট</div>
-                <div class="chip" onclick="filterByChip('peace-words', this)">📜 শান্তির বাণী</div>
-                <div class="chip" onclick="filterByChip('islamic', this)">✨ ইসলামিক প্রশান্তি</div>
-                <div class="chip" onclick="filterByChip('motivational', this)">🔥 মোটিভেশন</div>
-                <div class="chip" onclick="filterByChip('tech', this)">💻 টেকনোলজি</div>
-                <div class="chip" onclick="filterByChip('vlog', this)">🌍 ব্লগ ও ভ্রমণ</div>
-            </div>
-            <div id="videoGrid" class="video-grid">
-                <p style="text-align: center; color: #666; grid-column: 1/-1;">ক্লাউড থেকে ভিডিও লোড হচ্ছে...</p>
-            </div>
-        </div>
-
-        <!-- SHORTS VIEW -->
-        <div id="shortsView" class="hidden">
-            <h2>⚡ পিস শর্টস (Shorts)</h2>
-            <p style="color: #6c757d; margin-bottom: 20px;">ছোট এবং আকর্ষণীয় রিলস ভিডিওসমূহ:</p>
-            <div id="shortsGrid" class="shorts-grid"></div>
-        </div>
-
-        <!-- SUBSCRIPTIONS VIEW -->
-        <div id="subscriptionsView" class="hidden">
-            <h2>🔔 সাবস্ক্রাইবড চ্যানেলসমূহ</h2>
-            <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <div>
-                    <h3>🌿 Peace For People Official</h3>
-                    <p style="font-size: 13px; color: #6c757d; margin: 5px 0 0 0;">আমাদের অফিশিয়াল ইউটিউব চ্যানেল থেকে নিয়মিত আপডেট পেতে যুক্ত থাকুন।</p>
-                </div>
-                <a href="https://www.youtube.com/@PeaceForPeopleOfficial" target="_blank" style="background: var(--orange); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 13px; white-space: nowrap;">চ্যানেল ভিজিট করুন &rarr;</a>
-            </div>
-        </div>
-
-        <!-- WATCH HISTORY VIEW -->
-        <div id="historyView" class="hidden">
-            <h2>🕒 ওয়াচ হিস্ট্রি (Watch History)</h2>
-            <p style="color: #6c757d;">আপনি সম্প্রতি যে ভিডিওগুলো দেখেছেন:</p>
-            <div id="historyList" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;"></div>
-        </div>
-
-        <!-- YOU / LIBRARY VIEW -->
-        <div id="youView" class="hidden">
-            <h2>👤 সেভ করা ভিডিও লাইব্রেরি</h2>
-            <div id="savedVideosList" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;"></div>
+        <h2 class="section-title">📺 সাম্প্রতিক প্রকাশিত ভিডিওসমূহ</h2>
+        <div id="videoGrid" class="video-grid">
+            <!-- জাভাস্ক্রিপ্ট দিয়ে ভিডিওগুলো এখানে স্বয়ংক্রিয়ভাবে লোড হবে -->
         </div>
     </div>
 
-    <!-- UPLOAD MODAL -->
-    <div id="uploadModal" class="modal">
-        <div class="modal-content">
-            <h3>➕ ক্লাউডে নতুন ভিডিও বা শর্টস যুক্ত করুন</h3>
-            <input type="text" id="upTitle" class="form-input" placeholder="ভিডিওর শিরোনাম (Title)">
-            <select id="upType" class="form-input">
-                <option value="video">সাধারণ ভিডিও (Video)</option>
-                <option value="short">শর্টস ভিডিও (Shorts)</option>
-            </select>
-            <select id="upCategory" class="form-input">
-                <option value="peace-words">📜 শান্তির বাণী</option>
-                <option value="islamic">✨ ইসলামিক প্রশান্তি</option>
-                <option value="motivational">🔥 মোটিভেশন</option>
-                <option value="tech">💻 টেকনোলজি</option>
-                <option value="vlog">🌍 ব্লগ ও ভ্রমণ</option>
-            </select>
-            <input type="text" id="upUrl" class="form-input" placeholder="ইউটিউব এমবেড বা ভিডিও লিংক">
-            <textarea id="upDesc" class="form-input" placeholder="ভিডিও বিবরণ..." rows="2"></textarea>
-            <div class="modal-btns">
-                <button class="btn-close" onclick="closeModal()">বাতিল</button>
-                <button class="btn-submit" onclick="handleCloudUpload()">আপলোড করুন</button>
-            </div>
-        </div>
+    <div class="footer">
+        &copy; 2026 PeaceForPeople - সর্বস্বত্ব সংরক্ষিত।
     </div>
 
     <script>
-        let allCloudVideos = [];
-        let currentCategory = 'all';
+        // গিটহাব বা ক্লাউড থেকে ভিডিও ফাইলগুলো অটো-ফেচ করার কোড
+        async function loadVideosFromGitHub() {
+            const container = document.getElementById('videoGrid');
+            if (!container) return;
 
-        async function loadVideosFromCloud() {
-            const grid = document.getElementById('videoGrid');
-            const shortsGrid = document.getElementById('shortsGrid');
+            container.innerHTML = '<p style="text-align: center; color: var(--green); grid-column: 1 / -1;">🔄 পিসটিউব ভিডিওগুলো লোড হচ্ছে...</p>';
+
+            const repoOwner = 'PeaceForPeopleOfficial';
+            const repoName = 'peacetube-';
+            const folderPath = 'content/videos'; // আপনার গিটহাবের ভিডিও ফোল্ডার পাথ
+            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
+
             try {
-                const q = window.query(window.collection(window.db, "videos"), window.orderBy("timestamp", "desc"));
-                const querySnapshot = await window.getDocs(q);
-                allCloudVideos = [];
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error('ভিডিও ডেটা ফেচ করতে সমস্যা হয়েছে');
                 
-                querySnapshot.forEach((docSnap) => {
-                    allCloudVideos.push(docSnap.data());
-                });
+                const files = await response.json();
+                container.innerHTML = '';
 
-                renderFilteredVideos();
-            } catch (error) {
-                console.error("Error loading videos: ", error);
-                grid.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">ভিডিও লোড করতে সমস্যা হয়েছে।</p>';
-            }
-        }
-
-        function renderFilteredVideos() {
-            const grid = document.getElementById('videoGrid');
-            const shortsGrid = document.getElementById('shortsGrid');
-            const searchVal = document.getElementById('videoSearch').value.toLowerCase();
-
-            grid.innerHTML = '';
-            shortsGrid.innerHTML = '';
-
-            const filtered = allCloudVideos.filter(item => {
-                const matchCat = (currentCategory === 'all' || item.category === currentCategory);
-                const matchSearch = item.title.toLowerCase().includes(searchVal) || (item.desc && item.desc.toLowerCase().includes(searchVal));
-                return matchCat && matchSearch;
-            });
-
-            if (filtered.length === 0) {
-                grid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">কোনো ভিডিও পাওয়া যায়নি।</p>';
-                shortsGrid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">কোনো শর্টস পাওয়া যায়নি।</p>';
-                return;
-            }
-
-            filtered.forEach(item => {
-                let embedUrl = item.url;
-                if(embedUrl.includes('watch?v=')) {
-                    embedUrl = embedUrl.replace('watch?v=', 'embed/');
+                let videoFound = false;
+                for (const file of files) {
+                    if (file.name.endsWith('.md')) {
+                        const fileResponse = await fetch(file.download_url);
+                        const markdownText = await fileResponse.text();
+                        parseAndRenderVideoCard(markdownText, file.name);
+                        videoFound = true;
+                    }
                 }
 
-                if(item.type === 'short') {
-                    shortsGrid.innerHTML += `
-                        <div class="short-card">
-                            <div class="short-container">
-                                <iframe src="${embedUrl}" title="${item.title}" allowfullscreen onclick="addToHistory('${item.title}')"></iframe>
-                            </div>
-                            <div class="video-info">
-                                <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer; font-size: 13px;">${item.title}</h3>
-                                <div class="action-bar" style="border:none; padding-top:5px; margin:0;">
-                                    <button class="btn-action" onclick="shareVideo('${item.title}', '${embedUrl}')">🔗 শেয়ার</button>
-                                    <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    grid.innerHTML += `
-                        <div class="video-card">
-                            <div class="video-container">
-                                <iframe src="${embedUrl}" title="${item.title}" allowfullscreen onclick="addToHistory('${item.title}')"></iframe>
-                            </div>
-                            <div class="video-info">
-                                <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer;">${item.title}</h3>
-                                <p>${item.desc || ''}</p>
-                                <div class="action-bar">
-                                    <button class="btn-action" onclick="shareVideo('${item.title}', '${embedUrl}')">🔗 শেয়ার</button>
-                                    <button class="btn-action" onclick="copyLink('${embedUrl}')">📋 কপি</button>
-                                    <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                if (!videoFound) {
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-color); grid-column: 1 / -1; opacity: 0.7;">এই মুহূর্তে কোনো ভিডিও আপলোড করা হয়নি।</p>';
                 }
-            });
-        }
-
-        function filterByChip(category, el) {
-            currentCategory = category;
-            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-            if(el) el.classList.add('active');
-            renderFilteredVideos();
-        }
-
-        function filterVideos() {
-            renderFilteredVideos();
-        }
-
-        function openModal() { document.getElementById('uploadModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('uploadModal').style.display = 'none'; }
-
-        async function handleCloudUpload() {
-            const title = document.getElementById('upTitle').value.trim();
-            const type = document.getElementById('upType').value;
-            const category = document.getElementById('upCategory').value;
-            let url = document.getElementById('upUrl').value.trim();
-            const desc = document.getElementById('upDesc').value.trim();
-
-            if(!title || !url) {
-                alert('দয়া করে শিরোনাম এবং লিংক দিন!');
-                return;
-            }
-
-            if(url.includes('watch?v=')) {
-                url = url.replace('watch?v=', 'embed/');
-            }
-
-            try {
-                await window.addDoc(window.collection(window.db, "videos"), {
-                    title: title,
-                    type: type,
-                    category: category,
-                    url: url,
-                    desc: desc,
-                    timestamp: new Date()
-                });
-                closeModal();
-                document.getElementById('upTitle').value = '';
-                document.getElementById('upUrl').value = '';
-                document.getElementById('upDesc').value = '';
-                alert('সফলভাবে ক্লাউডে ভিডিও আপলোড হয়েছে!');
-                loadVideosFromCloud();
             } catch (error) {
-                console.error("Error adding document: ", error);
-                alert('আপলোড করতে সমস্যা হয়েছে!');
+                console.error('Error loading videos:', error);
+                container.innerHTML = '<p style="text-align: center; color: #e74c3c; grid-column: 1 / -1;">⚠️ ভিডিওগুলো লোড করতে সমস্যা হয়েছে। দয়া করে কিছুক্ষণ পর আবার চেষ্টা করুন।</p>';
             }
         }
 
-        function shareVideo(title, url) {
-            if (navigator.share) {
-                navigator.share({ title: title, url: url }).catch(console.error);
-            } else {
-                copyLink(url);
-            }
+        // Markdown ফাইলের ফ্রন্টম্যাটার থেকে ডেটা পার্স করে কার্ড তৈরি করা
+        function parseAndRenderVideoCard(mdText, fileName) {
+            const frontmatterMatch = mdText.match(/---([\s\S]*?)---/);
+            if (!frontmatterMatch) return;
+
+            const frontmatter = frontmatterMatch[1];
+            const getMeta = (key) => {
+                const match = frontmatter.match(new RegExp(`${key}:\\s*(.+)`));
+                return match ? match[1].trim().replace(/^['"](.*)['"]$/, '$1') : '';
+            };
+
+            const title = getMeta('title') || fileName.replace('.md', '');
+            const category = getMeta('category') || 'শান্তির বাণী';
+            const videoUrl = getMeta('video') || getMeta('url') || getMeta('link') || '#';
+            const description = getMeta('description') || 'PeaceForPeople পিসটিউব এক্সক্লুসিভ ভিডিও।';
+
+            appendVideoCard(category, title, description, videoUrl);
         }
 
-        function copyLink(url) {
-            navigator.clipboard.writeText(url);
-            alert('লিংক কপি করা হয়েছে!');
+        // ভিডিও কার্ড এইচটিএমএল পেজে ইনসার্ট করা
+        function appendVideoCard(category, title, description, videoUrl) {
+            const container = document.getElementById('videoGrid');
+            if (!container) return;
+
+            const card = document.createElement('div');
+            card.className = 'video-card';
+
+            card.innerHTML = `
+                <span class="badge">📺 ${category}</span>
+                <h3 style="margin: 8px 0 6px 0; color: var(--green); font-size: 17px;">${title}</h3>
+                <p style="font-size: 13px; color: var(--text-color); line-height: 1.4; margin-bottom: 12px;">${description}</p>
+                <div>
+                    <a href="${videoUrl}" target="_blank" style="display: inline-block; padding: 6px 14px; background: var(--green); color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 12px;">▶️ ভিডিও দেখুন</a>
+                </div>
+            `;
+            container.appendChild(card);
         }
 
-        function addToHistory(title) {
-            let history = JSON.parse(localStorage.getItem('watch_history') || '[]');
-            if(!history.includes(title)) {
-                history.unshift(title);
-                if(history.length > 20) history.pop();
-                localStorage.setItem('watch_history', JSON.stringify(history));
-            }
-        }
-
-        function renderHistory() {
-            const list = document.getElementById('historyList');
-            let history = JSON.parse(localStorage.getItem('watch_history') || '[]');
-            list.innerHTML = '';
-            if(history.length === 0) {
-                list.innerHTML = '<p style="color: #777;">কোনো হিস্ট্রি পাওয়া যায়নি।</p>';
-                return;
-            }
-            history.forEach(title => {
-                list.innerHTML += `<div style="background: var(--hover-bg); padding: 10px 15px; border-radius: 8px; border-left: 4px solid var(--green); font-weight: bold;">📺 ${title}</div>`;
-            });
-        }
-
-        function toggleSave(btn, title) {
-            let saved = JSON.parse(localStorage.getItem('saved_videos') || '[]');
-            if(!saved.includes(title)) {
-                saved.push(title);
-                localStorage.setItem('saved_videos', JSON.stringify(saved));
-                btn.innerText = '✅ সেভড';
-                btn.style.background = 'var(--green)';
-                btn.style.color = '#fff';
-            } else {
-                saved = saved.filter(i => i !== title);
-                localStorage.setItem('saved_videos', JSON.stringify(saved));
-                btn.innerText = '🔖 সেভ';
-                btn.style.background = '';
-                btn.style.color = '';
-            }
-        }
-
-        function renderSaved() {
-            const list = document.getElementById('savedVideosList');
-            let saved = JSON.parse(localStorage.getItem('saved_videos') || '[]');
-            list.innerHTML = '';
-            if(saved.length === 0) {
-                list.innerHTML = '<p style="color: #777;">আপনার কোনো ভিডিও সেভ করা নেই।</p>';
-                return;
-            }
-            saved.forEach(title => {
-                list.innerHTML += `<div style="background: var(--hover-bg); padding: 10px 15px; border-radius: 8px; border-left: 4px solid var(--orange); font-weight: bold;">📌 ${title}</div>`;
-            });
-        }
-
-        function switchTab(tab, el) {
-            document.querySelectorAll('nav .nav-links a').forEach(a => a.classList.remove('active'));
-            if(el) el.classList.add('active');
-            
-            document.getElementById('homeView').classList.add('hidden');
-            document.getElementById('shortsView').classList.add('hidden');
-            document.getElementById('subscriptionsView').classList.add('hidden');
-            document.getElementById('historyView').classList.add('hidden');
-            document.getElementById('youView').classList.add('hidden');
-
-            if(tab === 'home') document.getElementById('homeView').classList.remove('hidden');
-            if(tab === 'shorts') document.getElementById('shortsView').classList.remove('hidden');
-            if(tab === 'subscriptions') document.getElementById('subscriptionsView').classList.remove('hidden');
-            if(tab === 'history') {
-                document.getElementById('historyView').classList.remove('hidden');
-                renderHistory();
-            }
-            if(tab === 'you') {
-                document.getElementById('youView').classList.remove('hidden');
-                renderSaved();
-            }
-        }
-
-        function toggleTheme() {
-            if (document.documentElement.getAttribute('data-theme') === 'dark') {
-                document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Apply saved theme on page load
-        if(localStorage.getItem('theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-        }
-       // গিটহাব থেকে ভিডিও ফাইলগুলো অটো-ফেচ করার কোড
-async function loadVideosFromGitHub() {
-    const videoGrid = document.getElementById('videoGrid') || document.querySelector('.video-grid') || document.body;
-    
-    // যদি গ্রিড কন্টেইনার না থাকে, তবে একটি ডিফল্ট কন্টেইনার তৈরি করে নেওয়া
-    let container = document.getElementById('videoGrid');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'videoGrid';
-        container.className = 'video-grid';
-        document.querySelector('.container').appendChild(container);
-    }
-
-    container.innerHTML = '<p style="text-align: center; color: var(--green); grid-column: 1 / -1;">🔄 পিসটিউব ভিডিওগুলো লোড হচ্ছে...</p>';
-
-    const repoOwner = 'PeaceForPeopleOfficial';
-    const repoName = 'peacetube-';
-    const folderPath = 'content/videos'; // আপনার গিটহাবে ভিডিওর ফোল্ডার পাথ যদি ভিন্ন হয় তবে এটি পরিবর্তন করে দেবেন
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
-
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('ভিডিও ডেটা ফেচ করতে সমস্যা হয়েছে');
-        
-        const files = await response.json();
-        container.innerHTML = '';
-
-        for (const file of files) {
-            if (file.name.endsWith('.md')) {
-                const fileResponse = await fetch(file.download_url);
-                const markdownText = await fileResponse.text();
-                parseAndRenderVideoCard(markdownText, file.name);
-            }
-        }
-    } catch (error) {
-        console.error('Error loading videos:', error);
-        container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1 / -1;">⚠️ এই মুহূর্তে কোনো ভিডিও পাওয়া যায়নি বা লোড করতে সমস্যা হয়েছে।</p>';
-    }
-}
-
-// Markdown ফাইলের ফ্রন্টম্যাটার থেকে তথ্য আলাদা করে ভিডিও কার্ড রেন্ডার করা
-function parseAndRenderVideoCard(mdText, fileName) {
-    const frontmatterMatch = mdText.match(/---([\s\S]*?)---/);
-    if (!frontmatterMatch) return;
-
-    const frontmatter = frontmatterMatch[1];
-    const getMeta = (key) => {
-        const match = frontmatter.match(new RegExp(`${key}:\\s*(.+)`));
-        return match ? match[1].trim().replace(/^['"](.*)['"]$/, '$1') : '';
-    };
-
-    const title = getMeta('title') || fileName.replace('.md', '');
-    const category = getMeta('category') || 'শান্তির বাণী';
-    const videoUrl = getMeta('video') || getMeta('url') || getMeta('link') || '#';
-    const description = getMeta('description') || 'PeaceForPeople পিসটিউব এক্সক্লুসিভ ভিডিও।';
-
-    appendVideoCard(category, title, description, videoUrl);
-}
-
-// ভিডিও কার্ড এইচটিএমএল তৈরি করে পেজে যুক্ত করার ফাংশন
-function appendVideoCard(category, title, description, videoUrl) {
-    const container = document.getElementById('videoGrid');
-    if (!container) return;
-
-    const card = document.createElement('div');
-    card.className = 'video-card';
-    card.style.cssText = 'background: var(--card-bg); border-radius: 12px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-top: 4px solid var(--orange); margin-bottom: 20px;';
-
-    card.innerHTML = `
-        <span class="badge" style="background: var(--orange); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold;">📺 ${category}</span>
-        <h3 style="margin: 10px 0 5px 0; color: var(--green); font-size: 18px;">${title}</h3>
-        <p style="font-size: 13px; color: var(--text-color);">${description}</p>
-        <div style="margin-top: 10px;">
-            <a href="${videoUrl}" target="_blank" style="display: inline-block; padding: 8px 15px; background: var(--green); color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 13px;">▶️ ভিডিও দেখুন</a>
-        </div>
-    `;
-    container.appendChild(card);
-}
-
-// পেজ লোড হওয়ার সাথে সাথে ফাংশনটি কল হবে
-document.addEventListener('DOMContentLoaded', () => {
-    loadVideosFromGitHub();
-}); 
+        // পেজ লোড হওয়ার সাথে সাথে ভিডিও লোড ফাংশনটি রান হবে
+        document.addEventListener('DOMContentLoaded', () => {
+            loadVideosFromGitHub();
+        });
     </script>
 </body>
 </html>
