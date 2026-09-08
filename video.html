@@ -665,6 +665,89 @@
         if(localStorage.getItem('theme') === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
+       // গিটহাব থেকে ভিডিও ফাইলগুলো অটো-ফেচ করার কোড
+async function loadVideosFromGitHub() {
+    const videoGrid = document.getElementById('videoGrid') || document.querySelector('.video-grid') || document.body;
+    
+    // যদি গ্রিড কন্টেইনার না থাকে, তবে একটি ডিফল্ট কন্টেইনার তৈরি করে নেওয়া
+    let container = document.getElementById('videoGrid');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'videoGrid';
+        container.className = 'video-grid';
+        document.querySelector('.container').appendChild(container);
+    }
+
+    container.innerHTML = '<p style="text-align: center; color: var(--green); grid-column: 1 / -1;">🔄 পিসটিউব ভিডিওগুলো লোড হচ্ছে...</p>';
+
+    const repoOwner = 'PeaceForPeopleOfficial';
+    const repoName = 'peacetube-';
+    const folderPath = 'content/videos'; // আপনার গিটহাবে ভিডিওর ফোল্ডার পাথ যদি ভিন্ন হয় তবে এটি পরিবর্তন করে দেবেন
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error('ভিডিও ডেটা ফেচ করতে সমস্যা হয়েছে');
+        
+        const files = await response.json();
+        container.innerHTML = '';
+
+        for (const file of files) {
+            if (file.name.endsWith('.md')) {
+                const fileResponse = await fetch(file.download_url);
+                const markdownText = await fileResponse.text();
+                parseAndRenderVideoCard(markdownText, file.name);
+            }
+        }
+    } catch (error) {
+        console.error('Error loading videos:', error);
+        container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1 / -1;">⚠️ এই মুহূর্তে কোনো ভিডিও পাওয়া যায়নি বা লোড করতে সমস্যা হয়েছে।</p>';
+    }
+}
+
+// Markdown ফাইলের ফ্রন্টম্যাটার থেকে তথ্য আলাদা করে ভিডিও কার্ড রেন্ডার করা
+function parseAndRenderVideoCard(mdText, fileName) {
+    const frontmatterMatch = mdText.match(/---([\s\S]*?)---/);
+    if (!frontmatterMatch) return;
+
+    const frontmatter = frontmatterMatch[1];
+    const getMeta = (key) => {
+        const match = frontmatter.match(new RegExp(`${key}:\\s*(.+)`));
+        return match ? match[1].trim().replace(/^['"](.*)['"]$/, '$1') : '';
+    };
+
+    const title = getMeta('title') || fileName.replace('.md', '');
+    const category = getMeta('category') || 'শান্তির বাণী';
+    const videoUrl = getMeta('video') || getMeta('url') || getMeta('link') || '#';
+    const description = getMeta('description') || 'PeaceForPeople পিসটিউব এক্সক্লুসিভ ভিডিও।';
+
+    appendVideoCard(category, title, description, videoUrl);
+}
+
+// ভিডিও কার্ড এইচটিএমএল তৈরি করে পেজে যুক্ত করার ফাংশন
+function appendVideoCard(category, title, description, videoUrl) {
+    const container = document.getElementById('videoGrid');
+    if (!container) return;
+
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.style.cssText = 'background: var(--card-bg); border-radius: 12px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-top: 4px solid var(--orange); margin-bottom: 20px;';
+
+    card.innerHTML = `
+        <span class="badge" style="background: var(--orange); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold;">📺 ${category}</span>
+        <h3 style="margin: 10px 0 5px 0; color: var(--green); font-size: 18px;">${title}</h3>
+        <p style="font-size: 13px; color: var(--text-color);">${description}</p>
+        <div style="margin-top: 10px;">
+            <a href="${videoUrl}" target="_blank" style="display: inline-block; padding: 8px 15px; background: var(--green); color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 13px;">▶️ ভিডিও দেখুন</a>
+        </div>
+    `;
+    container.appendChild(card);
+}
+
+// পেজ লোড হওয়ার সাথে সাথে ফাংশনটি কল হবে
+document.addEventListener('DOMContentLoaded', () => {
+    loadVideosFromGitHub();
+}); 
     </script>
 </body>
 </html>
