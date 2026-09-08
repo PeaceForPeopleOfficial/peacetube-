@@ -103,7 +103,8 @@
             <p style="text-align: center; color: var(--green);">🔄 গিটহাব থেকে পডকাস্ট লোড হচ্ছে...</p>
         </div>
     </div>
-<script>
+
+    <script>
         let allPodcasts = [];
 
         async function loadPodcastsFromGitHub() {
@@ -167,7 +168,6 @@
             const container = document.getElementById('podcastContainer');
             container.innerHTML = '';
 
-            // ফিল্টার করে ডুপ্লিকেট বা ফাঁকা রিমুভ করা
             const validList = list.filter(item => item.audioUrl && item.audioUrl.trim() !== '');
 
             if (validList.length === 0) {
