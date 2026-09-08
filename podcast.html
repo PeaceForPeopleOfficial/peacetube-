@@ -111,6 +111,7 @@
             const container = document.getElementById('podcastContainer');
             const repoOwner = 'PeaceForPeopleOfficial';
             const repoName = 'peacetube-';
+            // অ্যাডমিন প্যানেলের সঠিক ফোল্ডার পাথ 'content/audio' চেক করা হচ্ছে
             const folderPath = 'content/audio'; 
             const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
 
@@ -122,20 +123,10 @@
                 allPodcasts = [];
 
                 for (const file of files) {
-                    if (file.name.endsWith('.md') || file.name.endsWith('.json')) {
+                    if (file.name.endsWith('.md')) {
                         const fileResponse = await fetch(file.download_url);
-                        
-                        if (file.name.endsWith('.json')) {
-                            const jsonData = await fileResponse.json();
-                            allPodcasts.push({
-                                title: jsonData.title || 'শিরোনামহীন পডকাস্ট',
-                                speaker: jsonData.speaker || jsonData.author || 'বক্তা উল্লেখ নেই',
-                                audioUrl: jsonData.audio_url || jsonData.audio_file || jsonData.audio || jsonData.url || ''
-                            });
-                        } else {
-                            const mdText = await fileResponse.text();
-                            parseMarkdownPodcast(mdText);
-                        }
+                        const mdText = await fileResponse.text();
+                        parseMarkdownPodcast(mdText);
                     }
                 }
                 renderPodcasts(allPodcasts);
@@ -157,6 +148,7 @@
 
             const title = getVal('title') || 'শিরোনামহীন পডকাস্ট';
             const speaker = getVal('speaker') || getVal('author') || 'বক্তা উল্লেখ নেই';
+            // অ্যাডমিন প্যানেলের সব সম্ভাব্য অডিও ফিল্ডের নাম এখানে যুক্ত করা হলো
             const audioUrl = getVal('audio_url') || getVal('audio_file') || getVal('audio') || getVal('url') || '';
 
             if (audioUrl) {
@@ -168,14 +160,12 @@
             const container = document.getElementById('podcastContainer');
             container.innerHTML = '';
 
-            const validList = list.filter(item => item.audioUrl && item.audioUrl.trim() !== '');
-
-            if (validList.length === 0) {
+            if (list.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #777;">কোনো পডকাস্ট পাওয়া যায়নি।</p>';
                 return;
             }
 
-            validList.forEach(item => {
+            list.forEach(item => {
                 container.innerHTML += `
                     <div class="podcast-card">
                         <div class="podcast-header">
