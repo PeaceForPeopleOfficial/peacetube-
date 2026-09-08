@@ -278,6 +278,58 @@
             `;
             gridContainer.appendChild(card);
         }
-    </script>         
+        // গিটহাব থেকে ফাইল অটো-ফেচ করার কোড
+    async function loadLibraryFromGitHub() {
+        const gridContainer = document.getElementById('libraryGrid');
+        gridContainer.innerHTML = '<p style="text-align: center; color: var(--green); grid-column: 1 / -1;">🔄 আসমানি ও মননশীল কন্টেন্টগুলো লোড হচ্ছে...</p>';
+
+        const repoOwner = 'PeaceForPeopleOfficial';
+        const repoName = 'peacetube-';
+        const folderPath = 'content/library';
+        const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error('ডেটা ফেচ করতে সমস্যা হয়েছে');
+            
+            const files = await response.json();
+            gridContainer.innerHTML = '';
+
+            for (const file of files) {
+                if (file.name.endsWith('.md')) {
+                    const fileResponse = await fetch(file.download_url);
+                    const markdownText = await fileResponse.text();
+                    parseAndRenderCard(markdownText, file.name);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading library:', error);
+            gridContainer.innerHTML = '<p style="text-align: center; color: red; grid-column: 1 / -1;">⚠️ কন্টেন্টগুলো লোড করতে সমস্যা হয়েছে।</p>';
+        }
+    }
+
+    function parseAndRenderCard(mdText, fileName) {
+        const frontmatterMatch = mdText.match(/---([\s\S]*?)---/);
+        if (!frontmatterMatch) return;
+
+        const frontmatter = frontmatterMatch[1];
+        const getMeta = (key) => {
+            const match = frontmatter.match(new RegExp(`${key}:\\s*(.+)`));
+            return match ? match[1].trim().replace(/^['"](.*)['"]$/, '$1') : '';
+        };
+
+        const title = getMeta('title') || fileName.replace('.md', '');
+        const author = getMeta('author') || 'Muhammad Saidur Rahman';
+        const description = getMeta('description') || 'PeaceForPeople ডিজিটাল লাইব্রেরি সংকলন।';
+        const fileUrl = getMeta('file') || getMeta('pdf') || '#';
+        const category = getMeta('category') || 'ebook';
+
+        appendLibraryCard(category, title, author, description, fileUrl);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadLibraryFromGitHub();
+    });
+    </script>   
 </body>
 </html>
