@@ -7,7 +7,7 @@
     <!-- Firebase SDK (Modular v10) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
         const firebaseConfig = {
             apiKey: "AIzaSyDn5V2Lbqk_6KeP-OwL7dXV84yondDJ800",
@@ -21,14 +21,12 @@
         
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        
         window.db = db;
         window.collection = collection;
-        window.addDoc = addDoc;
         window.getDocs = getDocs;
         window.query = query;
         window.orderBy = orderBy;
-        
+
         window.addEventListener('DOMContentLoaded', () => {
             loadVideosFromCloud();
         });
@@ -55,7 +53,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg-gradient);
             background-attachment: fixed;
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             color: var(--text-color);
             transition: background 0.3s, color 0.3s;
         }
@@ -71,22 +70,8 @@
             z-index: 1000;
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
-        .logo {
-            font-weight: bold;
-            font-size: 18px;
-            color: var(--orange);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .nav-links {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            overflow-x: auto;
-            flex-wrap: nowrap;
-            scrollbar-width: none;
-        }
+        .logo { font-weight: bold; font-size: 18px; color: var(--orange); display: flex; align-items: center; gap: 6px; }
+        .nav-links { display: flex; gap: 10px; align-items: center; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
         .nav-links::-webkit-scrollbar { display: none; }
         nav a {
             text-decoration: none;
@@ -99,242 +84,37 @@
             white-space: nowrap;
             cursor: pointer;
         }
-        nav a:hover, nav a.active {
-            background: var(--hover-bg);
-            color: var(--orange);
-        }
-        .nav-right {
-            margin-left: auto;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .btn-upload-nav {
-            background: var(--orange);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-        .theme-toggle-btn {
-            background: var(--green);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-        .container {
-            max-width: 1300px;
-            margin: 25px auto;
-            padding: 0 20px;
-        }
-        .chips-bar {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            white-space: nowrap;
-            scrollbar-width: none;
-        }
+        nav a:hover, nav a.active { background: var(--hover-bg); color: var(--orange); }
+        .nav-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+        .theme-toggle-btn { background: var(--green); color: white; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; white-space: nowrap; }
+        .container { max-width: 1300px; margin: 25px auto; padding: 0 20px; }
+        .chips-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; white-space: nowrap; scrollbar-width: none; }
         .chips-bar::-webkit-scrollbar { display: none; }
-        .chip {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-        .chip.active, .chip:hover {
-            background: var(--orange);
-            color: #ffffff;
-            border-color: var(--orange);
-        }
-        .search-box-container {
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-        }
-        .search-bar {
-            width: 100%;
-            max-width: 600px;
-            padding: 12px 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 25px;
-            font-size: 15px;
-            outline: none;
-            background: var(--card-bg);
-            color: var(--text-color);
-            transition: border-color 0.2s;
-        }
+        .chip { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; }
+        .chip.active, .chip:hover { background: var(--orange); color: #ffffff; border-color: var(--orange); }
+        .search-box-container { margin-bottom: 25px; display: flex; justify-content: center; }
+        .search-bar { width: 100%; max-width: 600px; padding: 12px 20px; border: 2px solid var(--border-color); border-radius: 25px; font-size: 15px; outline: none; background: var(--card-bg); color: var(--text-color); transition: border-color 0.2s; }
         .search-bar:focus { border-color: var(--orange); }
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-        .video-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s;
-        }
-        .video-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            background: #000;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border: none;
-        }
-        .video-info {
-            padding: 15px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .video-info h3 {
-            margin: 0 0 6px 0;
-            font-size: 15px;
-            font-weight: 700;
-            line-height: 1.4;
-        }
-        .video-info p {
-            margin: 0 0 12px 0;
-            font-size: 13px;
-            color: #6c757d;
-            line-height: 1.4;
-            flex-grow: 1;
-        }
-        .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border-color);
-            padding-top: 10px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-        .btn-action {
-            background: var(--hover-bg);
-            border: none;
-            padding: 6px 10px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-            color: var(--text-color);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            text-decoration: none;
-        }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .video-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; transition: transform 0.2s; }
+        .video-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .video-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .video-info h3 { margin: 0 0 6px 0; font-size: 15px; font-weight: 700; line-height: 1.4; }
+        .video-info p { margin: 0 0 12px 0; font-size: 13px; color: #6c757d; line-height: 1.4; flex-grow: 1; }
+        .action-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 10px; margin-bottom: 10px; flex-wrap: wrap; gap: 5px; }
+        .btn-action { background: var(--hover-bg); border: none; padding: 6px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold; color: var(--text-color); display: flex; align-items: center; gap: 4px; text-decoration: none; }
         .btn-action:hover { background: var(--border-color); }
-        .shorts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-        }
-        .short-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-        }
-        .short-container {
-            position: relative;
-            padding-bottom: 177.77%;
-            height: 0;
-            background: #000;
-        }
-        .short-container iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border: none;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            width: 90%; max-width: 450px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        .modal-content h3 { margin-top: 0; color: var(--orange); }
-        .form-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--card-bg);
-            color: var(--text-color);
-            outline: none;
-        }
-        .modal-btns {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        .btn-submit {
-            background: var(--green);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-close {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .shorts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .short-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
+        .short-container { position: relative; padding-bottom: 177.77%; height: 0; background: #000; }
+        .short-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
+
     <nav>
         <div class="logo">📺 PeaceTube</div>
         <div class="nav-links">
@@ -345,7 +125,6 @@
             <a onclick="switchTab('you', this)">👤 লাইব্রেরি</a>
         </div>
         <div class="nav-right">
-            <button class="btn-upload-nav" onclick="openModal()">➕ ভিডিও আপলোড</button>
             <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 মোড</button>
         </div>
     </nav>
@@ -402,47 +181,19 @@
         </div>
     </div>
 
-    <!-- UPLOAD MODAL -->
-    <div id="uploadModal" class="modal">
-        <div class="modal-content">
-            <h3>➕ ক্লাউডে নতুন ভিডিও বা শর্টস যুক্ত করুন</h3>
-            <input type="text" id="upTitle" class="form-input" placeholder="ভিডিওর শিরোনাম (Title)">
-            <select id="upType" class="form-input">
-                <option value="video">সাধারণ ভিডিও (Video)</option>
-                <option value="short">শর্টস ভিডিও (Shorts)</option>
-            </select>
-            <select id="upCategory" class="form-input">
-                <option value="peace-words">📜 শান্তির বাণী</option>
-                <option value="islamic">✨ ইসলামিক প্রশান্তি</option>
-                <option value="motivational">🔥 মোটিভেশন</option>
-                <option value="tech">💻 টেকনোলজি</option>
-                <option value="vlog">🌍 ব্লগ ও ভ্রমণ</option>
-            </select>
-            <input type="text" id="upUrl" class="form-input" placeholder="ইউটিউব এমবেড বা ভিডিও লিংক">
-            <textarea id="upDesc" class="form-input" placeholder="ভিডিও বিবরণ..." rows="2"></textarea>
-            <div class="modal-btns">
-                <button class="btn-close" onclick="closeModal()">বাতিল</button>
-                <button class="btn-submit" onclick="handleCloudUpload()">আপলোড করুন</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         let allCloudVideos = [];
         let currentCategory = 'all';
 
         async function loadVideosFromCloud() {
             const grid = document.getElementById('videoGrid');
-            const shortsGrid = document.getElementById('shortsGrid');
             try {
                 const q = window.query(window.collection(window.db, "videos"), window.orderBy("timestamp", "desc"));
                 const querySnapshot = await window.getDocs(q);
                 allCloudVideos = [];
-                
                 querySnapshot.forEach((docSnap) => {
                     allCloudVideos.push(docSnap.data());
                 });
-
                 renderFilteredVideos();
             } catch (error) {
                 console.error("Error loading videos: ", error);
@@ -454,7 +205,7 @@
             const grid = document.getElementById('videoGrid');
             const shortsGrid = document.getElementById('shortsGrid');
             const searchVal = document.getElementById('videoSearch').value.toLowerCase();
-
+            
             grid.innerHTML = '';
             shortsGrid.innerHTML = '';
 
@@ -475,6 +226,12 @@
                 if(embedUrl.includes('watch?v=')) {
                     embedUrl = embedUrl.replace('watch?v=', 'embed/');
                 }
+                
+                // অরিজিনাল ওয়াচ বা পাবলিক লিংক নিশ্চিত করা শেয়ার করার জন্য
+                let watchUrl = item.url;
+                if(watchUrl.includes('embed/')) {
+                    watchUrl = watchUrl.replace('embed/', 'watch?v=');
+                }
 
                 if(item.type === 'short') {
                     shortsGrid.innerHTML += `
@@ -485,7 +242,7 @@
                             <div class="video-info">
                                 <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer; font-size: 13px;">${item.title}</h3>
                                 <div class="action-bar" style="border:none; padding-top:5px; margin:0;">
-                                    <button class="btn-action" onclick="shareVideo('${item.title}', '${embedUrl}')">🔗 শেয়ার</button>
+                                    <button class="btn-action" onclick="shareVideo('${item.title}', '${watchUrl}')">🔗 শেয়ার</button>
                                     <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
                                 </div>
                             </div>
@@ -501,8 +258,8 @@
                                 <h3 onclick="addToHistory('${item.title}')" style="cursor: pointer;">${item.title}</h3>
                                 <p>${item.desc || ''}</p>
                                 <div class="action-bar">
-                                    <button class="btn-action" onclick="shareVideo('${item.title}', '${embedUrl}')">🔗 শেয়ার</button>
-                                    <button class="btn-action" onclick="copyLink('${embedUrl}')">📋 কপি</button>
+                                    <button class="btn-action" onclick="shareVideo('${item.title}', '${watchUrl}')">🔗 শেয়ার</button>
+                                    <button class="btn-action" onclick="copyLink('${watchUrl}')">📋 কপি</button>
                                     <button class="btn-action" onclick="toggleSave(this, '${item.title}')">🔖 সেভ</button>
                                 </div>
                             </div>
@@ -523,46 +280,6 @@
             renderFilteredVideos();
         }
 
-        function openModal() { document.getElementById('uploadModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('uploadModal').style.display = 'none'; }
-
-        async function handleCloudUpload() {
-            const title = document.getElementById('upTitle').value.trim();
-            const type = document.getElementById('upType').value;
-            const category = document.getElementById('upCategory').value;
-            let url = document.getElementById('upUrl').value.trim();
-            const desc = document.getElementById('upDesc').value.trim();
-
-            if(!title || !url) {
-                alert('দয়া করে শিরোনাম এবং লিংক দিন!');
-                return;
-            }
-
-            if(url.includes('watch?v=')) {
-                url = url.replace('watch?v=', 'embed/');
-            }
-
-            try {
-                await window.addDoc(window.collection(window.db, "videos"), {
-                    title: title,
-                    type: type,
-                    category: category,
-                    url: url,
-                    desc: desc,
-                    timestamp: new Date()
-                });
-                closeModal();
-                document.getElementById('upTitle').value = '';
-                document.getElementById('upUrl').value = '';
-                document.getElementById('upDesc').value = '';
-                alert('সফলভাবে ক্লাউডে ভিডিও আপলোড হয়েছে!');
-                loadVideosFromCloud();
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                alert('আপলোড করতে সমস্যা হয়েছে!');
-            }
-        }
-
         function shareVideo(title, url) {
             if (navigator.share) {
                 navigator.share({ title: title, url: url }).catch(console.error);
@@ -573,7 +290,7 @@
 
         function copyLink(url) {
             navigator.clipboard.writeText(url);
-            alert('লিংক কপি করা হয়েছে!');
+            alert('ভিডিও লিংক কপি করা হয়েছে!');
         }
 
         function addToHistory(title) {
@@ -631,7 +348,7 @@
         function switchTab(tab, el) {
             document.querySelectorAll('nav .nav-links a').forEach(a => a.classList.remove('active'));
             if(el) el.classList.add('active');
-            
+
             document.getElementById('homeView').classList.add('hidden');
             document.getElementById('shortsView').classList.add('hidden');
             document.getElementById('subscriptionsView').classList.add('hidden');
@@ -652,102 +369,13 @@
         }
 
         function toggleTheme() {
-            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+            const current = document.documentElement.getAttribute('data-theme');
+            if(current === 'dark') {
                 document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
             } else {
                 document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
             }
         }
-
-        // Apply saved theme on page load
-        if(localStorage.getItem('theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-        }
-       // গিটহাব থেকে ভিডিও ফাইলগুলো অটো-ফেচ করার কোড
-async function loadVideosFromGitHub() {
-    const videoGrid = document.getElementById('videoGrid') || document.querySelector('.video-grid') || document.body;
-    
-    // যদি গ্রিড কন্টেইনার না থাকে, তবে একটি ডিফল্ট কন্টেইনার তৈরি করে নেওয়া
-    let container = document.getElementById('videoGrid');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'videoGrid';
-        container.className = 'video-grid';
-        document.querySelector('.container').appendChild(container);
-    }
-
-    container.innerHTML = '<p style="text-align: center; color: var(--green); grid-column: 1 / -1;">🔄 পিসটিউব ভিডিওগুলো লোড হচ্ছে...</p>';
-
-    const repoOwner = 'PeaceForPeopleOfficial';
-    const repoName = 'peacetube-';
-    const folderPath = 'content/videos'; // আপনার গিটহাবে ভিডিওর ফোল্ডার পাথ যদি ভিন্ন হয় তবে এটি পরিবর্তন করে দেবেন
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
-
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('ভিডিও ডেটা ফেচ করতে সমস্যা হয়েছে');
-        
-        const files = await response.json();
-        container.innerHTML = '';
-
-        for (const file of files) {
-            if (file.name.endsWith('.md')) {
-                const fileResponse = await fetch(file.download_url);
-                const markdownText = await fileResponse.text();
-                parseAndRenderVideoCard(markdownText, file.name);
-            }
-        }
-    } catch (error) {
-        console.error('Error loading videos:', error);
-        container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1 / -1;">⚠️ এই মুহূর্তে কোনো ভিডিও পাওয়া যায়নি বা লোড করতে সমস্যা হয়েছে।</p>';
-    }
-}
-
-// Markdown ফাইলের ফ্রন্টম্যাটার থেকে তথ্য আলাদা করে ভিডিও কার্ড রেন্ডার করা
-function parseAndRenderVideoCard(mdText, fileName) {
-    const frontmatterMatch = mdText.match(/---([\s\S]*?)---/);
-    if (!frontmatterMatch) return;
-
-    const frontmatter = frontmatterMatch[1];
-    const getMeta = (key) => {
-        const match = frontmatter.match(new RegExp(`${key}:\\s*(.+)`));
-        return match ? match[1].trim().replace(/^['"](.*)['"]$/, '$1') : '';
-    };
-
-    const title = getMeta('title') || fileName.replace('.md', '');
-    const category = getMeta('category') || 'শান্তির বাণী';
-    const videoUrl = getMeta('video') || getMeta('url') || getMeta('link') || '#';
-    const description = getMeta('description') || 'PeaceForPeople পিসটিউব এক্সক্লুসিভ ভিডিও।';
-
-    appendVideoCard(category, title, description, videoUrl);
-}
-
-// ভিডিও কার্ড এইচটিএমএল তৈরি করে পেজে যুক্ত করার ফাংশন
-function appendVideoCard(category, title, description, videoUrl) {
-    const container = document.getElementById('videoGrid');
-    if (!container) return;
-
-    const card = document.createElement('div');
-    card.className = 'video-card';
-    card.style.cssText = 'background: var(--card-bg); border-radius: 12px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-top: 4px solid var(--orange); margin-bottom: 20px;';
-
-    card.innerHTML = `
-        <span class="badge" style="background: var(--orange); color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold;">📺 ${category}</span>
-        <h3 style="margin: 10px 0 5px 0; color: var(--green); font-size: 18px;">${title}</h3>
-        <p style="font-size: 13px; color: var(--text-color);">${description}</p>
-        <div style="margin-top: 10px;">
-            <a href="${videoUrl}" target="_blank" style="display: inline-block; padding: 8px 15px; background: var(--green); color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 13px;">▶️ ভিডিও দেখুন</a>
-        </div>
-    `;
-    container.appendChild(card);
-}
-
-// পেজ লোড হওয়ার সাথে সাথে ফাংশনটি কল হবে
-document.addEventListener('DOMContentLoaded', () => {
-    loadVideosFromGitHub();
-}); 
     </script>
 </body>
 </html>
