@@ -740,12 +740,14 @@
                 currentAudio.playbackRate = audioSpeed;
             }
         }
+let currentAyahIndex = 0;
+let isPlayingAll = false;
 
-      function togglePlayAll() {
+function togglePlayAll() {
     const playAllBtn = document.getElementById("playAllBtn");
     if (isPlayingAll) {
         isPlayingAll = false;
-        if (currentAudio) currentAudio.pause();
+        if (typeof stopAudio === "function") stopAudio();
         playAllBtn.innerHTML = "▶️ পুরো সূরা শুনুন";
         return;
     }
@@ -767,18 +769,24 @@ function playNextInSequence() {
 
     let ayah = currentSurahAyahs[currentAyahIndex];
     let audioUrl = ayah.audioUrl || ayah.audio;
-    let btn = document.getElementById(`audio-btn-${ayah.numberInSurah}`);
     
-    if (btn) {
-        btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // সরাসরি অডিও অবজেক্ট তৈরি করে প্লে করার ব্যবস্থা, যাতে কোনো ফাংশন মিসম্যাচ না হয়
+    if (window.currentAudio) {
+        window.currentAudio.pause();
     }
+    
+    window.currentAudio = new Audio(audioUrl);
+    window.currentAudio.play().then(() => {
+        let btn = document.getElementById(`audio-btn-${ayah.numberInSurah}`);
+        if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }).catch(e => console.log("Audio play error:", e));
 
-    playAudio(audioUrl, btn, ayah.globalNumber, () => {
+    window.currentAudio.onended = () => {
         currentAyahIndex++;
         playNextInSequence();
-    });
+    };
 }
-       
+    
         function changeFontSize(delta) {
             currentArabicFontSize += delta;
             currentBanglaFontSize += (delta * 0.6);
