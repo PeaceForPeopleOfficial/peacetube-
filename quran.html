@@ -754,24 +754,23 @@
                 playNextInSequence();
             }
         }
-
-        function playNextInSequence() {
-            if (!isPlayingAll || currentAyahIndex >= currentSurahAyahs.length) {
-                isPlayingAll = false;
-                document.getElementById("playAllBtn").innerHTML = "▶️ পুরো সূরা শুনুন";
-                return;
-            }
-
-            let ayah = currentSurahAyahs[currentAyahIndex];
-            let btn = document.getElementById(`btn-ayah-${currentAyahIndex}`);
-            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            playAudio(ayah.audioUrl, btn, ayah.globalNumber, () => {
-                currentAyahIndex++;
-                playNextInSequence();
-            });
-        }
-
+function playNextInSequence() {
+    if (!isPlayingAll || currentAyahIndex >= currentSurahAyahs.length) {
+        isPlayingAll = false;
+        document.getElementById("playAllBtn").innerText = "▶️ পুরো সূরা শুনুন";
+        return;
+    }
+    let ayah = currentSurahAyahs[currentAyahIndex];
+    let btn = document.getElementById(`audio-btn-${ayah.numberInSurah}`);
+    if (btn) btn.scrollIntoView({behavior: 'smooth', block: 'center'});
+    
+    playAudio(ayah.audioUrl, btn, ayah.globalNumber, () => {
+        currentAyahIndex++;
+        playNextInSequence();
+    });
+}
+      
+        
         function changeFontSize(delta) {
             currentArabicFontSize += delta;
             currentBanglaFontSize += (delta * 0.6);
