@@ -744,46 +744,34 @@ let currentAyahIndex = 0;
 let isPlayingAll = false;
 
 function togglePlayAll() {
-    const playAllBtn = document.getElementById("playAllBtn");
-    if (isPlayingAll) {
-        isPlayingAll = false;
-        if (typeof stopAudio === "function") stopAudio();
-        playAllBtn.innerHTML = "▶️ পুরো সূরা শুনুন";
-        return;
-    }
+            const playAllBtn = document.getElementById("playAllBtn");
+            if (isPlayingAll) {
+                isPlayingAll = false;
+                stopAudio();
+                playAllBtn.innerHTML = "▶️ পুরো সূরা শুনুন";
+            } else {
+                isPlayingAll = true;
+                currentAyahIndex = 0;
+                playAllBtn.innerHTML = "⏹️ বন্ধ করুন";
+                playNextInSequence();
+            }
+        }
 
-    if (!currentSurahAyahs || currentSurahAyahs.length === 0) return;
 
-    isPlayingAll = true;
-    currentAyahIndex = 0;
-    playAllBtn.innerHTML = "⏹️ বন্ধ করুন";
-    playNextInSequence();
-}
+ function playNextInSequence() {
+            if (!isPlayingAll || currentAyahIndex >= currentSurahAyahs.length) {
+                isPlayingAll = false;
+                document.getElementById("playAllBtn").innerHTML = "▶️ পুরো সূরা শুনুন";
+                return;
+            }
 
-function playNextInSequence() {
-    if (!isPlayingAll || currentAyahIndex >= currentSurahAyahs.length) {
-        isPlayingAll = false;
-        document.getElementById("playAllBtn").innerHTML = "▶️ পুরো সূরা শুনুন";
-        return;
-    }
+            let ayah = currentSurahAyahs[currentAyahIndex];
+            let btn = document.getElementById(`btn-ayah-${currentAyahIndex}`);
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-    let ayah = currentSurahAyahs[currentAyahIndex];
-    let audioUrl = ayah.audioUrl || ayah.audio;
-    
-    // সরাসরি অডিও অবজেক্ট তৈরি করে প্লে করার ব্যবস্থা, যাতে কোনো ফাংশন মিসম্যাচ না হয়
-    if (window.currentAudio) {
-        window.currentAudio.pause();
-    }
-    
-    window.currentAudio = new Audio(audioUrl);
-    window.currentAudio.play().then(() => {
-        let btn = document.getElementById(`audio-btn-${ayah.numberInSurah}`);
-        if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }).catch(e => console.log("Audio play error:", e));
-
-    window.currentAudio.onended = () => {
-        currentAyahIndex++;
-        playNextInSequence();
+            playAudio(ayah.audioUrl, btn, ayah.globalNumber, () => {
+                currentAyahIndex++;
+                playNextInSequence();
     };
 }
     
