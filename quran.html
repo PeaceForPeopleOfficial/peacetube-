@@ -741,36 +741,44 @@
             }
         }
 
-        function togglePlayAll() {
-            const playAllBtn = document.getElementById("playAllBtn");
-            if (isPlayingAll) {
-                isPlayingAll = false;
-                stopAudio();
-                playAllBtn.innerHTML = "▶️ পুরো সূরা শুনুন";
-            } else {
-                isPlayingAll = true;
-                currentAyahIndex = 0;
-                playAllBtn.innerHTML = "⏹️ বন্ধ করুন";
-                playNextInSequence();
-            }
-        }
+      function togglePlayAll() {
+    const playAllBtn = document.getElementById("playAllBtn");
+    if (isPlayingAll) {
+        isPlayingAll = false;
+        if (currentAudio) currentAudio.pause();
+        playAllBtn.innerHTML = "▶️ পুরো সূরা শুনুন";
+        return;
+    }
+
+    if (!currentSurahAyahs || currentSurahAyahs.length === 0) return;
+
+    isPlayingAll = true;
+    currentAyahIndex = 0;
+    playAllBtn.innerHTML = "⏹️ বন্ধ করুন";
+    playNextInSequence();
+}
+
 function playNextInSequence() {
     if (!isPlayingAll || currentAyahIndex >= currentSurahAyahs.length) {
         isPlayingAll = false;
-        document.getElementById("playAllBtn").innerText = "▶️ পুরো সূরা শুনুন";
+        document.getElementById("playAllBtn").innerHTML = "▶️ পুরো সূরা শুনুন";
         return;
     }
+
     let ayah = currentSurahAyahs[currentAyahIndex];
+    let audioUrl = ayah.audioUrl || ayah.audio;
     let btn = document.getElementById(`audio-btn-${ayah.numberInSurah}`);
-    if (btn) btn.scrollIntoView({behavior: 'smooth', block: 'center'});
     
-    playAudio(ayah.audioUrl, btn, ayah.globalNumber, () => {
+    if (btn) {
+        btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    playAudio(audioUrl, btn, ayah.globalNumber, () => {
         currentAyahIndex++;
         playNextInSequence();
     });
 }
-      
-        
+       
         function changeFontSize(delta) {
             currentArabicFontSize += delta;
             currentBanglaFontSize += (delta * 0.6);
