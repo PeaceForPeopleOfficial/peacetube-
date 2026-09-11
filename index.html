@@ -434,26 +434,18 @@ async function loadQuranBani() {
         const files = await response.json();
         
         if (files && files.length > 0) {
-            // ফাইলের নামের ওপর ভিত্তি করে সবথেকে লেটেস্ট ফাইলটি সর্ট করা
             files.sort((a, b) => b.name.localeCompare(a.name));
             const latestFileUrl = files[0].download_url;
             
             const fileRes = await fetch(latestFileUrl);
             const text = await fileRes.text();
             
-            // Decap CMS-এর ফ্রন্টম্যাটার থেকে ডেটা বের করার জন্য লাইন বাই লাইন পার্স করা
-            const lines = text.split('\n');
-            let arabicText = "";
-            let banglaText = "";
+            // ফ্রন্টম্যাটার থেকে সঠিক ফিল্ডগুলো বের করার উন্নত রেগুলার এক্সপ্রেশন
+            const arabicMatch = text.match(/quran_arabic:\s*["']?([^"'\r\n]+)["']?/);
+            const banglaMatch = text.match(/quran_bangla:\s*["']?([^"'\r\n]+)["']?/);
             
-            for (let line of lines) {
-                if (line.startsWith('quran_arabic:')) {
-                    arabicText = line.replace('quran_arabic:', '').trim().replace(/^["']|["']$/g, '');
-                }
-                if (line.startsWith('quran_bangla:')) {
-                    banglaText = line.replace('quran_bangla:', '').trim().replace(/^["']|["']$/g, '');
-                }
-            }
+            let arabicText = arabicMatch ? arabicMatch[1].trim() : "";
+            let banglaText = banglaMatch ? banglaMatch[1].trim() : "";
             
             if (arabicText || banglaText) {
                 quranBox.innerHTML = `
@@ -470,6 +462,16 @@ async function loadQuranBani() {
     } catch (error) {
         console.log('ডাইনামিক কুরআনের বাণী লোড করতে সমস্যা:', error);
     }
+
+    // ব্যাকআপ বা ডিফল্ট টেক্সট
+    quranBox.innerHTML = `
+        <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
+            رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ
+        </div>
+        <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+            "হে আমাদের রব, আমাদের ওপর ধৈর্যের ঢল নামিয়ে দিন এবং মুসলিম হিসেবে আমাদের মৃত্যু দান করুন।" — সূরা আল-আরাফ (আয়াত ১২৬)
+        </div>
+    `;
 }
 
 loadQuranBani();
