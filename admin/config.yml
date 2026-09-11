@@ -79,7 +79,7 @@ collections:
       - { label: "Admin Reply", name: "reply", widget: "text", required: false }
       - { label: "Date", name: "date", widget: "datetime" }
 
-  - name: "daily_quran"
+- name: "daily_quran"
     label: "📖 আজকের কুরআনের বাণী"
     folder: "content/quran"
     create: true
