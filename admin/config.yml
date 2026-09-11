@@ -79,12 +79,12 @@ collections:
       - { label: "Admin Reply", name: "reply", widget: "text", required: false }
       - { label: "Date", name: "date", widget: "datetime" }
 
-  - name: "daily_quran"
-    label: "📖 আজকের কুরআনের বাণী"
-    folder: "content/quran"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}"
-    fields:
-      - { label: "তারিখ", name: "date", widget: "date" }
-      - { label: "আজকের কুরআনের বাণী (আরবি)", name: "quran_arabic", widget: "string" }
-      - { label: "আজকের কুরআনের বাণী (বাংলা অনুবাদ ও সূরা)", name: "quran_bangla", widget: "text" }
+ - name: "daily_quran"
+  label: "📖 আজকের কুরআনের বাণী"
+  folder: "content/quran"
+  create: true
+  slug: "{{year}}-{{month}}-{{day}}"
+  fields:
+    - { label: "তারিখ", name: "date", widget: "date" }
+    - { label: "আজকের কুরআনের বাণী (আরবি)", name: "quran_arabic", widget: "string" }
+    - { label: "আজকের কুরআনের বাণী (বাংলা অনুবাদ ও সূরা)", name: "quran_bangla", widget: "text" }
