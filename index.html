@@ -425,29 +425,22 @@
         }
         loadShantirBani();
 
-      // ৭. আজকের কুরআনের বাণী ডাইনামিক রেন্ডার করার ফাংশন
-        async function loadQuranBani() {
+     // ৭. আজকের কুরআনের বাণী রেন্ডার করার ফাংশন
+        function loadQuranBani() {
+            // ফাইলের একদম উপরে থাকা ফ্রন্টমেটার থেকে সরাসরি মানগুলো এখানে ব্যবহার করা হয়েছে
+            const arabicText = "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ";
+            const banglaText = '"জেনে রেখো, আল্লাহর জিকির ও স্মরণের মাধ্যমেই কেবল অন্তরে প্রশান্তি আসে।" (সূরা আর-রা\'দ, আয়াত ২৮)';
+            
             const quranBox = document.getElementById('latest-quran-content');
-            if (!quranBox) return;
-
-            try {
-                // Decap CMS ফোল্ডার থেকে বা ডিরেক্টরি থেকে ডাটা ফেচ করার চেষ্টা
-                // অথবা আপনার সেভ করা ফাইলের পাথ অনুযায়ী লেটেস্ট ফাইল লোড করা
-                const response = await fetch('content/quran/');
-                // যদি ডিরেক্টরি ফেচ সম্ভব না হয়, ব্রাউজারে লোকাল স্টোরেজ বা ফিক্সড জেসন পাথ ব্যবহার করতে পারেন
-                // তবে সহজ সমাধান হলো অ্যাডমিন প্যানেল থেকে জেনারেটেড ফাইলটি রিড করা
-                
-                // সাময়িক ও নিশ্চিত সমাধানের জন্য নিচের মতো ব্যাকএন্ড জেসন বা ফেচ লজিক ব্যবহার করতে পারেন:
+            if (quranBox) {
                 quranBox.innerHTML = `
                     <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
-                        فَإِنَّ مَعَ الْعُسْرِ يُسْرًا • إِنَّ مَعَ الْعُسْرِ يُسْرًا
+                        ${arabicText}
                     </div>
                     <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
-                        "অবশ্যই কষ্টের সাথেই স্বস্তি রয়েছে, নিশ্চয়ই কষ্টের সাথেই স্বস্তি রয়েছে।" — সূরা আল-ইনশিরাহ (আয়াত ৫-৬)
+                        ${banglaText}
                     </div>
                 `;
-            } catch (error) {
-                console.error("Quran bani load error:", error);
             }
         }
         loadQuranBani();
