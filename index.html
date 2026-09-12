@@ -319,7 +319,7 @@
 <!-- সমস্ত ফাংশনাল জাভাস্ক্রিপ্ট -->
    
 <script>
-// ১. আজকের কুরআনের বাণী ডাইনামিকালি লোড করার ফাংশন
+// ১. আজকের কুরআনের বাণী ও শান্তির বাণী ডাইনামিকালি লোড করার ফাংশন
 async function loadQuranBani() {
     const quranBox = document.getElementById('latest-quran-content');
     if (!quranBox) return;
@@ -364,7 +364,6 @@ async function loadQuranBani() {
     } catch (e) { console.log(e); }
 }
 
-// ২. আজকের শান্তির বাণী ডাইনামিকালি লোড করার ফাংশন
 async function loadDailyBani() {
     const baniBox = document.getElementById('latest-bani-content');
     if (!baniBox) return;
@@ -410,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadDailyBani();
 });
 
-// ৩. নাইট মোড বা ডার্ক মোড টগল লজিক (যা এখন সরাসরি কাজ করবে)
+// ২. ডার্ক মোড টগল লজিক
 function toggleTheme() {
     const html = document.documentElement;
     if (html.getAttribute('data-theme') === 'dark') {
@@ -425,7 +424,7 @@ if (localStorage.getItem('theme') === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
 }
 
-// ৪. ওয়েবসাইট শেয়ার করার ফাংশন
+// ৩. ওয়েবসাইট শেয়ার করার ফাংশন
 function shareOurWebsite() {
     if (navigator.share) {
         navigator.share({title: 'Peace for People', text: 'মানসিক প্রশান্তি ও আত্মাকে শান্ত করার চমৎকার একটি নিরাপদ আশ্রয়:', url: window.location.href}).catch(() => {});
@@ -435,19 +434,7 @@ function shareOurWebsite() {
     }
 }
 
-// ৫. শেয়ার কারেন্ট পেজ
-function shareCurrentPage() {
-    const pageUrl = window.location.href;
-    if (navigator.share) {
-        navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
-    } else {
-        navigator.clipboard.writeText(pageUrl).then(() => {
-            alert('✨ পেজের লিঙ্কটি কপি হয়েছে!');
-        });
-    }
-}
-
-// ৬. চ্যালেঞ্জ সম্পন্ন ফাংশন
+// ৪. চ্যালেঞ্জ সম্পন্ন ফাংশন
 function completeChallenge() {
     const btn = document.getElementById('challengeBtn');
     if (btn) {
@@ -457,7 +444,7 @@ function completeChallenge() {
     }
 }
 
-// ৭. লাইক টগল ফাংশন
+// ৫. লাইক টগল ফাংশন
 function toggleLike(id) {
     const span = document.getElementById(id);
     if (span) {
@@ -466,7 +453,7 @@ function toggleLike(id) {
     }
 }
 
-// ৮. ব্রীদিং অ্যানিমেশন
+// ৬. ব্রীদিং অ্যানিমেশন
 const circle = document.getElementById('breathCircle');
 const breathText = document.getElementById('breathText');
 let isHolding = false;
