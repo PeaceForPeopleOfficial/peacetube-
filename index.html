@@ -527,7 +527,42 @@ function searchPosts() {
         }
     });
 } 
-  
+  async function loadShantirBani() {
+    const baniBox = document.getElementById('latest-bani-content');
+    if (!baniBox) return;
+
+    try {
+        const res = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/daily_bani?t=' + Date.now());
+        const files = await res.json();
+        
+        if (Array.isArray(files) && files.length > 0) {
+            files.sort((a, b) => b.name.localeCompare(a.name));
+            const fileRes = await fetch(files[0].download_url);
+            const text = await fileRes.text();
+            
+            let title = (text.match(/title:\s*["']?([^"'\r\n]+)["']?/) || [])[1] || "শান্তির বার্তা";
+            let quote = (text.match(/quote:\s*([\s\S]*?)(author:|--|$)/) || [])[1] || text;
+            quote = quote.trim().replace(/[\r\n]+/g, ' ').replace(/['"]/g, '');
+            let author = (text.match(/author:\s*["']?([^"'\r\n]+)["']?/) || [])[1] || "Peace for People";
+            
+            baniBox.innerHTML = `
+                <div style="font-weight: bold; color: var(--orange); margin-bottom: 8px; font-size: 1.1rem;">✨ ${title}</div>
+                <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">"${quote}"</div>
+                <div style="text-align: right; font-size: 0.9rem; font-weight: 600; color: #7f8c8d;">— ${author}</div>
+            `;
+            return;
+        }
+    } catch (e) {
+        console.log("Error loading bani");
+    }
+
+    baniBox.innerHTML = `
+        <div style="font-weight: bold; color: var(--orange); margin-bottom: 8px; font-size: 1.1rem;">✨ শান্তির বার্তা</div>
+        <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">"ধৈর্য এবং আল্লাহর ওপর ভরসাই মানুষের অন্তরের সবচাইতে বড় প্রশান্তি।"</div>
+        <div style="text-align: right; font-size: 0.9rem; font-weight: 600; color: #7f8c8d;">— Peace for People</div>
+    `;
+}
+loadShantirBani();
     </script> 
 </body>
 </html>
