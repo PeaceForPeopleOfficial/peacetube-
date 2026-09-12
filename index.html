@@ -318,8 +318,8 @@
     </footer>
 <!-- সমস্ত ফাংশনাল জাভাস্ক্রিপ্ট -->
    
-   <script>
-// ১. আজকের কুরআনের বাণী ও শান্তির বাণী ডাইনামিকালি লোড করার কমপ্লিট কোড
+<script>
+// ১. আজকের কুরআনের বাণী ডাইনামিকালি লোড করার ফাংশন
 async function loadQuranBani() {
     const quranBox = document.getElementById('latest-quran-content');
     if (!quranBox) return;
@@ -364,6 +364,7 @@ async function loadQuranBani() {
     } catch (e) { console.log(e); }
 }
 
+// ২. আজকের শান্তির বাণী ডাইনামিকালি লোড করার ফাংশন
 async function loadDailyBani() {
     const baniBox = document.getElementById('latest-bani-content');
     if (!baniBox) return;
@@ -404,35 +405,85 @@ async function loadDailyBani() {
     } catch (e) { console.log(e); }
 }
 
-// পেজ লোড হওয়ার সাথে সাথে দুটো ফাংশনই ফায়ার হবে
 document.addEventListener('DOMContentLoaded', () => {
     loadQuranBani();
     loadDailyBani();
 });
 
-// ২. ব্রিদিং ও অন্যান্য মেইন লজিক
-const breathCircle = document.getElementById('breathCircle');
-const breathText = document.getElementById('breathText');
-if (breathCircle && breathText) {
-    setInterval(() => {
-        breathCircle.classList.add('inhale');
-        breathCircle.innerText = "শ্বাস ছাড়ুন...";
-        breathText.innerText = "ধীরে ধীরে মুখ দিয়ে শ্বাস ছাড়ুন...";
-        setTimeout(() => {
-            breathCircle.classList.remove('inhale');
-            breathCircle.innerText = "শ্বাস নিন...";
-            breathText.innerText = "নাক দিয়ে গভীর শ্বাস নিন...";
-        }, 4000);
-    }, 8000);
+// ৩. নাইট মোড বা ডার্ক মোড টগল লজিক (যা এখন সরাসরি কাজ করবে)
+function toggleTheme() {
+    const html = document.documentElement;
+    if (html.getAttribute('data-theme') === 'dark') {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+    } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    }
+}
+if (localStorage.getItem('theme') === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
 }
 
+// ৪. ওয়েবসাইট শেয়ার করার ফাংশন
+function shareOurWebsite() {
+    if (navigator.share) {
+        navigator.share({title: 'Peace for People', text: 'মানসিক প্রশান্তি ও আত্মাকে শান্ত করার চমৎকার একটি নিরাপদ আশ্রয়:', url: window.location.href}).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('লিংকটি ক্লিপবোর্ডে কপি হয়ে গেছে!');
+    }
+}
+
+// ৫. শেয়ার কারেন্ট পেজ
+function shareCurrentPage() {
+    const pageUrl = window.location.href;
+    if (navigator.share) {
+        navigator.share({ title: document.title, url: pageUrl }).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(pageUrl).then(() => {
+            alert('✨ পেজের লিঙ্কটি কপি হয়েছে!');
+        });
+    }
+}
+
+// ৬. চ্যালেঞ্জ সম্পন্ন ফাংশন
 function completeChallenge() {
     const btn = document.getElementById('challengeBtn');
     if (btn) {
-        btn.innerText = "সম্পন্ন হয়েছে! আলহামদুলিল্লাহ ✨";
-        btn.style.background = "#27ae60";
+        btn.innerText = "আলহামদুলিল্লাহ! সম্পন্ন হয়েছে ✔️";
+        btn.style.background = "#0e6306";
         btn.disabled = true;
     }
+}
+
+// ৭. লাইক টগল ফাংশন
+function toggleLike(id) {
+    const span = document.getElementById(id);
+    if (span) {
+        let currentLikes = parseInt(span.innerText) || 0;
+        span.innerText = currentLikes + 1;
+    }
+}
+
+// ৮. ব্রীদিং অ্যানিমেশন
+const circle = document.getElementById('breathCircle');
+const breathText = document.getElementById('breathText');
+let isHolding = false;
+if (circle && breathText) {
+    setInterval(() => {
+        if (!isHolding) {
+            circle.classList.add('inhale');
+            circle.innerText = "শ্বাস ছাড়ুন";
+            breathText.innerText = "ধীরে ধীরে মুখ দিয়ে শ্বাস ছাড়ুন...";
+            isHolding = true;
+        } else {
+            circle.classList.remove('inhale');
+            circle.innerText = "শ্বাস নিন";
+            breathText.innerText = "গভীরভাবে শ্বাস নিন...";
+            isHolding = false;
+        }
+    }, 4000);
 }
 </script>
 </body>
