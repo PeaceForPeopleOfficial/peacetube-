@@ -317,6 +317,233 @@
         </div>
     </footer>
 <!-- সমস্ত ফাংশনাল জাভাস্ক্রিপ্ট -->
-   
+    <script>
+        // ১. ডার্ক মোড টগল লজিক
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+
+        // ২. ওয়েবসাইট শেয়ার করার ফাংশন
+        function shareOurWebsite() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Peace for People',
+                    text: 'মানসিক প্রশান্তি ও আত্মাকে শান্ত করার চমৎকার একটি নিরাপদ আশ্রয়:',
+                    url: window.location.href,
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('লিংকটি ক্লিপবোর্ডে কপি হয়ে গেছে!');
+            }
+        }
+
+        // ৩. চ্যালেঞ্জ সম্পন্ন ফাংশন
+        function completeChallenge() {
+            const btn = document.getElementById('challengeBtn');
+            if (btn) {
+                btn.innerText = "আলহামদুলিল্লাহ! সম্পন্ন হয়েছে ✔️";
+                btn.style.background = "#0e6306";
+                btn.disabled = true;
+            }
+        }
+
+        // ৪. লাইক টগল ফাংশন
+        function toggleLike(id) {
+            const span = document.getElementById(id);
+            if (span) {
+                let currentLikes = parseInt(span.innerText) || 0;
+                span.innerText = currentLikes + 1;
+            }
+        }
+
+        // ৫. ব্রীদিং অ্যানিমেশন
+        const circle = document.getElementById('breathCircle');
+        const breathText = document.getElementById('breathText');
+        let isHolding = false;
+        if (circle && breathText) {
+            setInterval(() => {
+                if (!isHolding) {
+                    circle.classList.add('inhale');
+                    circle.innerText = "শ্বাস ছাড়ুন";
+                    breathText.innerText = "ধীরে ধীরে মুখ দিয়ে শ্বাস ছাড়ুন...";
+                    isHolding = true;
+                } else {
+                    circle.classList.remove('inhale');
+                    circle.innerText = "শ্বাস নিন";
+                    breathText.innerText = "গভীরভাবে শ্বাস নিন...";
+                    isHolding = false;
+                }
+            }, 4000);
+        }
+
+        // ৬. আজকের শান্তির বাণী লোড করার ফাংশন
+        async function loadShantirBani() {
+            try {
+                const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/bani?t=' + new Date().getTime());
+                const files = await response.json();
+                if (Array.isArray(files) && files.length > 0) {
+                    const latestFile = files[files.length - 1];
+                    const fileResponse = await fetch(latestFile.download_url);
+                    const markdownText = await fileResponse.text();
+                    
+                    let titleMatch = markdownText.match(/title:\s*(.*)/);
+                    let quoteMatch = markdownText.match(/quote:\s*([\s\S]*?)author:/);
+                    let authorMatch = markdownText.match(/author:\s*(.*)/);
+                    
+                    let titleText = titleMatch ? titleMatch[1].trim() : "শান্তির বার্তা";
+                    let quoteText = quoteMatch ? quoteMatch[1].trim().replace(/[\r\n]+/g, ' ') : markdownText;
+                    let authorText = authorMatch ? authorMatch[1].trim() : "Peace for People";
+                    
+                    document.getElementById('latest-bani-content').innerHTML = `
+                        <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.1rem;">
+                            ✨ ${titleText}
+                        </div>
+                        <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+                            "${quoteText}"
+                        </div>
+                        <div style="text-align: right; font-size: 0.9rem; font-weight: 600; color: #7f8c8d;">
+                            — ${authorText}
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('latest-bani-content').innerText = "কোনো নতুন পোস্ট পাওয়া যায়নি।";
+                }
+            } catch (error) {
+                console.error("ডেটা লোড করতে সমস্যা হয়েছে:", error);
+                document.getElementById('latest-bani-content').innerText = "তথ্য লোড করা সম্ভব হয়নি।";
+            }
+        }
+        loadShantirBani();
+// ৭. Decap CMS থেকে আজকের কুরআনের বাণী ডাইনামিকালি ও সম্পূর্ণভাবে রেন্ডার করার ফাংশন
+async function loadQuranBani() {
+    const quranBox = document.getElementById('latest-quran-content');
+    if (!quranBox) return;
+
+    try {
+        const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/quran');
+        const files = await response.json();
+        
+        if (files && files.length > 0) {
+            files.sort((a, b) => b.name.localeCompare(a.name));
+            const latestFileUrl = files[0].download_url;
+            
+            const fileRes = await fetch(latestFileUrl);
+            const text = await fileRes.text();
+            
+            // ফাইলের লাইনগুলো আলাদা করে ফ্রন্টম্যাটারের মানগুলো সঠিকভাবে বের করা
+            const lines = text.split('\n');
+            let arabicText = "";
+            let banglaText = "";
+            let isArabic = false;
+            let isBangla = false;
+            
+            for (let line of lines) {
+                if (line.startsWith('quran_arabic:')) {
+                    arabicText = line.replace('quran_arabic:', '').trim().replace(/^["']|["']$/g, '');
+                    isArabic = true;
+                    isBangla = false;
+                    continue;
+                }
+                if (line.startsWith('quran_bangla:')) {
+                    banglaText = line.replace('quran_bangla:', '').trim().replace(/^["']|["']$/g, '');
+                    isArabic = false;
+                    isBangla = true;
+                    continue;
+                }
+                
+                // যদি টেক্সট মাল্টিলাইন বা বড় হয় তা হ্যান্ডেল করার জন্য
+                if (isArabic && line.trim() && !line.includes(':')) {
+                    arabicText += " " + line.trim().replace(/^["']|["']$/g, '');
+                }
+                if (isBangla && line.trim() && !line.includes(':')) {
+                    banglaText += " " + line.trim().replace(/^["']|["']$/g, '');
+                }
+            }
+            
+            if (arabicText || banglaText) {
+                quranBox.innerHTML = `
+                    <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
+                        ${arabicText}
+                    </div>
+                    <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+                        ${banglaText}
+                    </div>
+                `;
+                return;
+            }
+        }
+    } catch (error) {
+        console.log('কুরআনের বাণী লোড করতে সমস্যা:', error);
+    }
+
+    quranBox.innerHTML = `
+        <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">
+            رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ
+        </div>
+        <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+            "হে আমাদের রব, আমাদের ওপর ধৈর্যের ঢল নামিয়ে দিন এবং মুসলিম হিসেবে আমাদের মৃত্যু দান করুন।" — সূরা আল-আরাফ (আয়াত ১২৬)
+        </div>
+    `;
+}
+        // ৮. স্টোরি সাবমিট ডামি ফাংশন
+        function submitStory(e) {
+            e.preventDefault();
+            alert('আলহামদুলিল্লাহ! আপনার মনের কথাটি গ্রহণ করা হয়েছে।');
+            e.target.reset();
+        }
+
+        // ৯. সার্চ ফাংশন
+        function searchPosts() {
+            // বেসিক সার্চ হ্যান্ডলার
+        }
+    </script>
+
+    <script>
+    // টোস্ট নোটিফিকেশন সিস্টেম
+    const homeMessages = [
+        "🕊️ মনে রাখবেন, প্রতিটি কষ্টের সাথেই স্বস্তি রয়েছে। একটু গভীর দীর্ঘ শ্বাস নিন।",
+        "✨ আজকের শান্তির চ্যালেঞ্জটি কি সম্পন্ন করেছেন? পরিচিত কাউকে আজ মুচকি হাসি দিন।",
+        "🌿 আল্লাহর জিকিরে মন শান্ত হয়। নিজের ওপর বিশ্বাস রাখুন, ইনশাআল্লাহ সব ঠিক হয়ে যাবে।"
+    ];
+
+    function showToast() {
+        const randomMsg = homeMessages[Math.floor(Math.random() * homeMessages.length)];
+        createToastElement(randomMsg);
+    }
+
+    function createToastElement(message) {
+        const existing = document.getElementById('peaceToast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.id = 'peaceToast';
+        toast.innerHTML = `<span>${message}</span>`;
+        Object.assign(toast.style, {
+            position: 'fixed', bottom: '20px', right: '20px',
+            background: '#263238', color: '#ffffff', padding: '12px 18px',
+            borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+            zIndex: '9999', fontSize: '13px', borderLeft: '4px solid #138808',
+            transition: 'opacity 0.5s ease', opacity: '0'
+        });
+        document.body.appendChild(toast);
+        setTimeout(() => toast.style.opacity = '1', 100);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }, 5000);
+    }
+
+    setInterval(showToast, 180000);
+    </script>
 </body>
 </html>
