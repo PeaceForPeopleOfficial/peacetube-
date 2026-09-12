@@ -545,5 +545,51 @@ async function loadQuranBani() {
 
     setInterval(showToast, 180000);
     </script>
+    <script>
+async function loadQuranBani() {
+    const quranBox = document.getElementById('latest-quran-content');
+    if (!quranBox) return;
+    try {
+        const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/quran?t=' + new Date().getTime());
+        const files = await response.json();
+        if (files && files.length > 0) {
+            files.sort((a, b) => b.name.localeCompare(a.name));
+            const fileRes = await fetch(files[0].download_url + '?t=' + new Date().getTime());
+            const text = await fileRes.text();
+            
+            const lines = text.split('\n');
+            let arabic = "";
+            let bangla = "";
+            let isArabic = false;
+            let isBangla = false;
+            
+            for (let line of lines) {
+                if (line.startsWith('quran_arabic:')) {
+                    arabic = line.replace('quran_arabic:', '').trim().replace(/^["']|["']$/g, '');
+                    isArabic = true; isBangla = false; continue;
+                }
+                if (line.startsWith('quran_bangla:')) {
+                    bangla = line.replace('quran_bangla:', '').trim().replace(/^["']|["']$/g, '');
+                    isArabic = false; isBangla = true; continue;
+                }
+                if (isArabic && line.trim() && !line.includes(':')) {
+                    arabic += " " + line.trim().replace(/^["']|["']$/g, '');
+                }
+                if (isBangla && line.trim() && !line.includes(':')) {
+                    bangla += " " + line.trim().replace(/^["']|["']$/g, '');
+                }
+            }
+            
+            if (arabic || bangla) {
+                quranBox.innerHTML = `
+                    <div style="font-weight: bold; color: var(--green); margin-bottom: 8px; font-size: 1.2rem; font-family: 'Amiri', serif;">${arabic}</div>
+                    <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">${bangla}</div>
+                `;
+            }
+        }
+    } catch (e) { console.log(e); }
+}
+document.addEventListener('DOMContentLoaded', loadQuranBani);
+</script>
 </body>
 </html>
