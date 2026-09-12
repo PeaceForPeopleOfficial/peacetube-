@@ -323,14 +323,14 @@
             }
         }
 
-     function shareOurWebsite() {
+function shareOurWebsite() {
     const pageUrl = window.location.href;
     if (navigator.share) {
         navigator.share({
             title: 'Peace for People',
             text: 'মানসিক প্রশান্তি ও আত্মাকে শান্ত করার চমৎকার একটি নিরাপদ আশ্রয়:',
             url: pageUrl,
-        }).catch((error) => console.log('Share error:', error));
+        }).catch(() => {});
     } else {
         navigator.clipboard.writeText(pageUrl).then(() => {
             alert('✨ ওয়েবসাইটের লিঙ্কটি সফলভাবে কপি হয়েছে!');
@@ -339,7 +339,7 @@
         });
     }
 }
-
+        
         function completeChallenge() {
             const btn = document.getElementById('challengeBtn');
             if (btn) {
