@@ -294,6 +294,70 @@
             <p>&copy; ২০২৬ Peace for People. সর্বস্বত্ব সংরক্ষিত।</p>
         </div>
     </footer>
+    // আজকের শান্তির বাণী ডাইনামিকালি লোড করার সংশোধিত ফাংশন
+async function loadShantirBani() {
+    const baniBox = document.getElementById('latest-bani-content');
+    if (!baniBox) return;
+
+    try {
+        const response = await fetch('https://api.github.com/repos/PeaceForPeopleOfficial/peacetube-/contents/content/daily_bani?t=' + new Date().getTime());
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const files = await response.json();
+        if (Array.isArray(files) && files.length > 0) {
+            // লেটেস্ট ফাইলটি খুঁজে বের করতে নাম দিয়ে সর্ট করা
+            files.sort((a, b) => b.name.localeCompare(a.name));
+            
+            for (let file of files) {
+                if (!file.name.endsWith('.md')) continue;
+                const fileResponse = await fetch(file.download_url);
+                const markdownText = await fileResponse.text();
+                
+                // ফ্রন্টম্যাটার থেকে ফিল্ডগুলো বের করার রেগুলার এক্সপ্রেশন
+                let titleMatch = markdownText.match(/title:\s*["']?([^"'\r\n]+)["']?/);
+                let quoteMatch = markdownText.match(/quote:\s*([\s\S]*?)(author:|--|$)/);
+                let authorMatch = markdownText.match(/author:\s*["']?([^"'\r\n]+)["']?/);
+                
+                let titleText = titleMatch ? titleMatch[1].trim() : "শান্তির বার্তা";
+                let quoteText = quoteMatch ? quoteMatch[1].trim().replace(/[\r\n]+/g, ' ').replace(/['"]/g, '') : markdownText;
+                let authorText = authorMatch ? authorMatch[1].trim() : "Peace for People";
+                
+                if (quoteText) {
+                    baniBox.innerHTML = `
+                        <div style="font-weight: bold; color: var(--orange); margin-bottom: 8px; font-size: 1.1rem;">
+                            ✨ ${titleText}
+                        </div>
+                        <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+                            "${quoteText}"
+                        </div>
+                        <div style="text-align: right; font-size: 0.9rem; font-weight: 600; color: #7f8c8d;">
+                            — ${authorText}
+                        </div>
+                    `;
+                    return;
+                }
+            }
+        }
+    } catch (error) {
+        console.log('ডেইলি বাণী ফোল্ডার থেকে লোড করতে সমস্যা:', error);
+    }
+
+    // ফলব্যাক টেক্সট
+    baniBox.innerHTML = `
+        <div style="font-weight: bold; color: var(--orange); margin-bottom: 8px; font-size: 1.1rem;">
+            ✨ শান্তির বার্তা
+        </div>
+        <div style="font-style: italic; line-height: 1.7; margin-bottom: 10px;">
+            "ধৈর্য এবং আল্লাহর ওপর ভরসাই মানুষের অন্তরের সবচাইতে বড় প্রশান্তি।"
+        </div>
+        <div style="text-align: right; font-size: 0.9rem; font-weight: 600; color: #7f8c8d;">
+            — Peace for People
+        </div>
+    `;
+}
+
+// ফাংশনটি কল করা হলো
+loadShantirBani();
     <!-- জাভাস্ক্রিপ্ট লজিক -->
     <script>
         function toggleTheme() {
