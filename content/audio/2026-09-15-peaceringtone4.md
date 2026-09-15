@@ -1,7 +1,7 @@
 ---
-title: peaceringtone4
-artist: peaceforpeople
+title: peaceringtone1
+artist: Peace Voice
 category: islamic_bayan
-audio_url: https://archive.org/download/peaceringtone4/peaceringtone4.mp3
-date: 2026-09-15T09:51:00.000+05:30
+audio_url: https://archive.org/download/peaceringtone1/peaceringtone1.mp3
+date: 2026-09-15T09:55:00.000+05:30
 ---
